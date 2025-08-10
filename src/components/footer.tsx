@@ -4,8 +4,12 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Logo } from './logo';
-import { Facebook, Mail } from 'lucide-react';
-import { WhatsAppIcon } from './whatsapp-icon';
+import { Mail } from 'lucide-react';
+import { FacebookIcon } from './icons/facebook-icon';
+import { InstagramIcon } from './icons/instagram-icon';
+import { TwitterIcon } from './icons/twitter-icon';
+import { TiktokIcon } from './icons/tiktok-icon';
+import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 
 export function Footer() {
   const { language } = useLanguage();
@@ -25,18 +29,26 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <Logo />
             <p className="mt-2 text-sm text-muted-foreground">{content.footer.tagline[language]}</p>
-            <div className="mt-4 flex space-x-4">
-              <Link href="https://www.facebook.com/stylishmarbleart" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
-                <Facebook className="h-6 w-6" />
+            <div className="mt-4 flex flex-wrap gap-2">
+              <a href="https://facebook.com/stylishmarbleart" target="_blank" rel="noopener noreferrer"
+                 className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <FacebookIcon />
                 <span className="sr-only">Facebook</span>
-              </Link>
-              <a href={`https://wa.me/${content.contactPage.contactInfo.phone.en.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
-                <WhatsAppIcon className="h-6 w-6" />
-                <span className="sr-only">WhatsApp</span>
               </a>
-               <a href={`mailto:${content.contactPage.contactInfo.email.en}`} className="text-muted-foreground hover:text-primary">
-                <Mail className="h-6 w-6" />
-                <span className="sr-only">Email</span>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                 className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <InstagramIcon />
+                 <span className="sr-only">Instagram</span>
+              </a>
+               <a href={`https://wa.me/${content.contactPage.contactInfo.phone.en.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"
+                 className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <WhatsappFooterIcon />
+                 <span className="sr-only">WhatsApp</span>
+              </a>
+               <a href={`mailto:${content.contactPage.contactInfo.email.en}`}
+                 className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <Mail className="h-7 w-7" />
+                 <span className="sr-only">Email</span>
               </a>
             </div>
           </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { WhatsAppIcon } from './whatsapp-icon';
+import { WhatsAppIcon } from './icons/whatsapp-icon';
 
 interface WhatsAppButtonProps {
   phoneNumber: string;
