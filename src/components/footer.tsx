@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Logo } from './logo';
+import { Facebook, Instagram, Twitter } from 'lucide-react';
 
 export function Footer() {
   const { language } = useLanguage();
@@ -23,6 +24,20 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <Logo />
             <p className="mt-2 text-sm text-muted-foreground">{content.footer.tagline[language]}</p>
+            <div className="mt-4 flex space-x-4">
+              <Link href="#" className="text-muted-foreground hover:text-primary">
+                <Facebook className="h-6 w-6" />
+                <span className="sr-only">Facebook</span>
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary">
+                <Instagram className="h-6 w-6" />
+                <span className="sr-only">Instagram</span>
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary">
+                <Twitter className="h-6 w-6" />
+                <span className="sr-only">Twitter</span>
+              </Link>
+            </div>
           </div>
           <div className="md:justify-self-center">
             <h3 className="font-headline text-lg font-semibold">{content.footer.quickLinks[language]}</h3>
