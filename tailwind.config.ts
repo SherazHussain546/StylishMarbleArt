@@ -17,8 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['Arial', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         headline: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+        script: ['"Brush Script MT"', 'cursive'],
         code: ['monospace'],
       },
       colors: {
