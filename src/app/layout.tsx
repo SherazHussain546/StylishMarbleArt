@@ -6,10 +6,10 @@ import { Footer } from '@/components/footer';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Legacy Stone - Honoring Memories with Timeless Craftsmanship',
+  title: 'Stylish Marble Art - Gravestones & Marble Works',
   description:
-    'Legacy Stone provides dignified and beautifully crafted memorial stones, headstones, and engraving services. We help you create a lasting tribute for your loved ones with respect and compassion.',
-  keywords: ['memorials', 'headstones', 'gravestones', 'engraving', 'monuments', 'remembrance'],
+    'Stylish Marble Art offers expert craftsmanship in gravestones, grave making, and all marble works including kitchen and house marbling. Specialists in all types of marble engraving.',
+  keywords: ['marble', 'gravestone', 'engraving', 'kitchen marbling', 'house marbling', 'artificial marble'],
 };
 
 export default function RootLayout({

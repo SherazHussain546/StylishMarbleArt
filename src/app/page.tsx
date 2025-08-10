@@ -1,6 +1,7 @@
 import { HomeAbout } from '@/components/home-about';
 import { HomeHero } from '@/components/home-hero';
 import { HomeServices } from '@/components/home-services';
+import { MarbleTypes } from '@/components/marble-types';
 import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
     <>
       <HomeHero />
       <HomeServices />
+      <Separator className="my-12 md:my-24" />
+      <MarbleTypes />
       <Separator className="my-12 md:my-24" />
       <HomeAbout />
     </>

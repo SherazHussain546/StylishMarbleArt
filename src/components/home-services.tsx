@@ -3,11 +3,11 @@
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Gem, ScrollText, Wrench } from 'lucide-react';
+import { Gem, Home, Wrench } from 'lucide-react';
 
 const icons: { [key: string]: React.ElementType } = {
   Gem,
-  ScrollText,
+  Home,
   Wrench,
 };
 

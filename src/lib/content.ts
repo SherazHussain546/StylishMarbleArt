@@ -8,89 +8,125 @@ export const content = {
   },
   hero: {
     title: {
-      en: 'Honoring Memories with Timeless Craftsmanship',
-      ur: 'لازوال دستکاری کے ساتھ یادوں کا احترام',
+      en: 'Exquisite Marble Artistry for Homes and Memorials',
+      ur: 'گھروں اور یادگاروں کے لیے سنگ مرمر کی عمدہ کاریگری',
     },
     subtitle: {
-      en: 'Creating dignified and lasting tributes for your loved ones with compassion and respect.',
-      ur: 'ہمدردی اور احترام کے ساتھ اپنے پیاروں کے لیے باوقار اور دیرپا خراج تحسین پیش کرنا۔',
+      en: 'Crafting beautiful gravestones, and elegant marble for your kitchen, home, and beyond. Specialists in all types of natural and artificial marble engraving.',
+      ur: 'خوبصورت قبر کے پتھر، اور آپ کے باورچی خانے، گھر اور اس سے آگے کے لیے خوبصورت سنگ مرمر تیار کرنا۔ ہر قسم کی قدرتی اور مصنوعی سنگ مرمر کی کندہ کاری کے ماہر۔',
     },
     cta: { en: 'Explore Our Services', ur: 'ہماری خدمات دریافت کریں' },
   },
   homeServices: {
-    title: { en: 'Our Commitment to You', ur: 'آپ کے لیے ہماری وابستگی' },
+    title: { en: 'Our Services', ur: 'ہماری خدمات' },
     services: [
       {
         icon: 'Gem',
-        name: { en: 'Headstone Design', ur: 'ہیڈ اسٹون ڈیزائن' },
+        name: { en: 'Gravestones & Memorials', ur: 'قبر کے پتھر اور یادگاریں' },
         description: {
-          en: 'Personalized designs to create a unique and fitting memorial for your loved one.',
-          ur: 'اپنے پیارے کے لیے ایک منفرد اور موزوں یادگار بنانے کے لیے ذاتی نوعیت کے ڈیزائن۔',
+          en: 'Dignified and beautifully crafted gravestones and complete grave memorials after burial.',
+          ur: 'تدفین کے بعد باوقار اور خوبصورتی سے تیار کردہ قبر کے پتھر اور مکمل قبر کی یادگاریں۔',
         },
       },
       {
-        icon: 'ScrollText',
-        name: { en: 'Engraving Services', ur: 'کندہ کاری کی خدمات' },
+        icon: 'Home',
+        name: { en: 'Kitchen & Home Marbling', ur: 'کچن اور ہوم ماربلنگ' },
         description: {
-          en: 'Expert inscription services with a variety of fonts and styles to choose from.',
-          ur: 'مختلف فونٹس اور اسٹائلز میں سے انتخاب کے ساتھ ماہرانہ کندہ کاری کی خدمات۔',
+          en: 'Transform your spaces with elegant marble for kitchens, floors, and decorative features.',
+          ur: 'باورچی خانے، فرش اور آرائشی خصوصیات کے لیے خوبصورت سنگ مرمر کے ساتھ اپنی جگہوں کو تبدیل کریں۔',
         },
       },
       {
         icon: 'Wrench',
-        name: { en: 'Memorial Restoration', ur: 'یادگار کی بحالی' },
+        name: { en: 'Custom Marble Engraving', ur: 'کسٹم ماربل کندہ کاری' },
         description: {
-          en: 'Restoring existing memorials to their former dignity with gentle and effective techniques.',
-          ur: 'موجودہ یادگاروں کو نرم اور موثر تکنیک کے ساتھ ان کی سابقہ وقار پر بحال کرنا۔',
+          en: 'Expert engraving on all types of marble, including natural and artificial stone.',
+          ur: 'قدرتی اور مصنوعی پتھر سمیت تمام قسم کے سنگ مرمر پر ماہرانہ کندہ کاری۔',
         },
       },
     ],
   },
+  marbleTypes: {
+    title: { en: "Our Marble Selection", ur: "ہمارا ماربل انتخاب" },
+    description: { en: "We work with a wide variety of high-quality natural and artificial marbles.", ur: "ہم مختلف قسم کے اعلی معیار کے قدرتی اور مصنوعی ماربل کے ساتھ کام کرتے ہیں۔" },
+    types: [
+      {
+        name: { en: "Carrara Marble", ur: "کرارا ماربل" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Carrara marble"
+      },
+      {
+        name: { en: "Calacatta Marble", ur: "کالاکٹا ماربل" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Calacatta marble"
+      },
+      {
+        name: { en: "Statuario Marble", ur: "سٹیٹواریو ماربل" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Statuario marble"
+      },
+      {
+        name: { en: "Emperador Marble", ur: "ایمپراڈور ماربل" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Emperador marble"
+      },
+       {
+        name: { en: "Artificial White Marble", ur: "مصنوعی سفید ماربل" },
+        image: "https://placehold.co/600x400.png",
+        hint: "artificial marble"
+      },
+       {
+        name: { en: "Black and Gold Marble", ur: "سیاہ اور گولڈ ماربل" },
+        image: "https://placehold.co/600x400.png",
+        hint: "black gold marble"
+      },
+    ]
+  },
   homeAbout: {
-    title: { en: 'A Legacy of Compassion', ur: 'ہمدردی کی میراث' },
+    title: { en: 'A Legacy of Artistry', ur: 'فنکاری کی میراث' },
     paragraph1: {
-      en: 'Legacy Stone is a family-owned business dedicated to providing comfort and support to families during their time of need. We believe in preserving memories with dignity and respect, crafting each memorial as a unique tribute to a life lived.',
-      ur: 'لیگیسی اسٹون ایک خاندانی کاروبار ہے جو ضرورت کے وقت خاندانوں کو سکون اور مدد فراہم کرنے کے لیے وقف ہے۔ ہم وقار اور احترام کے ساتھ یادوں کو محفوظ رکھنے پر یقین رکھتے ہیں، ہر یادگار کو گزاری گئی زندگی کے لیے ایک منفرد خراج تحسین کے طور پر تیار کرتے ہیں۔',
+      en: 'Stylish Marble Art is a family-owned business dedicated to the art of marble craftsmanship. From respectful memorials to stunning home interiors, we bring precision, care, and artistry to every project. We believe in creating lasting beauty in stone.',
+      ur: 'سٹائلش ماربل آرٹ ایک خاندانی کاروبار ہے جو ماربل کی دستکاری کے فن کے لیے وقف ہے۔ قابل احترام یادگاروں سے لے کر شاندار گھریلو اندرونی حصوں تک، ہم ہر پروجیکٹ میں درستگی، دیکھ بھال اور فنکاری لاتے ہیں۔ ہم پتھر میں دیرپا خوبصورتی پیدا کرنے پر یقین رکھتے ہیں۔',
     },
     paragraph2: {
-      en: 'Our artisans combine traditional techniques with modern technology to ensure the highest quality and durability. We are honored to help you create a lasting legacy.',
-      ur: 'ہمارے کاریگر اعلیٰ ترین معیار اور پائیداری کو یقینی بنانے کے لیے روایتی تکنیک کو جدید ٹیکنالوجی کے ساتھ ملاتے ہیں۔ ہمیں ایک پائیدار میراث بنانے میں آپ کی مدد کرنے پر فخر ہے۔',
+      en: 'Our artisans combine traditional techniques with modern technology to work with all types of marble, ensuring the highest quality and durability. We are honored to bring your vision to life in marble.',
+      ur: 'ہمارے کاریگر ہر قسم کے سنگ مرمر کے ساتھ کام کرنے کے لیے روایتی تکنیک کو جدید ٹیکنالوجی کے ساتھ ملاتے ہیں، اعلیٰ ترین معیار اور پائیداری کو یقینی بناتے ہیں۔ ہمیں آپ کے وژن کو سنگ مرمر میں زندہ کرنے پر فخر ہے۔',
     },
     cta: { en: 'Learn More About Us', ur: 'ہمارے بارے میں مزید جانیں' },
   },
   servicesPage: {
     title: { en: 'Our Services', ur: 'ہماری خدمات' },
     description: {
-      en: 'We offer a comprehensive range of services to help you create a beautiful and lasting memorial. Our team is here to guide you through every step of the process with care and professionalism.',
-      ur: 'ہم آپ کو ایک خوبصورت اور دیرپا یادگار بنانے میں مدد کے لیے خدمات کی ایک جامع رینج پیش کرتے ہیں۔ ہماری ٹیم دیکھ بھال اور پیشہ ورانہ مہارت کے ساتھ اس عمل کے ہر قدم پر آپ کی رہنمائی کے لیے حاضر ہے۔',
+      en: 'We offer a comprehensive range of marble services, from memorial crafting to home installations. Our team is here to guide you through every step of the process with care and professionalism.',
+      ur: 'ہم یادگار کی تیاری سے لے کر گھر کی تنصیبات تک ماربل کی خدمات کی ایک جامع رینج پیش کرتے ہیں۔ ہماری ٹیم دیکھ بھال اور پیشہ ورانہ مہارت کے ساتھ اس عمل کے ہر قدم پر آپ کی رہنمائی کے لیے حاضر ہے۔',
     },
     serviceList: [
-      {
-        name: { en: 'Custom Headstone & Monument Design', ur: 'کسٹم ہیڈ اسٹون اور یادگار ڈیزائن' },
+       {
+        name: { en: 'Gravestones & Grave Making', ur: 'قبر کے پتھر اور قبر بنانا' },
         description: {
-          en: 'Collaborate with our designers to create a truly unique and personalized memorial. We offer a wide selection of materials, including granite, marble, and bronze, in various colors and finishes. Our process ensures the final design reflects the spirit and memory of your loved one.',
-          ur: 'ایک واقعی منفرد اور ذاتی یادگار بنانے کے لیے ہمارے ڈیزائنرز کے ساتھ تعاون کریں۔ ہم مختلف رنگوں اور فنشز میں گرینائٹ، ماربل اور کانسی سمیت مواد کا وسیع انتخاب پیش کرتے ہیں۔ ہمارا عمل اس بات کو یقینی بناتا ہے کہ حتمی ڈیزائن آپ کے پیارے کی روح اور یاد کی عکاسی کرے۔',
+          en: 'We provide compassionate services for creating and installing gravestones and preparing graves after burial. We handle everything with dignity and respect for your loved ones.',
+          ur: 'ہم قبر کے پتھر بنانے اور نصب کرنے اور تدفین کے بعد قبریں تیار کرنے کے لیے ہمدردانہ خدمات فراہم کرتے ہیں۔ ہم آپ کے پیاروں کے لیے ہر چیز کو وقار اور احترام کے ساتھ سنبھالتے ہیں۔',
         },
       },
       {
-        name: { en: 'Precision Engraving & Inscription', ur: 'صحت سے متعلق کندہ کاری اور تحریر' },
+        name: { en: 'Kitchen & Home Marble Installation', ur: 'کچن اور ہوم ماربل کی تنصیب' },
         description: {
-          en: 'Our state-of-the-art engraving technology allows for intricate designs and detailed text. We can add names, dates, epitaphs, and even portraits or symbols that hold special meaning. We provide proofs for your approval to ensure every detail is perfect.',
-          ur: 'ہماری جدید ترین کندہ کاری کی ٹیکنالوجی پیچیدہ ڈیزائن اور تفصیلی متن کی اجازت دیتی ہے۔ ہم نام، تاریخیں، مقبرے، اور یہاں تک کہ پورٹریٹ یا علامات بھی شامل کر سکتے ہیں جو خاص معنی رکھتے ہیں۔ ہم اس بات کو یقینی بنانے کے لیے آپ کی منظوری کے لیے ثبوت فراہم کرتے ہیں کہ ہر تفصیل کامل ہے۔',
+          en: 'Elevate your home with our custom marble works. We specialize in kitchen countertops, flooring, wall cladding, and other decorative elements. We work with a vast selection of marbles to match your style.',
+          ur: 'ہمارے کسٹم ماربل کے کاموں سے اپنے گھر کو بلند کریں۔ ہم باورچی خانے کے کاؤنٹر ٹاپس، فرش، دیوار کی چادر، اور دیگر آرائشی عناصر میں مہارت رکھتے ہیں۔ ہم آپ کے انداز سے ملنے کے لیے ماربل کے وسیع انتخاب کے ساتھ کام کرتے ہیں۔',
         },
       },
       {
-        name: { en: 'Memorial Restoration and Cleaning', ur: 'یادگار کی بحالی اور صفائی' },
+        name: { en: 'Custom Engraving on Natural & Artificial Marble', ur: 'قدرتی اور مصنوعی ماربل پر کسٹم کندہ کاری' },
         description: {
-          en: 'Time and weather can take a toll on memorials. Our gentle restoration services can clean, repair, and restore headstones to their original condition. We handle each project with the utmost care to preserve the integrity of the original stone.',
-          ur: 'وقت اور موسم یادگاروں پر اثر ڈال سکتے ہیں۔ ہماری نرم بحالی کی خدمات ہیڈ اسٹونز کو صاف، مرمت اور ان کی اصل حالت میں بحال کر سکتی ہیں۔ ہم اصل پتھر کی سالمیت کو محفوظ رکھنے کے لیے ہر پروجیکٹ کو انتہائی احتیاط سے ہینڈل کرتے ہیں۔',
+          en: 'Our state-of-the-art engraving technology allows for intricate designs, text, and portraits on any marble surface, including both natural stone and modern artificial composites. Perfect for personalization.',
+          ur: 'ہماری جدید ترین کندہ کاری کی ٹیکنالوجی قدرتی پتھر اور جدید مصنوعی مرکبات سمیت کسی بھی سنگ مرمر کی سطح پر پیچیدہ ڈیزائن، متن اور پورٹریٹ کی اجازت دیتی ہے۔ ذاتی نوعیت کے لیے کامل۔',
         },
       },
       {
-        name: { en: 'On-Site Engraving', ur: 'آن سائٹ کندہ کاری' },
+        name: { en: 'Marble Repair & Restoration', ur: 'ماربل کی مرمت اور بحالی' },
         description: {
-          en: 'For adding dates or inscriptions to existing family memorials, we offer on-site engraving services. Our mobile team can perform the work directly in the cemetery, ensuring consistency with the original monument.',
-          ur: 'موجودہ خاندانی یادگاروں میں تاریخیں یا تحریریں شامل کرنے کے لیے، ہم آن سائٹ کندہ کاری کی خدمات پیش کرتے ہیں۔ ہماری موبائل ٹیم براہ راست قبرستان میں کام انجام دے سکتی ہے، اصل یادگار کے ساتھ مستقل مزاجی کو یقینی بناتی ہے۔',
+          en: 'We restore the beauty of your existing marble surfaces. Our services include chip repair, polishing, and cleaning to bring back the original luster of your marble installations and memorials.',
+          ur: 'ہم آپ کی موجودہ سنگ مرمر کی سطحوں کی خوبصورتی کو بحال کرتے ہیں۔ ہماری خدمات میں آپ کے ماربل کی تنصیبات اور یادگاروں کی اصل چمک واپس لانے کے لیے چپ کی مرمت، پالش اور صفائی شامل ہے۔',
         },
       },
     ],
@@ -98,20 +134,20 @@ export const content = {
   galleryPage: {
     title: { en: 'Our Work', ur: 'ہمارا کام' },
     description: {
-      en: 'A collection of memorials we have had the honor of crafting. Each piece tells a unique story and reflects our commitment to quality and craftsmanship.',
-      ur: 'ان یادگاروں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اعزاز حاصل ہوا ہے۔ ہر ٹکڑا ایک منفرد کہانی بیان کرتا ہے اور معیار اور دستکاری کے لیے ہماری وابستگی کی عکاسی کرتا ہے۔',
+      en: 'A collection of memorials, kitchen installations, and custom engravings we have had the honor of crafting. Each piece reflects our commitment to quality.',
+      ur: 'یادگاروں، باورچی خانے کی تنصیبات، اور اپنی مرضی کے مطابق کندہ کاریوں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اعزاز حاصل ہوا ہے۔ ہر ٹکڑا معیار کے لیے ہماری وابستگی کی عکاسی کرتا ہے۔',
     },
   },
   aboutPage: {
-    title: { en: 'About Legacy Stone', ur: 'لیگیسی اسٹون کے بارے میں' },
+    title: { en: 'About Stylish Marble Art', ur: 'سٹائلش ماربل آرٹ کے بارے میں' },
     subtitle: {
-      en: 'Generations of Dedication to Crafting Lasting Tributes',
-      ur: 'دیرپا خراج تحسین پیش کرنے کے لیے نسلوں کی لگن',
+      en: 'Generations of Dedication to the Art of Marble',
+      ur: 'سنگ مرمر کے فن کے لیے نسلوں کی لگن',
     },
     ourStoryTitle: { en: 'Our Story', ur: 'ہماری کہانی' },
     ourStoryText: {
-      en: 'Founded over fifty years ago, Legacy Stone began with a simple mission: to provide families with beautiful, high-quality memorials that stand the test of time. As a family-run business, we understand the importance of legacy and remembrance. We have passed down our skills through generations, blending time-honored stonemasonry with a compassionate approach to service. Our history is built on the trust of the communities we serve, and we are dedicated to upholding that trust with every stone we place.',
-      ur: 'پچاس سال سے زیادہ پہلے قائم کیا گیا، لیگیسی اسٹون نے ایک سادہ مشن کے ساتھ آغاز کیا: خاندانوں کو خوبصورت، اعلیٰ معیار کی یادگاریں فراہم کرنا جو وقت کی کسوٹی پر کھڑی ہوں۔ ایک خاندانی کاروبار کے طور پر، ہم میراث اور یاد کی اہمیت کو سمجھتے ہیں۔ ہم نے اپنی مہارتوں کو نسلوں سے منتقل کیا ہے، وقت کے اعزاز والے پتھر کے کام کو خدمت کے لیے ایک ہمدردانہ نقطہ نظر کے ساتھ ملایا ہے۔ ہماری تاریخ ان کمیونٹیز کے اعتماد پر مبنی ہے جن کی ہم خدمت کرتے ہیں، اور ہم ہر پتھر کے ساتھ اس اعتماد کو برقرار رکھنے کے لیے وقف ہیں جو ہم رکھتے ہیں۔',
+      en: 'Founded over fifty years ago, Stylish Marble Art began with a simple mission: to provide families and homeowners with beautiful, high-quality marble work that stands the test of time. As a family-run business, we understand the importance of legacy and beauty. We have passed down our skills through generations, blending time-honored stonemasonry with a compassionate approach to memorial services and a keen eye for design in home applications. Our history is built on the trust of the communities we serve.',
+      ur: 'پچاس سال سے زیادہ پہلے قائم کیا گیا، سٹائلش ماربل آرٹ نے ایک سادہ مشن کے ساتھ آغاز کیا: خاندانوں اور گھر کے مالکان کو خوبصورت، اعلیٰ معیار کا ماربل کا کام فراہم کرنا جو وقت کی کسوٹی پر کھڑا ہو۔ ایک خاندانی کاروبار کے طور پر، ہم میراث اور خوبصورتی کی اہمیت کو سمجھتے ہیں۔ ہم نے اپنی مہارتوں کو نسلوں سے منتقل کیا ہے، وقت کے اعزاز والے پتھر کے کام کو یادگاری خدمات کے لیے ایک ہمدردانہ نقطہ نظر اور گھریلو ایپلی کیشنز میں ڈیزائن کے لیے گہری نظر کے ساتھ ملایا ہے۔ ہماری تاریخ ان کمیونٹیز کے اعتماد پر مبنی ہے جن کی ہم خدمت کرتے ہیں۔',
     },
     ourValuesTitle: { en: 'Our Values', ur: 'ہماری اقدار' },
     values: [
@@ -163,25 +199,25 @@ export const content = {
         inquiry: { en: 'General Inquiry', ur: 'عمومی پوچھ گچھ' },
         pricing: { en: 'Service Pricing', ur: 'سروس کی قیمت' },
         appointment: { en: 'Schedule an Appointment', ur: 'ملاقات کا وقت طے کریں' },
-        support: { en: 'Bereavement Support', ur: 'غم کی حمایت' },
+        support: { en: 'Grave Services', ur: 'قبر کی خدمات' },
       }
     },
     contactInfo: {
       title: { en: 'Contact Information', ur: 'رابطے کی معلومات' },
-      address: { en: '123 Memorial Lane, Remembrance, CT 06101', ur: '123 میموریل لین، ریمیمبرنس، سی ٹی 06101' },
-      phone: { en: '(860) 123-4567', ur: '(860) 123-4567' },
-      email: { en: 'contact@legacystone.com', ur: 'contact@legacystone.com' },
+      address: { en: '123 Marble Way, Artisan City, AC 54321', ur: '123 ماربل وے، آرٹیسن سٹی، اے سی 54321' },
+      phone: { en: '(123) 456-7890', ur: '(123) 456-7890' },
+      email: { en: 'contact@stylishmarbleart.com', ur: 'contact@stylishmarbleart.com' },
     },
   },
   footer: {
     tagline: {
-      en: 'Crafting legacies in stone, with honor and respect.',
-      ur: 'عزت اور احترام کے ساتھ، پتھر میں وراثت تیار کرنا۔',
+      en: 'Crafting beauty in marble, with precision and care.',
+      ur: 'سنگ مرمر میں خوبصورتی، صحت سے متعلق اور دیکھ بھال کے ساتھ تیار کرنا۔',
     },
     quickLinks: { en: 'Quick Links', ur: 'فوری لنکس' },
     legal: {
-      en: '© 2024 Legacy Stone. All Rights Reserved.',
-      ur: '© 2024 لیگیسی اسٹون۔ جملہ حقوق محفوظ ہیں.',
+      en: '© 2024 Stylish Marble Art. All Rights Reserved.',
+      ur: '© 2024 سٹائلش ماربل آرٹ۔ جملہ حقوق محفوظ ہیں.',
     },
   },
 };
