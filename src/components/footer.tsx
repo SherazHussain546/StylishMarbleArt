@@ -5,9 +5,12 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Logo } from './logo';
 
-export function Footer() {
+interface FooterProps {
+  companyName: string;
+}
+
+export function Footer({ companyName }: FooterProps) {
   const { language } = useLanguage();
-  const companyName = "Stylish Marble Art";
 
   const navLinks = [
     { href: '/', label: content.nav.home[language] },

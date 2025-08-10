@@ -13,11 +13,14 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
-export function Header() {
+interface HeaderProps {
+  companyName: string;
+}
+
+export function Header({ companyName }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language } = useLanguage();
   const pathname = usePathname();
-  const companyName = "Stylish Marble Art";
 
   const navLinks = [
     { href: '/', label: content.nav.home[language] },
