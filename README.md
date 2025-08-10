@@ -1,6 +1,8 @@
 # Stylish Marble Art - Next.js Project
 
-This is your Next.js project for the Stylish Marble Art website. Below is a guide to help you manage, deploy, and maintain your site.
+This is a Next.js project for 'Stylish Marble Art', a business specializing in gravestones, memorials, and custom marble work for homes. The website is fully responsive, features dual-language support (English and Urdu), and includes an AI-powered message drafting tool on the contact page to assist users.
+
+Below is a guide to help you manage, deploy, and maintain your site.
 
 ## Managing Your Code with GitHub
 

@@ -12,7 +12,7 @@ export function HomeHero() {
   return (
     <section className="relative w-full py-20 md:py-32 lg:py-40">
       <Image
-        src="https://placehold.co/1920x1080.png"
+        src="/SMAHeader.png"
         alt="A tranquil memorial garden"
         data-ai-hint="memorial garden"
         fill
