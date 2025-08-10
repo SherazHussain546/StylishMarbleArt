@@ -6,7 +6,6 @@ import { content } from '@/lib/content';
 import { Logo } from './logo';
 import { Mail } from 'lucide-react';
 import { FacebookIcon } from './icons/facebook-icon';
-import { InstagramIcon } from './icons/instagram-icon';
 import { TwitterIcon } from './icons/twitter-icon';
 import { TiktokIcon } from './icons/tiktok-icon';
 import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
@@ -34,11 +33,6 @@ export function Footer() {
                  className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
                 <FacebookIcon />
                 <span className="sr-only">Facebook</span>
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                 className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
-                <InstagramIcon />
-                 <span className="sr-only">Instagram</span>
               </a>
                <a href={`https://wa.me/${content.contactPage.contactInfo.phone.en.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"
                  className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
