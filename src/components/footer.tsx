@@ -6,8 +6,6 @@ import { content } from '@/lib/content';
 import { Logo } from './logo';
 import { Mail } from 'lucide-react';
 import { FacebookIcon } from './icons/facebook-icon';
-import { TwitterIcon } from './icons/twitter-icon';
-import { TiktokIcon } from './icons/tiktok-icon';
 import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 
 export function Footer() {
@@ -44,16 +42,6 @@ export function Footer() {
                 <Mail className="h-7 w-7" />
                  <span className="sr-only">Email</span>
               </a>
-              <a href="javascript:;"
-                className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
-                <TwitterIcon />
-                <span className="sr-only">Twitter</span>
-              </a>
-              <a href="javascript:;"
-                className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
-                <TiktokIcon />
-                <span className="sr-only">Tiktok</span>
-              </a>
             </div>
           </div>
           <div className="md:justify-self-center">
@@ -85,7 +73,7 @@ export function Footer() {
             </address>
           </div>
         </div>
-        <div className="mt-12 border-t pt-8 text-center">
+        <div className="mt-12 border-t pt-8 text-center flex justify-center items-center">
           <p className="text-sm text-muted-foreground">
             {content.footer.legal[language]} | Developed by <a href="https://www.synctech.ie" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">SYNC TECH</a>
           </p>
