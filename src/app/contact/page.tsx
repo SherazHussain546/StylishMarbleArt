@@ -29,7 +29,9 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-4">
                 <Phone className="h-6 w-6 flex-shrink-0 text-primary" />
-                <span className="text-muted-foreground">{pageContent.contactInfo.phone[language]}</span>
+                <a href={`tel:${pageContent.contactInfo.phone.en.replace(/\s/g, '')}`} className="text-muted-foreground hover:text-primary">
+                  {pageContent.contactInfo.phone[language]}
+                </a>
               </div>
               <div className="flex items-center gap-4">
                 <Mail className="h-6 w-6 flex-shrink-0 text-primary" />

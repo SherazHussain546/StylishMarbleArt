@@ -204,9 +204,9 @@ export const content = {
     },
     contactInfo: {
       title: { en: 'Contact Information', ur: 'رابطے کی معلومات' },
-      address: { en: '123 Marble Way, Artisan City, AC 54321', ur: '123 ماربل وے، آرٹیسن سٹی، اے سی 54321' },
-      phone: { en: '(123) 456-7890', ur: '(123) 456-7890' },
-      email: { en: 'contact@stylishmarbleart.com', ur: 'contact@stylishmarbleart.com' },
+      address: { en: 'Malir 15, Main National Highway Near Bank Al Habib', ur: 'ملیر 15، مین نیشنل ہائی وے، بینک الحبیب کے قریب' },
+      phone: { en: '+92 300 2193808', ur: '+92 300 2193808' },
+      email: { en: 'stylishmarbleart2020@gmail.com', ur: 'stylishmarbleart2020@gmail.com' },
     },
   },
   footer: {
