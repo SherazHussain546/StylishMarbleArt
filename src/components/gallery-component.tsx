@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const galleryImages = [
   { src: 'https://placehold.co/600x400.png', alt: 'Elegant marble headstone', hint: 'marble headstone' },
@@ -16,7 +16,7 @@ const galleryImages = [
 ];
 
 export function GalleryComponent() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{src: string, alt: string} | null>(null);
 
   return (
     <>
@@ -25,7 +25,7 @@ export function GalleryComponent() {
           <div
             key={index}
             className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-            onClick={() => setSelectedImage(image.src)}
+            onClick={() => setSelectedImage(image)}
           >
             <Image
               src={image.src}
@@ -42,11 +42,15 @@ export function GalleryComponent() {
 
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
         <DialogContent className="max-w-4xl p-0">
+            <DialogHeader className="sr-only">
+                <DialogTitle>Enlarged Image</DialogTitle>
+                <DialogDescription>{selectedImage?.alt}</DialogDescription>
+            </DialogHeader>
           {selectedImage && (
             <div className="relative aspect-video">
                 <Image
-                    src={selectedImage}
-                    alt="Enlarged view of a memorial"
+                    src={selectedImage.src}
+                    alt={selectedImage.alt}
                     fill
                     className="object-contain"
                 />
