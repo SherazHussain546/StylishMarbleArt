@@ -7,6 +7,7 @@ import { Logo } from './logo';
 
 export function Footer() {
   const { language } = useLanguage();
+  const companyName = "Stylish Marble Art";
 
   const navLinks = [
     { href: '/', label: content.nav.home[language] },
@@ -21,7 +22,7 @@ export function Footer() {
       <div className="container py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="flex flex-col items-start">
-            <Logo />
+            <Logo companyName={companyName} />
             <p className="mt-2 text-sm text-muted-foreground">{content.footer.tagline[language]}</p>
           </div>
           <div className="md:justify-self-center">

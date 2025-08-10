@@ -17,6 +17,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language } = useLanguage();
   const pathname = usePathname();
+  const companyName = "Stylish Marble Art";
 
   const navLinks = [
     { href: '/', label: content.nav.home[language] },
@@ -45,7 +46,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="mr-4 hidden md:flex">
-          <Logo />
+          <Logo companyName={companyName} />
         </div>
         <div className="flex flex-1 items-center justify-between">
           <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
@@ -63,7 +64,7 @@ export function Header() {
               <SheetContent side="left">
                 <div className="flex h-full flex-col p-6">
                   <div className="mb-8">
-                    <Logo />
+                    <Logo companyName={companyName} />
                   </div>
                   <nav className="flex flex-col space-y-4">
                     <NavItems />
@@ -73,7 +74,7 @@ export function Header() {
             </Sheet>
           </div>
           <div className="md:hidden">
-             <Logo />
+             <Logo companyName={companyName} />
           </div>
 
           <div className="flex items-center justify-end">
