@@ -1,3 +1,15 @@
+import { HomeAbout } from '@/components/home-about';
+import { HomeHero } from '@/components/home-hero';
+import { HomeServices } from '@/components/home-services';
+import { Separator } from '@/components/ui/separator';
+
 export default function Home() {
-  return <></>;
+  return (
+    <>
+      <HomeHero />
+      <HomeServices />
+      <Separator className="my-12 md:my-24" />
+      <HomeAbout />
+    </>
+  );
 }
