@@ -1,6 +1,6 @@
 'use client';
 
-import { WhatsAppIcon } from './icons/whatsapp-icon';
+import { WhatsappStickyIcon } from './icons/whatsapp-sticky-icon';
 
 interface WhatsAppButtonProps {
   phoneNumber: string;
@@ -15,10 +15,10 @@ export function WhatsAppButton({ phoneNumber }: WhatsAppButtonProps) {
   return (
     <button
       onClick={openWhatsApp}
-      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#00D95F] text-white shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
       aria-label="Chat on WhatsApp"
     >
-      <WhatsAppIcon className="h-10 w-10" />
+      <WhatsappStickyIcon className="h-12 w-12" />
     </button>
   );
 }
