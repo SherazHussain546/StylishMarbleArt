@@ -44,6 +44,16 @@ export function Footer() {
                 <Mail className="h-7 w-7" />
                  <span className="sr-only">Email</span>
               </a>
+              <a href="javascript:;"
+                className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <TwitterIcon />
+                <span className="sr-only">Twitter</span>
+              </a>
+              <a href="javascript:;"
+                className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <TiktokIcon />
+                <span className="sr-only">Tiktok</span>
+              </a>
             </div>
           </div>
           <div className="md:justify-self-center">
@@ -76,9 +86,8 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center">
-          <p className="text-sm text-muted-foreground">{content.footer.legal[language]}</p>
-          <p className="text-sm text-muted-foreground mt-2">
-            Developed by <a href="https://www.synctech.ie" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">SYNC TECH</a>
+          <p className="text-sm text-muted-foreground">
+            {content.footer.legal[language]} | Developed by <a href="https://www.synctech.ie" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">SYNC TECH</a>
           </p>
         </div>
       </div>
