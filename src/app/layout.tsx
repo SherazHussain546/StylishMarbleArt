@@ -17,8 +17,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const companyName = "Stylish Marble Art";
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -26,9 +24,9 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <LanguageProvider>
           <div className="flex min-h-screen flex-col">
-            <Header companyName={companyName} />
+            <Header />
             <main className="flex-grow">{children}</main>
-            <Footer companyName={companyName} />
+            <Footer />
           </div>
           <Toaster />
         </LanguageProvider>

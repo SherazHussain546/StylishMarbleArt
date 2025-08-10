@@ -13,11 +13,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
-interface HeaderProps {
-  companyName: string;
-}
-
-export function Header({ companyName }: HeaderProps) {
+export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language } = useLanguage();
   const pathname = usePathname();
@@ -49,7 +45,7 @@ export function Header({ companyName }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="mr-4 hidden md:flex">
-          <Logo companyName={companyName} />
+          <Logo />
         </div>
         <div className="flex flex-1 items-center justify-between">
           <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
@@ -67,7 +63,7 @@ export function Header({ companyName }: HeaderProps) {
               <SheetContent side="left">
                 <div className="flex h-full flex-col p-6">
                   <div className="mb-8">
-                    <Logo companyName={companyName} />
+                    <Logo />
                   </div>
                   <nav className="flex flex-col space-y-4">
                     <NavItems />
@@ -77,7 +73,7 @@ export function Header({ companyName }: HeaderProps) {
             </Sheet>
           </div>
           <div className="md:hidden">
-             <Logo companyName={companyName} />
+             <Logo />
           </div>
 
           <div className="flex items-center justify-end">

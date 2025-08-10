@@ -5,11 +5,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Logo } from './logo';
 
-interface FooterProps {
-  companyName: string;
-}
-
-export function Footer({ companyName }: FooterProps) {
+export function Footer() {
   const { language } = useLanguage();
 
   const navLinks = [
@@ -25,7 +21,7 @@ export function Footer({ companyName }: FooterProps) {
       <div className="container py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="flex flex-col items-start">
-            <Logo companyName={companyName} />
+            <Logo />
             <p className="mt-2 text-sm text-muted-foreground">{content.footer.tagline[language]}</p>
           </div>
           <div className="md:justify-self-center">
