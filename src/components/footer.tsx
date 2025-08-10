@@ -75,6 +75,9 @@ export function Footer() {
         </div>
         <div className="mt-12 border-t pt-8 text-center">
           <p className="text-sm text-muted-foreground">{content.footer.legal[language]}</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Developed by <a href="https://www.synctech.ie" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">SYNC TECH</a>
+          </p>
         </div>
       </div>
     </footer>
