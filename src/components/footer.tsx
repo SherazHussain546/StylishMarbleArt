@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Logo } from './logo';
-import { Facebook, Instagram, Mail } from 'lucide-react';
+import { Facebook, Mail } from 'lucide-react';
 import { WhatsAppIcon } from './whatsapp-icon';
 
 export function Footer() {
@@ -29,10 +29,6 @@ export function Footer() {
               <Link href="https://www.facebook.com/stylishmarbleart" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
                 <Facebook className="h-6 w-6" />
                 <span className="sr-only">Facebook</span>
-              </Link>
-              <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
-                <Instagram className="h-6 w-6" />
-                <span className="sr-only">Instagram</span>
               </Link>
               <a href={`https://wa.me/${content.contactPage.contactInfo.phone.en.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
                 <WhatsAppIcon className="h-6 w-6" />
