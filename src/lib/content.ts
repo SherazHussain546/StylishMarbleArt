@@ -1,3 +1,4 @@
+
 export const content = {
   nav: {
     home: { en: 'Home', ur: 'گھر' },
@@ -204,15 +205,15 @@ export const content = {
     },
     contactInfo: {
       title: { en: 'Contact Information', ur: 'رابطے کی معلومات' },
-      address: { en: 'Malir 15, Main National Highway Near Bank Al Habib', ur: 'ملیر 15، مین نیشنل ہائی وے، بینک الحبیب کے قریب' },
+      address: { en: 'Malir 15, Main National Highway Near Bank Al Habib Karachi, Pakistan', ur: 'ملیر 15، مین نیشنل ہائی وے، بینک الحبیب کے قریب، کراچی، پاکستان' },
       phone: { en: '+92 300 2193808', ur: '+92 300 2193808' },
       email: { en: 'stylishmarbleart2020@gmail.com', ur: 'stylishmarbleart2020@gmail.com' },
     },
   },
   footer: {
     tagline: {
-      en: 'Crafting beauty in marble, with precision and care.',
-      ur: 'سنگ مرمر میں خوبصورتی، صحت سے متعلق اور دیکھ بھال کے ساتھ تیار کرنا۔',
+      en: 'We Deal in all kinds of Marble, Granite & Imported Marble',
+      ur: 'ہم ہر قسم کے ماربل، گرینائٹ اور امپورٹڈ ماربل میں ڈیل کرتے ہیں۔',
     },
     quickLinks: { en: 'Quick Links', ur: 'فوری لنکس' },
     legal: {
