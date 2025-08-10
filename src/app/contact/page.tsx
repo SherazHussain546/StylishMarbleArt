@@ -1,11 +1,15 @@
+'use client';
+
 import { ContactForm } from './contact-form';
 import { content } from '@/lib/content';
 import { Mail, MapPin, Phone } from 'lucide-react';
+import { useLanguage } from '@/contexts/language-context';
 
 // This is a server component that fetches the initial language for its client component child
 export default function ContactPage() {
+  const { language } = useLanguage();
   const pageContent = content.contactPage;
-  const lang = 'en'; // Default language for server-rendered parts
+  const lang = language;
 
   return (
     <div className="bg-secondary">
