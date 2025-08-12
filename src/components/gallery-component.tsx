@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { content } from '@/lib/content';
 
-type Category = 'Headstones' | 'Graves' | 'Government Works' | 'Charity Work' | 'Home Decors';
+type Category = 'Headstones' | 'Graves' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Inlays & Patterns';
 
 const galleryImages = [
   // Headstones
@@ -36,6 +36,10 @@ const galleryImages = [
   { src: '/gallery/14.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity', category: 'Home Decors' as Category },
   { src: '/gallery/15.png', alt: 'Close-up of marble texture for a home project', hint: 'marble texture', category: 'Home Decors' as Category },
 
+  // Inlays & Patterns
+  { src: 'https://placehold.co/600x400.png', alt: 'Geometric marble floor inlay', hint: 'marble floor inlay', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x400.png', alt: 'Floral marble pattern on a wall', hint: 'floral marble pattern', category: 'Inlays & Patterns' as Category },
+
   // Uncategorized examples
   { src: '/gallery/3.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
   { src: '/gallery/4.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
@@ -52,11 +56,15 @@ const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
     { id: 'Government Works', name: { en: 'Government', ur: 'سرکاری کام' } },
     { id: 'Charity Work', name: { en: 'Charity', ur: 'فلاحی کام' } },
     { id: 'Home Decors', name: { en: 'Home Decors', ur: 'گھریلو سجاوٹ' } },
+    { id: 'Inlays & Patterns', name: { en: 'Inlays & Patterns', ur: 'جڑاؤ اور ڈیزائن' } },
 ]
 
 export function GalleryComponent() {
   const { language } = useLanguage();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  
+  const allImages = useMemo(() => galleryImages, []);
+
   const [visibleCounts, setVisibleCounts] = useState<Record<string, number>>(
     categories.reduce((acc, cat) => ({...acc, [cat.id]: INITIAL_VISIBLE_IMAGES}), {})
   );
@@ -64,15 +72,15 @@ export function GalleryComponent() {
 
   const imagesByCategory = useMemo(() => {
     return categories.reduce((acc, category) => {
-        acc[category.id] = galleryImages.filter(img => img.category === category.id);
+        acc[category.id] = allImages.filter(img => img.category === category.id);
         return acc;
-    }, {} as Record<Category, typeof galleryImages>);
-  }, []);
+    }, {} as Record<Category, typeof allImages>);
+  }, [allImages]);
 
-  const filteredImages = useMemo(() => {
-    if (activeFilter === 'All') return galleryImages;
-    return galleryImages.filter(img => img.category === activeFilter);
-  }, [activeFilter]);
+  const filteredImagesForLightbox = useMemo(() => {
+    if (activeFilter === 'All') return allImages;
+    return allImages.filter(img => img.category === activeFilter);
+  }, [activeFilter, allImages]);
   
   const showMoreImages = (category: Category) => {
     setVisibleCounts(prev => ({
@@ -82,7 +90,7 @@ export function GalleryComponent() {
   };
 
   const openLightbox = (imageSrc: string) => {
-    const index = galleryImages.findIndex(img => img.src === imageSrc);
+    const index = filteredImagesForLightbox.findIndex(img => img.src === imageSrc);
     if(index !== -1) setSelectedImageIndex(index);
   };
   
@@ -90,7 +98,7 @@ export function GalleryComponent() {
     e.stopPropagation();
     if (selectedImageIndex !== null) {
       setSelectedImageIndex(
-        (selectedImageIndex - 1 + galleryImages.length) % galleryImages.length
+        (selectedImageIndex - 1 + filteredImagesForLightbox.length) % filteredImagesForLightbox.length
       );
     }
   };
@@ -98,11 +106,52 @@ export function GalleryComponent() {
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (selectedImageIndex !== null) {
-      setSelectedImageIndex((selectedImageIndex + 1) % galleryImages.length);
+      setSelectedImageIndex((selectedImageIndex + 1) % filteredImagesForLightbox.length);
     }
   };
   
-  const selectedImage = selectedImageIndex !== null ? galleryImages[selectedImageIndex] : null;
+  const selectedImage = selectedImageIndex !== null ? filteredImagesForLightbox[selectedImageIndex] : null;
+
+  const renderCategorySection = (category: {id: Category, name: {[key in 'en' | 'ur']: string}}, isFiltered: boolean) => {
+    const categoryImages = imagesByCategory[category.id];
+    if(categoryImages.length === 0) return null;
+
+    const visibleCount = isFiltered ? (visibleCounts[category.id] || INITIAL_VISIBLE_IMAGES) : visibleCounts[category.id];
+    const visibleImages = categoryImages.slice(0, visibleCount);
+    const hasMore = visibleImages.length < categoryImages.length;
+
+    return (
+      <section key={category.id} id={category.id}>
+        <h2 className="mb-8 text-center text-3xl font-bold">{category.name[language]}</h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {visibleImages.map((image) => (
+            <div
+              key={image.src}
+              className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
+              onClick={() => openLightbox(image.src)}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                data-ai-hint={image.hint}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/40"></div>
+            </div>
+          ))}
+        </div>
+        {hasMore && (
+          <div className="mt-8 text-center">
+            <Button onClick={() => showMoreImages(category.id)} size="lg">
+              {language === 'en' ? 'View More' : 'مزید دیکھیں'}
+            </Button>
+          </div>
+        )}
+      </section>
+    );
+  };
 
   return (
     <>
@@ -125,45 +174,11 @@ export function GalleryComponent() {
       </div>
 
       <div className="space-y-16">
-        {(activeFilter === 'All' ? categories : categories.filter(c => c.id === activeFilter)).map(category => {
-          const categoryImages = imagesByCategory[category.id];
-          if(categoryImages.length === 0) return null;
-
-          const visibleImages = categoryImages.slice(0, visibleCounts[category.id]);
-          const hasMore = visibleImages.length < categoryImages.length;
-
-          return (
-            <section key={category.id} id={category.id}>
-              <h2 className="mb-8 text-center text-3xl font-bold">{category.name[language]}</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {visibleImages.map((image) => (
-                  <div
-                    key={image.src}
-                    className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-                    onClick={() => openLightbox(image.src)}
-                  >
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      data-ai-hint={image.hint}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/40"></div>
-                  </div>
-                ))}
-              </div>
-              {hasMore && (
-                <div className="mt-8 text-center">
-                  <Button onClick={() => showMoreImages(category.id)} size="lg">
-                    {language === 'en' ? 'View More' : 'مزید دیکھیں'}
-                  </Button>
-                </div>
-              )}
-            </section>
-          )
-        })}
+        {activeFilter === 'All'
+          ? categories.map(category => renderCategorySection(category, false))
+          : categories
+              .filter(c => c.id === activeFilter)
+              .map(category => renderCategorySection(category, true))}
       </div>
 
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
@@ -194,3 +209,5 @@ export function GalleryComponent() {
     </>
   );
 }
+
+    
