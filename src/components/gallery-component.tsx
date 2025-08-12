@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/language-context';
 
 const galleryImages = [
   { src: 'https://placehold.co/600x400.png', alt: 'Elegant marble headstone', hint: 'marble headstone' },
@@ -13,15 +15,34 @@ const galleryImages = [
   { src: 'https://placehold.co/600x400.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone' },
   { src: 'https://placehold.co/600x400.png', alt: 'A child memorial stone with carving', hint: 'child memorial' },
   { src: 'https://placehold.co/600x400.png', alt: 'Double headstone for a couple', hint: 'double headstone' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Custom engraved marble sign', hint: 'engraved sign' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone' },
+  { src: 'https://placehold.co/600x400.png', alt: 'White marble statue detail', hint: 'marble statue' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Close-up of marble texture', hint: 'marble texture' },
+  { src: 'https://placehold.co/600x400.png', alt: 'Large memorial with multiple engravings', hint: 'large memorial' },
 ];
 
+const INITIAL_VISIBLE_IMAGES = 8;
+const IMAGES_TO_LOAD = 4;
+
 export function GalleryComponent() {
+  const { language } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<{src: string, alt: string} | null>(null);
+  const [visibleImagesCount, setVisibleImagesCount] = useState(INITIAL_VISIBLE_IMAGES);
+  
+  const showMoreImages = () => {
+    setVisibleImagesCount(prevCount => Math.min(prevCount + IMAGES_TO_LOAD, galleryImages.length));
+  };
+  
+  const hasMoreImages = visibleImagesCount < galleryImages.length;
 
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {galleryImages.map((image, index) => (
+        {galleryImages.slice(0, visibleImagesCount).map((image, index) => (
           <div
             key={index}
             className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
@@ -39,6 +60,14 @@ export function GalleryComponent() {
           </div>
         ))}
       </div>
+      
+      {hasMoreImages && (
+        <div className="mt-8 text-center">
+          <Button onClick={showMoreImages} size="lg">
+            {language === 'en' ? 'View More' : 'مزید دیکھیں'}
+          </Button>
+        </div>
+      )}
 
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
         <DialogContent className="max-w-4xl p-0">
