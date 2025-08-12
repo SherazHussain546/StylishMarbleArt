@@ -7,8 +7,9 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co data:;
   font-src 'self';  
-  connect-src 'self';
+  connect-src 'self' vitals.vercel-insights.com;
   frame-src 'self';
+  upgrade-insecure-requests;
 `;
 
 const securityHeaders = [
