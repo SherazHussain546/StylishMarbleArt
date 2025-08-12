@@ -89,8 +89,9 @@ export function GalleryComponent() {
     }));
   };
 
-  const openLightbox = (imageSrc: string) => {
-    const index = filteredImagesForLightbox.findIndex(img => img.src === imageSrc);
+  const openLightbox = (imageSrc: string, imageCategory: Category) => {
+    const imagesToSearch = filteredImagesForLightbox;
+    const index = imagesToSearch.findIndex(img => img.src === imageSrc && img.category === imageCategory);
     if(index !== -1) setSelectedImageIndex(index);
   };
   
@@ -124,11 +125,11 @@ export function GalleryComponent() {
       <section key={category.id} id={category.id}>
         <h2 className="mb-8 text-center text-3xl font-bold">{category.name[language]}</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {visibleImages.map((image) => (
+          {visibleImages.map((image, index) => (
             <div
-              key={image.src}
+              key={`${image.src}-${index}`}
               className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-              onClick={() => openLightbox(image.src)}
+              onClick={() => openLightbox(image.src, image.category)}
             >
               <Image
                 src={image.src}
@@ -209,5 +210,3 @@ export function GalleryComponent() {
     </>
   );
 }
-
-    
