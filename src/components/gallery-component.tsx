@@ -7,22 +7,22 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
 
 const galleryImages = [
-  { src: 'https://placehold.co/600x400.png', alt: 'Elegant marble headstone', hint: 'marble headstone' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Granite family monument', hint: 'granite monument' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone' },
-  { src: 'https://placehold.co/600x400.png', alt: 'A child memorial stone with carving', hint: 'child memorial' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Double headstone for a couple', hint: 'double headstone' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Custom engraved marble sign', hint: 'engraved sign' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone' },
-  { src: 'https://placehold.co/600x400.png', alt: 'White marble statue detail', hint: 'marble statue' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Close-up of marble texture', hint: 'marble texture' },
-  { src: 'https://placehold.co/600x400.png', alt: 'Large memorial with multiple engravings', hint: 'large memorial' },
+  { src: '/gallery/image1.jpg', alt: 'Elegant marble headstone', hint: 'marble headstone' },
+  { src: '/gallery/image2.jpg', alt: 'Granite family monument', hint: 'granite monument' },
+  { src: '/gallery/image3.jpg', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving' },
+  { src: '/gallery/image4.jpg', alt: 'Bronze plaque on stone', hint: 'bronze plaque' },
+  { src: '/gallery/image5.jpg', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone' },
+  { src: '/gallery/image6.jpg', alt: 'Restored vintage gravestone', hint: 'restored gravestone' },
+  { src: '/gallery/image7.jpg', alt: 'A child memorial stone with carving', hint: 'child memorial' },
+  { src: '/gallery/image8.jpg', alt: 'Double headstone for a couple', hint: 'double headstone' },
+  { src: '/gallery/image9.jpg', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop' },
+  { src: '/gallery/image10.jpg', alt: 'Marble flooring in a house entrance', hint: 'marble flooring' },
+  { src: '/gallery/image11.jpg', alt: 'Custom engraved marble sign', hint: 'engraved sign' },
+  { src: '/gallery/image12.jpg', alt: 'Polished black granite tombstone', hint: 'granite tombstone' },
+  { src: '/gallery/image13.jpg', alt: 'White marble statue detail', hint: 'marble statue' },
+  { src: '/gallery/image14.jpg', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity' },
+  { src: '/gallery/image15.jpg', alt: 'Close-up of marble texture', hint: 'marble texture' },
+  { src: '/gallery/image16.jpg', alt: 'Large memorial with multiple engravings', hint: 'large memorial' },
 ];
 
 const INITIAL_VISIBLE_IMAGES = 8;
