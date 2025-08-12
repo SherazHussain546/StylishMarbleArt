@@ -5,24 +5,26 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const galleryImages = [
-  { src: '/gallery/image1.jpg', alt: 'Elegant marble headstone', hint: 'marble headstone' },
-  { src: '/gallery/image2.jpg', alt: 'Granite family monument', hint: 'granite monument' },
-  { src: '/gallery/image3.jpg', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving' },
-  { src: '/gallery/image4.jpg', alt: 'Bronze plaque on stone', hint: 'bronze plaque' },
-  { src: '/gallery/image5.jpg', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone' },
-  { src: '/gallery/image6.jpg', alt: 'Restored vintage gravestone', hint: 'restored gravestone' },
-  { src: '/gallery/image7.jpg', alt: 'A child memorial stone with carving', hint: 'child memorial' },
-  { src: '/gallery/image8.jpg', alt: 'Double headstone for a couple', hint: 'double headstone' },
-  { src: '/gallery/image9.jpg', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop' },
-  { src: '/gallery/image10.jpg', alt: 'Marble flooring in a house entrance', hint: 'marble flooring' },
-  { src: '/gallery/image11.jpg', alt: 'Custom engraved marble sign', hint: 'engraved sign' },
-  { src: '/gallery/image12.jpg', alt: 'Polished black granite tombstone', hint: 'granite tombstone' },
-  { src: '/gallery/image13.jpg', alt: 'White marble statue detail', hint: 'marble statue' },
-  { src: '/gallery/image14.jpg', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity' },
-  { src: '/gallery/image15.jpg', alt: 'Close-up of marble texture', hint: 'marble texture' },
-  { src: '/gallery/image16.jpg', alt: 'Large memorial with multiple engravings', hint: 'large memorial' },
+  { src: '/gallery/1.png', alt: 'Elegant marble headstone', hint: 'marble headstone' },
+  { src: '/gallery/2.png', alt: 'Granite family monument', hint: 'granite monument' },
+  { src: '/gallery/3.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving' },
+  { src: '/gallery/4.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque' },
+  { src: '/gallery/5.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone' },
+  { src: '/gallery/6.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone' },
+  { src: '/gallery/7.png', alt: 'A child memorial stone with carving', hint: 'child memorial' },
+  { src: '/gallery/8.png', alt: 'Double headstone for a couple', hint: 'double headstone' },
+  { src: '/gallery/9.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop' },
+  { src: '/gallery/10.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring' },
+  { src: '/gallery/11.png', alt: 'Custom engraved marble sign', hint: 'engraved sign' },
+  { src: '/gallery/12.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone' },
+  { src: '/gallery/13.png', alt: 'White marble statue detail', hint: 'marble statue' },
+  { src: '/gallery/14.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity' },
+  { src: '/gallery/15.png', alt: 'Close-up of marble texture', hint: 'marble texture' },
+  { src: '/gallery/16.png', alt: 'Large memorial with multiple engravings', hint: 'large memorial' },
 ];
 
 const INITIAL_VISIBLE_IMAGES = 8;
@@ -30,14 +32,31 @@ const IMAGES_TO_LOAD = 4;
 
 export function GalleryComponent() {
   const { language } = useLanguage();
-  const [selectedImage, setSelectedImage] = useState<{src: string, alt: string} | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [visibleImagesCount, setVisibleImagesCount] = useState(INITIAL_VISIBLE_IMAGES);
   
   const showMoreImages = () => {
     setVisibleImagesCount(prevCount => Math.min(prevCount + IMAGES_TO_LOAD, galleryImages.length));
   };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedImageIndex !== null) {
+      const newIndex = (selectedImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      setSelectedImageIndex(newIndex);
+    }
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedImageIndex !== null) {
+      const newIndex = (selectedImageIndex + 1) % galleryImages.length;
+      setSelectedImageIndex(newIndex);
+    }
+  };
   
   const hasMoreImages = visibleImagesCount < galleryImages.length;
+  const selectedImage = selectedImageIndex !== null ? galleryImages[selectedImageIndex] : null;
 
   return (
     <>
@@ -46,7 +65,7 @@ export function GalleryComponent() {
           <div
             key={index}
             className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-            onClick={() => setSelectedImage(image)}
+            onClick={() => setSelectedImageIndex(index)}
           >
             <Image
               src={image.src}
@@ -69,7 +88,7 @@ export function GalleryComponent() {
         </div>
       )}
 
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+      <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
         <DialogContent className="max-w-4xl p-0">
             <DialogHeader className="sr-only">
                 <DialogTitle>Enlarged Image</DialogTitle>
@@ -83,6 +102,12 @@ export function GalleryComponent() {
                     fill
                     className="object-contain"
                 />
+                <Button variant="ghost" size="icon" onClick={handlePrev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/75 hover:text-white h-10 w-10">
+                    <ChevronLeft className="h-6 w-6" />
+                </Button>
+                <Button variant="ghost" size="icon" onClick={handleNext} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/75 hover:text-white h-10 w-10">
+                    <ChevronRight className="h-6 w-6" />
+                </Button>
             </div>
           )}
         </DialogContent>
