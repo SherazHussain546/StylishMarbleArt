@@ -17,34 +17,46 @@ const galleryImages = [
   { src: '/gallery/2.png', alt: 'Granite family monument', hint: 'granite monument', category: 'Headstones' as Category },
   { src: '/gallery/8.png', alt: 'Double headstone for a couple', hint: 'double headstone', category: 'Headstones' as Category },
   { src: '/gallery/12.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone', category: 'Headstones' as Category },
+  { src: '/gallery/3.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
+  { src: '/gallery/4.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
+
 
   // Graves
   { src: '/gallery/5.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
   { src: '/gallery/6.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
-  
+  { src: '/gallery/7.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
+  { src: 'https://placehold.co/600x400.png', alt: 'Placeholder grave image', hint: 'grave', category: 'Graves' as Category },
+  { src: 'https://placehold.co/600x401.png', alt: 'Placeholder grave image 2', hint: 'grave', category: 'Graves' as Category },
+
   // Government Works
   { src: '/gallery/11.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x400.png', alt: 'Placeholder gov work image', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x401.png', alt: 'Placeholder gov work image 2', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x402.png', alt: 'Placeholder gov work image 3', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x403.png', alt: 'Placeholder gov work image 4', hint: 'government building', category: 'Government Works' as Category },
   
   // Charity Work
   { src: 'https://placehold.co/600x400.png', alt: 'Marble statue for charity', hint: 'marble statue', category: 'Charity Work' as Category },
   { src: '/gallery/13.png', alt: 'White marble statue detail for a charity project', hint: 'marble statue', category: 'Charity Work' as Category },
   { src: '/gallery/16.png', alt: 'Large memorial with multiple engravings for a community park', hint: 'large memorial', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x401.png', alt: 'Placeholder charity image', hint: 'charity work', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x402.png', alt: 'Placeholder charity image 2', hint: 'charity work', category: 'Charity Work' as Category },
+
 
   // Home Decors
   { src: '/gallery/9.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop', category: 'Home Decors' as Category },
   { src: '/gallery/10.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring', category: 'Home Decors' as Category },
   { src: '/gallery/14.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity', category: 'Home Decors' as Category },
   { src: '/gallery/15.png', alt: 'Close-up of marble texture for a home project', hint: 'marble texture', category: 'Home Decors' as Category },
+  { src: 'https://placehold.co/600x400.png', alt: 'Placeholder home decor', hint: 'home decor', category: 'Home Decors' as Category },
+
 
   // Inlays & Patterns
   { src: 'https://placehold.co/600x400.png', alt: 'Geometric marble floor inlay', hint: 'marble floor inlay', category: 'Inlays & Patterns' as Category },
-  { src: 'https://placehold.co/600x400.png', alt: 'Floral marble pattern on a wall', hint: 'floral marble pattern', category: 'Inlays & Patterns' as Category },
-
-  // Uncategorized examples
-  { src: '/gallery/3.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
-  { src: '/gallery/4.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
-  { src: '/gallery/7.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-
+  { src: 'https://placehold.co/600x401.png', alt: 'Floral marble pattern on a wall', hint: 'floral marble pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x402.png', alt: 'Placeholder inlay', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x403.png', alt: 'Placeholder pattern', hint: 'marble pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x404.png', alt: 'Placeholder inlay 2', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
 ];
 
 const INITIAL_VISIBLE_IMAGES = 4;
