@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { content } from '@/lib/content';
 
-type Category = 'Headstones' | 'Graves' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Inlays & Patterns';
+type Category = 'Headstones' | 'Graves' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Inlays & Patterns' | 'Christian Memorials' | 'Hindu Memorials';
 
 const galleryImages = [
   // Headstones
@@ -20,43 +20,54 @@ const galleryImages = [
   { src: '/gallery/3.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
   { src: '/gallery/4.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
 
-
   // Graves
   { src: '/gallery/5.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
   { src: '/gallery/6.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
   { src: '/gallery/7.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-  { src: 'https://placehold.co/600x400.png', alt: 'Placeholder grave image', hint: 'grave', category: 'Graves' as Category },
-  { src: 'https://placehold.co/600x401.png', alt: 'Placeholder grave image 2', hint: 'grave', category: 'Graves' as Category },
+  { src: 'https://placehold.co/600x400.png?text=Grave-4', alt: 'Placeholder grave image', hint: 'grave', category: 'Graves' as Category },
+  { src: 'https://placehold.co/600x401.png?text=Grave-5', alt: 'Placeholder grave image 2', hint: 'grave', category: 'Graves' as Category },
 
   // Government Works
   { src: '/gallery/11.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
-  { src: 'https://placehold.co/600x400.png', alt: 'Placeholder gov work image', hint: 'government building', category: 'Government Works' as Category },
-  { src: 'https://placehold.co/600x401.png', alt: 'Placeholder gov work image 2', hint: 'government building', category: 'Government Works' as Category },
-  { src: 'https://placehold.co/600x402.png', alt: 'Placeholder gov work image 3', hint: 'government building', category: 'Government Works' as Category },
-  { src: 'https://placehold.co/600x403.png', alt: 'Placeholder gov work image 4', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x400.png?text=Gov-2', alt: 'Placeholder gov work image', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x401.png?text=Gov-3', alt: 'Placeholder gov work image 2', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x402.png?text=Gov-4', alt: 'Placeholder gov work image 3', hint: 'government building', category: 'Government Works' as Category },
+  { src: 'https://placehold.co/600x403.png?text=Gov-5', alt: 'Placeholder gov work image 4', hint: 'government building', category: 'Government Works' as Category },
   
   // Charity Work
-  { src: 'https://placehold.co/600x400.png', alt: 'Marble statue for charity', hint: 'marble statue', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x400.png?text=Charity-1', alt: 'Marble statue for charity', hint: 'marble statue', category: 'Charity Work' as Category },
   { src: '/gallery/13.png', alt: 'White marble statue detail for a charity project', hint: 'marble statue', category: 'Charity Work' as Category },
   { src: '/gallery/16.png', alt: 'Large memorial with multiple engravings for a community park', hint: 'large memorial', category: 'Charity Work' as Category },
-  { src: 'https://placehold.co/600x401.png', alt: 'Placeholder charity image', hint: 'charity work', category: 'Charity Work' as Category },
-  { src: 'https://placehold.co/600x402.png', alt: 'Placeholder charity image 2', hint: 'charity work', category: 'Charity Work' as Category },
-
+  { src: 'https://placehold.co/600x401.png?text=Charity-4', alt: 'Placeholder charity image', hint: 'charity work', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x402.png?text=Charity-5', alt: 'Placeholder charity image 2', hint: 'charity work', category: 'Charity Work' as Category },
 
   // Home Decors
   { src: '/gallery/9.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop', category: 'Home Decors' as Category },
   { src: '/gallery/10.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring', category: 'Home Decors' as Category },
   { src: '/gallery/14.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity', category: 'Home Decors' as Category },
   { src: '/gallery/15.png', alt: 'Close-up of marble texture for a home project', hint: 'marble texture', category: 'Home Decors' as Category },
-  { src: 'https://placehold.co/600x400.png', alt: 'Placeholder home decor', hint: 'home decor', category: 'Home Decors' as Category },
-
+  { src: 'https://placehold.co/600x400.png?text=Home-5', alt: 'Placeholder home decor', hint: 'home decor', category: 'Home Decors' as Category },
 
   // Inlays & Patterns
-  { src: 'https://placehold.co/600x400.png', alt: 'Geometric marble floor inlay', hint: 'marble floor inlay', category: 'Inlays & Patterns' as Category },
-  { src: 'https://placehold.co/600x401.png', alt: 'Floral marble pattern on a wall', hint: 'floral marble pattern', category: 'Inlays & Patterns' as Category },
-  { src: 'https://placehold.co/600x402.png', alt: 'Placeholder inlay', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
-  { src: 'https://placehold.co/600x403.png', alt: 'Placeholder pattern', hint: 'marble pattern', category: 'Inlays & Patterns' as Category },
-  { src: 'https://placehold.co/600x404.png', alt: 'Placeholder inlay 2', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x400.png?text=Inlay-1', alt: 'Geometric marble floor inlay', hint: 'marble floor inlay', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x401.png?text=Inlay-2', alt: 'Floral marble pattern on a wall', hint: 'floral marble pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x402.png?text=Inlay-3', alt: 'Placeholder inlay', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x403.png?text=Inlay-4', alt: 'Placeholder pattern', hint: 'marble pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x404.png?text=Inlay-5', alt: 'Placeholder inlay 2', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
+
+  // Christian Memorials
+  { src: 'https://placehold.co/600x400.png?text=Christian-1', alt: 'Christian cross memorial', hint: 'christian memorial', category: 'Christian Memorials' as Category },
+  { src: 'https://placehold.co/600x401.png?text=Christian-2', alt: 'Angel statue on a headstone', hint: 'angel statue', category: 'Christian Memorials' as Category },
+  { src: 'https://placehold.co/600x402.png?text=Christian-3', alt: 'Marble grave marker with bible verse', hint: 'bible verse', category: 'Christian Memorials' as Category },
+  { src: 'https://placehold.co/600x403.png?text=Christian-4', alt: 'Simple and elegant cross headstone', hint: 'cross headstone', category: 'Christian Memorials' as Category },
+  { src: 'https://placehold.co/600x404.png?text=Christian-5', alt: 'Christian family grave plot', hint: 'family grave', category: 'Christian Memorials' as Category },
+
+  // Hindu Memorials
+  { src: 'https://placehold.co/600x405.png?text=Hindu-1', alt: 'Hindu memorial stone with Om symbol', hint: 'om symbol', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x406.png?text=Hindu-2', alt: 'Memorial bench for a Hindu family', hint: 'memorial bench', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x407.png?text=Hindu-3', alt: 'Engraved Sanskrit on a granite slab', hint: 'sanskrit engraving', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x408.png?text=Hindu-4', alt: 'Placeholder Hindu memorial', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x409.png?text=Hindu-5', alt: 'Placeholder Hindu memorial 2', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
 ];
 
 const INITIAL_VISIBLE_IMAGES = 4;
@@ -65,6 +76,8 @@ const IMAGES_TO_LOAD = 4;
 const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
     { id: 'Headstones', name: { en: 'Headstones', ur: 'قبر کے کتبے' } },
     { id: 'Graves', name: { en: 'Graves', ur: 'قبریں' } },
+    { id: 'Christian Memorials', name: { en: 'Christian', ur: 'عیسائی یادگاریں' } },
+    { id: 'Hindu Memorials', name: { en: 'Hindu', ur: 'ہندو یادگاریں' } },
     { id: 'Government Works', name: { en: 'Government', ur: 'سرکاری کام' } },
     { id: 'Charity Work', name: { en: 'Charity', ur: 'فلاحی کام' } },
     { id: 'Home Decors', name: { en: 'Home Decors', ur: 'گھریلو سجاوٹ' } },
@@ -101,9 +114,9 @@ export function GalleryComponent() {
     }));
   };
 
-  const openLightbox = (imageSrc: string, imageCategory: Category) => {
+  const openLightbox = (imageSrc: string) => {
     const imagesToSearch = filteredImagesForLightbox;
-    const index = imagesToSearch.findIndex(img => img.src === imageSrc && img.category === imageCategory);
+    const index = imagesToSearch.findIndex(img => img.src === imageSrc);
     if(index !== -1) setSelectedImageIndex(index);
   };
   
@@ -141,7 +154,7 @@ export function GalleryComponent() {
             <div
               key={`${image.src}-${index}`}
               className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-              onClick={() => openLightbox(image.src, image.category)}
+              onClick={() => openLightbox(image.src)}
             >
               <Image
                 src={image.src}
