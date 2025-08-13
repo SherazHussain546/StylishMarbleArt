@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { content } from '@/lib/content';
+import { WatermarkLogo } from './watermark-logo';
 
 type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials' | 'Inlays & Patterns';
 
@@ -63,11 +64,18 @@ const galleryImages = [
   { src: '/Gallery/Charity/2.png', alt: 'Large memorial with multiple engravings for a community park', hint: 'large memorial', category: 'Charity Work' as Category },
   { src: 'https://placehold.co/600x401.png', alt: 'Placeholder charity image', hint: 'charity work', category: 'Charity Work' as Category },
   { src: 'https://placehold.co/600x402.png', alt: 'Placeholder charity image 2', hint: 'charity work', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x403.png', alt: 'Placeholder charity image 3', hint: 'charity work', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x404.png', alt: 'Placeholder charity image 4', hint: 'charity work', category: 'Charity Work' as Category },
+  { src: 'https://placehold.co/600x405.png', alt: 'Placeholder charity image 5', hint: 'charity work', category: 'Charity Work' as Category },
 
   // Home Decors
   { src: '/Gallery/HomeDecor/1.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop', category: 'Home Decors' as Category },
   { src: '/Gallery/HomeDecor/2.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring', category: 'Home Decors' as Category },
   { src: '/Gallery/HomeDecor/3.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity', category: 'Home Decors' as Category },
+  { src: 'https://placehold.co/600x404.png', alt: 'Placeholder home decor', hint: 'home decor', category: 'Home Decors' as Category },
+  { src: 'https://placehold.co/600x405.png', alt: 'Placeholder home decor 2', hint: 'home decor', category: 'Home Decors' as Category },
+  { src: 'https://placehold.co/600x406.png', alt: 'Placeholder home decor 3', hint: 'home decor', category: 'Home Decors' as Category },
+  { src: 'https://placehold.co/600x407.png', alt: 'Placeholder home decor 4', hint: 'home decor', category: 'Home Decors' as Category },
   
   // Inlays & Patterns
   { src: 'https://placehold.co/600x400.png', alt: 'Geometric marble floor inlay', hint: 'marble floor inlay', category: 'Inlays & Patterns' as Category },
@@ -75,6 +83,8 @@ const galleryImages = [
   { src: 'https://placehold.co/600x402.png', alt: 'Placeholder inlay', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
   { src: 'https://placehold.co/600x403.png', alt: 'Placeholder pattern', hint: 'marble pattern', category: 'Inlays & Patterns' as Category },
   { src: 'https://placehold.co/600x404.png', alt: 'Placeholder inlay 2', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x405.png', alt: 'Placeholder inlay 3', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
+  { src: 'https://placehold.co/600x406.png', alt: 'Placeholder inlay 4', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
 
   // Christian Memorials
   { src: '/Gallery/Christin/1.png', alt: 'Christian cross memorial', hint: 'christian memorial', category: 'Christian Memorials' as Category },
@@ -82,12 +92,17 @@ const galleryImages = [
   { src: 'https://placehold.co/600x402.png', alt: 'Marble grave marker with bible verse', hint: 'bible verse', category: 'Christian Memorials' as Category },
   { src: 'https://placehold.co/600x403.png', alt: 'Simple and elegant cross headstone', hint: 'cross headstone', category: 'Christian Memorials' as Category },
   { src: 'https://placehold.co/600x404.png', alt: 'Christian family grave plot', hint: 'family grave', category: 'Christian Memorials' as Category },
+  { src: 'https://placehold.co/600x405.png', alt: 'Placeholder christian memorial', hint: 'christian memorial', category: 'Christian Memorials' as Category },
+  { src: 'https://placehold.co/600x406.png', alt: 'Placeholder christian memorial 2', hint: 'christian memorial', category: 'Christian Memorials' as Category },
 
   // Hindu Memorials
   { src: '/Gallery/Hindu/1.png', alt: 'Hindu memorial stone with Om symbol', hint: 'om symbol', category: 'Hindu Memorials' as Category },
   { src: 'https://placehold.co/600x401.png', alt: 'Placeholder hindu memorial', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
   { src: 'https://placehold.co/600x402.png', alt: 'Placeholder hindu memorial 2', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
   { src: 'https://placehold.co/600x403.png', alt: 'Placeholder hindu memorial 3', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x404.png', alt: 'Placeholder hindu memorial 4', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x405.png', alt: 'Placeholder hindu memorial 5', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
+  { src: 'https://placehold.co/600x406.png', alt: 'Placeholder hindu memorial 6', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
   ];
 
 const INITIAL_VISIBLE_IMAGES = 6;
@@ -186,7 +201,7 @@ export function GalleryComponent() {
               />
               <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/40"></div>
               <div className="absolute bottom-2 right-2 select-none text-xs font-bold text-white opacity-50 transition-opacity duration-300 group-hover:opacity-80">
-                STYLISH MARBLE ART
+                <WatermarkLogo />
               </div>
             </div>
           ))}
