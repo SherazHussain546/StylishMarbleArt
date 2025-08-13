@@ -200,7 +200,7 @@ export function GalleryComponent() {
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/40"></div>
-              <div className="absolute bottom-2 right-2 select-none text-xs font-bold text-white opacity-50 transition-opacity duration-300 group-hover:opacity-80">
+              <div className="absolute top-2 left-2 select-none text-xs font-bold text-white opacity-50 transition-opacity duration-300 group-hover:opacity-80">
                 <WatermarkLogo />
               </div>
             </div>
