@@ -21,7 +21,7 @@ export default function AboutPageClient() {
         <div className="mt-16 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-xl">
             <Image
-              src="https://placehold.co/600x800.png"
+              src="/SMA.png"
               alt="Stonemason carefully working"
               data-ai-hint="stonemason working"
               fill
