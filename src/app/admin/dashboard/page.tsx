@@ -7,7 +7,7 @@ import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare } from 'lucide-react';
+import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare, Star } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
@@ -79,6 +79,18 @@ export default function AdminDashboardPage() {
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Testimonials</CardTitle>
+                <Star className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                 <Button asChild>
+                    <Link href="/admin/dashboard/testimonials">Manage Testimonials</Link>
+                 </Button>
+                <p className="text-xs text-muted-foreground mt-2">Add or remove client testimonials.</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Gallery Management</CardTitle>
                 <ImageIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -137,7 +149,7 @@ export default function AdminDashboardPage() {
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Top Search Keyword</CardTitle>
                     <Search className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
+                </Header>
                 <CardContent>
                     <div className="text-2xl font-bold">--</div>
                     <p className="text-xs text-muted-foreground">Search Console data loading...</p>
@@ -147,7 +159,7 @@ export default function AdminDashboardPage() {
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Search Clicks</CardTitle>
                     <BarChart className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
+                </Header>
                 <CardContent>
                     <div className="text-2xl font-bold">--</div>
                     <p className="text-xs text-muted-foreground">Search Console data loading...</p>
@@ -157,7 +169,7 @@ export default function AdminDashboardPage() {
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">View on Search Console</CardTitle>
                     <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
+                </Header>
                 <CardContent>
                     <Button size="sm" asChild variant="outline">
                         <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">
