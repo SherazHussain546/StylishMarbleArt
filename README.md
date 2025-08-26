@@ -11,11 +11,20 @@ To share your code and keep track of changes, you'll use Git and GitHub.
 
 ### Securing Secret Keys
 
-Your project uses a secret key for its AI features (`GEMINI_API_KEY`). It is **critical** that this key is never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
+Your project uses secret keys for its AI features and for sending emails. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
 
-1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`. Your secret key should be stored here. For example:
+1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`. Your secret keys should be stored here. For example:
     ```
-    GEMINI_API_KEY=your_secret_value_here
+    # For the AI Assistant on the contact page
+    GEMINI_API_KEY=your_gemini_secret_key_here
+
+    # For sending emails from the contact form
+    SMTP_HOST=your_smtp_host.com
+    SMTP_PORT=587
+    SMTP_USER=your_smtp_username
+    SMTP_PASS=your_smtp_password
+    SMTP_FROM_EMAIL=noreply@yourdomain.com
+    SMTP_TO_EMAIL=your_email@yourdomain.com
     ```
 
 2.  **Use the `.gitignore` file**: A `.gitignore` file has been added to your project. This file tells Git to ignore specific files and folders. It is pre-configured to ignore `.env.local`, so your secrets will remain safe on your local machine.
@@ -49,12 +58,9 @@ Your project uses a secret key for its AI features (`GEMINI_API_KEY`). It is **c
 3.  **Import Your Project**: From the Netlify dashboard, click "**Add new site**" > "**Import an existing project**" and select your `StylishMarbleArt` GitHub repository.
 
 4.  **Configure and Deploy**: Netlify will automatically detect that it's a Next.js project and configure the build settings for you.
-    *   **CRITICAL: Environment Variables**: Before you deploy, you must add your `GEMINI_API_KEY`.
+    *   **CRITICAL: Environment Variables**: Before you deploy, you must add your secret keys.
         *   Go to your site's settings, find the "**Build & deploy**" section, and then go to "**Environment**".
-        *   Click "**Add a variable**".
-        *   For the **Key**, enter `GEMINI_API_KEY`.
-        *   For the **Value**, copy and paste the secret key from your local `.env.local` file.
-        *   Click **Save**.
+        *   Click "**Add a variable**" and add each of the keys from your `.env.local` file (e.g., `GEMINI_API_KEY`, `SMTP_HOST`, `SMTP_USER`, etc.) one by one with their corresponding values.
     *   Go back to the deployment page and click "**Deploy site**". Netlify will build and launch your website on a temporary URL (e.g., `your-site-name.netlify.app`).
 
 ## Connecting Your GoDaddy Domain
@@ -85,4 +91,3 @@ The best part of this setup is how easy it is to update your site.
     git push
     ```
 3.  **Automatic Redeployment**: Netlify will automatically detect the push and start a new deployment. Once it's finished, your changes will be live on your website. No manual uploads needed!
-
