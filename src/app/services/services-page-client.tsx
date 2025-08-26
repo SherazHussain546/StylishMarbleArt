@@ -45,7 +45,7 @@ export default function ServicesPageClient() {
                             <CardContent className="relative flex aspect-video items-center justify-center p-0">
                                <Image
                                 src={img.src}
-                                alt={img.alt}
+                                alt={`${img.alt} - a ${service.name.en} example from Stylish Marble Art`}
                                 data-ai-hint={img.hint}
                                 fill
                                 className="object-cover"

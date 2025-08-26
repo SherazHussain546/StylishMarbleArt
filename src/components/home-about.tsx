@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,7 +24,7 @@ export function HomeAbout() {
           <div className="flex justify-center">
             <Image
               src="/Gallery/tom/artist.png"
-              alt="Artisan carving a stone"
+              alt="Artisan from Stylish Marble Art carving a custom marble gravestone in Karachi"
               data-ai-hint="artisan carving"
               width={500}
               height={500}

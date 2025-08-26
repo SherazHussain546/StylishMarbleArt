@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -13,7 +14,7 @@ export function HomeHero() {
     <section className="relative w-full py-20 md:py-32 lg:py-40">
       <Image
         src="/SMAHeader.png"
-        alt="A tranquil memorial garden"
+        alt="Tranquil memorial garden with gravestones and headstones by Stylish Marble Art, Karachi"
         data-ai-hint="memorial garden"
         fill
         className="object-cover object-center"

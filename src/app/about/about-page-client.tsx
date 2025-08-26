@@ -22,7 +22,7 @@ export default function AboutPageClient() {
           <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-xl">
             <Image
               src="/SMA.png"
-              alt="Stonemason carefully working"
+              alt="Stonemason from Stylish Marble Art working on a marble gravestone in Karachi"
               data-ai-hint="stonemason working"
               fill
               className="object-cover"

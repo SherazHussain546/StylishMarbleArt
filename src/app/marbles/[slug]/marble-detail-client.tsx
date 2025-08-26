@@ -1,3 +1,4 @@
+
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -7,8 +8,10 @@ import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { useParams } from 'next/navigation';
 
-export default function MarbleDetailClient({ slug }: { slug: string }) {
+export default function MarbleDetailClient() {
+  const { slug } = useParams() as { slug: string };
   const { language } = useLanguage();
   const marble = content.marbleTypes.types.find((m) => m.slug === slug);
 
@@ -32,7 +35,7 @@ export default function MarbleDetailClient({ slug }: { slug: string }) {
             <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-xl">
               <Image
                 src={marble.image}
-                alt={marble.name[language]}
+                alt={`${marble.name['en']} marble slab for kitchens and memorials by Stylish Marble Art`}
                 data-ai-hint={marble.hint}
                 fill
                 className="object-cover"

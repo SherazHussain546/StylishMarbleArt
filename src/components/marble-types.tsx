@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -24,7 +25,7 @@ export function MarbleTypes() {
                   <div className="relative h-60 w-full">
                     <Image
                       src={marble.image}
-                      alt={marble.name.en}
+                      alt={`High-quality ${marble.name.en} offered by Stylish Marble Art for custom work`}
                       data-ai-hint={marble.hint}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
