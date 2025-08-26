@@ -30,9 +30,9 @@ export default function ContactPageClient() {
             <div className="space-y-4 text-lg">
               <div className="flex items-start gap-4">
                 <MapPin className="mt-1 h-6 w-6 flex-shrink-0 text-primary" />
-                <address className="not-italic text-muted-foreground">
+                <p className="not-italic text-muted-foreground">
                   {pageContent.contactInfo.address[language]}
-                </address>
+                </p>
               </div>
               <div className="flex items-center gap-4">
                 <Phone className="h-6 w-6 flex-shrink-0 text-primary" />
