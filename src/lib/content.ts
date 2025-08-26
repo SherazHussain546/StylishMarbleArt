@@ -52,49 +52,94 @@ export const content = {
     description: { en: "We work with a wide variety of high-quality natural and artificial marbles.", ur: "ہم مختلف قسم کے اعلی معیار کے قدرتی اور مصنوعی ماربل کے ساتھ کام کرتے ہیں۔" },
     types: [
       {
+        slug: "rosso-verona-marble",
         name: { en: "Rosso Verona Marble", ur: "روسو ویرونا ماربل" },
         image: "https://placehold.co/600x400.png",
-        hint: "Rosso Verona"
+        hint: "Rosso Verona",
+        page_description: {
+          en: "Discover the rich, warm tones of Rosso Verona Marble. Perfect for creating a classic and luxurious feel in any space. Learn about its origins, uses, and care.",
+          ur: "روسو ویرونا ماربل کے بھرپور، گرم رنگوں کو دریافت کریں۔ کسی بھی جگہ میں ایک کلاسک اور پرتعیش احساس پیدا کرنے کے لیے بہترین۔ اس کی اصلیت، استعمال اور دیکھ بھال کے بارے میں جانیں۔"
+        }
       },
       {
+        slug: "black-granite",
         name: { en: "Black Granite", ur: "سیاہ گرینائٹ" },
         image: "https://placehold.co/600x400.png",
-        hint: "black granite"
+        hint: "black granite",
+        page_description: {
+          en: "Explore the elegance and durability of Black Granite. Ideal for modern kitchen countertops and high-traffic flooring. Get details on its properties and maintenance.",
+          ur: "سیاہ گرینائٹ کی خوبصورتی اور پائیداری کو دریافت کریں۔ جدید کچن کاؤنٹر ٹاپس اور زیادہ ٹریفک والے فرش کے لیے مثالی۔ اس کی خصوصیات اور دیکھ بھال کے بارے میں تفصیلات حاصل کریں۔"
+        }
       },
       {
+        slug: "artificial-white",
         name: { en: "Artificial White", ur: "مصنوعی سفید" },
         image: "https://placehold.co/600x400.png",
-        hint: "artificial marble"
+        hint: "artificial marble",
+        page_description: {
+          en: "Learn about the benefits of Artificial White marble. A versatile and cost-effective solution for a clean, minimalist look. Find out about its composition and applications.",
+          ur: "مصنوعی سفید ماربل کے فوائد کے بارے میں جانیں۔ صاف، کم سے کم نظر کے لیے ایک ورسٹائل اور سرمایہ کاری مؤثر حل۔ اس کی ساخت اور ایپلی کیشنز کے بارے میں معلوم کریں۔"
+        }
       },
       {
+        slug: "sunny-grey",
         name: { en: "Sunny Grey", ur: "سنی گرے" },
         image: "https://placehold.co/600x400.png",
-        hint: "grey marble"
+        hint: "grey marble",
+        page_description: {
+          en: "Discover Sunny Grey marble, a popular choice for contemporary designs. Its subtle tones and patterns add sophistication to any interior. Read about its characteristics.",
+          ur: "سنی گرے ماربل دریافت کریں، جو عصری ڈیزائنوں کے لیے ایک مقبول انتخاب ہے۔ اس کے لطیف رنگ اور نمونے کسی بھی داخلہ میں نفاست کا اضافہ کرتے ہیں۔ اس کی خصوصیات کے بارے میں پڑھیں۔"
+        }
       },
        {
+        slug: "sunny-white",
         name: { en: "Sunny White", ur: "سنی وائٹ" },
         image: "https://placehold.co/600x400.png",
-        hint: "white marble"
+        hint: "white marble",
+        page_description: {
+          en: "Sunny White marble offers a bright and airy feel. A timeless choice for bathrooms, walls, and decorative pieces. Learn more about this classic stone.",
+          ur: "سنی وائٹ ماربل ایک روشن اور ہوا دار احساس فراہم کرتا ہے۔ باتھ روم، دیواروں اور آرائشی ٹکڑوں کے لیے ایک لازوال انتخاب۔ اس کلاسک پتھر کے بارے میں مزید جانیں۔"
+        }
       },
        {
+        slug: "ziarat-white",
         name: { en: "Ziarat White", ur: "زیارت وائٹ" },
         image: "https://placehold.co/600x400.png",
-        hint: "Ziarat marble"
+        hint: "Ziarat marble",
+        page_description: {
+          en: "Explore Ziarat White, a premium Pakistani marble known for its pure white background and elegant veining. Ideal for luxurious and high-end applications.",
+          ur: "زیارت وائٹ کو دریافت کریں، ایک پریمیم پاکستانی ماربل جو اپنے خالص سفید پس منظر اور خوبصورت رگوں کے لیے جانا جاتا ہے۔ پرتعیش اور اعلیٰ درجے کی ایپلی کیشنز کے لیے مثالی۔"
+        }
       },
       {
+        slug: "peshawar-white",
         name: { en: "Peshawar White", ur: "پشاور وائٹ" },
         image: "https://placehold.co/600x400.png",
-        hint: "Peshawar marble"
+        hint: "Peshawar marble",
+        page_description: {
+          en: "Learn about Peshawar White marble, cherished for its clean look and durability. A great choice for both residential and commercial projects in Pakistan.",
+          ur: "پشاور وائٹ ماربل کے بارے میں جانیں، جو اپنی صاف ستھری شکل اور پائیداری کے لیے پسند کیا جاتا ہے۔ پاکستان میں رہائشی اور تجارتی دونوں منصوبوں کے لیے ایک بہترین انتخاب۔"
+        }
       },
       {
+        slug: "terbela",
         name: { en: "Terbela", ur: "تربیلا" },
         image: "https://placehold.co/600x400.png",
-        hint: "Terbela marble"
+        hint: "Terbela marble",
+        page_description: {
+          en: "Discover Terbela marble, a unique and beautiful stone from Pakistan. Learn about its distinct patterns and applications in architecture and design.",
+          ur: "تربیلا ماربل دریافت کریں، پاکستان کا ایک منفرد اور خوبصورت پتھر۔ فن تعمیر اور ڈیزائن میں اس کے مخصوص نمونوں اور ایپلی کیشنز کے بارے میں جانیں۔"
+        }
       },
       {
+        slug: "custom-marbles",
         name: { en: "Custom Marbles", ur: "کسٹم ماربلز" },
         image: "https://placehold.co/600x400.png",
-        hint: "custom marble"
+        hint: "custom marble",
+        page_description: {
+          en: "Have a specific vision? We can source and craft custom marbles to meet your unique design requirements. Contact us to discuss your project.",
+          ur: "کیا آپ کے پاس کوئی خاص وژن ہے؟ ہم آپ کی منفرد ڈیزائن کی ضروریات کو پورا کرنے کے لیے کسٹم ماربلز کا ذریعہ اور دستکاری کر سکتے ہیں۔ اپنے پروجیکٹ پر تبادلہ خیال کرنے کے لیے ہم سے رابطہ کریں۔"
+        }
       },
     ]
   },
