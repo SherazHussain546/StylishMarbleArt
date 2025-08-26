@@ -9,12 +9,12 @@ export const content = {
   },
   hero: {
     title: {
-      en: 'Exquisite Marble Artistry for Homes and Memorials',
-      ur: 'گھروں اور یادگاروں کے لیے سنگ مرمر کی عمدہ کاریگری',
+      en: 'Exquisite Marble Artistry in Karachi',
+      ur: 'کراچی میں سنگ مرمر کی عمدہ کاریگری',
     },
     subtitle: {
-      en: 'Crafting beautiful gravestones, and elegant marble for your kitchen, home, and beyond. Specialists in all types of natural and artificial marble engraving.',
-      ur: 'خوبصورت قبر کے پتھر، اور آپ کے باورچی خانے، گھر اور اس سے آگے کے لیے خوبصورت سنگ مرمر تیار کرنا۔ ہر قسم کی قدرتی اور مصنوعی سنگ مرمر کی کندہ کاری کے ماہر۔',
+      en: 'Crafting beautiful gravestones, headstones, and elegant marble for your kitchen and home. As specialists in all types of marble and granite, we serve all of Pakistan from our base in Karachi.',
+      ur: 'خوبصورت قبر کے پتھر، کتبے، اور آپ کے باورچی خانے اور گھر کے لیے خوبصورت سنگ مرمر تیار کرنا۔ ہر قسم کے ماربل اور گرینائٹ کے ماہر کے طور پر، ہم کراچی میں اپنے مرکز سے پورے پاکستان کی خدمت کرتے ہیں۔',
     },
     cta: { en: 'Explore Our Services', ur: 'ہماری خدمات دریافت کریں' },
   },
@@ -25,31 +25,31 @@ export const content = {
         icon: 'Gem',
         name: { en: 'Gravestones & Memorials', ur: 'قبر کے پتھر اور یادگاریں' },
         description: {
-          en: 'Dignified and beautifully crafted gravestones and complete grave memorials after burial.',
-          ur: 'تدفین کے بعد باوقار اور خوبصورتی سے تیار کردہ قبر کے پتھر اور مکمل قبر کی یادگاریں۔',
+          en: 'We design, craft, and install dignified and beautifully finished gravestones and complete grave memorials. Serving families with compassion across Karachi and Pakistan.',
+          ur: 'ہم باوقار اور خوبصورتی سے تیار کردہ قبر کے پتھر اور مکمل قبر کی یادگاریں ڈیزائن، تیار اور نصب کرتے ہیں۔ کراچی اور پورے پاکستان میں خاندانوں کی ہمدردی کے ساتھ خدمت کرنا۔',
         },
       },
       {
         icon: 'Home',
-        name: { en: 'Kitchen & Home Marbling', ur: 'کچن اور ہوم ماربلنگ' },
+        name: { en: 'Kitchen & Home Marble', ur: 'کچن اور ہوم ماربل' },
         description: {
-          en: 'Transform your spaces with elegant marble for kitchens, floors, and decorative features.',
-          ur: 'باورچی خانے، فرش اور آرائشی خصوصیات کے لیے خوبصورت سنگ مرمر کے ساتھ اپنی جگہوں کو تبدیل کریں۔',
+          en: 'Transform your spaces with elegant marble for kitchens, floors, and decor. Get the best price for kitchen countertops and marble flooring in Pakistan.',
+          ur: 'باورچی خانے، فرش اور سجاوٹ کے لیے خوبصورت سنگ مرمر کے ساتھ اپنی جگہوں کو تبدیل کریں۔ پاکستان میں کچن کاؤنٹر ٹاپس اور ماربل فلورنگ کے لیے بہترین قیمت حاصل کریں۔',
         },
       },
       {
         icon: 'Wrench',
         name: { en: 'Custom Marble Engraving', ur: 'کسٹم ماربل کندہ کاری' },
         description: {
-          en: 'Expert engraving on all types of marble, including natural and artificial stone.',
-          ur: 'قدرتی اور مصنوعی پتھر سمیت تمام قسم کے سنگ مرمر پر ماہرانہ کندہ کاری۔',
+          en: 'We are experts in detailed engraving on all types of stone, including Ziarat White, Black Granite, and artificial marble. Perfect for custom designs.',
+          ur: 'ہم تمام قسم کے پتھروں پر تفصیلی کندہ کاری کے ماہر ہیں، بشمول زیارت وائٹ، بلیک گرینائٹ، اور مصنوعی ماربل۔ کسٹم ڈیزائن کے لیے بہترین۔',
         },
       },
     ],
   },
   marbleTypes: {
     title: { en: "Our Marble Selection", ur: "ہمارا ماربل انتخاب" },
-    description: { en: "We work with a wide variety of high-quality natural and artificial marbles.", ur: "ہم مختلف قسم کے اعلی معیار کے قدرتی اور مصنوعی ماربل کے ساتھ کام کرتے ہیں۔" },
+    description: { en: "We work with a wide variety of high-quality natural and artificial marbles sourced locally and internationally.", ur: "ہم مقامی اور بین الاقوامی سطح پر حاصل کردہ اعلیٰ معیار کے قدرتی اور مصنوعی ماربل کی وسیع اقسام کے ساتھ کام کرتے ہیں۔" },
     types: [
       {
         slug: "rosso-verona-marble",
@@ -57,8 +57,8 @@ export const content = {
         image: "/Gallery/tom/verona.png",
         hint: "Rosso Verona",
         page_description: {
-          en: "Discover the rich, warm tones of Rosso Verona Marble. Perfect for creating a classic and luxurious feel in any space. Learn about its origins, uses, and care.",
-          ur: "روسو ویرونا ماربل کے بھرپور، گرم رنگوں کو دریافت کریں۔ کسی بھی جگہ میں ایک کلاسک اور پرتعیش احساس پیدا کرنے کے لیے بہترین۔ اس کی اصلیت، استعمال اور دیکھ بھال کے بارے میں جانیں۔"
+          en: "Rosso Verona is a premium imported marble known for its rich, reddish tones and elegant appearance. It's a perfect choice for creating a luxurious feel in flooring, wall cladding, and high-end furniture. We provide the best pricing for Rosso Verona in Pakistan.",
+          ur: "روسو ویرونا ایک پریمیم درآمد شدہ ماربل ہے جو اپنے بھرپور، سرخی مائل رنگوں اور خوبصورت شکل کے لیے جانا جاتا ہے۔ یہ فرش، دیوار کی چادر، اور اعلیٰ درجے کے فرنیچر میں پرتعیش احساس پیدا کرنے کے لیے ایک بہترین انتخاب ہے۔ ہم پاکستان میں روسو ویرونا کے لیے بہترین قیمت فراہم کرتے ہیں۔"
         }
       },
       {
@@ -67,8 +67,8 @@ export const content = {
         image: "/Gallery/tom/granite.png",
         hint: "black granite",
         page_description: {
-          en: "Explore the elegance and durability of Black Granite. Ideal for modern kitchen countertops and high-traffic flooring. Get details on its properties and maintenance.",
-          ur: "سیاہ گرینائٹ کی خوبصورتی اور پائیداری کو دریافت کریں۔ جدید کچن کاؤنٹر ٹاپس اور زیادہ ٹریفک والے فرش کے لیے مثالی۔ اس کی خصوصیات اور دیکھ بھال کے بارے میں تفصیلات حاصل کریں۔"
+          en: "Explore the elegance and durability of Black Granite. Ideal for modern kitchen countertops, gravestones, and high-traffic flooring due to its strength and classic look. We are a leading supplier in Karachi.",
+          ur: "سیاہ گرینائٹ کی خوبصورتی اور پائیداری کو دریافت کریں۔ اس کی مضبوطی اور کلاسک görünüm کی وجہ سے جدید کچن کاؤنter ٹاپس، قبر کے پتھروں، اور زیادہ ٹریفک والے فرش کے لیے مثالی۔ ہم کراچی میں ایک معروف سپلائر ہیں۔"
         }
       },
       {
@@ -77,8 +77,8 @@ export const content = {
         image: "/Gallery/tom/artificalwhite.png",
         hint: "artificial marble",
         page_description: {
-          en: "Learn about the benefits of Artificial White marble. A versatile and cost-effective solution for a clean, minimalist look. Find out about its composition and applications.",
-          ur: "مصنوعی سفید ماربل کے فوائد کے بارے میں جانیں۔ صاف، کم سے کم نظر کے لیے ایک ورسٹائل اور سرمایہ کاری مؤثر حل۔ اس کی ساخت اور ایپلی کیشنز کے بارے میں معلوم کریں۔"
+          en: "Artificial White marble provides a clean, consistent, and minimalist look. It's a versatile and cost-effective solution for flooring, bathrooms, and commercial spaces. A popular choice in modern Pakistani homes.",
+          ur: "مصنوعی سفید ماربل ایک صاف، مستقل، اور کم سے کم نظر فراہم کرتا ہے۔ یہ فرش، باتھ روم، اور تجارتی جگہوں کے لیے ایک ورسٹائل اور سرمایہ کاری مؤثر حل ہے۔ جدید پاکستانی گھروں میں ایک مقبول انتخاب۔"
         }
       },
       {
@@ -87,8 +87,8 @@ export const content = {
         image: "/Gallery/tom/sunnygrey.png",
         hint: "grey marble",
         page_description: {
-          en: "Discover Sunny Grey marble, a popular choice for contemporary designs. Its subtle tones and patterns add sophistication to any interior. Read about its characteristics.",
-          ur: "سنی گرے ماربل دریافت کریں، جو عصری ڈیزائنوں کے لیے ایک مقبول انتخاب ہے۔ اس کے لطیف رنگ اور نمونے کسی بھی داخلہ میں نفاست کا اضافہ کرتے ہیں۔ اس کی خصوصیات کے بارے میں پڑھیں۔"
+          en: "Sunny Grey marble is a top choice for contemporary designs in Pakistan. Its subtle grey tones and light patterns add a touch of sophistication to any interior, including floors, walls, and staircases.",
+          ur: "سنی گرے ماربل پاکستان میں عصری ڈیزائنوں کے لیے ایک اولین انتخاب ہے۔ اس کے لطیف سرمئی رنگ اور ہلکے نمونے کسی بھی داخلہ میں نفاست کا اضافہ کرتے ہیں، بشمول فرش، دیواریں، اور سیڑھیاں۔"
         }
       },
        {
@@ -97,8 +97,8 @@ export const content = {
         image: "/Gallery/tom/sunnywhite.png",
         hint: "white marble",
         page_description: {
-          en: "Sunny White marble offers a bright and airy feel. A timeless choice for bathrooms, walls, and decorative pieces. Learn more about this classic stone.",
-          ur: "سنی وائٹ ماربل ایک روشن اور ہوا دار احساس فراہم کرتا ہے۔ باتھ روم، دیواروں اور آرائشی ٹکڑوں کے لیے ایک لازوال انتخاب۔ اس کلاسک پتھر کے بارے میں مزید جانیں۔"
+          en: "Sunny White marble offers a bright and airy feel, making spaces appear larger. A timeless choice for bathrooms, walls, and decorative pieces, it is a highly sought-after marble in Karachi's market.",
+          ur: "سنی وائٹ ماربل ایک روشن اور ہوا دار احساس فراہم کرتا ہے، جس سے جگہیں بڑی دکھائی دیتی ہیں۔ باتھ روم، دیواروں اور آرائشی ٹکڑوں کے لیے ایک لازوال انتخاب، یہ کراچی کی مارکیٹ میں بہت زیادہ مانگا جانے والا ماربل ہے۔"
         }
       },
        {
@@ -107,8 +107,8 @@ export const content = {
         image: "/Gallery/tom/ziaratwhite.png",
         hint: "Ziarat marble",
         page_description: {
-          en: "Explore Ziarat White, a premium Pakistani marble known for its pure white background and elegant veining. Ideal for luxurious and high-end applications.",
-          ur: "زیارت وائٹ کو دریافت کریں، ایک پریمیم پاکستانی ماربل جو اپنے خالص سفید پس منظر اور خوبصورت رگوں کے لیے جانا جاتا ہے۔ پرتعیش اور اعلیٰ درجے کی ایپلی کیشنز کے لیے مثالی۔"
+          en: "Explore Ziarat White, a premium Pakistani marble known for its pure white background and elegant veining. Ideal for luxurious applications, from flooring to detailed memorial engravings.",
+          ur: "زیارت وائٹ کو دریافت کریں، ایک پریمیم پاکستانی ماربل جو اپنے خالص سفید پس منظر اور خوبصورت رگوں کے لیے جانا جاتا ہے۔ پرتعیش ایپلی کیشنز کے لیے مثالی، فرش سے لے کر تفصیلی یادگاری کندہ کاری تک۔"
         }
       },
       {
@@ -117,8 +117,8 @@ export const content = {
         image: "/Gallery/tom/peshawarwhite.png",
         hint: "Peshawar marble",
         page_description: {
-          en: "Learn about Peshawar White marble, cherished for its clean look and durability. A great choice for both residential and commercial projects in Pakistan.",
-          ur: "پشاور وائٹ ماربل کے بارے میں جانیں، جو اپنی صاف ستھری شکل اور پائیداری کے لیے پسند کیا جاتا ہے۔ پاکستان میں رہائشی اور تجارتی دونوں منصوبوں کے لیے ایک بہترین انتخاب۔"
+          en: "Peshawar White marble is cherished for its clean look and durability. A great, affordable choice for both residential and commercial projects across Pakistan, from wall cladding to custom furniture.",
+          ur: "پشاور وائٹ ماربل اپنی صاف ستھری شکل اور پائیداری کے لیے پسند کیا جاتا ہے۔ پورے پاکستان میں رہائشی اور تجارتی دونوں منصوبوں کے لیے ایک بہترین، سستی انتخاب، دیوار کی چادر سے لے کر کسٹم فرنیچر تک۔"
         }
       },
       {
@@ -127,8 +127,8 @@ export const content = {
         image: "/Gallery/tom/tarbela.png",
         hint: "Terbela marble",
         page_description: {
-          en: "Discover Terbela marble, a unique and beautiful stone from Pakistan. Learn about its distinct patterns and applications in architecture and design.",
-          ur: "تربیلا ماربل دریافت کریں، پاکستان کا ایک منفرد اور خوبصورت پتھر۔ فن تعمیر اور ڈیزائن میں اس کے مخصوص نمونوں اور ایپلی کیشنز کے بارے میں جانیں۔"
+          en: "Discover Terbela marble, a unique and beautiful stone from Pakistan, known for its distinctive patterns. We use it for a variety of applications in architecture and design, including stunning inlay work.",
+          ur: "تربیلا ماربل دریافت کریں، پاکستان کا ایک منفرد اور خوبصورت پتھر، جو اپنے مخصوص نمونوں کے لیے جانا جاتا ہے۔ ہم اسے فن تعمیر اور ڈیزائن میں مختلف قسم کی ایپلی کیشنز کے لیے استعمال کرتے ہیں، بشمول شاندار جڑاؤ کا کام۔"
         }
       },
       {
@@ -137,36 +137,36 @@ export const content = {
         image: "/Gallery/tom/custommarble.png",
         hint: "custom marble",
         page_description: {
-          en: "Have a specific vision? We can source and craft custom marbles to meet your unique design requirements. Contact us to discuss your project.",
-          ur: "کیا آپ کے پاس کوئی خاص وژن ہے؟ ہم آپ کی منفرد ڈیزائن کی ضروریات کو پورا کرنے کے لیے کسٹم ماربلز کا ذریعہ اور دستکاری کر سکتے ہیں۔ اپنے پروجیکٹ پر تبادلہ خیال کرنے کے لیے ہم سے رابطہ کریں۔"
+          en: "Have a specific vision? We can source and craft custom marbles to meet your unique design requirements. We are experts in creating bespoke memorials, countertops, and flooring. Contact us to discuss your project.",
+          ur: "کیا آپ کے پاس کوئی خاص وژن ہے؟ ہم آپ کی منفرد ڈیزائن کی ضروریات کو پورا کرنے کے لیے کسٹم ماربلز کا ذریعہ اور دستکاری کر سکتے ہیں۔ ہم bespoke یادگاریں، کاؤنٹر ٹاپس، اور فرش بنانے میں ماہر ہیں۔ اپنے پروجیکٹ پر تبادلہ خیال کرنے کے لیے ہم سے رابطہ کریں۔"
         }
       },
     ]
   },
   homeAbout: {
-    title: { en: 'A Legacy of Artistry', ur: 'فنکاری کی میراث' },
+    title: { en: 'A Legacy of Artistry in Pakistan', ur: 'پاکستان میں فنکاری کی میراث' },
     paragraph1: {
-      en: 'Stylish Marble Art is a family-owned business dedicated to the art of marble craftsmanship. From respectful memorials to stunning home interiors, we bring precision, care, and artistry to every project. We believe in creating lasting beauty in stone.',
-      ur: 'سٹائلش ماربل آرٹ ایک خاندانی کاروبار ہے جو ماربل کی دستکاری کے فن کے لیے وقف ہے۔ قابل احترام یادگاروں سے لے کر شاندار گھریلو اندرونی حصوں تک، ہم ہر پروجیکٹ میں درستگی، دیکھ بھال اور فنکاری لاتے ہیں۔ ہم پتھر میں دیرپا خوبصورتی پیدا کرنے پر یقین رکھتے ہیں۔',
+      en: 'Stylish Marble Art is a family-owned business in Karachi, dedicated to the art of marble craftsmanship. From respectful memorials to stunning home interiors, we bring precision, care, and artistry to every project. We are proud to serve clients across Pakistan, creating lasting beauty in stone.',
+      ur: 'سٹائلش ماربل آرٹ کراچی میں ایک خاندانی کاروبار ہے جو ماربل کی دستکاری کے فن کے لیے وقف ہے۔ قابل احترام یادگاروں سے لے کر شاندار گھریلو اندرونی حصوں تک، ہم ہر پروجیکٹ میں درستگی، دیکھ بھال اور فنکاری لاتے ہیں۔ ہمیں پورے پاکستان میں گاہکوں کی خدمت کرنے پر فخر ہے، پتھر میں دیرپا خوبصورتی پیدا کرتے ہوئے۔',
     },
     paragraph2: {
-      en: 'Our artisans combine traditional techniques with modern technology to work with all types of marble, ensuring the highest quality and durability. We are honored to bring your vision to life in marble.',
-      ur: 'ہمارے کاریگر ہر قسم کے سنگ مرمر کے ساتھ کام کرنے کے لیے روایتی تکنیک کو جدید ٹیکنالوجی کے ساتھ ملاتے ہیں، اعلیٰ ترین معیار اور پائیداری کو یقینی بناتے ہیں۔ ہمیں آپ کے وژن کو سنگ مرمر میں زندہ کرنے پر فخر ہے۔',
+      en: 'Our artisans combine traditional techniques with modern technology to work with all types of marble, ensuring the highest quality and durability. We are honored to bring your vision to life, whether it\'s a gravestone, a kitchen countertop, or a custom engraving project.',
+      ur: 'ہمارے کاریگر ہر قسم کے سنگ مرمر کے ساتھ کام کرنے کے لیے روایتی تکنیک کو جدید ٹیکنالوجی کے ساتھ ملاتے ہیں، اعلیٰ ترین معیار اور پائیداری کو یقینی بناتے ہیں۔ ہمیں آپ کے وژن کو زندہ کرنے پر فخر ہے، چاہے وہ قبر کا پتھر ہو، کچن کا کاؤنٹر ٹاپ ہو، یا کسٹم کندہ کاری کا منصوبہ ہو۔',
     },
     cta: { en: 'Learn More About Us', ur: 'ہمارے بارے میں مزید جانیں' },
   },
   servicesPage: {
-    title: { en: 'Our Services', ur: 'ہماری خدمات' },
+    title: { en: 'Our Marble & Engraving Services', ur: 'ہماری ماربل اور کندہ کاری کی خدمات' },
     description: {
-      en: 'We offer a comprehensive range of marble services, from memorial crafting to home installations. Our team is here to guide you through every step of the process with care and professionalism.',
-      ur: 'ہم یادگار کی تیاری سے لے کر گھر کی تنصیبات تک ماربل کی خدمات کی ایک جامع رینج پیش کرتے ہیں۔ ہماری ٹیم دیکھ بھال اور پیشہ ورانہ مہارت کے ساتھ اس عمل کے ہر قدم پر آپ کی رہنمائی کے لیے حاضر ہے۔',
+      en: 'We offer a complete range of marble services in Karachi, from memorial crafting to home installations. Our expert team is here to guide you through every step with care and professionalism.',
+      ur: 'ہم کراچی میں یادگار کی تیاری سے لے کر گھر کی تنصیبات تک ماربل کی خدمات کی ایک مکمل رینج پیش کرتے ہیں۔ ہماری ماہر ٹیم دیکھ بھال اور پیشہ ورانہ مہارت کے ساتھ ہر قدم پر آپ کی رہنمائی کے لیے حاضر ہے۔',
     },
     serviceList: [
        {
         name: { en: 'Gravestones & Grave Making', ur: 'قبر کے پتھر اور قبر بنانا' },
         description: {
-          en: 'We provide compassionate services for creating and installing gravestones and preparing graves after burial. We handle everything with dignity and respect for your loved ones.',
-          ur: 'ہم قبر کے پتھر بنانے اور نصب کرنے اور تدفین کے بعد قبریں تیار کرنے کے لیے ہمدردانہ خدمات فراہم کرتے ہیں۔ ہم آپ کے پیاروں کے لیے ہر چیز کو وقار اور احترام کے ساتھ سنبھالتے ہیں۔',
+          en: 'We provide compassionate services for creating and installing custom gravestones and headstones. We also handle the complete preparation of graves after burial. We handle everything with dignity and respect for your loved ones.',
+          ur: 'ہم اپنی مرضی کے مطابق قبر کے پتھر اور کتبے بنانے اور نصب کرنے کے لیے ہمدردانہ خدمات فراہم کرتے ہیں۔ ہم تدفین کے بعد قبروں کی مکمل تیاری بھی سنبھالتے ہیں۔ ہم آپ کے پیاروں کے لیے ہر چیز کو وقار اور احترام کے ساتھ سنبھالتے ہیں۔',
         },
         images: [
           { src: '/Gallery/Grave/8.png', alt: 'Custom marble gravestone by Stylish Marble Art', hint: 'gravestone' },
@@ -184,8 +184,8 @@ export const content = {
       {
         name: { en: 'Kitchen & Home Marble Installation', ur: 'کچن اور ہوم ماربل کی تنصیب' },
         description: {
-          en: 'Elevate your home with our custom marble works. We specialize in kitchen countertops, flooring, wall cladding, and other decorative elements. We work with a vast selection of marbles to match your style.',
-          ur: 'ہمارے کسٹم ماربل کے کاموں سے اپنے گھر کو بلند کریں۔ ہم باورچی خانے کے کاؤنٹر ٹاپس، فرش، دیوار کی چادر، اور دیگر آرائشی عناصر میں مہارت رکھتے ہیں۔ ہم آپ کے انداز سے ملنے کے لیے ماربل کے وسیع انتخاب کے ساتھ کام کرتے ہیں۔',
+          en: 'Elevate your home with our custom marble works. We specialize in kitchen countertops, flooring, wall cladding, and other decorative elements. We offer the best prices for marble in Pakistan, working with a vast selection of stones to match your style.',
+          ur: 'ہمارے کسٹم ماربل کے کاموں سے اپنے گھر کو بلند کریں۔ ہم باورچی خانے کے کاؤنٹر ٹاپس، فرش، دیوار کی چادر، اور دیگر آرائشی عناصر میں مہارت رکھتے ہیں۔ ہم آپ کے انداز سے ملنے کے لیے پتھروں کے وسیع انتخاب کے ساتھ کام کرتے ہوئے پاکستان میں ماربل کے لیے بہترین قیمتیں پیش کرتے ہیں۔',
         },
         images: [
           { src: '/Gallery/HomeDecor/1.png', alt: 'Modern marble kitchen countertop installation in Karachi', hint: 'kitchen countertop' },
@@ -203,8 +203,8 @@ export const content = {
       {
         name: { en: 'Custom Engraving on Natural & Artificial Marble', ur: 'قدرتی اور مصنوعی ماربل پر کسٹم کندہ کاری' },
         description: {
-          en: 'Our state-of-the-art engraving technology allows for intricate designs, text, and portraits on any marble surface, including both natural stone and modern artificial composites. Perfect for personalization.',
-          ur: 'ہماری جدید ترین کندہ کاری کی ٹیکنالوجی قدرتی پتھر اور جدید مصنوعی مرکبات سمیت کسی بھی سنگ مرمر کی سطح پر پیچیدہ ڈیزائن، متن اور پورٹریٹ کی اجازت دیتی ہے۔ ذاتی نوعیت کے لیے کامل۔',
+          en: 'Our state-of-the-art engraving allows for intricate designs, text, and portraits on any marble surface, including natural stone (like Ziarat White) and modern artificial composites. Perfect for personalizing memorials and plaques.',
+          ur: 'ہماری جدید ترین کندہ کاری قدرتی پتھر (جیسے زیارت وائٹ) اور جدید مصنوعی مرکبات سمیت کسی بھی سنگ مرمر کی سطح پر پیچیدہ ڈیزائن، متن اور پورٹریٹ کی اجازت دیتی ہے۔ یادگاروں اور تختیوں کو ذاتی بنانے کے لیے بہترین۔',
         },
         images: [
           { src: '/Gallery/Charity/1.png', alt: 'Intricate floral pattern engraving on marble', hint: 'marble engraving' },
@@ -222,8 +222,8 @@ export const content = {
       {
         name: { en: 'Marble Repair & Restoration', ur: 'ماربل کی مرمت اور بحالی' },
         description: {
-          en: 'We restore the beauty of your existing marble surfaces. Our services include chip repair, polishing, and cleaning to bring back the original luster of your marble installations and memorials.',
-          ur: 'ہم آپ کی موجودہ سنگ مرمر کی سطحوں کی خوبصورتی کو بحال کرتے ہیں۔ ہماری خدمات میں آپ کے ماربل کی تنصیبات اور یادگاروں کی اصل چمک واپس لانے کے لیے چپ کی مرمت، پالش اور صفائی شامل ہے۔',
+          en: 'We restore the beauty of your existing marble. Our services include chip repair, polishing, and professional cleaning to bring back the original luster of your marble installations and memorials in Karachi.',
+          ur: 'ہم آپ کے موجودہ سنگ مرمر کی خوبصورتی کو بحال کرتے ہیں۔ ہماری خدمات میں کراچی میں آپ کے ماربل کی تنصیبات اور یادگاروں کی اصل چمک واپس لانے کے لیے چپ کی مرمت، پالش اور پیشہ ورانہ صفائی شامل ہے۔',
         },
         images: [
           { src: '/Gallery/tom/custommarble.png', alt: 'Polishing a marble surface to restore its shine', hint: 'marble polishing' },
@@ -241,22 +241,22 @@ export const content = {
     ],
   },
   galleryPage: {
-    title: { en: 'Our Work', ur: 'ہمارا کام' },
+    title: { en: 'Our Work Gallery', ur: 'ہمارے کام کی گیلری' },
     description: {
-      en: 'A collection of memorials, kitchen installations, and custom engravings we have had the honor of crafting. Each piece reflects our commitment to quality.',
-      ur: 'یادگاروں، باورچی خانے کی تنصیبات، اور اپنی مرضی کے مطابق کندہ کاریوں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اعزاز حاصل ہوا ہے۔ ہر ٹکڑا معیار کے لیے ہماری وابستگی کی عکاسی کرتا ہے۔',
+      en: 'A collection of memorials, kitchen installations, and custom engravings we have had the honor of crafting for our clients in Karachi and across Pakistan.',
+      ur: 'یادگاروں، باورچی خانے کی تنصیبات، اور اپنی مرضی کے مطابق کندہ کاریوں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اپنے گاہکوں کے لیے کراچی اور پورے پاکستان میں اعزاز حاصل ہوا ہے۔',
     },
   },
   aboutPage: {
     title: { en: 'About Stylish Marble Art', ur: 'سٹائلش ماربل آرٹ کے بارے میں' },
     subtitle: {
-      en: 'Generations of Dedication to the Art of Marble',
-      ur: 'سنگ مرمر کے فن کے لیے نسلوں کی لگن',
+      en: 'Generations of Dedication to the Art of Marble in Pakistan',
+      ur: 'پاکستان میں سنگ مرمر کے فن کے لیے نسلوں کی لگن',
     },
     ourStoryTitle: { en: 'Our Story', ur: 'ہماری کہانی' },
     ourStoryText: {
-      en: 'Founded over fifty years ago, Stylish Marble Art began with a simple mission: to provide families and homeowners with beautiful, high-quality marble work that stands the test of time. As a family-run business, we understand the importance of legacy and beauty. We have passed down our skills through generations, blending time-honored stonemasonry with a compassionate approach to memorial services and a keen eye for design in home applications. Our history is built on the trust of the communities we serve.',
-      ur: 'پچاس سال سے زیادہ پہلے قائم کیا گیا، سٹائلش ماربل آرٹ نے ایک سادہ مشن کے ساتھ آغاز کیا: خاندانوں اور گھر کے مالکان کو خوبصورت، اعلیٰ معیار کا ماربل کا کام فراہم کرنا جو وقت کی کسوٹی پر کھڑا ہو۔ ایک خاندانی کاروبار کے طور پر، ہم میراث اور خوبصورتی کی اہمیت کو سمجھتے ہیں۔ ہم نے اپنی مہارتوں کو نسلوں سے منتقل کیا ہے، وقت کے اعزاز والے پتھر کے کام کو یادگاری خدمات کے لیے ایک ہمدردانہ نقطہ نظر اور گھریلو ایپلی کیشنز میں ڈیزائن کے لیے گہری نظر کے ساتھ ملایا ہے۔ ہماری تاریخ ان کمیونٹیز کے اعتماد پر مبنی ہے جن کی ہم خدمت کرتے ہیں۔',
+      en: 'Founded over fifty years ago in Karachi, Stylish Marble Art began with a simple mission: to provide families and homeowners with beautiful, high-quality marble work that stands the test of time. As a family-run business, we understand the importance of legacy and beauty. We have passed down our skills through generations, blending time-honored stonemasonry with a compassionate approach to memorial services and a keen eye for design in home applications. Our history is built on the trust of the communities we serve across Pakistan.',
+      ur: 'پچاس سال سے زیادہ پہلے کراچی میں قائم کیا گیا، سٹائلش ماربل آرٹ نے ایک سادہ مشن کے ساتھ آغاز کیا: خاندانوں اور گھر کے مالکان کو خوبصورت، اعلیٰ معیار کا ماربل کا کام فراہم کرنا جو وقت کی کسوٹی پر کھڑا ہو۔ ایک خاندانی کاروبار کے طور پر، ہم میراث اور خوبصورتی کی اہمیت کو سمجھتے ہیں۔ ہم نے اپنی مہارتوں کو نسلوں سے منتقل کیا ہے، وقت کے اعزاز والے پتھر کے کام کو یادگاری خدمات کے لیے ایک ہمدردانہ نقطہ نظر اور گھریلو ایپلی کیشنز میں ڈیزائن کے لیے گہری نظر کے ساتھ ملایا ہے۔ ہماری تاریخ پورے پاکستان میں ان کمیونٹیز کے اعتماد پر مبنی ہے جن کی ہم خدمت کرتے ہیں۔',
     },
     ourValuesTitle: { en: 'Our Values', ur: 'ہماری اقدار' },
     values: [
@@ -270,24 +270,24 @@ export const content = {
       {
         name: { en: 'Craftsmanship', ur: 'دستکاری' },
         description: {
-          en: 'We are committed to the highest standards of quality in every detail of our work.',
-          ur: 'ہم اپنے کام کی ہر تفصیل میں معیار کے اعلیٰ ترین معیارات کے لیے پرعزم ہیں۔',
+          en: 'We are committed to the highest standards of quality in every detail of our work, from gravestones to kitchen counters.',
+          ur: 'ہم اپنے کام کی ہر تفصیل میں معیار کے اعلیٰ ترین معیارات کے لیے پرعزم ہیں، قبر کے پتھروں سے لے کر کچن کاؤنٹر تک۔',
         },
       },
       {
         name: { en: 'Integrity', ur: 'سالمیت' },
         description: {
-          en: 'We operate with honesty and transparency, ensuring you feel confident and supported.',
-          ur: 'ہم ایمانداری اور شفافیت کے ساتھ کام کرتے ہیں، اس بات کو یقینی بناتے ہوئے کہ آپ پراعتماد اور معاون محسوس کریں۔',
+          en: 'We operate with honesty and transparency, ensuring you feel confident and supported in your decisions.',
+          ur: 'ہم ایمانداری اور شفافیت کے ساتھ کام کرتے ہیں، اس بات کو یقینی بناتے ہوئے کہ آپ اپنے فیصلوں میں پراعتماد اور معاون محسوس کریں۔',
         },
       },
     ],
   },
   contactPage: {
-    title: { en: 'Get in Touch', ur: 'رابطے میں رہیں' },
+    title: { en: 'Get in Touch With Us', ur: 'ہم سے رابطہ کریں' },
     description: {
-      en: 'We are here to help. Whether you have a question about our services or need guidance, please do not hesitate to reach out. Fill out the form below or contact us directly.',
-      ur: 'ہم مدد کے لیے حاضر ہیں۔ چاہے آپ کو ہماری خدمات کے بارے میں کوئی سوال ہو یا رہنمائی کی ضرورت ہو، براہ کرم رابطہ کرنے میں ہچکچاہٹ محسوس نہ کریں۔ نیچے دیا گیا فارم پر کریں یا ہم سے براہ راست رابطہ کریں۔',
+      en: 'We are here to help. For questions about marble prices, gravestone designs, or to get a quote, please reach out. Fill out the form below or contact us directly in Karachi.',
+      ur: 'ہم مدد کے لیے حاضر ہیں۔ ماربل کی قیمتوں، قبر کے پتھر کے ڈیزائن کے بارے میں سوالات کے لیے، یا کوٹیشن حاصل کرنے کے لیے، براہ کرم رابطہ کریں۔ نیچے دیا گیا فارم پر کریں یا کراچی میں ہم سے براہ راست رابطہ کریں۔',
     },
     form: {
       name: { en: 'Full Name', ur: 'پورا نام' },
@@ -306,9 +306,9 @@ export const content = {
       generating: { en: 'Generating...', ur: 'بنا رہا ہے...' },
       topics: {
         inquiry: { en: 'General Inquiry', ur: 'عمومی پوچھ گچھ' },
-        pricing: { en: 'Service Pricing', ur: 'سروس کی قیمت' },
+        pricing: { en: 'Service & Marble Pricing', ur: 'سروس اور ماربل کی قیمت' },
         appointment: { en: 'Schedule an Appointment', ur: 'ملاقات کا وقت طے کریں' },
-        support: { en: 'Grave Services', ur: 'قبر کی خدمات' },
+        support: { en: 'Grave Services & Memorials', ur: 'قبر کی خدمات اور یادگاریں' },
       }
     },
     contactInfo: {
@@ -320,8 +320,8 @@ export const content = {
   },
   footer: {
     tagline: {
-      en: 'We Deal in all kinds of Marble, Granite & Imported Marble',
-      ur: 'ہم ہر قسم کے ماربل، گرینائٹ اور امپورٹڈ ماربل میں ڈیل کرتے ہیں۔',
+      en: 'We Deal in all kinds of Marble, Granite & Imported Marble in Pakistan',
+      ur: 'ہم پاکستان میں ہر قسم کے ماربل، گرینائٹ اور امپورٹڈ ماربل میں ڈیل کرتے ہیں۔',
     },
     quickLinks: { en: 'Quick Links', ur: 'فوری لنکس' },
     legal: {

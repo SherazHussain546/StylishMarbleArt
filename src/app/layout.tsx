@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
@@ -8,11 +9,11 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Stylish Marble Art - Gravestones, Kitchens & Custom Marble Works in Karachi',
+    default: 'Stylish Marble Art - Gravestones, Kitchens & Custom Marble in Karachi',
     template: '%s | Stylish Marble Art',
   },
   description:
-    'Karachi-based experts in premium gravestones, memorials, and custom marble work for kitchens and homes. We specialize in all types of marble and granite engraving, including Ziarat White, Black Granite, and custom designs. Contact us for a quote.',
+    'Karachi-based experts in premium gravestones, memorials, & custom marble work for kitchens & homes. We specialize in all types of marble and granite engraving, including Ziarat White & Black Granite. Contact us for a quote in Pakistan.',
   keywords: [
     'Stylish Marble Art', 'gravestones Karachi', 'marble engraving Pakistan', 'memorial services', 'custom headstones',
     'kitchen marble', 'home marble installation', 'artificial marble', 'granite countertops', 'tombstone design',
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     'قبر کے کتبے کراچی', 'سنگ مرمر کی کندہ کاری', 'یادگار خدمات', 'باورچی خانے کا ماربل', 'ماربل ڈیزائن'
   ],
    openGraph: {
-    title: 'Stylish Marble Art - Premium Marble Services in Karachi',
+    title: 'Stylish Marble Art - Premium Marble Services in Karachi, Pakistan',
     description: 'Specialists in beautiful gravestones, memorials, and custom marble for kitchens and homes.',
     url: 'https://www.stylishmarbleart.com',
     siteName: 'Stylish Marble Art',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
         url: '/SMAHeader.png',
         width: 1200,
         height: 630,
-        alt: 'A beautiful memorial by Stylish Marble Art',
+        alt: 'A beautiful memorial by Stylish Marble Art in Karachi',
       },
     ],
     locale: 'en_US',
