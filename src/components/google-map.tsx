@@ -1,3 +1,4 @@
+
 'use client';
 
 interface GoogleMapProps {
@@ -5,7 +6,7 @@ interface GoogleMapProps {
 }
 
 export function GoogleMap({ apiKey }: GoogleMapProps) {
-    const address = "Stylish Marble Art, Malir 15, Main National Highway, Karachi";
+    const address = "V5HR+38 Ghazi Dawood Brohi Goth, Karachi, Pakistan";
     const embedUrl = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(address)}`;
 
     return (
