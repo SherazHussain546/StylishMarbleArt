@@ -1,8 +1,11 @@
+
 'use server';
 
 import { draftMessage, type DraftMessageInput } from '@/ai/flows/draft-message';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -18,11 +21,11 @@ export async function submitContactForm(data: z.infer<typeof formSchema>) {
 
   const { name, email, message } = validation.data;
 
-  // Create a transporter object using SMTP transport
+  // 1. Send the email
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports
+    secure: process.env.SMTP_PORT === '465',
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -30,20 +33,32 @@ export async function submitContactForm(data: z.infer<typeof formSchema>) {
   });
 
   try {
-    // Send mail with defined transport object
     await transporter.sendMail({
-      from: `"Stylish Marble Art" <${process.env.SMTP_FROM_EMAIL}>`, // sender address
-      to: process.env.SMTP_TO_EMAIL, // list of receivers
-      subject: `New message from ${name} via your website`, // Subject line
-      text: message, // plain text body
-      html: `<b>New message from:</b> ${name}<br/><b>Email:</b> ${email}<br/><br/><b>Message:</b><br/>${message.replace(/\n/g, '<br/>')}`, // html body
+      from: `"Stylish Marble Art" <${process.env.SMTP_FROM_EMAIL}>`,
+      to: process.env.SMTP_TO_EMAIL,
+      subject: `New message from ${name} via your website`,
+      text: message,
+      html: `<b>New message from:</b> ${name}<br/><b>Email:</b> ${email}<br/><br/><b>Message:</b><br/>${message.replace(/\n/g, '<br/>')}`,
       replyTo: email,
     });
-    console.log('Message sent successfully');
-    return { success: true };
   } catch (error) {
     console.error('Error sending email:', error);
-    return { success: false, error: 'Failed to send message.' };
+    // We can choose to continue even if email fails, as the message will be in the dashboard
+  }
+
+  // 2. Save the message to Firestore
+  try {
+    await addDoc(collection(db, 'contact-messages'), {
+      name,
+      email,
+      message,
+      createdAt: serverTimestamp(),
+      read: false,
+    });
+    return { success: true };
+  } catch (error) {
+     console.error('Error saving message to Firestore:', error);
+     return { success: false, error: 'Failed to save message.' };
   }
 }
 
