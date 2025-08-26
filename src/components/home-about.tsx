@@ -22,7 +22,7 @@ export function HomeAbout() {
           </div>
           <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
             <Image
-              src="https://placehold.co/600x400.png"
+              src="/Gallery/tom/artist.png"
               alt="Artisan carving a stone"
               data-ai-hint="artisan carving"
               fill
