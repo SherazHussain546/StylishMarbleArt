@@ -52,34 +52,49 @@ export const content = {
     description: { en: "We work with a wide variety of high-quality natural and artificial marbles.", ur: "ہم مختلف قسم کے اعلی معیار کے قدرتی اور مصنوعی ماربل کے ساتھ کام کرتے ہیں۔" },
     types: [
       {
-        name: { en: "Carrara Marble", ur: "کرارا ماربل" },
+        name: { en: "Rosso Verona Marble", ur: "روسو ویرونا ماربل" },
         image: "https://placehold.co/600x400.png",
-        hint: "Carrara marble"
+        hint: "Rosso Verona"
       },
       {
-        name: { en: "Calacatta Marble", ur: "کالاکٹا ماربل" },
+        name: { en: "Black Granite", ur: "سیاہ گرینائٹ" },
         image: "https://placehold.co/600x400.png",
-        hint: "Calacatta marble"
+        hint: "black granite"
       },
       {
-        name: { en: "Statuario Marble", ur: "سٹیٹواریو ماربل" },
-        image: "https://placehold.co/600x400.png",
-        hint: "Statuario marble"
-      },
-      {
-        name: { en: "Emperador Marble", ur: "ایمپراڈور ماربل" },
-        image: "https://placehold.co/600x400.png",
-        hint: "Emperador marble"
-      },
-       {
-        name: { en: "Artificial White Marble", ur: "مصنوعی سفید ماربل" },
+        name: { en: "Artificial White", ur: "مصنوعی سفید" },
         image: "https://placehold.co/600x400.png",
         hint: "artificial marble"
       },
-       {
-        name: { en: "Black and Gold Marble", ur: "سیاہ اور گولڈ ماربل" },
+      {
+        name: { en: "Sunny Grey", ur: "سنی گرے" },
         image: "https://placehold.co/600x400.png",
-        hint: "black gold marble"
+        hint: "grey marble"
+      },
+       {
+        name: { en: "Sunny White", ur: "سنی وائٹ" },
+        image: "https://placehold.co/600x400.png",
+        hint: "white marble"
+      },
+       {
+        name: { en: "Ziarat White", ur: "زیارت وائٹ" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Ziarat marble"
+      },
+      {
+        name: { en: "Peshawar White", ur: "پشاور وائٹ" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Peshawar marble"
+      },
+      {
+        name: { en: "Terbela", ur: "تربیلا" },
+        image: "https://placehold.co/600x400.png",
+        hint: "Terbela marble"
+      },
+      {
+        name: { en: "Custom Marbles", ur: "کسٹم ماربلز" },
+        image: "https://placehold.co/600x400.png",
+        hint: "custom marble"
       },
     ]
   },
