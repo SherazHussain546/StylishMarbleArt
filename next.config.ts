@@ -8,7 +8,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co data:;
   font-src 'self';  
-  connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com;
+  connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com;
   frame-src 'self' https://www.google.com;
   upgrade-insecure-requests;
 `;
