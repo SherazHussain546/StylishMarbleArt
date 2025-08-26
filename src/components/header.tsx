@@ -12,11 +12,18 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/auth-context';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language } = useLanguage();
   const pathname = usePathname();
+  const { user, loading } = useAuth();
+  
+  // Hide header on admin routes
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
 
   const navLinks = [
     { href: '/', label: content.nav.home[language] },

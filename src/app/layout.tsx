@@ -2,6 +2,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
+import { AuthProvider } from '@/contexts/auth-context';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { WhatsAppButton } from '@/components/whatsapp-button';
@@ -57,15 +58,17 @@ export default function RootLayout({
       <head>
       </head>
       <body className="font-body antialiased">
-        <LanguageProvider>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-          <WhatsAppButton phoneNumber="+923002193808" />
-          <Toaster />
-        </LanguageProvider>
+        <AuthProvider>
+          <LanguageProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+            <WhatsAppButton phoneNumber="+923002193808" />
+            <Toaster />
+          </LanguageProvider>
+        </AuthProvider>
       </body>
     </html>
   );

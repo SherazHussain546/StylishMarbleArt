@@ -7,9 +7,16 @@ import { Logo } from './logo';
 import { Mail } from 'lucide-react';
 import { FacebookIcon } from './icons/facebook-icon';
 import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
+import { usePathname } from 'next/navigation';
 
 export function Footer() {
   const { language } = useLanguage();
+  const pathname = usePathname();
+
+  // Hide footer on admin routes
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
 
   const navLinks = [
     { href: '/', label: content.nav.home[language] },

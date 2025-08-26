@@ -1,12 +1,19 @@
 'use client';
 
 import { WhatsappStickyIcon } from './icons/whatsapp-sticky-icon';
+import { usePathname } from 'next/navigation';
 
 interface WhatsAppButtonProps {
   phoneNumber: string;
 }
 
 export function WhatsAppButton({ phoneNumber }: WhatsAppButtonProps) {
+  const pathname = usePathname();
+
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   const openWhatsApp = () => {
     const internationalNumber = phoneNumber.replace('+', '').replace(/\s/g, '');
     window.open(`https://wa.me/${internationalNumber}`, '_blank');
