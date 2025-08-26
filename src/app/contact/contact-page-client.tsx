@@ -4,13 +4,17 @@
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { ContactForm } from './contact-form';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone, ExternalLink } from 'lucide-react';
 import { GoogleMap } from '@/components/google-map';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function ContactPageClient() {
   const { language } = useLanguage();
   const pageContent = content.contactPage;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const address = "V5HR+38 Ghazi Dawood Brohi Goth, Karachi, Pakistan";
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
 
   return (
     <div className="bg-secondary">
@@ -43,6 +47,12 @@ export default function ContactPageClient() {
                 </a>
               </div>
             </div>
+            <Button asChild size="lg">
+              <Link href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                {language === 'en' ? 'Get Directions' : 'ہدایات حاصل کریں'}
+                <ExternalLink className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
              <div className="mt-8 h-96 w-full overflow-hidden rounded-lg shadow-xl">
               {apiKey ? (
                 <GoogleMap apiKey={apiKey} />
