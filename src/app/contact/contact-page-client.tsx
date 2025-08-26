@@ -12,7 +12,6 @@ import Link from 'next/link';
 export default function ContactPageClient() {
   const { language } = useLanguage();
   const pageContent = content.contactPage;
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const address = "V5HR+38 Ghazi Dawood Brohi Goth, Karachi, Pakistan";
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
 
@@ -54,13 +53,7 @@ export default function ContactPageClient() {
               </Link>
             </Button>
              <div className="mt-8 h-96 w-full overflow-hidden rounded-lg shadow-xl">
-              {apiKey ? (
-                <GoogleMap apiKey={apiKey} />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
-                  {language === 'en' ? 'Google Map cannot be displayed. API key is missing.' : 'گوگل میپ ظاہر نہیں کیا جا سکتا۔ API کلید غائب ہے۔'}
-                </div>
-              )}
+               <GoogleMap />
             </div>
           </div>
           
