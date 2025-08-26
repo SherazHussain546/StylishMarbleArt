@@ -6,7 +6,7 @@ The primary goal of this website is to provide a beautiful, respectful, and user
 
 ## Live Site & Deployment
 
-The application is built for high performance and can be deployed seamlessly on modern hosting platforms like **Vercel** or **Netlify**.
+The application is built for high performance and can be deployed seamlessly on modern hosting platforms like **Netlify** or **Vercel**.
 
 ## Key Features & Technologies
 
@@ -46,4 +46,4 @@ The design is clean, professional, and fully responsive, providing an optimal vi
 
 *   **Primary Keywords**: Stylish Marble Art, Gravestones Karachi, Marble Engraving Pakistan, Memorial Services, Custom Headstones.
 *   **Secondary Keywords**: Kitchen Marble, Home Marble Installation, Artificial Marble, Granite Countertops, Tombstone Design, Grave Making Services.
-*   **Technical Keywords**: Next.js, React, TypeScript, Tailwind CSS, SEO, Responsive Web Design, Genkit, Google Gemini, Vercel, Netlify, Full-Stack, Web Development, AI-powered website.
+*   **Technical Keywords**: Next.js, React, TypeScript, Tailwind CSS, SEO, Responsive Web Design, Genkit, Google Gemini, Netlify, Vercel, Full-Stack, Web Development, AI-powered website.

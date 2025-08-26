@@ -33,9 +33,9 @@ Your project uses a secret key for its AI features (`GEMINI_API_KEY`). It is **c
     git push -u origin main
     ```
 
-## Deploying Your Website
+## Deploying Your Website with Netlify
 
-**Vercel** is the highly recommended choice as it's made by the creators of Next.js and has the easiest deployment process.
+**Netlify** is a highly recommended choice for deploying Next.js applications, offering a simple and powerful workflow.
 
 1.  **Push Your Code**: Make sure all your latest changes are pushed to your GitHub repository.
     ```bash
@@ -44,30 +44,31 @@ Your project uses a secret key for its AI features (`GEMINI_API_KEY`). It is **c
     git push
     ```
 
-2.  **Sign up for Vercel**: Create an account on [Vercel](https://vercel.com). The easiest way is to sign up using your GitHub account.
+2.  **Sign up for Netlify**: Create an account on [Netlify](https://www.netlify.com). The easiest way is to sign up using your GitHub account.
 
-3.  **Import Your Project**: From the Vercel dashboard, choose "**Add New...**" > "**Project**" and select your `StylishMarbleArt` GitHub repository.
+3.  **Import Your Project**: From the Netlify dashboard, click "**Add new site**" > "**Import an existing project**" and select your `StylishMarbleArt` GitHub repository.
 
-4.  **Configure and Deploy**: Vercel will automatically detect that it's a Next.js project and set up the build settings for you.
-    *   **CRITICAL: Environment Variables**: Before you deploy, you must add your `GEMINI_API_KEY`. Expand the "**Environment Variables**" section.
-        *   For the **Name**, enter `GEMINI_API_KEY`.
+4.  **Configure and Deploy**: Netlify will automatically detect that it's a Next.js project and configure the build settings for you.
+    *   **CRITICAL: Environment Variables**: Before you deploy, you must add your `GEMINI_API_KEY`.
+        *   Go to your site's settings, find the "**Build & deploy**" section, and then go to "**Environment**".
+        *   Click "**Add a variable**".
+        *   For the **Key**, enter `GEMINI_API_KEY`.
         *   For the **Value**, copy and paste the secret key from your local `.env.local` file.
-        *   Click **Add**.
-    *   Click "**Deploy**". Vercel will build and launch your website on a temporary URL (e.g., `stylishmarbleart.vercel.app`).
+        *   Click **Save**.
+    *   Go back to the deployment page and click "**Deploy site**". Netlify will build and launch your website on a temporary URL (e.g., `your-site-name.netlify.app`).
 
 ## Connecting Your Custom Domain (`stylishmarbleart.com`)
 
-Once your site is live on the Vercel URL, you can connect your custom domain.
+Once your site is live on the Netlify URL, you can connect your custom domain.
 
-1.  **Add Domain in Vercel**: In your Vercel project dashboard, go to the "**Settings**" tab and then click on "**Domains**". Enter `stylishmarbleart.com` and click **Add**.
+1.  **Add Domain in Netlify**: In your Netlify project dashboard, go to "**Domain settings**". Click "**Add a domain**" and enter `stylishmarbleart.com`. Follow the prompts to verify you own the domain.
 
-2.  **Update DNS Records**: Vercel will show you the DNS records you need to add to your domain registrar (the company where you bought your domain, like GoDaddy, Namecheap, etc.).
-    *   It will likely give you an **`A` record** (an IP address) or **`CNAME` records**.
+2.  **Update DNS Records**: Netlify will provide you with the DNS records you need to add to your domain registrar (the company where you bought your domain, like GoDaddy, Namecheap, etc.). It's typically a set of `NS` (Nameserver) records or an `A` record.
     *   Log in to your domain registrar's website.
     *   Go to the DNS management page for `stylishmarbleart.com`.
-    *   Delete any existing `A` or `CNAME` records for your root domain (`@`) and `www`, and add the new ones provided by Vercel.
+    *   Delete any existing `NS` or `A` records for your root domain (`@`) and `www`, and add the new ones provided by Netlify. Using Netlify's nameservers is the recommended approach.
 
-3.  **Wait for Propagation**: DNS changes can take a few minutes up to a few hours to take effect. Vercel will automatically detect when the changes are complete and secure your site with an SSL certificate. Your website will then be live at **stylishmarbleart.com**!
+3.  **Wait for Propagation**: DNS changes can take a few minutes up to a few hours to take effect. Netlify will automatically detect when the changes are complete and secure your site with a free SSL certificate. Your website will then be live at **stylishmarbleart.com**!
 
 ## Making Changes to the Live Site
 
@@ -80,4 +81,5 @@ The best part of this setup is how easy it is to update your site.
     git commit -m "Describe your changes here"
     git push
     ```
-3.  **Automatic Redeployment**: Vercel will automatically detect the push and start a new deployment. Once it's finished, your changes will be live on your website. No manual uploads needed!
+3.  **Automatic Redeployment**: Netlify will automatically detect the push and start a new deployment. Once it's finished, your changes will be live on your website. No manual uploads needed!
+
