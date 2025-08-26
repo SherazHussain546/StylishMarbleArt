@@ -37,6 +37,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 
-export default function MarbleDetailPage({ params }: { params: { slug: string } }) {
+export default function MarbleDetailPage() {
   return <MarbleDetailClient />;
 }
