@@ -19,6 +19,12 @@ export async function submitContactForm(data: z.infer<typeof formSchema>) {
     return { success: false, error: validation.error.flatten() };
   }
 
+  // Check for environment variables
+  if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_FROM_EMAIL || !process.env.SMTP_TO_EMAIL) {
+    console.error('Missing SMTP environment variables.');
+    return { success: false, error: 'Server is not configured to send emails. Please contact administrator.' };
+  }
+
   const { name, email, message } = validation.data;
 
   // 1. Send the email

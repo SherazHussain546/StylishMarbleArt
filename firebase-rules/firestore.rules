@@ -1,31 +1,32 @@
-
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Helper function to check if a user is an authenticated admin
-    function isAdmin() {
+  
+    // Helper function to check if a user is authenticated
+    function isSignedIn() {
       return request.auth != null;
     }
 
-    // GALLERY: Public can read, only admin can write/delete
+    // GALLERY: Public can read, only signed-in admins can write/delete
     match /gallery/{imageId} {
-      allow read: if true;
-      allow write, delete: if isAdmin();
+      allow read;
+      allow write, delete: if isSignedIn();
     }
     
-    // CONTACT MESSAGES: Only admin can read/write/delete
+    // CONTACT MESSAGES: Only signed-in admins can read/delete, anyone can create
     match /contact-messages/{messageId} {
-      allow read, write, delete: if isAdmin();
+      allow read, delete: if isSignedIn();
+      allow create;
     }
-
-    // TESTIMONIALS: Public can read, only admin can write/delete
+    
+    // TESTIMONIALS: Public can read, only signed-in admins can write/delete
     match /testimonials/{testimonialId} {
-      allow read: if true;
-      allow write, delete: if isAdmin();
+      allow read;
+      allow write, delete: if isSignedIn();
     }
-
-    // Lock down all other collections by default
+    
+    // Default deny all other collections
     match /{document=**} {
       allow read, write: if false;
     }

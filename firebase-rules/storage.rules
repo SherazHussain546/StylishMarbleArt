@@ -1,15 +1,24 @@
 rules_version = '2';
+
 service firebase.storage {
   match /b/{bucket}/o {
   
-    // The gallery folder is world-readable, but only an authenticated
-    // user (the admin) can upload or delete files.
-    match /gallery/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
+    // Helper function to check if a user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
     }
-
-    // Default deny for all other paths
+    
+    // Allow public read access to all files in the gallery
+    match /gallery/{allPaths=**} {
+      allow read;
+    }
+    
+    // Only allow authenticated users (admins) to upload to the gallery
+    match /gallery/{fileName} {
+      allow write: if isSignedIn();
+    }
+    
+    // Default deny all other paths
     match /{allPaths=**} {
       allow read, write: if false;
     }
