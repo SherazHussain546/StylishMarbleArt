@@ -7,7 +7,7 @@ import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare, Star } from 'lucide-react';
+import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
@@ -64,7 +64,7 @@ export default function AdminDashboardPage() {
         
         <section>
           <h2 className="text-2xl font-semibold tracking-tight mb-4">Content Management</h2>
-           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Message Inbox</CardTitle>
@@ -75,18 +75,6 @@ export default function AdminDashboardPage() {
                     <Link href="/admin/dashboard/messages">View Messages</Link>
                  </Button>
                 <p className="text-xs text-muted-foreground mt-2">View & manage contact form submissions.</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Testimonials</CardTitle>
-                <Star className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                 <Button asChild>
-                    <Link href="/admin/dashboard/testimonials">Manage Testimonials</Link>
-                 </Button>
-                <p className="text-xs text-muted-foreground mt-2">Add or remove client testimonials.</p>
               </CardContent>
             </Card>
             <Card>
@@ -148,9 +136,9 @@ export default function AdminDashboardPage() {
             <h2 className="text-2xl font-semibold tracking-tight my-4">Search Engine Data</h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Top Search Keyword</CardTitle>
-                    <Search className="h-4 w-4 text-muted-foreground" />
+                <CardHeader>
+                  <CardTitle className="text-sm font-medium">Top Search Keyword</CardTitle>
+                  <Search className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">--</div>
@@ -158,9 +146,9 @@ export default function AdminDashboardPage() {
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Search Clicks</CardTitle>
-                    <BarChart className="h-4 w-4 text-muted-foreground" />
+                <CardHeader>
+                  <CardTitle className="text-sm font-medium">Search Clicks</CardTitle>
+                  <BarChart className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">--</div>
@@ -168,9 +156,9 @@ export default function AdminDashboardPage() {
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">View on Search Console</CardTitle>
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                <CardHeader>
+                  <CardTitle className="text-sm font-medium">View on Search Console</CardTitle>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                     <Button size="sm" asChild variant="outline">
