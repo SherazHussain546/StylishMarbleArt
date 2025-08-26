@@ -1,14 +1,32 @@
 
 'use client';
 
+import { useState, useEffect } from 'react';
+
 export function GoogleMap() {
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    const [apiKey, setApiKey] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        // This ensures the environment variable is only read on the client-side,
+        // preventing server-side rendering errors if the key is missing.
+        setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
+    }, []);
+
     const address = "V5HR+38 Ghazi Dawood Brohi Goth, Karachi, Pakistan";
+    
+    if (apiKey === undefined) {
+        // This shows a loading state while we wait for the client-side to mount.
+        return (
+            <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
+                Loading Map...
+            </div>
+        );
+    }
     
     if (!apiKey) {
         return (
-            <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
-                Google Map cannot be displayed. API key is missing.
+            <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground p-4 text-center">
+                Google Map cannot be displayed. The API key is missing from the environment configuration.
             </div>
         );
     }
