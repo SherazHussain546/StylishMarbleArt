@@ -1,17 +1,49 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
-import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
-import { getImages as fetchImages, type GalleryImage } from '@/app/admin/dashboard/gallery/actions';
-import { Skeleton } from './ui/skeleton';
+import { content } from '@/lib/content';
 
 type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
+
+interface GalleryImage {
+  src: string;
+  alt: string;
+  category: Category;
+  hint: string;
+}
+
+const allImages: GalleryImage[] = content.servicesPage.serviceList.flatMap(service => 
+    service.images.map(img => ({
+        ...img,
+        category: ((): Category => {
+            if (service.name.en.includes('Grave')) return 'Graves';
+            if (service.name.en.includes('Kitchen')) return 'Home Decors';
+            if (service.name.en.includes('Engraving')) return 'Charity Work'; // Default
+            return 'Graves';
+        })(),
+    }))
+);
+
+
+// Manually create image list from content.ts for now
+const serviceImages = content.servicesPage.serviceList;
+const staticImages: GalleryImage[] = [
+    ...serviceImages[0].images.map(i => ({...i, category: 'Graves' as Category})),
+    ...serviceImages[0].images.slice(0,5).map(i => ({...i, category: 'Headstones' as Category})),
+    ...serviceImages[2].images.slice(3,6).map(i => ({...i, category: 'Government Works' as Category})),
+    ...serviceImages[2].images.slice(0,3).map(i => ({...i, category: 'Charity Work' as Category})),
+    ...serviceImages[1].images.map(i => ({...i, category: 'Home Decors' as Category})),
+    ...serviceImages[2].images.slice(1,3).map(i => ({...i, category: 'Christian Memorials' as Category})),
+    ...serviceImages[2].images.slice(6,8).map(i => ({...i, category: 'Hindu Memorials' as Category})),
+];
+
 
 const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
     { id: 'Graves', name: { en: 'Graves', ur: 'قبریں' } },
@@ -29,24 +61,7 @@ const IMAGES_TO_LOAD = 6;
 export function GalleryComponent() {
   const { language } = useLanguage();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [allImages, setAllImages] = useState<GalleryImage[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   
-  useEffect(() => {
-    const loadImages = async () => {
-        setIsLoading(true);
-        try {
-            const images = await fetchImages();
-            setAllImages(images);
-        } catch (error) {
-            console.error("Failed to load gallery images:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    loadImages();
-  }, []);
-
   const [visibleCounts, setVisibleCounts] = useState<Record<string, number>>(
     categories.reduce((acc, cat) => ({...acc, [cat.id]: INITIAL_VISIBLE_IMAGES}), {})
   );
@@ -54,15 +69,15 @@ export function GalleryComponent() {
 
   const imagesByCategory = useMemo(() => {
     return categories.reduce((acc, category) => {
-        acc[category.id] = allImages.filter(img => img.category === category.id);
+        acc[category.id] = staticImages.filter(img => img.category === category.id);
         return acc;
-    }, {} as Record<Category, typeof allImages>);
-  }, [allImages]);
+    }, {} as Record<Category, typeof staticImages>);
+  }, []);
 
   const filteredImagesForLightbox = useMemo(() => {
-    if (activeFilter === 'All') return allImages;
-    return allImages.filter(img => img.category === activeFilter);
-  }, [activeFilter, allImages]);
+    if (activeFilter === 'All') return staticImages;
+    return staticImages.filter(img => img.category === activeFilter);
+  }, [activeFilter]);
   
   const showMoreImages = (category: Category) => {
     setVisibleCounts(prev => ({
@@ -71,9 +86,9 @@ export function GalleryComponent() {
     }));
   };
 
-  const openLightbox = (imageId: string) => {
+  const openLightbox = (imageSrc: string) => {
     const imagesToSearch = filteredImagesForLightbox;
-    const index = imagesToSearch.findIndex(img => img.id === imageId);
+    const index = imagesToSearch.findIndex(img => img.src === imageSrc);
     if(index !== -1) setSelectedImageIndex(index);
   };
   
@@ -107,14 +122,14 @@ export function GalleryComponent() {
       <section key={category.id} id={category.id}>
         <h2 className="mb-8 text-center text-3xl font-bold">{category.name[language]}</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {visibleImages.map((image) => (
+          {visibleImages.map((image, index) => (
             <div
-              key={image.id}
+              key={`${image.src}-${index}`}
               className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-              onClick={() => openLightbox(image.id)}
+              onClick={() => openLightbox(image.src)}
             >
               <Image
-                src={image.url}
+                src={image.src}
                 alt={image.alt}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -138,21 +153,6 @@ export function GalleryComponent() {
     );
   };
   
-  if (isLoading) {
-    return (
-        <div className="space-y-16">
-            {categories.slice(0,2).map(category => (
-                 <section key={category.id}>
-                    <h2 className="mb-8 text-center text-3xl font-bold"><Skeleton className="h-8 w-48 mx-auto" /></h2>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-64 rounded-lg" />)}
-                    </div>
-                 </section>
-            ))}
-        </div>
-    );
-  }
-
   return (
     <>
       <div className="mb-12 flex flex-wrap justify-center gap-2">
@@ -190,7 +190,7 @@ export function GalleryComponent() {
           {selectedImage && (
             <div className="relative aspect-video">
                 <Image
-                    src={selectedImage.url}
+                    src={selectedImage.src}
                     alt={selectedImage.alt}
                     fill
                     className="object-contain"

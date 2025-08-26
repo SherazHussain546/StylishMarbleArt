@@ -71,10 +71,8 @@ export default function AdminDashboardPage() {
                 <ImageIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                 <Button asChild>
-                    <Link href="/admin/dashboard/gallery">Manage Gallery</Link>
-                 </Button>
-                <p className="text-xs text-muted-foreground mt-2">Upload, edit, and delete gallery images.</p>
+                 <Button disabled>Manage Gallery</Button>
+                <p className="text-xs text-muted-foreground mt-2">Feature coming soon.</p>
               </CardContent>
             </Card>
           </div>
