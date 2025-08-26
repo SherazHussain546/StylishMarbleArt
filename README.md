@@ -13,7 +13,7 @@ To share your code and keep track of changes, you'll use Git and GitHub.
 
 Your project uses secret keys for its AI features, sending emails, and displaying Google Maps. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
 
-1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`. Your secret keys should be stored here. For example:
+1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`. Your secret keys should be stored here. **Replace the placeholder values** with your actual secret keys. For example:
     ```
     # For the AI Assistant on the contact page
     GEMINI_API_KEY=your_gemini_secret_key_here
