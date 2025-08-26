@@ -124,7 +124,7 @@ export const content = {
       {
         slug: "terbela",
         name: { en: "Terbela", ur: "تربیلا" },
-        image: "/Gallery/tom/tarbella.png",
+        image: "/Gallery/tom/tarbela.png",
         hint: "Terbela marble",
         page_description: {
           en: "Discover Terbela marble, a unique and beautiful stone from Pakistan. Learn about its distinct patterns and applications in architecture and design.",
@@ -283,4 +283,5 @@ export const content = {
   },
 };
 
+    
     
