@@ -1,7 +1,6 @@
 
 'use server';
 
-import { draftMessage, type DraftMessageInput } from '@/ai/flows/draft-message';
 import { z } from 'zod';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
@@ -32,16 +31,6 @@ export async function submitContactForm(data: z.infer<typeof formSchema>) {
     return { success: true };
   } catch (error) {
      console.error('Error saving message to Firestore:', error);
-     return { success: false, error: 'Failed to save message.' };
+     return { success: false, error: { formErrors: ['Failed to save message due to a server error. Please try again later.'], fieldErrors: {} }};
   }
-}
-
-export async function generateDraftAction(input: DraftMessageInput) {
-    try {
-        const result = await draftMessage(input);
-        return { success: true, message: result.message };
-    } catch (error) {
-        console.error('Error generating draft:', error);
-        return { success: false, error: 'Failed to generate draft message.' };
-    }
 }
