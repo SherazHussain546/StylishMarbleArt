@@ -11,22 +11,30 @@ To share your code and keep track of changes, you'll use Git and GitHub.
 
 ### Securing Secret Keys
 
-Your project uses secret keys for its AI features, sending emails, and displaying Google Maps. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
+Your project uses secret keys for its AI features, sending emails, and displaying Google Maps. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file for local development and environment variables in your hosting provider (Netlify) for your live site.
+
+#### Local Development Setup
 
 1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`.
+2.  **Add Your Secret Keys**: Open the `.env.local` file and add the following variable names, one per line, replacing the placeholder text with your actual secret keys.
 
-2.  **Add Your Secret Keys**: Open the `.env.local` file and add the following variable names, one per line. **Replace the placeholder text** with your actual secret keys from your service providers.
+    ```
+    # For Google AI features
+    GEMINI_API_KEY=
 
-    *   `GEMINI_API_KEY=your_gemini_secret_key_here`
-    *   `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here`
-    *   `SMTP_HOST=your_smtp_host.com`
-    *   `SMTP_PORT=587`
-    *   `SMTP_USER=your_smtp_username`
-    *   `SMTP_PASS=your_smtp_password`
-    *   `SMTP_FROM_EMAIL=noreply@yourdomain.com`
-    *   `SMTP_TO_EMAIL=your_email@yourdomain.com`
+    # For Google Maps display
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=
 
-3.  **Use the `.gitignore` file**: A `.gitignore` file has been added to your project. This file tells Git to ignore specific files and folders. It is pre-configured to ignore `.env.local`, so your secrets will remain safe on your local machine.
+    # For sending emails from the contact form
+    SMTP_HOST=
+    SMTP_PORT=
+    SMTP_USER=
+    SMTP_PASS=
+    SMTP_FROM_EMAIL=
+    SMTP_TO_EMAIL=
+    ```
+
+3.  **`.gitignore` Protection**: The `.gitignore` file is already configured to prevent this file from being uploaded to GitHub, so your secrets will remain safe on your local machine.
 
 ### Pushing to GitHub
 

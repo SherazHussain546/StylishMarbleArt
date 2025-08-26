@@ -1,3 +1,4 @@
+
 # Stylish Marble Art: A High-Performance Next.js Website for a Bespoke Craftsmanship Business
 
 This repository contains the source code for the official website of **Stylish Marble Art**, a family-owned business specializing in exquisite marble craftsmanship. The project is a modern, feature-rich, and SEO-optimized web application built with Next.js, designed to showcase their services, from custom-engraved gravestones and memorials to elegant marble installations for homes.
