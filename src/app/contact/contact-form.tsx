@@ -16,6 +16,12 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescript
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
+const formSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Please enter a valid email.' }),
+  message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
+});
+
 export function ContactForm() {
   const { language } = useLanguage();
   const { toast } = useToast();
@@ -23,12 +29,6 @@ export function ContactForm() {
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const t = content.contactPage.form;
-
-  const formSchema = z.object({
-    name: z.string().min(2, { message: language === 'en' ? 'Name must be at least 2 characters.' : 'نام کم از کم 2 حروف کا ہونا چاہیے۔' }),
-    email: z.string().email({ message: language === 'en' ? 'Please enter a valid email.' : 'براہ کرم ایک درست ای میل درج کریں۔' }),
-    message: z.string().min(10, { message: language === 'en' ? 'Message must be at least 10 characters.' : 'پیغام کم از کم 10 حروف کا ہونا چاہیے۔' }),
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
