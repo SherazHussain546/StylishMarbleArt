@@ -13,22 +13,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   const { name, page_description } = marble;
-  const title = `${name.en} | ${name.ur}`;
-  const description = `${page_description.en.substring(0, 160)} | ${page_description.ur.substring(0, 160)}`;
+  const title = `${name.en} Details and Uses | Stylish Marble Art`;
+  const description = `Learn about ${name.en}, a premium marble offered by Stylish Marble Art in Karachi. ${page_description.en.substring(0, 120)}...`;
   
   return {
     title: title,
     description: description,
-    keywords: [name.en, name.ur, 'marble type', 'marble details', 'Pakistan marble', 'سنگ مرمر کی قسم', 'سنگ مرمر کی تفصیلات'],
+    keywords: [name.en, name.ur, 'marble type', 'marble details', 'Pakistan marble', 'marble for kitchens', 'marble for memorials', 'سنگ مرمر کی قسم', 'سنگ مرمر کی تفصیلات'],
     openGraph: {
       title: title,
       description: description,
       images: [
         {
-          url: marble.image,
+          url: marble.image.startsWith('http') ? marble.image : `https://www.stylishmarbleart.com${marble.image}`,
           width: 800,
           height: 600,
-          alt: name.en,
+          alt: `${name.en} marble`,
         },
       ],
     },
@@ -36,6 +36,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 
-export default function MarbleDetailPage({ params }: { params: { slug: string } }) {
+export default function MarbleDetailPage({ params }: { params: { slug: 'string' } }) {
   return <MarbleDetailClient />;
 }
