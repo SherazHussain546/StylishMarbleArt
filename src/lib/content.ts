@@ -54,7 +54,7 @@ export const content = {
       {
         slug: "rosso-verona-marble",
         name: { en: "Rosso Verona Marble", ur: "روسو ویرونا ماربل" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/verona.png",
         hint: "Rosso Verona",
         page_description: {
           en: "Discover the rich, warm tones of Rosso Verona Marble. Perfect for creating a classic and luxurious feel in any space. Learn about its origins, uses, and care.",
@@ -64,7 +64,7 @@ export const content = {
       {
         slug: "black-granite",
         name: { en: "Black Granite", ur: "سیاہ گرینائٹ" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/granite.png",
         hint: "black granite",
         page_description: {
           en: "Explore the elegance and durability of Black Granite. Ideal for modern kitchen countertops and high-traffic flooring. Get details on its properties and maintenance.",
@@ -74,7 +74,7 @@ export const content = {
       {
         slug: "artificial-white",
         name: { en: "Artificial White", ur: "مصنوعی سفید" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/artificalwhite.png",
         hint: "artificial marble",
         page_description: {
           en: "Learn about the benefits of Artificial White marble. A versatile and cost-effective solution for a clean, minimalist look. Find out about its composition and applications.",
@@ -84,7 +84,7 @@ export const content = {
       {
         slug: "sunny-grey",
         name: { en: "Sunny Grey", ur: "سنی گرے" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/sunnygrey.png",
         hint: "grey marble",
         page_description: {
           en: "Discover Sunny Grey marble, a popular choice for contemporary designs. Its subtle tones and patterns add sophistication to any interior. Read about its characteristics.",
@@ -94,7 +94,7 @@ export const content = {
        {
         slug: "sunny-white",
         name: { en: "Sunny White", ur: "سنی وائٹ" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/sunnywhite.png",
         hint: "white marble",
         page_description: {
           en: "Sunny White marble offers a bright and airy feel. A timeless choice for bathrooms, walls, and decorative pieces. Learn more about this classic stone.",
@@ -104,7 +104,7 @@ export const content = {
        {
         slug: "ziarat-white",
         name: { en: "Ziarat White", ur: "زیارت وائٹ" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/ziaratwhite.png",
         hint: "Ziarat marble",
         page_description: {
           en: "Explore Ziarat White, a premium Pakistani marble known for its pure white background and elegant veining. Ideal for luxurious and high-end applications.",
@@ -114,7 +114,7 @@ export const content = {
       {
         slug: "peshawar-white",
         name: { en: "Peshawar White", ur: "پشاور وائٹ" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/peshawarwhite.png",
         hint: "Peshawar marble",
         page_description: {
           en: "Learn about Peshawar White marble, cherished for its clean look and durability. A great choice for both residential and commercial projects in Pakistan.",
@@ -124,7 +124,7 @@ export const content = {
       {
         slug: "terbela",
         name: { en: "Terbela", ur: "تربیلا" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/tarbella.png",
         hint: "Terbela marble",
         page_description: {
           en: "Discover Terbela marble, a unique and beautiful stone from Pakistan. Learn about its distinct patterns and applications in architecture and design.",
@@ -134,7 +134,7 @@ export const content = {
       {
         slug: "custom-marbles",
         name: { en: "Custom Marbles", ur: "کسٹم ماربلز" },
-        image: "https://placehold.co/600x400.png",
+        image: "/Gallery/tom/custommarble.png",
         hint: "custom marble",
         page_description: {
           en: "Have a specific vision? We can source and craft custom marbles to meet your unique design requirements. Contact us to discuss your project.",
@@ -282,3 +282,5 @@ export const content = {
     },
   },
 };
+
+    
