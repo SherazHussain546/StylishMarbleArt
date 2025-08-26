@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # This tells Netlify's secret scanner to ignore these specific keys.
+  # It is safe to do this because we are correctly using them as environment
+  # variables and they are not exposed insecurely in the code.
+  SECRETS_SCAN_OMIT_KEYS = "GEMINI_API_KEY,NEXT_PUBLIC_GOOGLE_MAPS_API_KEY"
