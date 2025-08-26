@@ -124,7 +124,7 @@ export const content = {
       {
         slug: "terbela",
         name: { en: "Terbela", ur: "تربیلا" },
-        image: "/Gallery/tom/tarbella.png",
+        image: "/Gallery/tom/tarbela.png",
         hint: "Terbela marble",
         page_description: {
           en: "Discover Terbela marble, a unique and beautiful stone from Pakistan. Learn about its distinct patterns and applications in architecture and design.",
@@ -168,6 +168,11 @@ export const content = {
           en: 'We provide compassionate services for creating and installing gravestones and preparing graves after burial. We handle everything with dignity and respect for your loved ones.',
           ur: 'ہم قبر کے پتھر بنانے اور نصب کرنے اور تدفین کے بعد قبریں تیار کرنے کے لیے ہمدردانہ خدمات فراہم کرتے ہیں۔ ہم آپ کے پیاروں کے لیے ہر چیز کو وقار اور احترام کے ساتھ سنبھالتے ہیں۔',
         },
+        images: [
+          { src: 'https://placehold.co/600x400', alt: 'Elegant gravestone', hint: 'gravestone' },
+          { src: 'https://placehold.co/600x401', alt: 'Grave preparation', hint: 'cemetery work' },
+          { src: 'https://placehold.co/600x402', alt: 'Finished memorial', hint: 'marble memorial' },
+        ],
       },
       {
         name: { en: 'Kitchen & Home Marble Installation', ur: 'کچن اور ہوم ماربل کی تنصیب' },
@@ -175,6 +180,11 @@ export const content = {
           en: 'Elevate your home with our custom marble works. We specialize in kitchen countertops, flooring, wall cladding, and other decorative elements. We work with a vast selection of marbles to match your style.',
           ur: 'ہمارے کسٹم ماربل کے کاموں سے اپنے گھر کو بلند کریں۔ ہم باورچی خانے کے کاؤنٹر ٹاپس، فرش، دیوار کی چادر، اور دیگر آرائشی عناصر میں مہارت رکھتے ہیں۔ ہم آپ کے انداز سے ملنے کے لیے ماربل کے وسیع انتخاب کے ساتھ کام کرتے ہیں۔',
         },
+        images: [
+          { src: 'https://placehold.co/600x403', alt: 'Marble kitchen countertop', hint: 'kitchen countertop' },
+          { src: 'https://placehold.co/600x404', alt: 'Marble flooring', hint: 'marble floor' },
+          { src: 'https://placehold.co/600x405', alt: 'Marble wall cladding', hint: 'wall cladding' },
+        ],
       },
       {
         name: { en: 'Custom Engraving on Natural & Artificial Marble', ur: 'قدرتی اور مصنوعی ماربل پر کسٹم کندہ کاری' },
@@ -182,6 +192,11 @@ export const content = {
           en: 'Our state-of-the-art engraving technology allows for intricate designs, text, and portraits on any marble surface, including both natural stone and modern artificial composites. Perfect for personalization.',
           ur: 'ہماری جدید ترین کندہ کاری کی ٹیکنالوجی قدرتی پتھر اور جدید مصنوعی مرکبات سمیت کسی بھی سنگ مرمر کی سطح پر پیچیدہ ڈیزائن، متن اور پورٹریٹ کی اجازت دیتی ہے۔ ذاتی نوعیت کے لیے کامل۔',
         },
+        images: [
+          { src: 'https://placehold.co/600x406', alt: 'Intricate marble engraving', hint: 'marble engraving' },
+          { src: 'https://placehold.co/600x407', alt: 'Engraved text on marble', hint: 'text engraving' },
+          { src: 'https://placehold.co/600x408', alt: 'Engraved portrait on stone', hint: 'portrait engraving' },
+        ],
       },
       {
         name: { en: 'Marble Repair & Restoration', ur: 'ماربل کی مرمت اور بحالی' },
@@ -189,6 +204,11 @@ export const content = {
           en: 'We restore the beauty of your existing marble surfaces. Our services include chip repair, polishing, and cleaning to bring back the original luster of your marble installations and memorials.',
           ur: 'ہم آپ کی موجودہ سنگ مرمر کی سطحوں کی خوبصورتی کو بحال کرتے ہیں۔ ہماری خدمات میں آپ کے ماربل کی تنصیبات اور یادگاروں کی اصل چمک واپس لانے کے لیے چپ کی مرمت، پالش اور صفائی شامل ہے۔',
         },
+        images: [
+          { src: 'https://placehold.co/600x409', alt: 'Polishing a marble surface', hint: 'marble polishing' },
+          { src: 'https://placehold.co/600x410', alt: 'Repairing a chipped marble edge', hint: 'marble repair' },
+          { src: 'https://placehold.co/600x411', alt: 'Restored marble memorial', hint: 'restored memorial' },
+        ],
       },
     ],
   },
