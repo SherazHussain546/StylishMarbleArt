@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // The gallery collection is world-readable, but only an authenticated
+    // user (the admin) can write to it.
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Default deny for all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
