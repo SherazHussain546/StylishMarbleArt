@@ -1,38 +1,19 @@
+
 'use client';
 
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import type { Metadata } from 'next';
 
-// This function is commented out as it's for server-side metadata generation
-// and this is a client component. We'll handle titles dynamically if needed,
-// but for static generation, this approach is best.
-/*
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const marble = content.marbleTypes.types.find((m) => m.slug === params.slug);
-
-  if (!marble) {
-    return {
-      title: 'Marble Not Found',
-      description: 'The marble you are looking for could not be found.',
-    };
-  }
-
-  return {
-    title: `${marble.name.en} | Stylish Marble Art`,
-    description: marble.page_description.en,
-    keywords: ['marble', marble.name.en, 'granite', 'karachi', 'pakistan'],
-  };
-}
-*/
-export default function MarbleDetailPage({ params }: { params: { slug: string } }) {
+export default function MarbleDetailPage() {
+  const params = useParams();
+  const slug = params.slug;
   const { language } = useLanguage();
-  const marble = content.marbleTypes.types.find((m) => m.slug === params.slug);
+  const marble = content.marbleTypes.types.find((m) => m.slug === slug);
 
   if (!marble) {
     notFound();
