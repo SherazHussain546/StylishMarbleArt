@@ -13,25 +13,20 @@ To share your code and keep track of changes, you'll use Git and GitHub.
 
 Your project uses secret keys for its AI features, sending emails, and displaying Google Maps. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
 
-1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`. Your secret keys should be stored here. **Replace the placeholder values** with your actual secret keys. For example:
-    ```
-    # For the AI Assistant on the contact page
-    GEMINI_API_KEY=your_gemini_secret_key_here
+1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`.
 
-    # For displaying the map on the contact page
-    # IMPORTANT: The variable name MUST start with NEXT_PUBLIC_
-    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_new_google_maps_api_key_here
+2.  **Add Your Secret Keys**: Open the `.env.local` file and add the following variable names, one per line. **Replace the placeholder text** with your actual secret keys from your service providers.
 
-    # For sending emails from the contact form
-    SMTP_HOST=your_smtp_host.com
-    SMTP_PORT=587
-    SMTP_USER=your_smtp_username
-    SMTP_PASS=your_smtp_password
-    SMTP_FROM_EMAIL=noreply@yourdomain.com
-    SMTP_TO_EMAIL=your_email@yourdomain.com
-    ```
+    *   `GEMINI_API_KEY=your_gemini_secret_key_here`
+    *   `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here`
+    *   `SMTP_HOST=your_smtp_host.com`
+    *   `SMTP_PORT=587`
+    *   `SMTP_USER=your_smtp_username`
+    *   `SMTP_PASS=your_smtp_password`
+    *   `SMTP_FROM_EMAIL=noreply@yourdomain.com`
+    *   `SMTP_TO_EMAIL=your_email@yourdomain.com`
 
-2.  **Use the `.gitignore` file**: A `.gitignore` file has been added to your project. This file tells Git to ignore specific files and folders. It is pre-configured to ignore `.env.local`, so your secrets will remain safe on your local machine.
+3.  **Use the `.gitignore` file**: A `.gitignore` file has been added to your project. This file tells Git to ignore specific files and folders. It is pre-configured to ignore `.env.local`, so your secrets will remain safe on your local machine.
 
 ### Pushing to GitHub
 
