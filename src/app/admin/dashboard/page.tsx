@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useAuth } from '@/contexts/auth-context';
@@ -5,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare, Star } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
@@ -88,16 +89,14 @@ export default function AdminDashboardPage() {
                 <p className="text-xs text-muted-foreground mt-2">Add or remove client testimonials.</p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-muted">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Gallery Management</CardTitle>
                 <ImageIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                 <Button asChild>
-                    <Link href="/admin/dashboard/gallery">Manage Gallery</Link>
-                 </Button>
-                <p className="text-xs text-muted-foreground mt-2">Upload or remove images from the gallery.</p>
+                 <Button disabled>Manage Gallery</Button>
+                <p className="text-xs text-muted-foreground mt-2">Feature coming soon.</p>
               </CardContent>
             </Card>
           </div>

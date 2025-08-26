@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,27 +9,31 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, Eye, Loader2, MessageSquare, Inbox } from 'lucide-react';
+import { ArrowLeft, Trash2, Eye, Loader2, MessageSquare, Inbox, RefreshCw } from 'lucide-react';
 import { getMessages, deleteMessage, type ContactMessage } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
 export default function MessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
   const [isDeleting, startDeleteTransition] = useTransition();
   const { toast } = useToast();
 
-  useEffect(() => {
-    async function loadMessages() {
-      setIsLoading(true);
+  async function loadMessages() {
+    setIsLoading(true);
+    try {
       const fetchedMessages = await getMessages();
       setMessages(fetchedMessages);
-      setIsLoading(false);
+    } catch (error) {
+       toast({ variant: 'destructive', title: 'Error', description: 'Could not fetch messages. Check permissions.' });
+    } finally {
+        setIsLoading(false);
+        setHasLoaded(true);
     }
-    loadMessages();
-  }, []);
+  }
 
   const handleDelete = async (id: string) => {
     startDeleteTransition(async () => {
@@ -63,7 +67,13 @@ export default function MessagesPage() {
             <span className="sr-only">Back to Dashboard</span>
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight">Message Inbox</h1>
+        <div className="flex-grow flex justify-between items-center">
+            <h1 className="text-3xl font-bold tracking-tight">Message Inbox</h1>
+            <Button onClick={loadMessages} disabled={isLoading}>
+                <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+                {isLoading ? 'Loading...' : 'Load Messages'}
+            </Button>
+        </div>
       </div>
 
       <Card>
@@ -82,12 +92,12 @@ export default function MessagesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading ? renderSkeleton() : messages.length > 0 ? messages.map(msg => (
+              {isLoading ? renderSkeleton() : hasLoaded && messages.length > 0 ? messages.map(msg => (
                 <TableRow key={msg.id}>
                   <TableCell className="font-medium">{msg.name}</TableCell>
                   <TableCell>{msg.email}</TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {format(new Date(msg.createdAt.seconds * 1000), 'PPP')}
+                    {msg.createdAt?.seconds ? format(new Date(msg.createdAt.seconds * 1000), 'PPP') : 'N/A'}
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" onClick={() => setSelectedMessage(msg)}>
@@ -121,8 +131,8 @@ export default function MessagesPage() {
                   <TableCell colSpan={4} className="h-24 text-center">
                     <div className="flex flex-col items-center justify-center text-muted-foreground">
                         <Inbox className="h-12 w-12 mb-4" />
-                        <h3 className="font-semibold text-lg">No Messages Yet</h3>
-                        <p>New messages will appear here.</p>
+                        <h3 className="font-semibold text-lg">{hasLoaded ? 'No Messages Yet' : 'Ready to Load'}</h3>
+                        <p className="text-sm">{hasLoaded ? 'New messages will appear here.' : 'Click "Load Messages" to see your inbox.'}</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -137,7 +147,7 @@ export default function MessagesPage() {
           <DialogHeader>
             <DialogTitle>Message from: {selectedMessage?.name}</DialogTitle>
             <DialogDescription>
-              {selectedMessage?.email} &bull; {selectedMessage && format(new Date(selectedMessage.createdAt.seconds * 1000), 'PPP p')}
+              {selectedMessage?.email} &bull; {selectedMessage?.createdAt?.seconds && format(new Date(selectedMessage.createdAt.seconds * 1000), 'PPP p')}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 whitespace-pre-wrap text-sm text-muted-foreground bg-secondary p-4 rounded-md">

@@ -9,18 +9,26 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useLanguage } from '@/contexts/language-context';
 import { ExternalLink, Quote } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 export function HomeTestimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const { language } = useLanguage();
 
   useEffect(() => {
     async function loadTestimonials() {
       setIsLoading(true);
-      const fetchedTestimonials = await getTestimonials();
-      setTestimonials(fetchedTestimonials);
-      setIsLoading(false);
+      setError(false);
+      try {
+        const fetchedTestimonials = await getTestimonials();
+        setTestimonials(fetchedTestimonials);
+      } catch (e) {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
     }
     loadTestimonials();
   }, []);
@@ -40,8 +48,8 @@ export function HomeTestimonials() {
     )
   }
 
-  if (testimonials.length === 0) {
-    return null; // Don't render the section if there are no testimonials
+  if (error || testimonials.length === 0) {
+    return null; // Don't render the section if there's an error or no testimonials
   }
   
   return (
@@ -54,7 +62,7 @@ export function HomeTestimonials() {
         <Carousel
           opts={{
             align: 'start',
-            loop: true,
+            loop: testimonials.length > 1,
           }}
           className="w-full max-w-4xl mx-auto"
         >
@@ -79,8 +87,8 @@ export function HomeTestimonials() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden sm:flex" />
-          <CarouselNext className="hidden sm:flex" />
+          {testimonials.length > 2 && <CarouselPrevious className="hidden sm:flex" />}
+          {testimonials.length > 2 && <CarouselNext className="hidden sm:flex" />}
         </Carousel>
       </div>
     </section>

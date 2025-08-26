@@ -7,8 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, Trash2, Loader2, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
@@ -23,38 +22,11 @@ const categories = [
 ];
 
 export default function GalleryManagementPage() {
-  const [isUploading, setIsUploading] = useState(false);
-  const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [category, setCategory] = useState('');
-  const [altText, setAltText] = useState('');
   const { toast } = useToast();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-        setAltText(''); 
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleGenerateAltText = async () => {
+  const showDisabledToast = () => {
     toast({ title: 'Info', description: 'This feature is currently disabled.' });
-  };
-
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({ title: 'Info', description: 'This feature is currently disabled.' });
-  };
-  
-  const handleDelete = async (id: string, path: string) => {
-    toast({ title: 'Info', description: 'This feature is currently disabled.' });
-  };
-
+  }
 
   return (
     <div className="p-4 md:p-8">
@@ -76,19 +48,14 @@ export default function GalleryManagementPage() {
               <CardDescription>This feature is currently disabled.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleUpload} className="space-y-4">
-                {previewUrl && (
-                  <div className="relative aspect-video w-full overflow-hidden rounded-md">
-                    <img src={previewUrl} alt="Image preview" className="object-cover w-full h-full" />
-                  </div>
-                )}
+              <form onSubmit={(e) => { e.preventDefault(); showDisabledToast(); }} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="image-file">1. Select Image</Label>
-                  <Input id="image-file" type="file" onChange={handleFileChange} required accept="image/*" disabled />
+                  <Input id="image-file" type="file" required accept="image/*" disabled />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="category">2. Choose Category</Label>
-                  <Select onValueChange={setCategory} value={category} required disabled>
+                  <Select required disabled>
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
@@ -100,13 +67,8 @@ export default function GalleryManagementPage() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="alt-text">3. Generate Alt Text (for SEO)</Label>
-                  <div className="flex gap-2">
-                    <Input id="alt-text" placeholder="AI will generate this..." value={altText} onChange={(e) => setAltText(e.target.value)} required disabled />
-                    <Button type="button" variant="outline" onClick={handleGenerateAltText} disabled>
-                      {'AI'}
-                    </Button>
-                  </div>
+                  <Label htmlFor="alt-text">3. Alt Text</Label>
+                   <Input id="alt-text" placeholder="Description of the image" required disabled />
                 </div>
                 <Button type="submit" className="w-full" disabled>
                   <UploadCloud className="mr-2 h-4 w-4" />

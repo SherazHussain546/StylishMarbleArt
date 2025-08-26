@@ -1,14 +1,14 @@
 
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, Loader2, Star, PlusCircle, ExternalLink, Inbox } from 'lucide-react';
+import { ArrowLeft, Trash2, Loader2, Star, PlusCircle, ExternalLink, Inbox, RefreshCw } from 'lucide-react';
 import { getTestimonials, deleteTestimonial, addTestimonial, type Testimonial } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
@@ -27,7 +27,8 @@ const testimonialSchema = z.object({
 
 export default function TestimonialsPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const [isPending, startTransition] = useTransition();
@@ -38,15 +39,18 @@ export default function TestimonialsPage() {
     defaultValues: { name: '', text: '', sourceUrl: '' },
   });
 
-  useEffect(() => {
-    async function loadTestimonials() {
-      setIsLoading(true);
+  async function loadTestimonials() {
+    setIsLoading(true);
+    try {
       const fetchedTestimonials = await getTestimonials();
       setTestimonials(fetchedTestimonials);
-      setIsLoading(false);
+    } catch (error) {
+       toast({ variant: 'destructive', title: 'Error', description: 'Could not fetch testimonials. Check permissions.' });
+    } finally {
+        setIsLoading(false);
+        setHasLoaded(true);
     }
-    loadTestimonials();
-  }, []);
+  }
 
   const handleDelete = async (id: string) => {
     startTransition(async () => {
@@ -95,10 +99,16 @@ export default function TestimonialsPage() {
         </Button>
         <div className='flex-grow flex justify-between items-center'>
             <h1 className="text-3xl font-bold tracking-tight">Testimonials</h1>
-            <Button onClick={() => setIsDialogOpen(true)}>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Add Testimonial
-            </Button>
+            <div className="flex items-center gap-2">
+                <Button onClick={loadTestimonials} disabled={isLoading} variant="outline">
+                    <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+                    {isLoading ? 'Loading...' : 'Load'}
+                </Button>
+                <Button onClick={() => setIsDialogOpen(true)}>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add Testimonial
+                </Button>
+            </div>
         </div>
       </div>
 
@@ -118,7 +128,7 @@ export default function TestimonialsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading ? renderSkeleton() : testimonials.length > 0 ? testimonials.map(t => (
+              {isLoading ? renderSkeleton() : hasLoaded && testimonials.length > 0 ? testimonials.map(t => (
                 <TableRow key={t.id}>
                   <TableCell className="font-medium">{t.name}</TableCell>
                   <TableCell className="max-w-xs truncate">{t.text}</TableCell>
@@ -154,8 +164,8 @@ export default function TestimonialsPage() {
                   <TableCell colSpan={4} className="h-24 text-center">
                      <div className="flex flex-col items-center justify-center text-muted-foreground">
                         <Inbox className="h-12 w-12 mb-4" />
-                        <h3 className="font-semibold text-lg">No Testimonials Yet</h3>
-                        <p>Click "Add Testimonial" to get started.</p>
+                        <h3 className="font-semibold text-lg">{hasLoaded ? 'No Testimonials Yet' : 'Ready to Load'}</h3>
+                        <p className="text-sm">{hasLoaded ? 'Click "Add Testimonial" to get started.' : 'Click "Load" to see testimonials.'}</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -211,4 +221,3 @@ export default function TestimonialsPage() {
     </div>
   );
 }
-
