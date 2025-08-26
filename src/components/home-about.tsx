@@ -20,14 +20,14 @@ export function HomeAbout() {
               <Link href="/about">{content.homeAbout.cta[language]}</Link>
             </Button>
           </div>
-          <div className="relative h-80 w-full overflow-hidden rounded-lg shadow-lg">
+          <div className="flex justify-center">
             <Image
               src="/Gallery/tom/artist.png"
               alt="Artisan carving a stone"
               data-ai-hint="artisan carving"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-contain"
+              width={500}
+              height={500}
+              className="rounded-lg shadow-lg"
             />
           </div>
         </div>
