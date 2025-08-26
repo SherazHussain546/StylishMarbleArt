@@ -2,14 +2,11 @@
 
 import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
-import { getAuth } from 'firebase/auth';
-import { app } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LogOut } from 'lucide-react';
 import { Logo } from '@/components/logo';
-
-const auth = getAuth(app);
 
 export default function AdminDashboardPage() {
   const { user, loading } = useAuth();
@@ -22,21 +19,23 @@ export default function AdminDashboardPage() {
 
   if (loading) {
     return (
-      <div className="p-8">
-        <Skeleton className="h-8 w-1/4" />
-        <Skeleton className="mt-4 h-4 w-1/2" />
-        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="h-32 rounded-lg" />
-          <Skeleton className="h-32 rounded-lg" />
-          <Skeleton className="h-32 rounded-lg" />
+      <div className="flex h-screen items-center justify-center">
+        <div className="p-8 space-y-4">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-4 w-64" />
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Skeleton className="h-32 rounded-lg" />
+            <Skeleton className="h-32 rounded-lg" />
+            <Skeleton className="h-32 rounded-lg" />
+          </div>
         </div>
       </div>
     );
   }
 
+  // The AuthProvider should handle the redirect, but as a fallback:
   if (!user) {
-    // This is a fallback, the AuthProvider should handle the redirect
-    return null;
+    return null; 
   }
 
   return (

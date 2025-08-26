@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
-import { app } from '@/lib/firebase';
+import { onAuthStateChanged, type User } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface AuthContextType {
@@ -10,9 +10,10 @@ interface AuthContextType {
   loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const auth = getAuth(app);
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  loading: true,
+});
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -24,19 +25,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
-      
-      const isAdminRoute = pathname.startsWith('/admin');
-      const isLoginPage = pathname === '/admin';
-
-      if (!user && isAdminRoute && !isLoginPage) {
-        router.push('/admin');
-      } else if (user && isLoginPage) {
-        router.push('/admin/dashboard');
-      }
     });
 
+    // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [pathname, router]);
+  }, []);
+
+  useEffect(() => {
+    // This effect handles redirection logic based on auth state and current path
+    if (loading) return; // Don't do anything while loading
+
+    const isAdminRoute = pathname.startsWith('/admin');
+    const isLoginPage = pathname === '/admin';
+
+    if (!user && isAdminRoute && !isLoginPage) {
+      // If user is not logged in and tries to access a protected admin page, redirect to login
+      router.push('/admin');
+    } else if (user && isLoginPage) {
+      // If user is logged in and on the login page, redirect to dashboard
+      router.push('/admin/dashboard');
+    }
+
+  }, [user, loading, pathname, router]);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

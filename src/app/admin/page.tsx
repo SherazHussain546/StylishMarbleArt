@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { app } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,8 +11,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { Logo } from '@/components/logo';
-
-const auth = getAuth(app);
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
@@ -28,10 +26,27 @@ export default function AdminLoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/admin/dashboard');
     } catch (error: any) {
+      let errorMessage = 'An unexpected error occurred.';
+      if (error.code) {
+        switch (error.code) {
+          case 'auth/user-not-found':
+          case 'auth/wrong-password':
+            errorMessage = 'Invalid credentials. Please check your email and password.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Network error. Please check your internet connection.';
+            break;
+          default:
+            errorMessage = error.message;
+        }
+      }
       toast({
         variant: 'destructive',
         title: 'Login Failed',
-        description: error.message || 'Please check your credentials and try again.',
+        description: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -59,6 +74,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
@@ -69,6 +85,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
