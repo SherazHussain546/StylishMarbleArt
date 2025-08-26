@@ -29,38 +29,27 @@ export default function ServicesPageClient() {
                 <p className="mt-4 text-lg text-muted-foreground">{service.description[language]}</p>
               </div>
 
-              {/* Desktop Gallery Grid */}
-              <div className="mt-8 hidden grid-cols-2 gap-4 md:grid lg:grid-cols-3">
-                {service.images.map((img, imgIndex) => (
-                  <div key={imgIndex} className="relative h-64 w-full overflow-hidden rounded-lg shadow-md">
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      data-ai-hint={img.hint}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Mobile Carousel */}
-              <div className="mt-8 md:hidden">
-                <Carousel className="w-full max-w-xs mx-auto">
-                  <CarouselContent>
+              <div className="mt-8">
+                <Carousel 
+                  className="w-full max-w-4xl mx-auto"
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                >
+                  <CarouselContent className="-ml-4">
                     {service.images.map((img, imgIndex) => (
-                      <CarouselItem key={imgIndex}>
+                      <CarouselItem key={imgIndex} className="pl-4 md:basis-1/2 lg:basis-1/3">
                         <div className="p-1">
-                          <Card>
-                            <CardContent className="relative flex aspect-square items-center justify-center p-0">
+                          <Card className="overflow-hidden">
+                            <CardContent className="relative flex aspect-video items-center justify-center p-0">
                                <Image
                                 src={img.src}
                                 alt={img.alt}
                                 data-ai-hint={img.hint}
                                 fill
-                                className="object-cover rounded-lg"
-                                sizes="90vw"
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               />
                             </CardContent>
                           </Card>
@@ -68,8 +57,8 @@ export default function ServicesPageClient() {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
+                  <CarouselPrevious className="hidden sm:flex" />
+                  <CarouselNext className="hidden sm:flex" />
                 </Carousel>
               </div>
 
