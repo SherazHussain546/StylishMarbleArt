@@ -1,10 +1,22 @@
-'use client';
-
-import { useLanguage } from '@/contexts/language-context';
+import type { Metadata } from 'next';
 import { content } from '@/lib/content';
+
+// Client Component
+import { useLanguage } from '@/contexts/language-context';
 import { Separator } from '@/components/ui/separator';
 
+// SEO Metadata
+export const metadata: Metadata = {
+    title: 'Our Services',
+    description: 'We offer a comprehensive range of marble services, from memorial crafting to home installations. Our team is here to guide you through every step of the process with care and professionalism.',
+    keywords: ['marble services', 'gravestone making', 'kitchen marble installation', 'custom engraving', 'marble repair', 'ماربل کی خدمات', 'قبر بنانا', 'کچن ماربل'],
+};
+
+
+// Page Component
 export default function ServicesPage() {
+  'use client';
+
   const { language } = useLanguage();
   const pageContent = content.servicesPage;
 

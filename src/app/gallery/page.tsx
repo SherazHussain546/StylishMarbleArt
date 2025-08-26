@@ -1,10 +1,22 @@
-'use client';
-
-import { GalleryComponent } from '@/components/gallery-component';
-import { useLanguage } from '@/contexts/language-context';
+import type { Metadata } from 'next';
 import { content } from '@/lib/content';
 
+// Client Component
+import { useLanguage } from '@/contexts/language-context';
+import { GalleryComponent } from '@/components/gallery-component';
+
+// SEO Metadata
+export const metadata: Metadata = {
+    title: 'Gallery - Our Marble Work',
+    description: 'View our gallery of completed projects, including custom gravestones, headstones, kitchen countertops, and marble flooring. See the quality of our craftsmanship.',
+    keywords: ['marble work gallery', 'gravestone pictures', 'kitchen marble photos', 'marble engraving examples', 'سنگ مرمر کے کام کی گیلری', 'قبر کے پتھر کی تصاویر'],
+};
+
+
+// Page Component
 export default function GalleryPage() {
+  'use client';
+  
   const { language } = useLanguage();
   const pageContent = content.galleryPage;
 

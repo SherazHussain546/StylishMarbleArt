@@ -1,11 +1,31 @@
-'use client';
-
-import Image from 'next/image';
-import { useLanguage } from '@/contexts/language-context';
+import type { Metadata } from 'next';
 import { content } from '@/lib/content';
+
+// Client Component
+import { useLanguage } from '@/contexts/language-context';
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+// SEO Metadata
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const pageContent = content.aboutPage;
+  const englishTitle = pageContent.title.en;
+  const urduTitle = pageContent.title.ur;
+  const englishDescription = pageContent.ourStoryText.en;
+  const urduDescription = pageContent.ourStoryText.ur;
+
+  return {
+    title: `${englishTitle} | ${urduTitle}`,
+    description: `${englishDescription.substring(0, 150)}... | ${urduDescription.substring(0, 150)}...`,
+    keywords: ['about Stylish Marble Art', 'marble history', 'family business marble', 'stonemasonry Karachi', 'ہمارے بارے میں', 'سنگ مرمر کی تاریخ'],
+  };
+}
+
+
+// Page Component
 export default function AboutPage() {
+  'use client';
+  
   const { language } = useLanguage();
   const pageContent = content.aboutPage;
 

@@ -8,6 +8,41 @@ import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const marble = content.marbleTypes.types.find((m) => m.slug === params.slug);
+
+  if (!marble) {
+    return {
+      title: 'Marble Not Found',
+      description: 'The requested marble type could not be found.',
+    };
+  }
+
+  const { name, page_description } = marble;
+  const title = `${name.en} | ${name.ur}`;
+  const description = `${page_description.en.substring(0, 160)} | ${page_description.ur.substring(0, 160)}`;
+  
+  return {
+    title: title,
+    description: description,
+    keywords: [name.en, name.ur, 'marble type', 'marble details', 'Pakistan marble', 'سنگ مرمر کی قسم', 'سنگ مرمر کی تفصیلات'],
+    openGraph: {
+      title: title,
+      description: description,
+      images: [
+        {
+          url: marble.image,
+          width: 800,
+          height: 600,
+          alt: name.en,
+        },
+      ],
+    },
+  };
+}
+
 
 export default function MarbleDetailPage() {
   const params = useParams();
@@ -19,11 +54,6 @@ export default function MarbleDetailPage() {
     notFound();
   }
   
-  // Set document title dynamically on the client
-  if (typeof window !== 'undefined') {
-    document.title = `${marble.name[language]} | Stylish Marble Art`;
-  }
-
   return (
     <div className="bg-secondary">
       <div className="container mx-auto px-4 py-16 md:py-24">

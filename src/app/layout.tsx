@@ -7,10 +7,18 @@ import { WhatsAppButton } from '@/components/whatsapp-button';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Stylish Marble Art - Gravestones & Marble Works',
+  title: {
+    default: 'Stylish Marble Art - Gravestones, Kitchens & Custom Marble Works',
+    template: '%s | Stylish Marble Art',
+  },
   description:
-    'Stylish Marble Art offers expert craftsmanship in gravestones, grave making, and all marble works including kitchen and house marbling. Specialists in all types of marble engraving.',
-  keywords: ['marble', 'gravestone', 'engraving', 'kitchen marbling', 'house marbling', 'artificial marble'],
+    'Karachi-based experts in gravestones, memorials, and custom marble work for kitchens and homes. We specialize in all types of marble and granite engraving, including Ziarat White and Black Granite.',
+  keywords: [
+    'Stylish Marble Art', 'gravestones Karachi', 'marble engraving Pakistan', 'memorial services', 'custom headstones',
+    'kitchen marble', 'home marble installation', 'artificial marble', 'granite countertops', 'tombstone design',
+    'grave making services', 'Ziarat White Marble', 'Black Granite', 'Rosso Verona Marble', 'marble repair', 'marble polishing',
+    'قبر کے کتبے کراچی', 'سنگ مرمر کی کندہ کاری', 'یادگار خدمات', 'باورچی خانے کا ماربل'
+  ],
 };
 
 export default function RootLayout({

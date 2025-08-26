@@ -1,11 +1,23 @@
-'use client';
-
-import { ContactForm } from './contact-form';
+import type { Metadata } from 'next';
 import { content } from '@/lib/content';
-import { Mail, MapPin, Phone } from 'lucide-react';
-import { useLanguage } from '@/contexts/language-context';
 
+// Client Component
+import { useLanguage } from '@/contexts/language-context';
+import { ContactForm } from './contact-form';
+import { Mail, MapPin, Phone } from 'lucide-react';
+
+// SEO Metadata
+export const metadata: Metadata = {
+    title: 'Contact Us',
+    description: `Contact Stylish Marble Art in Karachi for a quote on gravestones, kitchen marble, or custom engraving. Call or fill out our form. | سٹائلش ماربل آرٹ سے رابطہ کریں۔`,
+    keywords: ['contact marble services', 'get quote gravestone', 'marble art contact', 'Karachi marble', 'رابطہ ماربل سروسز', 'قبر کے پتھر کا کوٹیشن'],
+};
+
+
+// Page Component
 export default function ContactPage() {
+  'use client';
+  
   const { language } = useLanguage();
   const pageContent = content.contactPage;
 
