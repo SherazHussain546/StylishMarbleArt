@@ -2,12 +2,12 @@ import type {NextConfig} from 'next';
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline';
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
   child-src 'self';
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co data:;
   font-src 'self';  
-  connect-src 'self' vitals.vercel-insights.com;
+  connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com;
   frame-src 'self' https://www.google.com;
   upgrade-insecure-requests;
 `;
