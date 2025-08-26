@@ -27,7 +27,7 @@ export function HomeAbout() {
               data-ai-hint="artisan carving"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         </div>
