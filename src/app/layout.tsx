@@ -8,7 +8,10 @@ import { Footer } from '@/components/footer';
 import { WhatsAppButton } from '@/components/whatsapp-button';
 import './globals.css';
 
+const siteUrl = 'https://www.stylishmarbleart.com';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'Stylish Marble Art - Gravestones, Kitchens & Custom Marble in Karachi',
     template: '%s | Stylish Marble Art',
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
    openGraph: {
     title: 'Stylish Marble Art - Premium Marble Services in Karachi, Pakistan',
     description: 'Specialists in beautiful gravestones, memorials, and custom marble for kitchens and homes.',
-    url: 'https://www.stylishmarbleart.com',
+    url: siteUrl,
     siteName: 'Stylish Marble Art',
     images: [
       {
@@ -44,7 +47,7 @@ export const metadata: Metadata = {
     images: ['/SMAHeader.png'],
   },
   alternates: {
-    canonical: 'https://www.stylishmarbleart.com',
+    canonical: '/',
   }
 };
 
