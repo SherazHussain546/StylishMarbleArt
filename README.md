@@ -11,12 +11,16 @@ To share your code and keep track of changes, you'll use Git and GitHub.
 
 ### Securing Secret Keys
 
-Your project uses secret keys for its AI features and for sending emails. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
+Your project uses secret keys for its AI features, sending emails, and displaying Google Maps. It is **critical** that these keys are never uploaded to a public GitHub repository. The standard way to handle this is with a `.env.local` file.
 
 1.  **Create a `.env.local` file**: At the root of your project, create a file named `.env.local`. Your secret keys should be stored here. For example:
     ```
     # For the AI Assistant on the contact page
     GEMINI_API_KEY=your_gemini_secret_key_here
+
+    # For displaying the map on the contact page
+    # IMPORTANT: The variable name MUST start with NEXT_PUBLIC_
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_new_google_maps_api_key_here
 
     # For sending emails from the contact form
     SMTP_HOST=your_smtp_host.com
@@ -60,7 +64,7 @@ Your project uses secret keys for its AI features and for sending emails. It is 
 4.  **Configure and Deploy**: Netlify will automatically detect that it's a Next.js project and configure the build settings for you.
     *   **CRITICAL: Environment Variables**: Before you deploy, you must add your secret keys.
         *   Go to your site's settings, find the "**Build & deploy**" section, and then go to "**Environment**".
-        *   Click "**Add a variable**" and add each of the keys from your `.env.local` file (e.g., `GEMINI_API_KEY`, `SMTP_HOST`, `SMTP_USER`, etc.) one by one with their corresponding values.
+        *   Click "**Add a variable**" and add each of the keys from your `.env.local` file (e.g., `GEMINI_API_KEY`, `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`, `SMTP_HOST`, etc.) one by one with their corresponding values.
     *   Go back to the deployment page and click "**Deploy site**". Netlify will build and launch your website on a temporary URL (e.g., `your-site-name.netlify.app`).
 
 ## Connecting Your GoDaddy Domain

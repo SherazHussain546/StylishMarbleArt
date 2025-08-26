@@ -5,10 +5,12 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { ContactForm } from './contact-form';
 import { Mail, MapPin, Phone } from 'lucide-react';
+import { GoogleMap } from '@/components/google-map';
 
 export default function ContactPageClient() {
   const { language } = useLanguage();
   const pageContent = content.contactPage;
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   return (
     <div className="bg-secondary">
@@ -40,6 +42,15 @@ export default function ContactPageClient() {
                   {pageContent.contactInfo.email[language]}
                 </a>
               </div>
+            </div>
+             <div className="mt-8 h-96 w-full overflow-hidden rounded-lg shadow-xl">
+              {apiKey ? (
+                <GoogleMap apiKey={apiKey} />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
+                  {language === 'en' ? 'Google Map cannot be displayed. API key is missing.' : 'گوگل میپ ظاہر نہیں کیا جا سکتا۔ API کلید غائب ہے۔'}
+                </div>
+              )}
             </div>
           </div>
           

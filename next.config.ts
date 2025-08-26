@@ -8,7 +8,7 @@ const ContentSecurityPolicy = `
   img-src 'self' https://placehold.co data:;
   font-src 'self';  
   connect-src 'self' vitals.vercel-insights.com;
-  frame-src 'self';
+  frame-src 'self' https://www.google.com;
   upgrade-insecure-requests;
 `;
 
@@ -35,7 +35,7 @@ const securityHeaders = [
   },
    {
     key: 'Permissions-Policy',
-    value: "camera=(), microphone=(), geolocation=()"
+    value: "camera=(), microphone=(), geolocation=(), oversized-images=()"
   }
 ];
 
