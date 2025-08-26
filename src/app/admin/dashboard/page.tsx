@@ -89,13 +89,15 @@ export default function AdminDashboardPage() {
                 <p className="text-xs text-muted-foreground mt-2">Add or remove client testimonials.</p>
               </CardContent>
             </Card>
-            <Card className="bg-muted">
+            <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Gallery Management</CardTitle>
                 <ImageIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                 <Button disabled>Manage Gallery</Button>
+                 <Button asChild>
+                    <Link href="/admin/dashboard/gallery">Manage Gallery</Link>
+                 </Button>
                 <p className="text-xs text-muted-foreground mt-2">Feature coming soon.</p>
               </CardContent>
             </Card>
