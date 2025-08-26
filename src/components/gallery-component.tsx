@@ -1,112 +1,17 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { content } from '@/lib/content';
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
+import { getImages as fetchImages, type GalleryImage } from '@/app/admin/dashboard/gallery/actions';
+import { Skeleton } from './ui/skeleton';
 
-type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials'; //  | 'Inlays & Patterns' for later things do not move this now please
-
-const galleryImages = [
-  // Headstones
-  { src: '/Gallery/Headstone/1.png', alt: 'Elegant marble headstone', hint: 'marble headstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/2.png', alt: 'Granite family monument', hint: 'granite monument', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/3.png', alt: 'Double headstone for a couple', hint: 'double headstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/4.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/5.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/6.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/7.png', alt: 'Elegant marble headstone', hint: 'marble headstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/8.png', alt: 'Granite family monument', hint: 'granite monument', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/9.png', alt: 'Double headstone for a couple', hint: 'double headstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/10.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/11.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/12.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },{ src: '/Gallery/Headstone/1.png', alt: 'Elegant marble headstone', hint: 'marble headstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/13.png', alt: 'Granite family monument', hint: 'granite monument', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/14.png', alt: 'Double headstone for a couple', hint: 'double headstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/15.png', alt: 'Polished black granite tombstone', hint: 'granite tombstone', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/16.png', alt: 'Detailed engraving on a memorial', hint: 'memorial engraving', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/17.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/18.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
-  { src: '/Gallery/Headstone/19.png', alt: 'Bronze plaque on stone', hint: 'bronze plaque', category: 'Headstones' as Category },
-
-  // Graves
-  { src: '/Gallery/Grave/1.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/2.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/3.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/4.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/5.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/6.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/7.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/8.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/9.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/10.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/11.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/12.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/13.png', alt: 'Serene cemetery setting with a custom headstone', hint: 'cemetery headstone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/14.png', alt: 'Restored vintage gravestone', hint: 'restored gravestone', category: 'Graves' as Category },
-  { src: '/Gallery/Grave/15.png', alt: 'A child memorial stone with carving', hint: 'child memorial', category: 'Graves' as Category },
-
-  // Government Works
-  { src: '/Gallery/Government/1.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
-  { src: '/Gallery/Government/2.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
-  { src: '/Gallery/Government/3.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
-  { src: '/Gallery/Government/4.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
-  { src: '/Gallery/Government/5.png', alt: 'Custom engraved marble sign for a government building', hint: 'engraved sign', category: 'Government Works' as Category },
-  
-  // Charity Work
-  { src: '/Gallery/Charity/1.png', alt: 'White marble statue detail for a charity project', hint: 'marble statue', category: 'Charity Work' as Category },
-  { src: '/Gallery/Charity/2.png', alt: 'Large memorial with multiple engravings for a community park', hint: 'large memorial', category: 'Charity Work' as Category },
-  //{ src: 'https://placehold.co/600x401.png', alt: 'Placeholder charity image', hint: 'charity work', category: 'Charity Work' as Category },
-  //{ src: 'https://placehold.co/600x402.png', alt: 'Placeholder charity image 2', hint: 'charity work', category: 'Charity Work' as Category },
-  //{ src: 'https://placehold.co/600x403.png', alt: 'Placeholder charity image 3', hint: 'charity work', category: 'Charity Work' as Category },
-  //{ src: 'https://placehold.co/600x404.png', alt: 'Placeholder charity image 4', hint: 'charity work', category: 'Charity Work' as Category },
-  //{ src: 'https://placehold.co/600x405.png', alt: 'Placeholder charity image 5', hint: 'charity work', category: 'Charity Work' as Category },
-
-  // Home Decors
-  { src: '/Gallery/HomeDecor/1.png', alt: 'Modern kitchen with marble countertop', hint: 'kitchen countertop', category: 'Home Decors' as Category },
-  { src: '/Gallery/HomeDecor/2.png', alt: 'Marble flooring in a house entrance', hint: 'marble flooring', category: 'Home Decors' as Category },
-  { src: '/Gallery/HomeDecor/3.png', alt: 'Artificial marble bathroom vanity', hint: 'bathroom vanity', category: 'Home Decors' as Category },
-  //{ src: 'https://placehold.co/600x404.png', alt: 'Placeholder home decor', hint: 'home decor', category: 'Home Decors' as Category },
-  //{ src: 'https://placehold.co/600x405.png', alt: 'Placeholder home decor 2', hint: 'home decor', category: 'Home Decors' as Category },
-  //{ src: 'https://placehold.co/600x406.png', alt: 'Placeholder home decor 3', hint: 'home decor', category: 'Home Decors' as Category },
-  //{ src: 'https://placehold.co/600x407.png', alt: 'Placeholder home decor 4', hint: 'home decor', category: 'Home Decors' as Category },
-  
-  // Inlays & Patterns
-  //{ src: 'https://placehold.co/600x400.png', alt: 'Geometric marble floor inlay', hint: 'marble floor inlay', category: 'Inlays & Patterns' as Category },
-  //{ src: 'https://placehold.co/600x401.png', alt: 'Floral marble pattern on a wall', hint: 'floral marble pattern', category: 'Inlays & Patterns' as Category },
-  //{ src: 'https://placehold.co/600x402.png', alt: 'Placeholder inlay', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
-  //{ src: 'https://placehold.co/600x403.png', alt: 'Placeholder pattern', hint: 'marble pattern', category: 'Inlays & Patterns' as Category },
-  //{ src: 'https://placehold.co/600x404.png', alt: 'Placeholder inlay 2', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
-  //{ src: 'https://placehold.co/600x405.png', alt: 'Placeholder inlay 3', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
-  //{ src: 'https://placehold.co/600x406.png', alt: 'Placeholder inlay 4', hint: 'inlay pattern', category: 'Inlays & Patterns' as Category },
-
-  // Christian Memorials
-  { src: '/Gallery/Christin/1.png', alt: 'Christian cross memorial', hint: 'christian memorial', category: 'Christian Memorials' as Category },
-  { src: '/Gallery/Christin/2.png', alt: 'Angel statue on a headstone', hint: 'angel statue', category: 'Christian Memorials' as Category },
-  //{ src: 'https://placehold.co/600x402.png', alt: 'Marble grave marker with bible verse', hint: 'bible verse', category: 'Christian Memorials' as Category },
-  //{ src: 'https://placehold.co/600x403.png', alt: 'Simple and elegant cross headstone', hint: 'cross headstone', category: 'Christian Memorials' as Category },
-  //{ src: 'https://placehold.co/600x404.png', alt: 'Christian family grave plot', hint: 'family grave', category: 'Christian Memorials' as Category },
-  //{ src: 'https://placehold.co/600x405.png', alt: 'Placeholder christian memorial', hint: 'christian memorial', category: 'Christian Memorials' as Category },
-  //{ src: 'https://placehold.co/600x406.png', alt: 'Placeholder christian memorial 2', hint: 'christian memorial', category: 'Christian Memorials' as Category },
-
-  // Hindu Memorials
-  { src: '/Gallery/Hindu/1.png', alt: 'Hindu memorial stone with Om symbol', hint: 'om symbol', category: 'Hindu Memorials' as Category },
-  //{ src: 'https://placehold.co/600x401.png', alt: 'Placeholder hindu memorial', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
-  //{ src: 'https://placehold.co/600x402.png', alt: 'Placeholder hindu memorial 2', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
-  //{ src: 'https://placehold.co/600x403.png', alt: 'Placeholder hindu memorial 3', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
-  //{ src: 'https://placehold.co/600x404.png', alt: 'Placeholder hindu memorial 4', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
-  //{ src: 'https://placehold.co/600x405.png', alt: 'Placeholder hindu memorial 5', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
-  //{ src: 'https://placehold.co/600x406.png', alt: 'Placeholder hindu memorial 6', hint: 'hindu memorial', category: 'Hindu Memorials' as Category },
-  ];
-
-const INITIAL_VISIBLE_IMAGES = 6;
-const IMAGES_TO_LOAD = 6;
+type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
 
 const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
     { id: 'Graves', name: { en: 'Graves', ur: 'قبریں' } },
@@ -116,14 +21,31 @@ const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
     { id: 'Government Works', name: { en: 'Government', ur: 'سرکاری کام' } },
     { id: 'Christian Memorials', name: { en: 'Christian', ur: 'عیسائی یادگاریں' } },
     { id: 'Hindu Memorials', name: { en: 'Hindu', ur: 'ہندو یادگاریں' } },
-    //{ id: 'Inlays & Patterns', name: { en: 'Inlays & Patterns', ur: 'جڑاؤ اور ڈیزائن' } },
 ]
+
+const INITIAL_VISIBLE_IMAGES = 6;
+const IMAGES_TO_LOAD = 6;
 
 export function GalleryComponent() {
   const { language } = useLanguage();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [allImages, setAllImages] = useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
-  const allImages = useMemo(() => galleryImages.map((img, index) => ({...img, uniqueId: `${img.src}-${index}`})), []);
+  useEffect(() => {
+    const loadImages = async () => {
+        setIsLoading(true);
+        try {
+            const images = await fetchImages();
+            setAllImages(images);
+        } catch (error) {
+            console.error("Failed to load gallery images:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    loadImages();
+  }, []);
 
   const [visibleCounts, setVisibleCounts] = useState<Record<string, number>>(
     categories.reduce((acc, cat) => ({...acc, [cat.id]: INITIAL_VISIBLE_IMAGES}), {})
@@ -149,9 +71,9 @@ export function GalleryComponent() {
     }));
   };
 
-  const openLightbox = (uniqueId: string) => {
+  const openLightbox = (imageId: string) => {
     const imagesToSearch = filteredImagesForLightbox;
-    const index = imagesToSearch.findIndex(img => img.uniqueId === uniqueId);
+    const index = imagesToSearch.findIndex(img => img.id === imageId);
     if(index !== -1) setSelectedImageIndex(index);
   };
   
@@ -187,14 +109,13 @@ export function GalleryComponent() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {visibleImages.map((image) => (
             <div
-              key={image.uniqueId}
+              key={image.id}
               className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-              onClick={() => openLightbox(image.uniqueId)}
+              onClick={() => openLightbox(image.id)}
             >
               <Image
-                src={image.src}
+                src={image.url}
                 alt={image.alt}
-                data-ai-hint={image.hint}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -216,25 +137,40 @@ export function GalleryComponent() {
       </section>
     );
   };
+  
+  if (isLoading) {
+    return (
+        <div className="space-y-16">
+            {categories.slice(0,2).map(category => (
+                 <section key={category.id}>
+                    <h2 className="mb-8 text-center text-3xl font-bold"><Skeleton className="h-8 w-48 mx-auto" /></h2>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-64 rounded-lg" />)}
+                    </div>
+                 </section>
+            ))}
+        </div>
+    );
+  }
 
   return (
     <>
-        <div className="mb-12 flex flex-wrap justify-center gap-2">
-             <Button
-                variant={activeFilter === 'All' ? 'default' : 'outline'}
-                onClick={() => setActiveFilter('All')}
-                >
-                {language === 'en' ? 'All' : 'سب'}
-            </Button>
-            {categories.map((cat) => (
-            <Button
-                key={cat.id}
-                variant={activeFilter === cat.id ? 'default' : 'outline'}
-                onClick={() => setActiveFilter(cat.id)}
+      <div className="mb-12 flex flex-wrap justify-center gap-2">
+         <Button
+            variant={activeFilter === 'All' ? 'default' : 'outline'}
+            onClick={() => setActiveFilter('All')}
             >
-                {cat.name[language]}
-            </Button>
-            ))}
+            {language === 'en' ? 'All' : 'سب'}
+        </Button>
+        {categories.filter(c => imagesByCategory[c.id]?.length > 0).map((cat) => (
+        <Button
+            key={cat.id}
+            variant={activeFilter === cat.id ? 'default' : 'outline'}
+            onClick={() => setActiveFilter(cat.id)}
+        >
+            {cat.name[language]}
+        </Button>
+        ))}
       </div>
 
       <div className="space-y-16">
@@ -254,7 +190,7 @@ export function GalleryComponent() {
           {selectedImage && (
             <div className="relative aspect-video">
                 <Image
-                    src={selectedImage.src}
+                    src={selectedImage.url}
                     alt={selectedImage.alt}
                     fill
                     className="object-contain"
@@ -273,5 +209,3 @@ export function GalleryComponent() {
     </>
   );
 }
-
-    
