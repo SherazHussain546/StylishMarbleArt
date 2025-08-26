@@ -57,18 +57,21 @@ Your project uses a secret key for its AI features (`GEMINI_API_KEY`). It is **c
         *   Click **Save**.
     *   Go back to the deployment page and click "**Deploy site**". Netlify will build and launch your website on a temporary URL (e.g., `your-site-name.netlify.app`).
 
-## Connecting Your Custom Domain (`stylishmarbleart.com`)
+## Connecting Your GoDaddy Domain
 
-Once your site is live on the Netlify URL, you can connect your custom domain.
+Once your site is live on the Netlify URL, you can connect your custom domain from GoDaddy.
 
-1.  **Add Domain in Netlify**: In your Netlify project dashboard, go to "**Domain settings**". Click "**Add a domain**" and enter `stylishmarbleart.com`. Follow the prompts to verify you own the domain.
+1.  **Add Domain in Netlify**: In your Netlify project dashboard, go to "**Domain settings**". Click "**Add a domain**" and enter your domain name (e.g., `yourdomain.com`). Follow the prompts to verify you own the domain.
 
-2.  **Update DNS Records**: Netlify will provide you with the DNS records you need to add to your domain registrar (the company where you bought your domain, like GoDaddy, Namecheap, etc.). It's typically a set of `NS` (Nameserver) records or an `A` record.
-    *   Log in to your domain registrar's website.
-    *   Go to the DNS management page for `stylishmarbleart.com`.
-    *   Delete any existing `NS` or `A` records for your root domain (`@`) and `www`, and add the new ones provided by Netlify. Using Netlify's nameservers is the recommended approach.
+2.  **Update DNS Records in GoDaddy**: Netlify will provide you with the DNS records you need to add to GoDaddy. The recommended method is to use Netlify's nameservers.
+    *   Log in to your **GoDaddy** account.
+    *   Go to your **My Products** page and find your domain. Click the **DNS** button next to it.
+    *   Under the **Nameservers** section, click the **Change** button.
+    *   Select the option **"I'll use my own nameservers."**
+    *   Netlify will give you 2 or more nameservers (they look like `dns1.p01.nsone.net`). Copy and paste each one into the fields on GoDaddy.
+    *   Click **Save**.
 
-3.  **Wait for Propagation**: DNS changes can take a few minutes up to a few hours to take effect. Netlify will automatically detect when the changes are complete and secure your site with a free SSL certificate. Your website will then be live at **stylishmarbleart.com**!
+3.  **Wait for Propagation**: DNS changes can take a few minutes up to a few hours to take effect. Netlify will automatically detect when the changes are complete and secure your site with a free SSL certificate. Your website will then be live at your custom domain!
 
 ## Making Changes to the Live Site
 
