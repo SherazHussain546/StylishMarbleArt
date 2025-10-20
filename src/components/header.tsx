@@ -1,7 +1,8 @@
+
 'use client';
 
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -13,6 +14,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/auth-context';
+import { WhatsAppIcon } from './icons/whatsapp-icon';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,6 +34,9 @@ export function Header() {
     { href: '/about', label: content.nav.about[language] },
     { href: '/contact', label: content.nav.contact[language] },
   ];
+
+  const phone = content.contactPage.contactInfo.phone.en;
+  const whatsappNumber = phone.replace(/\D/g, '');
 
   const NavItems = () =>
     navLinks.map(link => (
@@ -86,7 +91,19 @@ export function Header() {
              <Logo />
           </div>
 
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end gap-1">
+             <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
+                <a href={`tel:${phone.replace(/\s/g, '')}`}>
+                    <Phone className="mr-2 h-4 w-4" />
+                    Call Us
+                </a>
+             </Button>
+             <Button variant="ghost" size="sm" asChild className="hidden sm:flex" style={{color: '#13872F'}}>
+                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                    <WhatsAppIcon className="mr-2 h-5 w-5" />
+                    WhatsApp
+                </a>
+             </Button>
             <LanguageSwitcher />
           </div>
         </div>
