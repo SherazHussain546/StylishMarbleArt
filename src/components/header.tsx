@@ -14,7 +14,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/auth-context';
-import { WhatsAppIcon } from './icons/whatsapp-icon';
+import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -99,7 +99,7 @@ export function Header() {
              </Button>
              <Button variant="ghost" size="icon" asChild className="hidden sm:flex" style={{color: '#13872F'}}>
                 <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-                    <WhatsAppIcon className="h-6 w-6" />
+                    <WhatsappFooterIcon className="h-7 w-7" />
                 </a>
              </Button>
             <LanguageSwitcher />
