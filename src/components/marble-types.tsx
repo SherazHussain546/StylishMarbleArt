@@ -5,10 +5,14 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Phone, MessageCircle } from 'lucide-react';
 
 export function MarbleTypes() {
   const { language } = useLanguage();
   const sectionContent = content.marbleTypes;
+  const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
+  const whatsappNumber = phone.replace(/\D/g, '');
 
   return (
     <section className="py-12 md:py-24 bg-background">
@@ -39,6 +43,20 @@ export function MarbleTypes() {
               </Card>
             </Link>
           ))}
+        </div>
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button asChild size="lg">
+                <a href={`tel:${phone}`}>
+                    <Phone className="mr-2 h-5 w-5" />
+                    {language === 'en' ? 'Call Us Now' : 'ابھی کال کریں'}
+                </a>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    {language === 'en' ? 'WhatsApp Us' : 'واٹس ایپ پر رابطہ کریں'}
+                </a>
+            </Button>
         </div>
       </div>
     </section>
