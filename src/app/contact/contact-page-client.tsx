@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { WhatsappStickyIcon } from '@/components/icons/whatsapp-sticky-icon';
 import { ContactForm } from './contact-form';
+import { MessageCircle } from 'lucide-react';
 
 export default function ContactPageClient() {
   const { language } = useLanguage();
@@ -29,14 +30,31 @@ export default function ContactPageClient() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
-          {/* Left Column: Contact Form */}
+          {/* Left Column: Contact Actions */}
           <Card>
              <CardHeader>
-                <CardTitle className="text-3xl">{language === 'en' ? 'Send Us a Message' : 'ہمیں ایک پیغام بھیجیں'}</CardTitle>
-                <CardDescription>{language === 'en' ? 'Fill out the form and we will get back to you.' : 'فارم پر کریں اور ہم آپ سے رابطہ کریں گے۔'}</CardDescription>
+                <CardTitle className="text-3xl">{language === 'en' ? 'Contact Us Directly' : 'ہم سے براہ راست رابطہ کریں'}</CardTitle>
+                <CardDescription>{language === 'en' ? 'Choose your preferred way to get in touch.' : 'رابطہ کرنے کے لیے اپنا پسندیدہ طریقہ منتخب کریں۔'}</CardDescription>
              </CardHeader>
-             <CardContent>
-                <ContactForm />
+             <CardContent className="flex flex-col space-y-4 pt-6">
+                <Button asChild size="lg" className="w-full text-base py-6">
+                    <a href={`tel:${phone.replace(/\s/g, '')}`}>
+                        <Phone className="mr-4 h-6 w-6" />
+                        {language === 'en' ? 'Call Us' : 'کال کریں'}
+                    </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="w-full text-base py-6 bg-green-500 text-white hover:bg-green-600 hover:text-white border-green-500">
+                    <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                        <MessageCircle className="mr-4 h-6 w-6" />
+                        {language === 'en' ? 'WhatsApp' : 'واٹس ایپ'}
+                    </a>
+                </Button>
+                 <Button asChild size="lg" variant="outline" className="w-full text-base py-6">
+                    <a href={`mailto:${email}`}>
+                        <Mail className="mr-4 h-6 w-6" />
+                        {language === 'en' ? 'Email Us' : 'ای میل کریں'}
+                    </a>
+                </Button>
              </CardContent>
           </Card>
 
