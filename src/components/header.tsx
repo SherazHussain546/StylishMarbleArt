@@ -96,11 +96,6 @@ export function Header() {
                     <Phone className="h-5 w-5" />
                 </a>
              </Button>
-             <Button variant="ghost" size="icon" asChild className="hidden sm:flex" style={{color: '#13872F'}}>
-                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-                    <WhatsappFooterIcon className="h-8 w-8" />
-                </a>
-             </Button>
             <LanguageSwitcher />
           </div>
         </div>
