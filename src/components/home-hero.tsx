@@ -9,6 +9,7 @@ import Image from 'next/image';
 
 export function HomeHero() {
   const { language } = useLanguage();
+  const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
 
   return (
     <section className="relative w-full py-20 md:py-32 lg:py-40">
@@ -30,9 +31,14 @@ export function HomeHero() {
           <p className="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl">
             {content.hero.subtitle[language]}
           </p>
-          <div className="mt-10">
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg">
               <Link href="/services">{content.hero.cta[language]}</Link>
+            </Button>
+             <Button asChild size="lg" variant="outline">
+               <a href={`tel:${phone}`}>
+                {language === 'en' ? 'Call Us Now' : 'ابھی کال کریں'}
+               </a>
             </Button>
           </div>
         </div>
