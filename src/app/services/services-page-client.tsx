@@ -9,10 +9,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Mail, MessageCircle, Phone } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
   const pageContent = content.servicesPage;
+  const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
+  const whatsappNumber = phone.replace(/\D/g, '');
+  const email = content.contactPage.contactInfo.email.en;
 
   return (
     <div className="bg-background">
@@ -62,9 +66,24 @@ export default function ServicesPageClient() {
                 </Carousel>
               </div>
 
-              <div className="mt-8 text-center">
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg">
-                  <Link href="/contact">{language === 'en' ? 'Inquire Now' : 'ابھی پوچھیں'}</Link>
+                    <a href={`tel:${phone}`}>
+                        <Phone className="mr-2 h-5 w-5" />
+                        {language === 'en' ? 'Call Us' : 'کال کریں'}
+                    </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="bg-green-500 text-white hover:bg-green-600 hover:text-white border-green-500">
+                    <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                        <MessageCircle className="mr-2 h-5 w-5" />
+                        {language === 'en' ? 'WhatsApp' : 'واٹس ایپ'}
+                    </a>
+                </Button>
+                 <Button asChild size="lg" variant="outline">
+                    <a href={`mailto:${email}`}>
+                        <Mail className="mr-2 h-5 w-5" />
+                        {language === 'en' ? 'Email Us' : 'ای میل کریں'}
+                    </a>
                 </Button>
               </div>
 
