@@ -143,6 +143,49 @@ export const content = {
       },
     ]
   },
+  homeFeed: {
+    title: { en: "Stylish Marble Art Feed", ur: "سٹائلش ماربل آرٹ فیڈ" },
+    description: { en: "Our latest work and projects, fresh from the workshop.", ur: "ہمارے تازہ ترین کام اور منصوبے، براہ راست ورکشاپ سے۔" },
+    cta: { en: "View Full Gallery", ur: "مکمل گیلری دیکھیں" },
+    feedItems: [
+      {
+        image: "/Gallery/Grave/8.png",
+        title: { en: "New Gravestone", ur: "نیا قبر کا پتھر" },
+        alt: { en: "A newly completed white marble gravestone.", ur: "ایک نیا مکمل شدہ سفید ماربل کا قبر کا پتھر۔" },
+        hint: "marble gravestone",
+      },
+      {
+        image: "/Gallery/Headstone/8.png",
+        title: { en: "Granite Headstone", ur: "گرینائٹ کا کتبہ" },
+        alt: { en: "A recently installed black granite headstone.", ur: "ایک حال ہی میں نصب سیاہ گرینائٹ کا کتبہ۔" },
+        hint: "granite headstone",
+      },
+      {
+        image: "/Gallery/HomeDecor/1.png",
+        title: { en: "Kitchen Countertop", ur: "کچن کاؤنٹر ٹاپ" },
+        alt: { en: "A modern kitchen with a new marble countertop.", ur: "ایک جدید باورچی خانہ نئے ماربل کاؤنٹر ٹاپ کے ساتھ۔" },
+        hint: "kitchen countertop",
+      },
+      {
+        image: "/Gallery/Charity/1.png",
+        title: { en: "Charity Plaque", ur: "فلاحی تختی" },
+        alt: { en: "Engraved marble plaque for a charity project.", ur: "ایک فلاحی منصوبے کے لیے کندہ شدہ ماربل کی تختی۔" },
+        hint: "marble plaque",
+      },
+       {
+        image: "/Gallery/Headstone/4.png",
+        title: { en: "Grave Memorial", ur: "قبر کی یادگار" },
+        alt: { en: "A complete grave memorial with custom stone work.", ur: "ایک مکمل قبر کی یادگار کسٹم پتھر کے کام کے ساتھ۔" },
+        hint: "grave memorial",
+      },
+       {
+        image: "/Gallery/Government/1.png",
+        title: { en: "Govt. Building Engraving", ur: "سرکاری عمارت کی کندہ کاری" },
+        alt: { en: "Engraving work on a government building.", ur: "ایک سرکاری عمارت پر کندہ کاری کا کام۔" },
+        hint: "building engraving",
+      }
+    ],
+  },
   homeAbout: {
     title: { en: 'A Legacy of Artistry in Pakistan', ur: 'پاکستان میں فنکاری کی میراث' },
     paragraph1: {
