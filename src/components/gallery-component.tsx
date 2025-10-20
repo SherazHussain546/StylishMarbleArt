@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, Mail, MessageCircle } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
 import { content } from '@/lib/content';
 
@@ -110,6 +110,10 @@ export function GalleryComponent() {
   
   const selectedImage = selectedImageIndex !== null ? filteredImagesForLightbox[selectedImageIndex] : null;
 
+  const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
+  const whatsappNumber = phone.replace(/\D/g, '');
+  const email = content.contactPage.contactInfo.email.en;
+
   const renderCategorySection = (category: {id: Category, name: {[key in 'en' | 'ur']: string}}, isFiltered: boolean) => {
     const categoryImages = imagesByCategory[category.id];
     if(categoryImages.length === 0) return null;
@@ -120,7 +124,26 @@ export function GalleryComponent() {
 
     return (
       <section key={category.id} id={category.id}>
-        <h2 className="mb-8 text-center text-3xl font-bold">{category.name[language]}</h2>
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
+          <h2 className="text-3xl font-bold">{category.name[language]}</h2>
+          <div className="flex items-center gap-2">
+            <Button asChild size="icon" variant="outline">
+              <a href={`tel:${phone}`} aria-label="Call us">
+                <Phone className="h-5 w-5" />
+              </a>
+            </Button>
+            <Button asChild size="icon" variant="outline">
+              <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp us">
+                <MessageCircle className="h-5 w-5" />
+              </a>
+            </Button>
+            <Button asChild size="icon" variant="outline">
+              <a href={`mailto:${email}`} aria-label="Email us">
+                <Mail className="h-5 w-5" />
+              </a>
+            </Button>
+          </div>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {visibleImages.map((image, index) => (
             <div
