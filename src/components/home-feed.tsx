@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -54,7 +53,10 @@ export function HomeFeed() {
           <CarouselPrevious className="hidden sm:flex" />
           <CarouselNext className="hidden sm:flex" />
         </Carousel>
-         <div className="mt-12 text-center">
+         <div className="mt-8 text-center">
+            <p className="text-sm text-muted-foreground mb-4 sm:hidden">
+              {language === 'en' ? 'Swipe to see more' : 'مزید دیکھنے کے لیے سوائپ کریں'}
+            </p>
             <Button asChild size="lg">
                 <Link href="/gallery">{sectionContent.cta[language]}</Link>
             </Button>
