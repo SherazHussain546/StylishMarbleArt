@@ -49,12 +49,6 @@ export default function ContactPageClient() {
                 </a>
               </div>
             </div>
-            <Button asChild size="lg">
-              <Link href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                {language === 'en' ? 'Get Directions' : 'ہدایات حاصل کریں'}
-                <ExternalLink className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
              <div className="mt-8 h-96 w-full overflow-hidden rounded-lg shadow-xl">
                <GoogleMap />
             </div>
@@ -81,6 +75,13 @@ export default function ContactPageClient() {
                         <Mail className="mr-2 h-5 w-5" />
                         {language === 'en' ? 'Email Us' : 'ای میل کریں'}
                     </a>
+                </Button>
+                <Button asChild size="lg" className="w-full" variant="outline">
+                  <Link href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                    <MapPin className="mr-2 h-5 w-5" />
+                    {language === 'en' ? 'Visit Us In-Person' : 'خود تشریف لائیں'}
+                    <ExternalLink className="ml-auto h-4 w-4" />
+                  </Link>
                 </Button>
              </div>
           </div>
