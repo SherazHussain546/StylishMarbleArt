@@ -4,7 +4,6 @@
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { GalleryComponent } from '@/components/gallery-component';
-import { GalleryFloatingCta } from '@/components/gallery-floating-cta';
 
 export default function GalleryPageClient() {
   const { language } = useLanguage();
@@ -21,7 +20,6 @@ export default function GalleryPageClient() {
           <GalleryComponent />
         </div>
       </div>
-      <GalleryFloatingCta />
     </>
   );
 }
