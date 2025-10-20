@@ -12,9 +12,9 @@ export default function Home() {
       <HomeHero />
       <HomeServices />
       <Separator className="my-12 md:my-24" />
-      <MarbleTypes />
-      <Separator className="my-12 md:my-24" />
       <HomeFeed />
+      <Separator className="my-12 md:my-24" />
+      <MarbleTypes />
       <Separator className="my-12 md:my-24" />
       <HomeAbout />
     </>
