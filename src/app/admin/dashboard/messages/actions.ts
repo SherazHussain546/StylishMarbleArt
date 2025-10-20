@@ -1,7 +1,7 @@
 
 'use server';
 
-import { db } from '@/lib/firebase';
+import { db } from '@/lib/firebase/client';
 import { collection, getDocs, doc, deleteDoc, orderBy, query } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 

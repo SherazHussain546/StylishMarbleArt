@@ -2,7 +2,7 @@
 'use server';
 
 import { z } from 'zod';
-import { db } from '@/lib/firebase';
+import { db } from '@/lib/firebase/client';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const formSchema = z.object({
@@ -19,7 +19,6 @@ export async function submitContactForm(data: z.infer<typeof formSchema>) {
 
   const { name, email, message } = validation.data;
 
-  // Save the message to Firestore
   try {
     await addDoc(collection(db, 'contact-messages'), {
       name,

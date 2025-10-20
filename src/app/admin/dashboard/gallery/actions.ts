@@ -2,7 +2,7 @@
 'use server';
 
 import { z } from 'zod';
-import { db, storage } from '@/lib/firebase';
+import { db, storage } from '@/lib/firebase/client';
 import { collection, addDoc, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { generateAltText } from '@/ai/flows/generate-alt-text';
