@@ -92,16 +92,14 @@ export function Header() {
           </div>
 
           <div className="flex items-center justify-end gap-1">
-             <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-                <a href={`tel:${phone.replace(/\s/g, '')}`}>
-                    <Phone className="mr-2 h-4 w-4" />
-                    Call Us
+             <Button variant="ghost" size="icon" asChild className="hidden sm:flex">
+                <a href={`tel:${phone.replace(/\s/g, '')}`} aria-label="Call Us">
+                    <Phone className="h-5 w-5" />
                 </a>
              </Button>
-             <Button variant="ghost" size="sm" asChild className="hidden sm:flex" style={{color: '#13872F'}}>
-                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
-                    <WhatsAppIcon className="mr-2 h-5 w-5" />
-                    WhatsApp
+             <Button variant="ghost" size="icon" asChild className="hidden sm:flex" style={{color: '#13872F'}}>
+                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+                    <WhatsAppIcon className="h-6 w-6" />
                 </a>
              </Button>
             <LanguageSwitcher />
