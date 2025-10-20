@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -99,7 +98,7 @@ export function Header() {
              </Button>
              <Button variant="ghost" size="icon" asChild className="hidden sm:flex" style={{color: '#13872F'}}>
                 <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-                    <WhatsappFooterIcon className="h-7 w-7" />
+                    <WhatsappFooterIcon className="h-8 w-8" />
                 </a>
              </Button>
             <LanguageSwitcher />
