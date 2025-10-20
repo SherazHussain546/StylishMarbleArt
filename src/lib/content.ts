@@ -357,7 +357,7 @@ export const content = {
     contactInfo: {
       title: { en: 'Contact Information', ur: 'رابطے کی معلومات' },
       address: { en: 'Malir 15, At Main National Highway Near Al-Habib Bank Ltd Karachi,Pakistan', ur: 'ملیر 15، مین نیشنل ہائی وے پر، الحبیب بینک لمیٹڈ کے قریب، کراچی، پاکستان' },
-      phone: { en: '+92 300 2193808', ur: '+92 300 2193808' },
+      phone: { en: '+92 308 3401606', ur: '+92 308 3401606' },
       email: { en: 'stylishmarbleart2020@gmail.com', ur: 'stylishmarbleart2020@gmail.com' },
     },
   },

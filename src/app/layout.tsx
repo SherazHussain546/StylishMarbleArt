@@ -121,7 +121,7 @@ export default function RootLayout({
               <main className="flex-grow">{children}</main>
               <Footer />
             </div>
-            <WhatsAppButton phoneNumber="+923002193808" />
+            <WhatsAppButton phoneNumber="+923083401606" />
             <Toaster />
           </LanguageProvider>
         </AuthProvider>
