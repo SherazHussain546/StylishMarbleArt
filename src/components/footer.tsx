@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Logo } from './logo';
-import { Mail } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { FacebookIcon } from './icons/facebook-icon';
 import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 import { usePathname } from 'next/navigation';
@@ -48,6 +48,11 @@ export function Footer() {
                  className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
                 <Mail className="h-7 w-7" />
                  <span className="sr-only">Email</span>
+              </a>
+              <a href={`tel:${content.contactPage.contactInfo.phone.en.replace(/\s/g, '')}`}
+                 className="p-2 rounded-lg flex items-center border border-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+                <Phone className="h-7 w-7" />
+                 <span className="sr-only">Call</span>
               </a>
             </div>
           </div>
