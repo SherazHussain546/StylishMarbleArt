@@ -34,8 +34,8 @@ export default function ContactPageClient() {
               <CardTitle className="text-3xl">{language === 'en' ? 'Connect With Us Directly' : 'ہم سے براہ راست جڑیں'}</CardTitle>
               <CardDescription>{language === 'en' ? 'We are ready to assist you with your inquiries.' : 'ہم آپ کی پوچھ گچھ میں مدد کے لیے تیار ہیں۔'}</CardDescription>
             </CardHeader>
-            <CardContent className="flex-grow space-y-6">
-                <div className="space-y-4">
+            <CardContent className="flex flex-grow flex-col items-center justify-center">
+                <div className="space-y-4 w-full max-w-xs">
                     <Button asChild size="lg" className="w-full justify-start text-base py-6">
                         <a href={`tel:${phone.replace(/\s/g, '')}`}>
                             <Phone className="mr-4 h-6 w-6" />
