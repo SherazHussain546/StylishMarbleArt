@@ -6,9 +6,10 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
-import { ChevronLeft, ChevronRight, Phone, Mail, MessageCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, Mail } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
 import { content } from '@/lib/content';
+import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 
 type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
 
@@ -134,7 +135,7 @@ export function GalleryComponent() {
             </Button>
             <Button asChild size="icon" variant="outline">
               <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp us">
-                <MessageCircle className="h-5 w-5" />
+                <WhatsappFooterIcon className="h-5 w-5" />
               </a>
             </Button>
             <Button asChild size="icon" variant="outline">
