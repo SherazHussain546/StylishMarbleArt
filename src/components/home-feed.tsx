@@ -21,7 +21,7 @@ export function HomeFeed() {
           <p className="mt-4 text-lg text-muted-foreground">{sectionContent.description[language]}</p>
         </div>
         <Carousel
-          className="w-full max-w-4xl mx-auto"
+          className="w-full max-w-6xl mx-auto"
           opts={{
             align: 'start',
             loop: true,
@@ -29,7 +29,7 @@ export function HomeFeed() {
         >
           <CarouselContent className="-ml-4">
             {sectionContent.feedItems.map((item, index) => (
-              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/4">
                 <div className="p-1">
                   <Card className="overflow-hidden group">
                     <CardContent className="relative flex aspect-square items-center justify-center p-0">
