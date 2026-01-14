@@ -3,12 +3,12 @@ import type { Metadata } from 'next';
 import DonatePageClient from './donate-page-client';
 
 export const metadata: Metadata = {
-  title: 'Donate for Ramadan | Stylish Marble Art',
-  description: 'Join us in supporting families in need this Ramadan. Your contribution can provide Iftar meals and essential aid to our community in Pakistan.',
-  keywords: ['Ramadan donation', 'support Pakistan', 'charity Karachi', 'donate for Iftar', 'zakat', 'Ramadan 2024'],
+  title: 'Ramadan Donation 2024: Support Families in Pakistan | Stylish Marble Art',
+  description: 'Join Stylish Marble Art this Ramadan to provide Iftar meals & essential aid to families in need across Pakistan. Give your Zakat or Sadaqa securely online. Your contribution makes a difference.',
+  keywords: ['Ramadan donation', 'support Pakistan', 'charity Karachi', 'donate for Iftar', 'zakat online', 'sadaqa', 'Ramadan 2024', 'Muslim charity', 'iftar meals', 'humanitarian aid Pakistan'],
   openGraph: {
-    title: 'Support Our Community This Ramadan',
-    description: 'Your donation helps us provide essential aid to families in Pakistan during the month of blessings.',
+    title: 'Support Families in Pakistan This Ramadan | Stylish Marble Art',
+    description: 'Your donation helps provide Iftar meals and essential aid during this month of blessings. Give your Zakat or Sadaqa securely online.',
   }
 };
 

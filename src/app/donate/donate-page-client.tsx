@@ -51,7 +51,7 @@ export default function DonatePageClient() {
         <div className="mt-16 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-xl">
             <Image
-              src="https://placehold.co/600x400/224124/FFFFFF?text=Ramadan"
+              src="https://placehold.co/600x400/0E4424/FFFFFF?text=Giving"
               alt="A conceptual image representing charity and community during Ramadan"
               data-ai-hint="charity community"
               fill
