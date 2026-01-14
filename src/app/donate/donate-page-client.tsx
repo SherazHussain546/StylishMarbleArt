@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle } from 'lucide-react';
+import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Target, Package, Home, Gift } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function DonatePageClient() {
@@ -61,6 +61,32 @@ export default function DonatePageClient() {
             title: { en: 'General Sadaqa', ur: 'عمومی صدقہ' },
             description: { en: 'Your general donations will be used where the need is greatest, ensuring aid reaches the most vulnerable communities.', ur: 'آپ کے عمومی عطیات وہاں استعمال کیے جائیں گے جہاں سب سے زیادہ ضرورت ہو، اس بات کو یقینی بناتے ہوئے کہ امداد سب سے زیادہ کمزور کمیونٹیز تک پہنچے۔' },
         },
+    ],
+    timelineTitle: {
+        en: 'Our Ramadan 2024 Goals',
+        ur: 'ہمارے رمضان ۲۰۲۴ کے اہداف',
+    },
+    timeline: [
+        {
+            icon: Target,
+            amount: { en: '$500 Goal', ur: '$500 کا ہدف' },
+            description: { en: 'Provide 100 hot Iftar meals for individuals breaking their fast in underserved areas.', ur: 'پسماندہ علاقوں میں روزہ افطار کرنے والے 100 افراد کے لیے گرم افطار کا اہتمام کریں۔' },
+        },
+        {
+            icon: Package,
+            amount: { en: '$1,500 Goal', ur: '$1,500 کا ہدف' },
+            description: { en: 'Deliver monthly ration packs (flour, rice, oil, lentils) to 25 families, sustaining them for the entire month.', ur: '25 خاندانوں کو ماہانہ راشن پیک (آٹا، چاول، تیل، دال) فراہم کریں، جو پورے مہینے کے لیے کافی ہوں۔' },
+        },
+        {
+            icon: Home,
+            amount: { en: '$3,000 Goal', ur: '$3,000 کا ہدف' },
+            description: { en: 'Sponsor a large-scale community Iftar for an entire village or neighborhood, fostering unity and joy.', ur: 'ایک پورے گاؤں یا محلے کے لیے بڑے پیمانے پر کمیونٹی افطار کا اہتمام کریں، جس سے اتحاد اور خوشی کو فروغ ملے۔' },
+        },
+        {
+            icon: Gift,
+            amount: { en: '$5,000 Goal', ur: '$5,000 کا ہدف' },
+            description: { en: 'Distribute Eid gifts and new clothes to over 100 children, bringing smiles to their faces for Eid-ul-Fitr.', ur: '100 سے زائد بچوں میں عید کے تحائف اور نئے کپڑے تقسیم کریں، تاکہ عید الفطر پر ان کے چہروں پر مسکراہٹیں آئیں۔' },
+        }
     ],
     faqTitle: {
         en: 'Frequently Asked Questions',
@@ -154,6 +180,42 @@ export default function DonatePageClient() {
                             );
                         })}
                     </ul>
+                </div>
+            </div>
+
+            <div className="mt-24 max-w-5xl mx-auto">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold tracking-tight">{content.timelineTitle[language]}</h2>
+                </div>
+                <div className="relative">
+                    {/* The vertical line */}
+                    <div className="absolute left-1/2 w-0.5 h-full bg-border -translate-x-1/2 hidden md:block"></div>
+                    <div className="space-y-16">
+                        {content.timeline.map((item, index) => {
+                            const Icon = item.icon;
+                            const isEven = index % 2 === 0;
+                            return (
+                                <div key={index} className="relative flex flex-col md:flex-row items-center gap-8">
+                                    <div className={`flex-1 ${isEven ? 'md:order-last' : ''}`}>
+                                        <Card className="shadow-lg">
+                                            <CardContent className="p-6 flex items-start gap-4">
+                                                <div className="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                                    <Icon className="h-7 w-7" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-bold text-lg text-primary">{item.amount[language]}</h3>
+                                                    <p className="mt-1 text-muted-foreground">{item.description[language]}</p>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                    {/* Circle on the timeline */}
+                                    <div className="absolute left-1/2 top-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background -translate-x-1/2 -translate-y-1/2 hidden md:block"></div>
+                                    <div className="flex-1 hidden md:block"></div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 
