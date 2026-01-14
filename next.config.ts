@@ -6,7 +6,7 @@ const ContentSecurityPolicy = `
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
   child-src 'self';
   style-src 'self' 'unsafe-inline';
-  img-src 'self' https://placehold.co data:;
+  img-src 'self' https://placehold.co https://picsum.photos data:;
   font-src 'self';  
   connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com;
   frame-src 'self' https://www.google.com;
@@ -53,6 +53,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
         port: '',
         pathname: '/**',
       },
