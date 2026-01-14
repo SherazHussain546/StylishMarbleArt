@@ -6,6 +6,7 @@ export const content = {
     gallery: { en: 'Gallery', ur: 'گیلری' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
+    donate: { en: 'Donate', ur: 'عطیہ کریں' },
   },
   hero: {
     title: {

@@ -33,6 +33,7 @@ export function Header() {
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/about', label: content.nav.about[language] },
     { href: '/contact', label: content.nav.contact[language] },
+    { href: '/donate', label: content.nav.donate[language] },
   ];
 
   const phone = content.contactPage.contactInfo.phone.en;
