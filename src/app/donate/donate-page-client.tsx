@@ -6,79 +6,124 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
+import { Heart, Users, UtensilsCrossed } from 'lucide-react';
 
 export default function DonatePageClient() {
   const { language } = useLanguage();
-  // NOTE: Replace this with your actual Stripe Payment Link
   const stripePaymentLink = 'https://donate.stripe.com/placeholder';
 
   const content = {
     title: {
-      en: 'Support Our Community This Ramadan',
-      ur: 'اس رمضان میں ہماری کمیونٹی کی مدد کریں',
+      en: 'Share Your Blessings This Ramadan',
+      ur: 'اس رمضان میں اپنی برکتیں بانٹیں',
     },
     subtitle: {
-      en: 'Your contribution will help us provide Iftar meals and essential aid to families in need across Pakistan during this month of blessings.',
-      ur: 'آپ کا تعاون ہمیں اس مبارک مہینے میں پورے پاکستان میں ضرورت مند خاندانوں کو افطار کے کھانے اور ضروری امداد فراہم کرنے میں مدد دے گا۔',
+      en: 'In this month of mercy, your Zakat and Sadaqa can bring hope and relief to families in need across Pakistan. Every contribution, no matter the size, is a powerful act of kindness.',
+      ur: 'رحمت کے اس مہینے میں، آپ کی زکوٰۃ اور صدقہ پورے پاکستان میں ضرورت مند خاندانوں کے لیے امید اور راحت کا باعث بن سکتا ہے۔ ہر تعاون، چاہے چھوٹا ہو یا بڑا، نیکی کا ایک طاقتور عمل ہے۔',
     },
     cardTitle: {
-      en: 'Make a Donation',
-      ur: 'عطیہ کریں',
+      en: 'Give with a Pure Heart',
+      ur: 'صاف دل سے دیں',
     },
     cardDescription: {
-      en: 'Click the button below to donate securely with Stripe. You can choose any amount in USD. Every donation, big or small, makes a difference.',
-      ur: 'اسٹرائپ کے ساتھ محفوظ طریقے سے عطیہ کرنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔ آپ USD میں کوئی بھی رقم منتخب کر سکتے ہیں۔ ہر عطیہ، چاہے چھوٹا ہو یا بڑا، ایک فرق ڈالتا ہے۔',
+      en: 'Click the button below to donate securely with Stripe. You can contribute any amount in USD, starting from just $1. Your generosity will directly provide Iftar meals and essential food packs to those who need them most.',
+      ur: 'اسٹرائپ کے ساتھ محفوظ طریقے سے عطیہ کرنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔ آپ USD میں کوئی بھی رقم، صرف $1 سے شروع کر سکتے ہیں۔ آپ کی سخاوت براہ راست ان لوگوں کو افطار کے کھانے اور ضروری فوڈ پیک فراہم کرے گی جنہیں اس کی سب سے زیادہ ضرورت ہے۔',
     },
     buttonText: {
-      en: 'Donate Now with Stripe',
-      ur: 'اسٹرائپ کے ساتھ ابھی عطیہ کریں',
+      en: 'Donate Securely via Stripe',
+      ur: 'اسٹرائپ کے ذریعے محفوظ طریقے سے عطیہ کریں',
     },
     thankYou: {
-      en: 'Thank you for your generosity.',
-      ur: 'آپ کی فراخدلی کا شکریہ۔',
-    }
+      en: 'May your generosity be rewarded abundantly. Thank you.',
+      ur: 'اللہ آپ کو اس سخاوت کا بہترین اجر عطا فرمائے۔ شکریہ۔',
+    },
+    causesTitle: {
+        en: 'How Your Donation Helps',
+        ur: 'آپ کا عطیہ کیسے مدد کرتا ہے۔'
+    },
+    causes: [
+        {
+            icon: UtensilsCrossed,
+            title: { en: 'Sponsor Iftar Meals', ur: 'افطار کے کھانے اسپانسر کریں' },
+            description: { en: 'Your contribution can provide hot, nutritious Iftar meals for individuals and families to break their fast.', ur: 'آپ کا تعاون افراد اور خاندانوں کو روزہ افطار کرنے کے لیے گرم، غذائیت سے بھرپور افطار فراہم کر سکتا ہے۔' },
+        },
+        {
+            icon: Users,
+            title: { en: 'Family Food Packs', ur: 'فیملی فوڈ پیکس' },
+            description: { en: 'Help us deliver essential grocery packs with items like flour, rice, oil, and dates to sustain a family for weeks.', ur: 'آٹے، چاول، تیل اور کھجور جیسی ضروری اشیاء پر مشتمل گروسری پیک فراہم کرنے میں ہماری مدد کریں جو ایک خاندان کو ہفتوں تک برقرار رکھ سکیں۔' },
+        },
+        {
+            icon: Heart,
+            title: { en: 'General Sadaqa', ur: 'عمومی صدقہ' },
+            description: { en: 'Your general donations will be used where the need is greatest, ensuring aid reaches the most vulnerable communities.', ur: 'آپ کے عمومی عطیات وہاں استعمال کیے جائیں گے جہاں سب سے زیادہ ضرورت ہو، اس بات کو یقینی بناتے ہوئے کہ امداد سب سے زیادہ کمزور کمیونٹیز تک پہنچے۔' },
+        },
+    ]
   };
 
   return (
-    <div className="bg-secondary">
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{content.title[language]}</h1>
-          <p className="mt-4 text-xl text-muted-foreground">{content.subtitle[language]}</p>
+    <>
+    <div className="relative bg-secondary/50 py-24 md:py-32">
+        <Image
+            src="https://images.unsplash.com/photo-1521483451569-e33803c0330c?q=80&w=1887&auto=format&fit=crop"
+            alt="Community sharing food during a Ramadan Iftar, symbolizing charity and togetherness"
+            data-ai-hint="charity community"
+            fill
+            className="object-cover object-center z-0 opacity-20"
+            priority
+        />
+        <div className="container relative z-10 mx-auto px-4 text-center">
+            <div className="mx-auto max-w-4xl">
+            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl lg:text-6xl">{content.title[language]}</h1>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl">{content.subtitle[language]}</p>
+            </div>
         </div>
-
-        <div className="mt-16 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-          <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-xl">
-            <Image
-              src="https://picsum.photos/seed/giving/600/400"
-              alt="A conceptual image representing charity and community during Ramadan"
-              data-ai-hint="charity community"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <Card className="flex flex-col items-center justify-center text-center">
-            <CardHeader>
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                <Heart className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle className="mt-4 text-3xl">{content.cardTitle[language]}</CardTitle>
-              <CardDescription className="text-md leading-relaxed">
-                {content.cardDescription[language]}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="w-full px-6 pb-6">
-              <Button asChild size="lg" className="w-full text-lg py-7">
-                <Link href={stripePaymentLink} target="_blank" rel="noopener noreferrer">
-                  {content.buttonText[language]}
-                </Link>
-              </Button>
-              <p className="mt-4 text-sm text-muted-foreground">{content.thankYou[language]}</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
     </div>
+    <div className="bg-background py-16 sm:py-24">
+        <div className="container mx-auto px-4">
+             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-24">
+                <div className="lg:order-last">
+                    <Card className="flex flex-col items-center justify-center text-center shadow-2xl">
+                        <CardHeader>
+                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                            <Heart className="h-8 w-8 text-primary" />
+                        </div>
+                        <CardTitle className="mt-4 text-3xl">{content.cardTitle[language]}</CardTitle>
+                        <CardDescription className="text-md leading-relaxed px-4">
+                            {content.cardDescription[language]}
+                        </CardDescription>
+                        </CardHeader>
+                        <CardContent className="w-full px-6 pb-8">
+                        <Button asChild size="lg" className="w-full text-lg py-7">
+                            <Link href={stripePaymentLink} target="_blank" rel="noopener noreferrer">
+                            {content.buttonText[language]}
+                            </Link>
+                        </Button>
+                        <p className="mt-4 text-sm text-muted-foreground">{content.thankYou[language]}</p>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className="space-y-8">
+                    <h2 className="text-3xl font-bold tracking-tight text-center lg:text-left">{content.causesTitle[language]}</h2>
+                    <ul className="space-y-6">
+                        {content.causes.map((cause, index) => {
+                            const Icon = cause.icon;
+                            return (
+                                <li key={index} className="flex gap-4 items-start">
+                                    <div className="flex-shrink-0 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                        <Icon className="h-6 w-6" />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-semibold text-lg">{cause.title[language]}</h3>
+                                        <p className="mt-1 text-muted-foreground">{cause.description[language]}</p>
+                                    </div>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </>
   );
 }
