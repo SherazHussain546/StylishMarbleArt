@@ -58,15 +58,15 @@ export default function DonatePageClient() {
             icon: UtensilsCrossed,
             title: { en: 'First Week Goal: Public Iftar', ur: 'پہلے ہفتے کا ہدف: عوامی افطار' },
             amount: 250,
-            description: { en: 'Host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'سڑک پر ایک عوامی افطار کا اہتمام کریں، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
+            description: { en: 'We need to raise $250 to host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'ہمیں سڑک پر ایک عوامی افطار کا اہتمام کرنے کے لیے 250 ڈالر جمع کرنے کی ضرورت ہے، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-iftar',
             socialProof: { en: 'Join 12+ other donors. Be part of the change.', ur: '12+ دیگر عطیہ دہندگان میں شامل ہوں۔ تبدیلی کا حصہ بنیں۔' },
         },
         {
             icon: Package,
             title: { en: 'First Ashra Goal: Food Packs', ur: 'پہلا عشرہ کا ہدف: فوڈ پیکس' },
-            amount: 750,
-            description: { en: 'In the first 10 days of mercy, we will distribute essential food ration packs to sustain families through the holy month.', ur: 'رحمت کے پہلے 10 دنوں میں، ہم مقدس مہینے میں خاندانوں کو سہارا دینے کے لیے ضروری راشن پیک تقسیم کریں گے۔' },
+            amount: 500,
+            description: { en: 'Our goal is to raise $500 to distribute essential food ration packs to sustain families through the holy month.', ur: 'ہمارا ہدف 500 ڈالر جمع کرنا ہے تاکہ مقدس مہینے میں خاندانوں کو سہارا دینے کے لیے ضروری راشن پیک تقسیم کیے جا سکیں۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-foodpacks',
             socialProof: { en: 'Join 8+ other donors. Help us reach our goal.', ur: '8+ دیگر عطیہ دہندگان میں شامل ہوں۔ ہمارے ہدف تک پہنچنے میں ہماری مدد کریں۔' },
         },
@@ -74,7 +74,7 @@ export default function DonatePageClient() {
             icon: Gift,
             title: { en: 'Second Ashra Goal: Eid Joy', ur: 'دوسرا عشرہ کا ہدف: عید کی خوشی' },
             amount: 1000,
-            description: { en: 'During the 10 days of forgiveness, we will share joy by providing new Eid clothes to children and families in need.', ur: 'بخشش کے 10 دنوں کے دوران، ہم ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹیں گے۔' },
+            description: { en: 'Help us raise $1000 to share joy by providing new Eid clothes to children and families in need.', ur: 'ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹنے کے لیے 1000 ڈالر جمع کرنے میں ہماری مدد کریں۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-eid',
             socialProof: { en: 'Join 5+ other donors. Share the joy of Eid.', ur: '5+ دیگر عطیہ دہندگان میں شامل ہوں۔ عید کی خوشیاں بانٹیں۔' },
         },
@@ -82,7 +82,7 @@ export default function DonatePageClient() {
             icon: Landmark,
             title: { en: 'Third Ashra Goal: Support Itikaf', ur: 'تیسرا عشرہ کا ہدف: اعتکاف کی حمایت' },
             amount: 750,
-            description: { en: 'In the last 10 days, we aim to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'آخری 10 دنوں میں، ہمارا مقصد مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنا ہے۔' },
+            description: { en: 'We need to raise $750 to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'ہمیں مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنے کے لیے 750 ڈالر جمع کرنے کی ضرورت ہے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-itikaf',
             socialProof: { en: 'Be one of the first to support this cause.', ur: 'اس مقصد کی حمایت کرنے والوں میں سب سے پہلے بنیں۔' },
         }
@@ -131,7 +131,7 @@ export default function DonatePageClient() {
     <>
       <div className="relative bg-secondary/50 py-24 md:py-32">
         <Image
-            src="https://images.unsplash.com/photo-1588276552401-7602d3535239?q=80&w=1887&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1521483451569-e33803c0330c?q=80&w=1887&auto=format&fit=crop"
             alt="A mosque silhouetted against the night sky with a crescent moon, symbolizing Ramadan celebrations"
             data-ai-hint="Ramadan celebration"
             fill
