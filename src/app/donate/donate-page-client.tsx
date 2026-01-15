@@ -56,6 +56,7 @@ export default function DonatePageClient() {
             amount: 250,
             description: { en: 'Host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'سڑک پر ایک عوامی افطار کا اہتمام کریں، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-iftar',
+            socialProof: { en: 'Join 12+ other donors. Be part of the change.', ur: '12+ دیگر عطیہ دہندگان میں شامل ہوں۔ تبدیلی کا حصہ بنیں۔' },
         },
         {
             icon: Package,
@@ -63,6 +64,7 @@ export default function DonatePageClient() {
             amount: 750,
             description: { en: 'In the first 10 days of mercy, we will distribute essential food ration packs to sustain families through the holy month.', ur: 'رحمت کے پہلے 10 دنوں میں، ہم مقدس مہینے میں خاندانوں کو سہارا دینے کے لیے ضروری راشن پیک تقسیم کریں گے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-foodpacks',
+            socialProof: { en: 'Join 8+ other donors. Help us reach our goal.', ur: '8+ دیگر عطیہ دہندگان میں شامل ہوں۔ ہمارے ہدف تک پہنچنے میں ہماری مدد کریں۔' },
         },
         {
             icon: Gift,
@@ -70,6 +72,7 @@ export default function DonatePageClient() {
             amount: 1000,
             description: { en: 'During the 10 days of forgiveness, we will share joy by providing new Eid clothes to children and families in need.', ur: 'بخشش کے 10 دنوں کے دوران، ہم ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹیں گے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-eid',
+            socialProof: { en: 'Join 5+ other donors. Share the joy of Eid.', ur: '5+ دیگر عطیہ دہندگان میں شامل ہوں۔ عید کی خوشیاں بانٹیں۔' },
         },
         {
             icon: Landmark,
@@ -77,6 +80,7 @@ export default function DonatePageClient() {
             amount: 750,
             description: { en: 'In the last 10 days, we aim to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'آخری 10 دنوں میں، ہمارا مقصد مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنا ہے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-itikaf',
+            socialProof: { en: 'Be one of the first to support this cause.', ur: 'اس مقصد کی حمایت کرنے والوں میں سب سے پہلے بنیں۔' },
         }
     ],
     faqTitle: {
@@ -117,10 +121,6 @@ export default function DonatePageClient() {
         en: 'Donate to this Goal',
         ur: 'اس مقصد کے لیے عطیہ کریں۔'
     },
-    socialProof: {
-        en: 'Join 55+ other donors. Be part of the change.',
-        ur: '55+ دیگر عطیہ دہندگان میں شامل ہوں۔ تبدیلی کا حصہ بنیں۔',
-    }
   };
 
   return (
@@ -190,7 +190,7 @@ export default function DonatePageClient() {
                                                     </div>
                                                 </div>
                                                 <div className="mt-4 border-t pt-4">
-                                                    <p className="text-center font-semibold text-muted-foreground">{content.socialProof[language]}</p>
+                                                    <p className="text-center font-semibold text-muted-foreground">{item.socialProof[language]}</p>
                                                 </div>
                                                 <Button asChild size="lg" className="w-full mt-4">
                                                     <Link href={item.stripeLink} target="_blank" rel="noopener noreferrer">
