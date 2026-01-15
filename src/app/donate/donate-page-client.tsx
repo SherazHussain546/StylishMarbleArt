@@ -131,9 +131,9 @@ export default function DonatePageClient() {
     <>
       <div className="relative bg-secondary/50 py-24 md:py-32">
         <Image
-            src="https://images.unsplash.com/photo-1521483451569-e33803c0330c?q=80&w=1887&auto=format&fit=crop"
-            alt="Community sharing food during a Ramadan Iftar, symbolizing charity and togetherness"
-            data-ai-hint="charity community"
+            src="https://images.unsplash.com/photo-1588276552401-7602d3535239?q=80&w=1887&auto=format&fit=crop"
+            alt="A mosque silhouetted against the night sky with a crescent moon, symbolizing Ramadan celebrations"
+            data-ai-hint="Ramadan celebration"
             fill
             className="object-cover object-center z-0 opacity-20"
             priority

@@ -11,10 +11,10 @@ export const metadata: Metadata = {
     description: 'Your contribution, no matter the size, helps provide Iftar meals and essential aid during this holy month. Give your Zakat or Sadaqa securely online with Stripe.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1521483451569-e33803c0330c?q=80&w=1200&auto=format&fit=crop',
+        url: 'https://images.unsplash.com/photo-1588276552401-7602d3535239?q=80&w=1200&auto=format&fit=crop',
         width: 1200,
         height: 630,
-        alt: 'Hands sharing food, representing charity and community during Ramadan.',
+        alt: 'A mosque silhouetted against a night sky with a crescent moon, representing Ramadan.',
       },
     ],
   }
