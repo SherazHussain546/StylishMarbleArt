@@ -8,10 +8,6 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Package, Gift, Landmark } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Progress } from '@/components/ui/progress';
-import { useState } from 'react';
-import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
 
 export default function DonatePageClient() {
   const { language } = useLanguage();
@@ -19,8 +15,6 @@ export default function DonatePageClient() {
   const whatsappNumber = phone.replace(/\D/g, '');
   const email = 'stylishmarbleart2020@gmail.com';
   
-  const [totalDonated, setTotalDonated] = useState(150);
-
   const content = {
     title: {
       en: 'Share Your Blessings This Ramadan',
@@ -58,28 +52,28 @@ export default function DonatePageClient() {
     timeline: [
         {
             icon: UtensilsCrossed,
-            title: { en: 'First Week Goal', ur: 'پہلے ہفتے کا ہدف' },
+            title: { en: 'First Week Goal: Public Iftar', ur: 'پہلے ہفتے کا ہدف: عوامی افطار' },
             amount: 250,
             description: { en: 'Host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'سڑک پر ایک عوامی افطار کا اہتمام کریں، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-iftar',
         },
         {
             icon: Package,
-            title: { en: 'First Ashra Goal', ur: 'پہلا عشرہ کا ہدف' },
+            title: { en: 'First Ashra Goal: Food Packs', ur: 'پہلا عشرہ کا ہدف: فوڈ پیکس' },
             amount: 750,
             description: { en: 'In the first 10 days of mercy, we will distribute essential food ration packs to sustain families through the holy month.', ur: 'رحمت کے پہلے 10 دنوں میں، ہم مقدس مہینے میں خاندانوں کو سہارا دینے کے لیے ضروری راشن پیک تقسیم کریں گے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-foodpacks',
         },
         {
             icon: Gift,
-            title: { en: 'Second Ashra Goal', ur: 'دوسرا عشرہ کا ہدف' },
+            title: { en: 'Second Ashra Goal: Eid Joy', ur: 'دوسرا عشرہ کا ہدف: عید کی خوشی' },
             amount: 1000,
             description: { en: 'During the 10 days of forgiveness, we will share joy by providing new Eid clothes to children and families in need.', ur: 'بخشش کے 10 دنوں کے دوران، ہم ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹیں گے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-eid',
         },
         {
             icon: Landmark,
-            title: { en: 'Third Ashra Goal', ur: 'تیسرا عشرہ کا ہدف' },
+            title: { en: 'Third Ashra Goal: Support Itikaf', ur: 'تیسرا عشرہ کا ہدف: اعتکاف کی حمایت' },
             amount: 750,
             description: { en: 'In the last 10 days, we aim to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'آخری 10 دنوں میں، ہمارا مقصد مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنا ہے۔' },
             stripeLink: 'https://donate.stripe.com/placeholder-itikaf',
@@ -122,16 +116,12 @@ export default function DonatePageClient() {
     donateButton: {
         en: 'Donate to this Goal',
         ur: 'اس مقصد کے لیے عطیہ کریں۔'
+    },
+    socialProof: {
+        en: 'Join 55+ other donors. Be part of the change.',
+        ur: '55+ دیگر عطیہ دہندگان میں شامل ہوں۔ تبدیلی کا حصہ بنیں۔',
     }
   };
-  
-  const totalGoal = content.timeline.reduce((sum, goal) => sum + goal.amount, 0);
-
-  const getProgress = (goalAmount: number, accumulatedDonations: number) => {
-    return Math.min((accumulatedDonations / goalAmount) * 100, 100);
-  };
-  
-  let accumulatedGoals = 0;
 
   return (
     <>
@@ -178,34 +168,12 @@ export default function DonatePageClient() {
                     <h2 className="text-3xl font-bold tracking-tight">{content.timelineTitle[language]}</h2>
                 </div>
 
-                <Card className="mb-8 p-6 shadow-lg">
-                    <Label htmlFor="donation-slider" className="text-lg font-semibold">{language === 'en' ? 'Simulate Donations' : 'عطیات کی تقلید کریں'}</Label>
-                    <p className="text-sm text-muted-foreground mb-4">{language === 'en' ? 'Drag the slider to see how the goals progress as more donations come in.' : 'ڈریگ کریں کہ مزید عطیات آنے پر اہداف کیسے آگے بڑھتے ہیں۔'}</p>
-                    <div className="flex items-center gap-4">
-                        <Slider
-                            id="donation-slider"
-                            min={0}
-                            max={totalGoal}
-                            step={50}
-                            value={[totalDonated]}
-                            onValueChange={(value) => setTotalDonated(value[0])}
-                        />
-                        <span className="font-bold text-primary text-lg whitespace-nowrap">
-                            ${totalDonated}
-                        </span>
-                    </div>
-                </Card>
-
                 <div className="relative">
                     <div className="absolute left-1/2 w-0.5 h-full bg-border -translate-x-1/2 hidden md:block"></div>
                     <div className="space-y-16">
                         {content.timeline.map((item, index) => {
                             const Icon = item.icon;
                             const isEven = index % 2 === 0;
-
-                            const raisedAmount = Math.min(item.amount, Math.max(0, totalDonated - accumulatedGoals));
-                            const goalProgress = (raisedAmount / item.amount) * 100;
-                            accumulatedGoals += item.amount;
                             
                             return (
                                 <div key={index} className="relative flex flex-col md:flex-row items-center gap-8">
@@ -221,14 +189,10 @@ export default function DonatePageClient() {
                                                         <p className="mt-1 text-muted-foreground">{item.description[language]}</p>
                                                     </div>
                                                 </div>
-                                                <div className="mt-4">
-                                                    <Progress value={goalProgress} className="h-3" />
-                                                    <div className="mt-2 flex justify-between text-sm font-medium text-muted-foreground">
-                                                        <span>{language === 'en' ? 'Raised:' : 'جمع:'} ${Math.round(raisedAmount)}</span>
-                                                        <span>{language === 'en' ? 'Goal:' : 'ہدف:'} ${item.amount}</span>
-                                                    </div>
+                                                <div className="mt-4 border-t pt-4">
+                                                    <p className="text-center font-semibold text-muted-foreground">{content.socialProof[language]}</p>
                                                 </div>
-                                                <Button asChild size="lg" className="w-full mt-6">
+                                                <Button asChild size="lg" className="w-full mt-4">
                                                     <Link href={item.stripeLink} target="_blank" rel="noopener noreferrer">
                                                         {content.donateButton[language]}
                                                     </Link>
@@ -290,3 +254,5 @@ export default function DonatePageClient() {
     </>
   );
 }
+
+    
