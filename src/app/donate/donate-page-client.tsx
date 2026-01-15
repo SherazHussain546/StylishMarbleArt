@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Target, Package, Home, Gift } from 'lucide-react';
+import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Package, Home, Gift } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { useState } from 'react';
@@ -28,7 +28,7 @@ export default function DonatePageClient() {
       ur: 'اس رمضان میں اپنی برکتیں بانٹیں',
     },
     subtitle: {
-      en: 'In this month of mercy, your Zakat and Sadaqa can bring hope and relief to families in need across Pakistan. Every contribution, no matter the size, is a powerful act of kindness.',
+      en: 'In this month of mercy, your Zakat and Sadaqa can bring hope and relief to families in need across Pakistan. Every contribution, no matter how small, is a powerful act of kindness.',
       ur: 'رحمت کے اس مہینے میں، آپ کی زکوٰۃ اور صدقہ پورے پاکستان میں ضرورت مند خاندانوں کے لیے امید اور راحت کا باعث بن سکتا ہے۔ ہر تعاون، چاہے چھوٹا ہو یا بڑا، نیکی کا ایک طاقتور عمل ہے۔',
     },
     cardTitle: {
@@ -74,7 +74,7 @@ export default function DonatePageClient() {
     },
     timeline: [
         {
-            icon: Target,
+            icon: UtensilsCrossed,
             title: { en: 'First Week Goal', ur: 'پہلے ہفتے کا ہدف' },
             amount: 250,
             description: { en: 'Host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'سڑک پر ایک عوامی افطار کا اہتمام کریں، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
