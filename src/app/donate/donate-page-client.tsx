@@ -30,8 +30,8 @@ export default function DonatePageClient() {
       ur: 'صاف دل سے دیں',
     },
     cardDescription: {
-      en: 'Click the button below to donate securely with Stripe. You can contribute any amount in USD, starting from just $1. Your generosity will directly provide Iftar meals and essential food packs to those who need them most.',
-      ur: 'اسٹرائپ کے ساتھ محفوظ طریقے سے عطیہ کرنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔ آپ USD میں کوئی بھی رقم، صرف $1 سے شروع کر سکتے ہیں۔ آپ کی سخاوت براہ راست ان لوگوں کو افطار کے کھانے اور ضروری فوڈ پیک فراہم کرے گی جنہیں اس کی سب سے زیادہ ضرورت ہے۔',
+      en: 'Click the button below to donate securely with Stripe. You can contribute any amount you wish in USD, starting from just $1. Your generosity will directly support our Ramadan outreach programs.',
+      ur: 'اسٹرائپ کے ساتھ محفوظ طریقے سے عطیہ کرنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔ آپ USD میں کوئی بھی رقم، صرف $1 سے شروع کر سکتے ہیں۔ آپ کی سخاوت براہ راست ہمارے رمضان کے امدادی پروگراموں کی حمایت کرے گی۔',
     },
     buttonText: {
       en: 'Donate Securely via Stripe',
@@ -63,29 +63,29 @@ export default function DonatePageClient() {
         },
     ],
     timelineTitle: {
-        en: 'Our Ramadan 2024 Goals',
-        ur: 'ہمارے رمضان ۲۰۲۴ کے اہداف',
+        en: 'Our Ramadan 2024 Journey',
+        ur: 'ہمارا رمضان ۲۰۲۴ کا سفر',
     },
     timeline: [
         {
             icon: Target,
-            amount: { en: '$500 Goal', ur: '$500 کا ہدف' },
-            description: { en: 'Provide 100 hot Iftar meals for individuals breaking their fast in underserved areas.', ur: 'پسماندہ علاقوں میں روزہ افطار کرنے والے 100 افراد کے لیے گرم افطار کا اہتمام کریں۔' },
+            amount: { en: 'First Week: $250 Goal', ur: 'پہلا ہفتہ: $250 کا ہدف' },
+            description: { en: 'Host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'سڑک پر ایک عوامی افطار کا اہتمام کریں، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
         },
         {
             icon: Package,
-            amount: { en: '$1,500 Goal', ur: '$1,500 کا ہدف' },
-            description: { en: 'Deliver monthly ration packs (flour, rice, oil, lentils) to 25 families, sustaining them for the entire month.', ur: '25 خاندانوں کو ماہانہ راشن پیک (آٹا، چاول، تیل، دال) فراہم کریں، جو پورے مہینے کے لیے کافی ہوں۔' },
-        },
-        {
-            icon: Home,
-            amount: { en: '$3,000 Goal', ur: '$3,000 کا ہدف' },
-            description: { en: 'Sponsor a large-scale community Iftar for an entire village or neighborhood, fostering unity and joy.', ur: 'ایک پورے گاؤں یا محلے کے لیے بڑے پیمانے پر کمیونٹی افطار کا اہتمام کریں، جس سے اتحاد اور خوشی کو فروغ ملے۔' },
+            amount: { en: 'First Ashra: $750 Goal', ur: 'پہلا عشرہ: $750 کا ہدف' },
+            description: { en: 'In the first 10 days of mercy, we will distribute essential food ration packs to sustain families through the holy month.', ur: 'رحمت کے پہلے 10 دنوں میں، ہم مقدس مہینے میں خاندانوں کو سہارا دینے کے لیے ضروری راشن پیک تقسیم کریں گے۔' },
         },
         {
             icon: Gift,
-            amount: { en: '$5,000 Goal', ur: '$5,000 کا ہدف' },
-            description: { en: 'Distribute Eid gifts and new clothes to over 100 children, bringing smiles to their faces for Eid-ul-Fitr.', ur: '100 سے زائد بچوں میں عید کے تحائف اور نئے کپڑے تقسیم کریں، تاکہ عید الفطر پر ان کے چہروں پر مسکراہٹیں آئیں۔' },
+            amount: { en: 'Second Ashra: $1000 Goal', ur: 'دوسرا عشرہ: $1000 کا ہدف' },
+            description: { en: 'During the 10 days of forgiveness, we will share joy by providing new Eid clothes to children and families in need.', ur: 'بخشش کے 10 دنوں کے دوران، ہم ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹیں گے۔' },
+        },
+        {
+            icon: Home,
+            amount: { en: 'Third Ashra: $750 Goal', ur: 'تیسرا عشرہ: $750 کا ہدف' },
+            description: { en: 'In the last 10 days, we aim to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'آخری 10 دنوں میں، ہمارا مقصد مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنا ہے۔' },
         }
     ],
     faqTitle: {
