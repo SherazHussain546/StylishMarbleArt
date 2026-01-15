@@ -8,9 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { FacebookIcon } from '@/components/icons/facebook-icon';
 
-export default function NewsPageClient() {
+export default function UpdatesPageClient() {
   const { language } = useLanguage();
-  const pageContent = content.newsPage;
+  const pageContent = content.updatesPage;
 
   return (
     <div className="bg-secondary py-16 md:py-24">
@@ -93,3 +93,5 @@ export default function NewsPageClient() {
     </div>
   );
 }
+
+    

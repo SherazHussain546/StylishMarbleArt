@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -29,7 +30,7 @@ export function Header() {
     { href: '/', label: content.nav.home[language] },
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
-    { href: '/news', label: content.nav.news[language] },
+    { href: '/updates', label: content.nav.updates[language] },
     { href: '/about', label: content.nav.about[language] },
     { href: '/contact', label: content.nav.contact[language] },
     { href: '/donate', label: content.nav.donate[language] },
@@ -103,3 +104,5 @@ export function Header() {
     </header>
   );
 }
+
+    

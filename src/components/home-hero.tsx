@@ -36,9 +36,9 @@ export function HomeHero() {
               <Link href="/services">{content.hero.cta[language]}</Link>
             </Button>
              <Button asChild size="lg" variant="outline">
-               <a href={`tel:${phone}`}>
-                {language === 'en' ? 'Call Us Now' : 'ابھی کال کریں'}
-               </a>
+               <Link href="/updates">
+                {content.hero.communityCta[language]}
+               </Link>
             </Button>
           </div>
         </div>
@@ -46,3 +46,5 @@ export function HomeHero() {
     </section>
   );
 }
+
+    

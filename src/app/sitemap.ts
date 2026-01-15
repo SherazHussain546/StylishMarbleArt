@@ -1,3 +1,4 @@
+
 import { MetadataRoute } from 'next';
 import { content } from '@/lib/content';
 
@@ -9,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/', priority: 1.0, changeFrequency: 'weekly' },
     { url: '/services', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/gallery', priority: 0.8, changeFrequency: 'weekly' },
-    { url: '/news', priority: 0.7, changeFrequency: 'weekly' },
+    { url: '/updates', priority: 0.7, changeFrequency: 'weekly' },
     { url: '/about', priority: 0.7, changeFrequency: 'yearly' },
     { url: '/contact', priority: 0.5, changeFrequency: 'yearly' },
   ].map((route) => ({
@@ -29,3 +30,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...staticRoutes, ...marbleRoutes];
 }
+
+    

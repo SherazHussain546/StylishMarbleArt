@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Package, Gift, Landmark } from 'lucide-react';
+import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Package, Gift, Landmark, ArrowRight } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function DonatePageClient() {
@@ -23,6 +23,10 @@ export default function DonatePageClient() {
     subtitle: {
       en: 'In this month of mercy, your Zakat and Sadaqa can bring hope and relief to families in need across Pakistan. Every contribution, no matter how small, is a powerful act of kindness.',
       ur: 'رحمت کے اس مہینے میں، آپ کی زکوٰۃ اور صدقہ پورے پاکستان میں ضرورت مند خاندانوں کے لیے امید اور راحت کا باعث بن سکتا ہے۔ ہر تعاون، چاہے چھوٹا ہو یا بڑا، نیکی کا ایک طاقتور عمل ہے۔',
+    },
+    updatesCta: {
+        en: 'See the impact of your donations on our Updates page.',
+        ur: 'ہمارے اپ ڈیٹس پیج پر اپنے عطیات کے اثرات دیکھیں۔',
     },
     causesTitle: {
         en: 'How Your Donation Helps',
@@ -143,7 +147,7 @@ export default function DonatePageClient() {
       </div>
       <div className="bg-background py-16 sm:py-24">
         <div className="container mx-auto px-4">
-             <div className="space-y-8 text-center max-w-4xl mx-auto mb-24">
+             <div className="space-y-8 text-center max-w-4xl mx-auto mb-16">
                 <h2 className="text-3xl font-bold tracking-tight lg:text-left">{content.causesTitle[language]}</h2>
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
                     {content.causes.map((cause, index) => {
@@ -161,6 +165,15 @@ export default function DonatePageClient() {
                         );
                     })}
                 </ul>
+            </div>
+            
+            <div className="text-center mb-24">
+                 <Button asChild variant="link" className="text-lg">
+                    <Link href="/updates">
+                        {content.updatesCta[language]}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                 </Button>
             </div>
 
             <div className="mt-24 max-w-5xl mx-auto">

@@ -7,7 +7,7 @@ export const content = {
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     donate: { en: 'Donate', ur: 'عطیہ کریں' },
-    news: { en: 'News', ur: 'خبریں' },
+    updates: { en: 'Updates', ur: 'اپ ڈیٹس' },
   },
   hero: {
     title: {
@@ -19,6 +19,7 @@ export const content = {
       ur: 'خوبصورت قبر کے پتھر، کتبے، اور آپ کے باورچی خانے اور گھر کے لیے خوبصورت سنگ مرمر تیار کرنا۔ ہر قسم کے ماربل اور گرینائٹ کے ماہر کے طور پر، ہم کراچی میں اپنے مرکز سے پورے پاکستان کی خدمت کرتے ہیں۔',
     },
     cta: { en: 'Explore Our Services', ur: 'ہماری خدمات دریافت کریں' },
+    communityCta: { en: 'See Our Community Work', ur: 'ہمارا کمیونٹی ورک دیکھیں' },
   },
   homeServices: {
     title: { en: 'Our Services', ur: 'ہماری خدمات' },
@@ -292,8 +293,8 @@ export const content = {
       ur: 'یادگاروں، باورچی خانے کی تنصیبات، اور اپنی مرضی کے مطابق کندہ کاریوں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اپنے گاہکوں کے لیے کراچی اور پورے پاکستان میں اعزاز حاصل ہوا ہے۔',
     },
   },
-  newsPage: {
-    title: { en: 'News & Updates', ur: 'خبریں اور اپ ڈیٹس' },
+  updatesPage: {
+    title: { en: 'Updates & Community Work', ur: 'اپ ڈیٹس اور کمیونٹی ورک' },
     description: { 
       en: 'Follow our journey, see our latest projects, and read about our community work in Karachi and across Pakistan.', 
       ur: 'ہمارے سفر کی پیروی کریں، ہمارے تازہ ترین منصوبے دیکھیں، اور کراچی اور پورے پاکستان میں ہمارے کمیونٹی کے کام کے بارے میں پڑھیں۔' 
@@ -417,3 +418,5 @@ export const content = {
     },
   },
 };
+
+    

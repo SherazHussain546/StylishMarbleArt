@@ -1,13 +1,13 @@
 
 import type { Metadata } from 'next';
 import { content } from '@/lib/content';
-import NewsPageClient from './news-page-client';
+import UpdatesPageClient from './updates-page-client';
 
-// SEO Metadata for the News page
+// SEO Metadata for the Updates page
 export async function generateMetadata(): Promise<Metadata> {
-  const pageContent = content.newsPage;
-  const englishTitle = 'News & Updates | Stylish Marble Art Community Work Karachi';
-  const urduTitle = 'خبریں اور اپ ڈیٹس | سٹائلش ماربل آرٹ کمیونٹی ورک کراچی';
+  const pageContent = content.updatesPage;
+  const englishTitle = 'Updates & Community Work | Stylish Marble Art Karachi';
+  const urduTitle = 'اپ ڈیٹس اور کمیونٹی ورک | سٹائلش ماربل آرٹ کراچی';
   const englishDescription = 'Stay updated with the latest news, projects, and community initiatives from Stylish Marble Art in Karachi, Pakistan. See our charity work and recent activities.';
   const urduDescription = 'کراچی، پاکستان میں سٹائلش ماربل آرٹ کی تازہ ترین خبروں، منصوبوں، اور کمیونٹی اقدامات سے باخبر رہیں۔ ہمارے فلاحی کام اور حالیہ سرگرمیاں دیکھیں۔';
 
@@ -15,13 +15,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title: `${englishTitle} | ${urduTitle}`,
     description: `${englishDescription} | ${urduDescription}`,
     keywords: [
-      'Stylish Marble Art news',
+      'Stylish Marble Art updates',
       'Karachi charity updates',
       'community work Pakistan',
       'marble projects news',
       'Ramadan charity drive',
       'local news Karachi',
-      'سٹائلش ماربل آرٹ خبریں',
+      'سٹائلش ماربل آرٹ اپ ڈیٹس',
       'کراچی فلاحی اپ ڈیٹس',
       'کمیونٹی ورک پاکستان',
     ],
@@ -38,12 +38,14 @@ export async function generateMetadata(): Promise<Metadata> {
       ],
     },
     alternates: {
-      canonical: '/news',
+      canonical: '/updates',
     },
   };
 }
 
 // Page Component
-export default function NewsPage() {
-  return <NewsPageClient />;
+export default function UpdatesPage() {
+  return <UpdatesPageClient />;
 }
+
+    
