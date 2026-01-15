@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Package, Home, Gift } from 'lucide-react';
+import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Package, Gift, Landmark } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { useState } from 'react';
@@ -92,7 +92,7 @@ export default function DonatePageClient() {
             description: { en: 'During the 10 days of forgiveness, we will share joy by providing new Eid clothes to children and families in need.', ur: 'بخشش کے 10 دنوں کے دوران، ہم ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹیں گے۔' },
         },
         {
-            icon: Home,
+            icon: Landmark,
             title: { en: 'Third Ashra Goal', ur: 'تیسرا عشرہ کا ہدف' },
             amount: 750,
             description: { en: 'In the last 10 days, we aim to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'آخری 10 دنوں میں، ہمارا مقصد مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنا ہے۔' },
