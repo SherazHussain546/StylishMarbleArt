@@ -7,6 +7,7 @@ export const content = {
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     donate: { en: 'Donate', ur: 'عطیہ کریں' },
+    news: { en: 'News', ur: 'خبریں' },
   },
   hero: {
     title: {
@@ -290,6 +291,48 @@ export const content = {
       en: 'A collection of memorials, kitchen installations, and custom engravings we have had the honor of crafting for our clients in Karachi and across Pakistan.',
       ur: 'یادگاروں، باورچی خانے کی تنصیبات، اور اپنی مرضی کے مطابق کندہ کاریوں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اپنے گاہکوں کے لیے کراچی اور پورے پاکستان میں اعزاز حاصل ہوا ہے۔',
     },
+  },
+  newsPage: {
+    title: { en: 'News & Updates', ur: 'خبریں اور اپ ڈیٹس' },
+    description: { 
+      en: 'Follow our journey, see our latest projects, and read about our community work in Karachi and across Pakistan.', 
+      ur: 'ہمارے سفر کی پیروی کریں، ہمارے تازہ ترین منصوبے دیکھیں، اور کراچی اور پورے پاکستان میں ہمارے کمیونٹی کے کام کے بارے میں پڑھیں۔' 
+    },
+    feedTitle: {
+      en: 'Our Latest Activities',
+      ur: 'ہماری تازہ ترین سرگرمیاں'
+    },
+    items: [
+      {
+        type: 'custom',
+        title: {
+          en: 'Successful Ramadan Iftar Drive in Karachi',
+          ur: 'کراچی میں کامیاب رمضان افطار مہم'
+        },
+        date: {
+          en: 'April 5, 2024',
+          ur: '۵ اپریل ۲۰۲۴'
+        },
+        image: 'https://images.unsplash.com/photo-1521483451569-e33803c0330c?q=80&w=1887&auto=format&fit=crop',
+        alt: {
+          en: 'Volunteers distributing Iftar food packs to people on the street.',
+          ur: 'رضاکار سڑک پر لوگوں میں افطاری کے فوڈ پیک تقسیم کر رہے ہیں۔'
+        },
+        hint: 'charity volunteers',
+        content: {
+          en: 'Alhamdulillah, with the immense generosity of our donors, our first Ashra Ramadan goal was a resounding success. We distributed over 100 Iftar meal boxes to daily wage workers and travelers in the Malir 15 area of Karachi. Each box contained dates, samosas, fresh fruit, and a juice pack, providing a moment of relief and joy. We are deeply grateful to everyone who contributed. Your support makes this work possible.',
+          ur: 'الحمدللہ، ہمارے عطیہ دہندگان کی بے پناہ سخاوت سے، ہمارا پہلا عشرہ رمضان کا ہدف شاندار کامیابی سے ہمکنار ہوا۔ ہم نے کراچی کے ملیر 15 کے علاقے میں دیہاڑی دار مزدوروں اور مسافروں میں 100 سے زائد افطار میل باکس تقسیم کیے۔ ہر باکس میں کھجوریں، سموسے، تازہ پھل اور جوس کا پیکٹ تھا، جس نے راحت اور خوشی کا ایک لمحہ فراہم کیا۔ ہم ان تمام لوگوں کے تہہ دل سے مشکور ہیں جنہوں نے تعاون کیا۔ آپ کا تعاون اس کام کو ممکن بناتا ہے۔'
+        }
+      },
+      {
+        type: 'facebook',
+        url: 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fstylishmarbleart%2Fposts%2Fpfbid0h5jbsd1Th5TfWct2sPZJ5rZuTJn7xS13uiqJU1a1h3Ea2z9gJ4hKxg9tYNoGW2npl&show_text=true&width=500',
+        title: {
+          en: 'Latest Work on Facebook',
+          ur: 'فیس بک پر تازہ ترین کام'
+        }
+      }
+    ]
   },
   aboutPage: {
     title: { en: 'About Stylish Marble Art', ur: 'سٹائلش ماربل آرٹ کے بارے میں' },

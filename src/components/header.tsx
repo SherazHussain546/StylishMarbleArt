@@ -1,8 +1,7 @@
-
 'use client';
 
 import Link from 'next/link';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, Newspaper } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -14,7 +13,6 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/auth-context';
-import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,13 +29,13 @@ export function Header() {
     { href: '/', label: content.nav.home[language] },
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
+    { href: '/news', label: content.nav.news[language] },
     { href: '/about', label: content.nav.about[language] },
     { href: '/contact', label: content.nav.contact[language] },
     { href: '/donate', label: content.nav.donate[language] },
   ];
 
   const phone = content.contactPage.contactInfo.phone.en;
-  const whatsappNumber = phone.replace(/\D/g, '');
 
   const NavItems = () =>
     navLinks.map(link => (
