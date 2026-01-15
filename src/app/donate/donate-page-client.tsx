@@ -8,6 +8,10 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Heart, Users, UtensilsCrossed, Phone, Mail, MessageCircle, Target, Package, Home, Gift } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Progress } from '@/components/ui/progress';
+import { useState } from 'react';
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
 
 export default function DonatePageClient() {
   const { language } = useLanguage();
@@ -15,6 +19,8 @@ export default function DonatePageClient() {
   const phone = '+923083401606';
   const whatsappNumber = phone.replace(/\D/g, '');
   const email = 'stylishmarbleart2020@gmail.com';
+  
+  const [totalDonated, setTotalDonated] = useState(150);
 
   const content = {
     title: {
@@ -69,22 +75,26 @@ export default function DonatePageClient() {
     timeline: [
         {
             icon: Target,
-            amount: { en: 'First Week: $250 Goal', ur: 'پہلا ہفتہ: $250 کا ہدف' },
+            title: { en: 'First Week Goal', ur: 'پہلے ہفتے کا ہدف' },
+            amount: 250,
             description: { en: 'Host a public Iftar on the road, offering a warm meal to anyone in need, including travelers and daily wage workers.', ur: 'سڑک پر ایک عوامی افطار کا اہتمام کریں، جس میں مسافروں اور دیہاڑی دار مزدوروں سمیت ہر ضرورت مند کو گرم کھانا پیش کیا جائے۔' },
         },
         {
             icon: Package,
-            amount: { en: 'First Ashra: $750 Goal', ur: 'پہلا عشرہ: $750 کا ہدف' },
+            title: { en: 'First Ashra Goal', ur: 'پہلا عشرہ کا ہدف' },
+            amount: 750,
             description: { en: 'In the first 10 days of mercy, we will distribute essential food ration packs to sustain families through the holy month.', ur: 'رحمت کے پہلے 10 دنوں میں، ہم مقدس مہینے میں خاندانوں کو سہارا دینے کے لیے ضروری راشن پیک تقسیم کریں گے۔' },
         },
         {
             icon: Gift,
-            amount: { en: 'Second Ashra: $1000 Goal', ur: 'دوسرا عشرہ: $1000 کا ہدف' },
+            title: { en: 'Second Ashra Goal', ur: 'دوسرا عشرہ کا ہدف' },
+            amount: 1000,
             description: { en: 'During the 10 days of forgiveness, we will share joy by providing new Eid clothes to children and families in need.', ur: 'بخشش کے 10 دنوں کے دوران، ہم ضرورت مند بچوں اور خاندانوں کو عید کے نئے کپڑے فراہم کرکے خوشیاں بانٹیں گے۔' },
         },
         {
             icon: Home,
-            amount: { en: 'Third Ashra: $750 Goal', ur: 'تیسرا عشرہ: $750 کا ہدف' },
+            title: { en: 'Third Ashra Goal', ur: 'تیسرا عشرہ کا ہدف' },
+            amount: 750,
             description: { en: 'In the last 10 days, we aim to provide nutritious meals to those observing Itikaf in local mosques, supporting their devotion.', ur: 'آخری 10 دنوں میں، ہمارا مقصد مقامی مساجد میں اعتکاف کرنے والوں کو ان کی عبادت میں مدد کے لیے غذائیت سے بھرپور کھانا فراہم کرنا ہے۔' },
         }
     ],
@@ -119,6 +129,15 @@ export default function DonatePageClient() {
         ur: 'اگر آپ کے کوئی سوالات ہیں یا اپنے عطیہ کے سلسلے میں مدد کی ضرورت ہے، تو براہ کرم ہم سے رابطہ کرنے میں ہچکچاہٹ محسوس نہ کریں۔',
     },
   };
+  
+  const totalGoal = content.timeline.reduce((sum, goal) => sum + goal.amount, 0);
+
+  const getProgress = (goalAmount: number, accumulatedDonations: number) => {
+    return Math.min((accumulatedDonations / goalAmount) * 100, 100);
+  };
+  
+  let accumulatedDonations = totalDonated;
+  let accumulatedGoals = 0;
 
   return (
     <>
@@ -187,29 +206,60 @@ export default function DonatePageClient() {
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-tight">{content.timelineTitle[language]}</h2>
                 </div>
+
+                <Card className="mb-8 p-6 shadow-lg">
+                    <Label htmlFor="donation-slider" className="text-lg font-semibold">{language === 'en' ? 'Simulate Donations' : 'عطیات کی تقلید کریں'}</Label>
+                    <p className="text-sm text-muted-foreground mb-4">{language === 'en' ? 'Drag the slider to see how the goals progress as more donations come in.' : 'ڈریگ کریں کہ مزید عطیات آنے پر اہداف کیسے آگے بڑھتے ہیں۔'}</p>
+                    <div className="flex items-center gap-4">
+                        <Slider
+                            id="donation-slider"
+                            min={0}
+                            max={totalGoal}
+                            step={50}
+                            value={[totalDonated]}
+                            onValueChange={(value) => setTotalDonated(value[0])}
+                        />
+                        <span className="font-bold text-primary text-lg whitespace-nowrap">
+                            ${totalDonated}
+                        </span>
+                    </div>
+                </Card>
+
                 <div className="relative">
-                    {/* The vertical line */}
                     <div className="absolute left-1/2 w-0.5 h-full bg-border -translate-x-1/2 hidden md:block"></div>
                     <div className="space-y-16">
                         {content.timeline.map((item, index) => {
                             const Icon = item.icon;
                             const isEven = index % 2 === 0;
+
+                            const goalProgress = getProgress(item.amount, Math.max(0, totalDonated - accumulatedGoals));
+                            const raisedAmount = Math.min(item.amount, Math.max(0, totalDonated - accumulatedGoals));
+                            accumulatedGoals += item.amount;
+                            
                             return (
                                 <div key={index} className="relative flex flex-col md:flex-row items-center gap-8">
                                     <div className={`flex-1 ${isEven ? 'md:order-last' : ''}`}>
                                         <Card className="shadow-lg">
-                                            <CardContent className="p-6 flex items-start gap-4">
-                                                <div className="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                                    <Icon className="h-7 w-7" />
+                                            <CardContent className="p-6">
+                                                <div className="flex items-start gap-4">
+                                                    <div className="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                                        <Icon className="h-7 w-7" />
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="font-bold text-lg text-primary">{item.title[language]}</h3>
+                                                        <p className="mt-1 text-muted-foreground">{item.description[language]}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <h3 className="font-bold text-lg text-primary">{item.amount[language]}</h3>
-                                                    <p className="mt-1 text-muted-foreground">{item.description[language]}</p>
+                                                <div className="mt-4">
+                                                    <Progress value={goalProgress} className="h-3" />
+                                                    <div className="mt-2 flex justify-between text-sm font-medium text-muted-foreground">
+                                                        <span>{language === 'en' ? 'Raised:' : 'جمع:'} ${Math.round(raisedAmount)}</span>
+                                                        <span>{language === 'en' ? 'Goal:' : 'ہدف:'} ${item.amount}</span>
+                                                    </div>
                                                 </div>
                                             </CardContent>
                                         </Card>
                                     </div>
-                                    {/* Circle on the timeline */}
                                     <div className="absolute left-1/2 top-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background -translate-x-1/2 -translate-y-1/2 hidden md:block"></div>
                                     <div className="flex-1 hidden md:block"></div>
                                 </div>
