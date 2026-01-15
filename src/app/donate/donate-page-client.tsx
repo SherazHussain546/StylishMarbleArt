@@ -50,8 +50,8 @@ export default function DonatePageClient() {
         },
     ],
     timelineTitle: {
-        en: 'Our Ramadan 2024 Journey',
-        ur: 'ہمارا رمضان ۲۰۲۴ کا سفر',
+        en: 'Our Ramadan 2026 Journey',
+        ur: 'ہمارا رمضان ۲۰۲۶ کا سفر',
     },
     timeline: [
         {
