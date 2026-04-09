@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
@@ -6,6 +5,7 @@ import { AuthProvider } from '@/contexts/auth-context';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { WhatsAppButton } from '@/components/whatsapp-button';
+import { FirebaseClientProvider } from '@/firebase';
 import './globals.css';
 
 const siteUrl = 'https://www.stylishmarbleart.com';
@@ -59,7 +59,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Meta Pixel Code */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -84,9 +83,6 @@ export default function RootLayout({
             src="https://www.facebook.com/tr?id=839876528851938&ev=PageView&noscript=1"
           />
         </noscript>
-        {/* End Meta Pixel Code */}
-
-        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -98,9 +94,6 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* End Google Tag Manager */}
-
-        {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-9X1XV3Q3HJ"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -112,7 +105,6 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* New Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21SD8BH3Z"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -126,17 +118,19 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <AuthProvider>
-          <LanguageProvider>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <Footer />
-            </div>
-            <WhatsAppButton phoneNumber="+923083401606" />
-            <Toaster />
-          </LanguageProvider>
-        </AuthProvider>
+        <FirebaseClientProvider>
+          <AuthProvider>
+            <LanguageProvider>
+              <div className="flex min-h-screen flex-col">
+                <Header />
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </div>
+              <WhatsAppButton phoneNumber="+923083401606" />
+              <Toaster />
+            </LanguageProvider>
+          </AuthProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );

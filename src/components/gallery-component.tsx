@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -6,98 +5,47 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
-import { ChevronLeft, ChevronRight, Phone, Mail } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, Mail, Loader2, ImageIcon } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
 import { content } from '@/lib/content';
 import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
+import { useFirestore, useCollection } from '@/firebase';
+import { collection, query, orderBy } from 'firebase/firestore';
 
-type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Charity Work' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
-
-interface GalleryImage {
-  src: string;
-  alt: string;
-  category: Category;
-  hint: string;
-}
-
-const allImages: GalleryImage[] = content.servicesPage.serviceList.flatMap(service => 
-    service.images.map(img => ({
-        ...img,
-        category: ((): Category => {
-            if (service.name.en.includes('Grave')) return 'Graves';
-            if (service.name.en.includes('Kitchen')) return 'Home Decors';
-            if (service.name.en.includes('Engraving')) return 'Charity Work'; // Default
-            return 'Graves';
-        })(),
-    }))
-);
-
-
-// Manually create image list from content.ts for now
-const serviceImages = content.servicesPage.serviceList;
-const staticImages: GalleryImage[] = [
-    ...serviceImages[0].images.map(i => ({...i, category: 'Graves' as Category})),
-    ...serviceImages[0].images.slice(0,5).map(i => ({...i, category: 'Headstones' as Category})),
-    ...serviceImages[2].images.slice(3,6).map(i => ({...i, category: 'Government Works' as Category})),
-    ...serviceImages[2].images.slice(0,3).map(i => ({...i, category: 'Charity Work' as Category})),
-    ...serviceImages[1].images.map(i => ({...i, category: 'Home Decors' as Category})),
-    ...serviceImages[2].images.slice(1,3).map(i => ({...i, category: 'Christian Memorials' as Category})),
-    ...serviceImages[2].images.slice(6,8).map(i => ({...i, category: 'Hindu Memorials' as Category})),
-];
-
+type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
 
 const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
     { id: 'Graves', name: { en: 'Graves', ur: 'قبریں' } },
     { id: 'Headstones', name: { en: 'Headstones', ur: 'قبر کے کتبے' } },
-    { id: 'Charity Work', name: { en: 'Charity', ur: 'فلاحی کام' } },
     { id: 'Home Decors', name: { en: 'Home Decors', ur: 'گھریلو سجاوٹ' } },
     { id: 'Government Works', name: { en: 'Government', ur: 'سرکاری کام' } },
     { id: 'Christian Memorials', name: { en: 'Christian', ur: 'عیسائی یادگاریں' } },
     { id: 'Hindu Memorials', name: { en: 'Hindu', ur: 'ہندو یادگاریں' } },
 ]
 
-const INITIAL_VISIBLE_IMAGES = 6;
-const IMAGES_TO_LOAD = 6;
-
 export function GalleryComponent() {
   const { language } = useLanguage();
+  const db = useFirestore();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  
-  const [visibleCounts, setVisibleCounts] = useState<Record<string, number>>(
-    categories.reduce((acc, cat) => ({...acc, [cat.id]: INITIAL_VISIBLE_IMAGES}), {})
-  );
   const [activeFilter, setActiveFilter] = useState<Category | 'All'>('All');
 
-  const imagesByCategory = useMemo(() => {
-    return categories.reduce((acc, category) => {
-        acc[category.id] = staticImages.filter(img => img.category === category.id);
-        return acc;
-    }, {} as Record<Category, typeof staticImages>);
-  }, []);
+  const galleryQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
+  }, [db]);
 
-  const filteredImagesForLightbox = useMemo(() => {
-    if (activeFilter === 'All') return staticImages;
-    return staticImages.filter(img => img.category === activeFilter);
-  }, [activeFilter]);
-  
-  const showMoreImages = (category: Category) => {
-    setVisibleCounts(prev => ({
-        ...prev,
-        [category]: Math.min(prev[category] + IMAGES_TO_LOAD, imagesByCategory[category].length)
-    }));
-  };
+  const { data: dbImages, loading } = useCollection<any>(galleryQuery);
 
-  const openLightbox = (imageSrc: string) => {
-    const imagesToSearch = filteredImagesForLightbox;
-    const index = imagesToSearch.findIndex(img => img.src === imageSrc);
-    if(index !== -1) setSelectedImageIndex(index);
-  };
-  
+  const filteredImages = useMemo(() => {
+    if (activeFilter === 'All') return dbImages;
+    return dbImages.filter((img: any) => img.category === activeFilter);
+  }, [dbImages, activeFilter]);
+
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (selectedImageIndex !== null) {
       setSelectedImageIndex(
-        (selectedImageIndex - 1 + filteredImagesForLightbox.length) % filteredImagesForLightbox.length
+        (selectedImageIndex - 1 + filteredImages.length) % filteredImages.length
       );
     }
   };
@@ -105,55 +53,55 @@ export function GalleryComponent() {
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (selectedImageIndex !== null) {
-      setSelectedImageIndex((selectedImageIndex + 1) % filteredImagesForLightbox.length);
+      setSelectedImageIndex((selectedImageIndex + 1) % filteredImages.length);
     }
   };
   
-  const selectedImage = selectedImageIndex !== null ? filteredImagesForLightbox[selectedImageIndex] : null;
+  const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
 
   const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
   const whatsappNumber = phone.replace(/\D/g, '');
   const email = content.contactPage.contactInfo.email.en;
 
-  const renderCategorySection = (category: {id: Category, name: {[key in 'en' | 'ur']: string}}, isFiltered: boolean) => {
-    const categoryImages = imagesByCategory[category.id];
-    if(categoryImages.length === 0) return null;
-
-    const visibleCount = isFiltered ? (visibleCounts[category.id] || INITIAL_VISIBLE_IMAGES) : visibleCounts[category.id];
-    const visibleImages = categoryImages.slice(0, visibleCount);
-    const hasMore = visibleImages.length < categoryImages.length;
-
+  if (loading) {
     return (
-      <section key={category.id} id={category.id}>
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
-          <h2 className="text-3xl font-bold">{category.name[language]}</h2>
-          <div className="flex items-center gap-2">
-            <Button asChild size="icon" variant="outline">
-              <a href={`tel:${phone}`} aria-label="Call us">
-                <Phone className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button asChild size="icon" variant="outline">
-              <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp us">
-                <WhatsappFooterIcon className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button asChild size="icon" variant="outline">
-              <a href={`mailto:${email}`} aria-label="Email us">
-                <Mail className="h-5 w-5" />
-              </a>
-            </Button>
-          </div>
-        </div>
+      <div className="flex h-64 flex-col items-center justify-center text-muted-foreground">
+        <Loader2 className="h-8 w-8 animate-spin mb-4" />
+        <p>{language === 'en' ? 'Loading Gallery...' : 'گیلری لوڈ ہو رہی ہے...'}</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="mb-12 flex flex-wrap justify-center gap-2">
+         <Button
+            variant={activeFilter === 'All' ? 'default' : 'outline'}
+            onClick={() => setActiveFilter('All')}
+            >
+            {language === 'en' ? 'All' : 'سب'}
+        </Button>
+        {categories.map((cat) => (
+        <Button
+            key={cat.id}
+            variant={activeFilter === cat.id ? 'default' : 'outline'}
+            onClick={() => setActiveFilter(cat.id)}
+        >
+            {cat.name[language]}
+        </Button>
+        ))}
+      </div>
+
+      {filteredImages.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {visibleImages.map((image, index) => (
+          {filteredImages.map((image, index) => (
             <div
-              key={`${image.src}-${index}`}
+              key={image.id}
               className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
-              onClick={() => openLightbox(image.src)}
+              onClick={() => setSelectedImageIndex(index)}
             >
               <Image
-                src={image.src}
+                src={image.url}
                 alt={image.alt}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -166,44 +114,19 @@ export function GalleryComponent() {
             </div>
           ))}
         </div>
-        {hasMore && (
-          <div className="mt-8 text-center">
-            <Button onClick={() => showMoreImages(category.id)} size="lg">
-              {language === 'en' ? 'View More' : 'مزید دیکھیں'}
-            </Button>
-          </div>
-        )}
-      </section>
-    );
-  };
-  
-  return (
-    <>
-      <div className="mb-12 flex flex-wrap justify-center gap-2">
-         <Button
-            variant={activeFilter === 'All' ? 'default' : 'outline'}
-            onClick={() => setActiveFilter('All')}
-            >
-            {language === 'en' ? 'All' : 'سب'}
-        </Button>
-        {categories.filter(c => imagesByCategory[c.id]?.length > 0).map((cat) => (
-        <Button
-            key={cat.id}
-            variant={activeFilter === cat.id ? 'default' : 'outline'}
-            onClick={() => setActiveFilter(cat.id)}
-        >
-            {cat.name[language]}
-        </Button>
-        ))}
-      </div>
-
-      <div className="space-y-16">
-        {activeFilter === 'All'
-          ? categories.map(category => renderCategorySection(category, false))
-          : categories
-              .filter(c => c.id === activeFilter)
-              .map(category => renderCategorySection(category, true))}
-      </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-12 border-2 border-dashed rounded-lg">
+          <ImageIcon className="h-16 w-16 mb-4 opacity-20" />
+          <h3 className="text-xl font-semibold">
+            {language === 'en' ? 'No Images Found' : 'کوئی تصویر نہیں ملی'}
+          </h3>
+          <p className="mt-2">
+            {language === 'en' 
+              ? 'Try selecting a different category or check back later.' 
+              : 'براہ کرم کوئی دوسرا زمرہ منتخب کریں یا بعد میں دوبارہ چیک کریں۔'}
+          </p>
+        </div>
+      )}
 
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
         <DialogContent className="max-w-4xl p-0">
@@ -214,7 +137,7 @@ export function GalleryComponent() {
           {selectedImage && (
             <div className="relative aspect-video">
                 <Image
-                    src={selectedImage.src}
+                    src={selectedImage.url}
                     alt={selectedImage.alt}
                     fill
                     className="object-contain"

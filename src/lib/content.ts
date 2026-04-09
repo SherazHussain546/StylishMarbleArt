@@ -6,8 +6,6 @@ export const content = {
     gallery: { en: 'Gallery', ur: 'گیلری' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
-    donate: { en: 'Donate', ur: 'عطیہ کریں' },
-    updates: { en: 'Updates', ur: 'اپ ڈیٹس' },
   },
   hero: {
     title: {
@@ -19,7 +17,7 @@ export const content = {
       ur: 'خوبصورت قبر کے پتھر، کتبے، اور آپ کے باورچی خانے اور گھر کے لیے خوبصورت سنگ مرمر تیار کرنا۔ ہر قسم کے ماربل اور گرینائٹ کے ماہر کے طور پر، ہم کراچی میں اپنے مرکز سے پورے پاکستان کی خدمت کرتے ہیں۔',
     },
     cta: { en: 'Explore Our Services', ur: 'ہماری خدمات دریافت کریں' },
-    communityCta: { en: 'See Our Community Work', ur: 'ہمارا کمیونٹی ورک دیکھیں' },
+    galleryCta: { en: 'View Our Gallery', ur: 'ہماری گیلری دیکھیں' },
   },
   homeServices: {
     title: { en: 'Our Services', ur: 'ہماری خدمات' },
@@ -148,7 +146,7 @@ export const content = {
   },
   homeFeed: {
     title: { en: "Stylish Marble Art Feed", ur: "سٹائلش ماربل آرٹ فیڈ" },
-    description: { en: "Our latest work and projects, fresh from the workshop.", ur: "ہمارے تازہ ترین کام اور منصوبے، براہ راست ورکشاپ سے۔" },
+    description: { en: "Our latest work and projects, fresh from the workshop.", ur: "ہمارے تازہ ترین کام اور منصوبے, براہ راست ورکشاپ سے۔" },
     cta: { en: "View Full Gallery", ur: "مکمل گیلری دیکھیں" },
     feedItems: [
       {
@@ -170,9 +168,9 @@ export const content = {
         hint: "kitchen countertop",
       },
       {
-        image: "/Gallery/Charity/1.png",
-        title: { en: "Charity Plaque", ur: "فلاحی تختی" },
-        alt: { en: "Engraved marble plaque for a charity project.", ur: "ایک فلاحی منصوبے کے لیے کندہ شدہ ماربل کی تختی۔" },
+        image: "/Gallery/HomeDecor/3.png",
+        title: { en: "Engraved Plaque", ur: "کندہ شدہ تختی" },
+        alt: { en: "Custom engraved marble plaque.", ur: "اپنی مرضی کے مطابق کندہ شدہ ماربل کی تختی۔" },
         hint: "marble plaque",
       },
        {
@@ -253,16 +251,13 @@ export const content = {
           ur: 'ہماری جدید ترین کندہ کاری قدرتی پتھر (جیسے زیارت وائٹ) اور جدید مصنوعی مرکبات سمیت کسی بھی سنگ مرمر کی سطح پر پیچیدہ ڈیزائن، متن اور پورٹریٹ کی اجازت دیتی ہے۔ یادگاروں اور تختیوں کو ذاتی بنانے کے لیے بہترین۔',
         },
         images: [
-          { src: '/Gallery/Charity/1.png', alt: 'Intricate floral pattern engraving on marble', hint: 'marble engraving' },
-          { src: '/Gallery/Christin/2.png', alt: 'Engraved text and verses on a marble memorial', hint: 'text engraving' },
+          { src: '/Gallery/HomeDecor/3.png', alt: 'Intricate floral pattern engraving on marble', hint: 'marble engraving' },
           { src: '/Gallery/Government/1.png', alt: 'Custom engraved portrait on black granite', hint: 'portrait engraving' },
           { src: '/Gallery/Government/2.png', alt: 'Detailed floral engraving for a decorative piece', hint: 'floral engraving' },
           { src: '/Gallery/Government/3.png', alt: 'Arabic and Urdu calligraphy engraved on marble', hint: 'marble calligraphy' },
           { src: '/Gallery/Government/5.png', alt: 'Company logo engraved on a marble plaque', hint: 'logo engraving' },
-          { src: '/Gallery/Hindu/1.png', alt: 'Detailed religious symbol carving in stone', hint: 'stone carving' },
           { src: '/Gallery/HomeDecor/1.png', alt: 'Custom engraved marble plaque for buildings', hint: 'plaque engraving' },
           { src: '/Gallery/HomeDecor/2.png', alt: 'Memorial text engraved with precision', hint: 'memorial text' },
-          { src: '/Gallery/HomeDecor/3.png', alt: 'Engraving on modern artificial marble', hint: 'artificial marble' },
         ],
       },
       {
@@ -293,48 +288,6 @@ export const content = {
       ur: 'یادگاروں، باورچی خانے کی تنصیبات، اور اپنی مرضی کے مطابق کندہ کاریوں کا ایک مجموعہ جنہیں تیار کرنے کا ہمیں اپنے گاہکوں کے لیے کراچی اور پورے پاکستان میں اعزاز حاصل ہوا ہے۔',
     },
   },
-  updatesPage: {
-    title: { en: 'Updates & Community Work', ur: 'اپ ڈیٹس اور کمیونٹی ورک' },
-    description: { 
-      en: 'Follow our journey, see our latest projects, and read about our community work in Karachi and across Pakistan.', 
-      ur: 'ہمارے سفر کی پیروی کریں، ہمارے تازہ ترین منصوبے دیکھیں، اور کراچی اور پورے پاکستان میں ہمارے کمیونٹی کے کام کے بارے میں پڑھیں۔' 
-    },
-    feedTitle: {
-      en: 'Our Latest Activities',
-      ur: 'ہماری تازہ ترین سرگرمیاں'
-    },
-    items: [
-      {
-        type: 'custom',
-        title: {
-          en: 'Successful Ramadan Iftar Drive in Karachi',
-          ur: 'کراچی میں کامیاب رمضان افطار مہم'
-        },
-        date: {
-          en: 'April 5, 2024',
-          ur: '۵ اپریل ۲۰۲۴'
-        },
-        image: 'https://images.unsplash.com/photo-1521483451569-e33803c0330c?q=80&w=1887&auto=format&fit=crop',
-        alt: {
-          en: 'Volunteers distributing Iftar food packs to people on the street.',
-          ur: 'رضاکار سڑک پر لوگوں میں افطاری کے فوڈ پیک تقسیم کر رہے ہیں۔'
-        },
-        hint: 'charity volunteers',
-        content: {
-          en: 'Alhamdulillah, with the immense generosity of our donors, our first Ashra Ramadan goal was a resounding success. We distributed over 100 Iftar meal boxes to daily wage workers and travelers in the Malir 15 area of Karachi. Each box contained dates, samosas, fresh fruit, and a juice pack, providing a moment of relief and joy. We are deeply grateful to everyone who contributed. Your support makes this work possible.',
-          ur: 'الحمدللہ، ہمارے عطیہ دہندگان کی بے پناہ سخاوت سے، ہمارا پہلا عشرہ رمضان کا ہدف شاندار کامیابی سے ہمکنار ہوا۔ ہم نے کراچی کے ملیر 15 کے علاقے میں دیہاڑی دار مزدوروں اور مسافروں میں 100 سے زائد افطار میل باکس تقسیم کیے۔ ہر باکس میں کھجوریں، سموسے، تازہ پھل اور جوس کا پیکٹ تھا، جس نے راحت اور خوشی کا ایک لمحہ فراہم کیا۔ ہم ان تمام لوگوں کے تہہ دل سے مشکور ہیں جنہوں نے تعاون کیا۔ آپ کا تعاون اس کام کو ممکن بناتا ہے۔'
-        }
-      },
-      {
-        type: 'facebook',
-        url: 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fstylishmarbleart%2Fposts%2Fpfbid0h5jbsd1Th5TfWct2sPZJ5rZuTJn7xS13uiqJU1a1h3Ea2z9gJ4hKxg9tYNoGW2npl&show_text=true&width=500',
-        title: {
-          en: 'Latest Work on Facebook',
-          ur: 'فیس بک پر تازہ ترین کام'
-        }
-      }
-    ]
-  },
   aboutPage: {
     title: { en: 'About Stylish Marble Art', ur: 'سٹائلش ماربل آرٹ کے بارے میں' },
     subtitle: {
@@ -344,7 +297,7 @@ export const content = {
     ourStoryTitle: { en: 'Our Story', ur: 'ہماری کہانی' },
     ourStoryText: {
       en: 'Founded over fifty years ago in Karachi, Stylish Marble Art began with a simple mission: to provide families and homeowners with beautiful, high-quality marble work that stands the test of time. As a family-run business, we understand the importance of legacy and beauty. We have passed down our skills through generations, blending time-honored stonemasonry with a compassionate approach to memorial services and a keen eye for design in home applications. Our history is built on the trust of the communities we serve across Pakistan.',
-      ur: 'پچاس سال سے زیادہ پہلے کراچی میں قائم کیا گیا، سٹائلش ماربل آرٹ نے ایک سادہ مشن کے ساتھ آغاز کیا: خاندانوں اور گھر کے مالکان کو خوبصورت، اعلیٰ معیار کا ماربل کا کام فراہم کرنا جو وقت کی کسوٹی پر کھڑا ہو۔ ایک خاندانی کاروبار کے طور پر، ہم میراث اور خوبصورتی کی اہمیت کو سمجھتے ہیں۔ ہم نے اپنی مہارتوں کو نسلوں سے منتقل کیا ہے، وقت کے اعزاز والے پتھر کے کام کو یادگاری خدمات کے لیے ایک ہمدردانہ نقطہ نظر اور گھریلو ایپلی کیشنز میں ڈیزائن کے لیے گہری نظر کے ساتھ ملایا ہے۔ ہماری تاریخ پورے پاکستان میں ان کمیونٹیز کے اعتماد پر مبنی ہے جن کی ہم خدمت کرتے ہیں۔',
+      ur: 'پچاس سال سے زیادہ پہلے کراچی میں قائم کیا گیا، سٹائلش ماربل آرٹ نے ایک سادہ مشن کے ساتھ آغاز کیا: خاندانوں اور گھر کے مالکان کو خوبصورت، اعلیٰ معیار کا ماربل کا کام فراہم کرنا جو وقت کی کسوٹی پر کھڑا ہو۔ ایک خاندانی کاروبار کے طور پر، ہم میراث اور خوبصورتی کی اہمیت کو سمجھتے ہیں۔ ہم نے اپنی مہارتوں کو نسلوں سے منتقل کیا ہے، وقت کے اعزاز والے پتھر کے کام کو یادگاری خدمات کے لیے ایک ہمدردانہ نقطہ نظر اور گھریلو ایپلی کیشنز میں ڈیزائن کے لیے گہری نظر کے ساتھ ملایا ہے۔ ہماری تاریخ پورے پاکستان میں ان کمیونٹیز کے اعتماد پر مبنی ہے جن کی ہم خدمت کرتے ہیں۔†',
     },
     ourValuesTitle: { en: 'Our Values', ur: 'ہماری اقدار' },
     values: [
@@ -406,6 +359,22 @@ export const content = {
       email: { en: 'stylishmarbleart2020@gmail.com', ur: 'stylishmarbleart2020@gmail.com' },
     },
   },
+  updatesPage: {
+    title: { en: 'Latest Updates', ur: 'تازہ ترین اپ ڈیٹس' },
+    description: { en: 'Stay informed about our recent projects and news.', ur: 'ہمارے حالیہ منصوبوں اور خبروں کے بارے میں باخبر رہیں۔' },
+    feedTitle: { en: "Our Recent Projects", ur: "ہمارے حالیہ منصوبے" },
+    items: [
+        {
+          type: 'custom',
+          image: '/Gallery/Grave/8.png',
+          title: { en: 'New Memorial Design', ur: 'نیا یادگاری ڈیزائن' },
+          date: { en: 'March 2024', ur: 'مارچ ۲۰۲۴' },
+          content: { en: 'We recently completed a beautiful white marble memorial with custom floral engraving.', ur: 'ہم نے حال ہی میں کسٹم پھولوں کی کندہ کاری کے ساتھ ایک خوبصورت سفید ماربل کی یادگار مکمل کی ہے۔' },
+          alt: { en: 'White marble gravestone with floral engraving', ur: 'پھولوں کی کندہ کاری کے ساتھ سفید ماربل کا قبر کا پتھر' },
+          hint: 'marble memorial'
+        }
+    ]
+  },
   footer: {
     tagline: {
       en: 'We Deal in all kinds of Marble, Granite & Imported Marble in Pakistan',
@@ -418,5 +387,3 @@ export const content = {
     },
   },
 };
-
-    

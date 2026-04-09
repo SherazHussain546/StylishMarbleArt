@@ -25,7 +25,7 @@ The contact form includes an innovative AI-powered draft generation tool to help
 
 ### 3. **SEO and Performance Optimized**
 The website is built from the ground up with Search Engine Optimization (SEO) and performance as top priorities.
-*   **Technology**: Built with **Next.js 14 (App Router)** which enables Server-Side Rendering (SSR) and Server Components for faster page loads and improved SEO indexing.
+*   **Technology**: Built with **Next.js 15 (App Router)** which enables Server-Side Rendering (SSR) and Server Components for faster page loads and improved SEO indexing.
 *   **Features**:
     *   **Dynamic Metadata**: Each page has unique, dynamically generated `title` and `description` tags.
     *   **Semantic HTML**: Clean, semantic HTML structure for better accessibility and crawler readability.

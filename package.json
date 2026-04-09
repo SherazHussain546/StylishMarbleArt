@@ -1,3 +1,4 @@
+
 {
   "name": "nextn",
   "version": "0.1.0",
@@ -12,8 +13,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@genkit-ai/google-genai": "latest",
-    "@genkit-ai/next": "latest",
+    "@genkit-ai/google-genai": "1.27.0",
+    "@genkit-ai/next": "1.27.0",
     "@hookform/resolvers": "latest",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-alert-dialog": "latest",
@@ -41,13 +42,12 @@
     "date-fns": "latest",
     "dotenv": "latest",
     "embla-carousel-react": "latest",
-    "firebase": "latest",
-    "genkit": "latest",
+    "firebase": "^10.8.0",
+    "genkit": "1.27.0",
     "lucide-react": "latest",
     "next": "latest",
     "patch-package": "latest",
     "react": "latest",
-    "react-day-picker": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
     "recharts": "latest",

@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,42 +8,40 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, Eye, Loader2, MessageSquare, Inbox, RefreshCw } from 'lucide-react';
-import { getMessages, deleteMessage, type ContactMessage } from './actions';
+import { ArrowLeft, Trash2, Eye, Loader2, Inbox } from 'lucide-react';
+import { useFirestore, useCollection } from '@/firebase';
+import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { useState } from 'react';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 export default function MessagesPage() {
-  const [messages, setMessages] = useState<ContactMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
-  const [isDeleting, startDeleteTransition] = useTransition();
+  const db = useFirestore();
   const { toast } = useToast();
+  const [selectedMessage, setSelectedMessage] = useState<any | null>(null);
 
-  async function loadMessages() {
-    setIsLoading(true);
-    try {
-      const fetchedMessages = await getMessages();
-      setMessages(fetchedMessages);
-    } catch (error) {
-       toast({ variant: 'destructive', title: 'Error', description: 'Could not fetch messages. Check permissions.' });
-    } finally {
-        setIsLoading(false);
-        setHasLoaded(true);
-    }
-  }
+  const messagesQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, 'contact-messages'), orderBy('createdAt', 'desc'));
+  }, [db]);
 
-  const handleDelete = async (id: string) => {
-    startDeleteTransition(async () => {
-      const result = await deleteMessage(id);
-      if (result.success) {
-        setMessages(prev => prev.filter(msg => msg.id !== id));
+  const { data: messages, loading } = useCollection<any>(messagesQuery);
+
+  const handleDelete = (id: string) => {
+    const docRef = doc(db, 'contact-messages', id);
+    deleteDoc(docRef)
+      .then(() => {
         toast({ title: 'Success', description: 'Message deleted successfully.' });
-      } else {
-        toast({ variant: 'destructive', title: 'Error', description: result.error });
-      }
-    });
+      })
+      .catch(async (err) => {
+        const permissionError = new FirestorePermissionError({
+          path: docRef.path,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
   };
 
   const renderSkeleton = () => (
@@ -67,19 +64,13 @@ export default function MessagesPage() {
             <span className="sr-only">Back to Dashboard</span>
           </Link>
         </Button>
-        <div className="flex-grow flex justify-between items-center">
-            <h1 className="text-3xl font-bold tracking-tight">Message Inbox</h1>
-            <Button onClick={loadMessages} disabled={isLoading}>
-                <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-                {isLoading ? 'Loading...' : 'Load Messages'}
-            </Button>
-        </div>
+        <h1 className="text-3xl font-bold tracking-tight">Message Inbox</h1>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Contact Form Submissions</CardTitle>
-          <CardDescription>Messages sent via the website contact form.</CardDescription>
+          <CardDescription>Messages are synced in real-time from the database.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -92,7 +83,7 @@ export default function MessagesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading ? renderSkeleton() : hasLoaded && messages.length > 0 ? messages.map(msg => (
+              {loading ? renderSkeleton() : messages.length > 0 ? messages.map((msg: any) => (
                 <TableRow key={msg.id}>
                   <TableCell className="font-medium">{msg.name}</TableCell>
                   <TableCell>{msg.email}</TableCell>
@@ -105,7 +96,7 @@ export default function MessagesPage() {
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" disabled={isDeleting}>
+                        <Button variant="ghost" size="icon">
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </AlertDialogTrigger>
@@ -119,7 +110,7 @@ export default function MessagesPage() {
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
                           <AlertDialogAction onClick={() => handleDelete(msg.id)}>
-                            {isDeleting ? <Loader2 className="animate-spin" /> : "Delete"}
+                            Delete
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -131,8 +122,8 @@ export default function MessagesPage() {
                   <TableCell colSpan={4} className="h-24 text-center">
                     <div className="flex flex-col items-center justify-center text-muted-foreground">
                         <Inbox className="h-12 w-12 mb-4" />
-                        <h3 className="font-semibold text-lg">{hasLoaded ? 'No Messages Yet' : 'Ready to Load'}</h3>
-                        <p className="text-sm">{hasLoaded ? 'New messages will appear here.' : 'Click "Load Messages" to see your inbox.'}</p>
+                        <h3 className="font-semibold text-lg">No Messages Yet</h3>
+                        <p className="text-sm">New messages will appear here in real-time.</p>
                     </div>
                   </TableCell>
                 </TableRow>
