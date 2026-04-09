@@ -16,6 +16,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'fire
 import { generateAltText } from '@/ai/flows/generate-alt-text';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const categories = [
     { id: 'Graves', name: 'Graves' },
