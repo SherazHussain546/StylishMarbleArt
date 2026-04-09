@@ -1,22 +1,36 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { initializeFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
+
+import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
+import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
+import { getAuth, Auth } from 'firebase/auth';
+import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
 
-export function initializeFirebase() {
-  const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-  
-  // Using initializeFirestore with experimentalForceLongPolling helps resolve 
-  // "unavailable" errors in specific restricted network environments.
-  const firestore = initializeFirestore(firebaseApp, {
-    experimentalForceLongPolling: true,
-  });
-  
-  const auth = getAuth(firebaseApp);
-  const storage = getStorage(firebaseApp);
+let app: FirebaseApp;
+let db: Firestore;
+let auth: Auth;
+let storage: FirebaseStorage;
 
-  return { firebaseApp, firestore, auth, storage };
+/**
+ * Initializes Firebase services with standardized configuration.
+ * Includes long-polling fix for Firestore to prevent 'unavailable' errors in restricted environments.
+ */
+export function initializeFirebase() {
+  if (getApps().length > 0) {
+    app = getApp();
+    db = getFirestore(app);
+    auth = getAuth(app);
+    storage = getStorage(app);
+  } else {
+    app = initializeApp(firebaseConfig);
+    // Standardizing Firestore initialization with long-polling for stability
+    db = initializeFirestore(app, {
+      experimentalForceLongPolling: true,
+    });
+    auth = getAuth(app);
+    storage = getStorage(app);
+  }
+
+  return { firebaseApp: app, firestore: db, auth, storage };
 }
 
 export * from './provider';

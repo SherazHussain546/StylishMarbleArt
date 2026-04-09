@@ -1,14 +1,14 @@
 
 'use client';
 
-import { app } from '@/lib/firebase';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+/**
+ * DEPRECATED: This file is kept for backward compatibility but is being phased out.
+ * Please use the hooks from '@/firebase' instead for standardized initialization
+ * and long-polling support.
+ */
 
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+import { initializeFirebase } from '@/firebase';
 
+const { auth, firestore: db, storage } = initializeFirebase();
 
 export { auth, db, storage };
