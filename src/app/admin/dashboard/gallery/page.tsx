@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -16,7 +17,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'fire
 import { generateAltText } from '@/ai/flows/generate-alt-text';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const categories = [
     { id: 'Graves', name: 'Graves' },

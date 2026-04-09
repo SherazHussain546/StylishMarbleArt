@@ -4,7 +4,6 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
   child-src 'self';
-  child-src 'self';
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data:;
   font-src 'self';  
@@ -41,7 +40,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  /* config options here */
   typescript: {
     ignoreBuildErrors: true,
   },

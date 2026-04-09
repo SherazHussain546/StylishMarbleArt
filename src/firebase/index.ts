@@ -1,4 +1,3 @@
-
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
@@ -22,7 +21,7 @@ export function initializeFirebase() {
     storage = getStorage(app);
   } else {
     app = initializeApp(firebaseConfig);
-    // Standardizing Firestore initialization with long-polling for stability
+    // Standardizing Firestore initialization with long-polling for stability in dev environments
     db = initializeFirestore(app, {
       experimentalForceLongPolling: true,
     });
