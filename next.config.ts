@@ -1,9 +1,9 @@
-
 import type {NextConfig} from 'next';
 
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
+  child-src 'self';
   child-src 'self';
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data:;
@@ -78,6 +78,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  experimental: {
+    allowedDevOrigins: [
+      '6000-firebase-studio-1754855134570.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev',
+      'localhost:9002'
+    ]
+  }
 };
 
 export default nextConfig;
