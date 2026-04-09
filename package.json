@@ -63,5 +63,10 @@
     "postcss": "latest",
     "tailwindcss": "latest",
     "typescript": "latest"
+  },
+  "overrides": {
+    "genkit": "1.27.0",
+    "@genkit-ai/google-genai": "1.27.0",
+    "@genkit-ai/next": "1.27.0"
   }
 }
