@@ -1,21 +1,22 @@
-
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, initializeFirestore } from 'firebase/firestore';
+import { initializeFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
 
 export function initializeFirebase() {
   const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
   
-  // Using initializeFirestore with settings helps resolve "unavailable" errors 
-  // in specific development or restricted network environments.
+  // Using initializeFirestore with experimentalForceLongPolling helps resolve 
+  // "unavailable" errors in specific restricted network environments.
   const firestore = initializeFirestore(firebaseApp, {
     experimentalForceLongPolling: true,
   });
   
   const auth = getAuth(firebaseApp);
+  const storage = getStorage(firebaseApp);
 
-  return { firebaseApp, firestore, auth };
+  return { firebaseApp, firestore, auth, storage };
 }
 
 export * from './provider';

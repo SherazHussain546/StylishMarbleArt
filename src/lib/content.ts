@@ -1,4 +1,3 @@
-
 export const content = {
   nav: {
     home: { en: 'Home', ur: 'گھر' },

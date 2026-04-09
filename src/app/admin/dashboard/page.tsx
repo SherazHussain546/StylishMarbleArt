@@ -1,18 +1,18 @@
-
 'use client';
 
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth as useFirebaseUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase/client';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
+import { useAuth } from '@/firebase';
 
 export default function AdminDashboardPage() {
-  const { user, loading } = useAuth();
+  const { user, loading } = useFirebaseUser();
+  const auth = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -40,7 +40,6 @@ export default function AdminDashboardPage() {
     );
   }
 
-  // The AuthProvider should handle the redirect, but as a fallback:
   if (!user) {
     return null; 
   }
@@ -86,7 +85,7 @@ export default function AdminDashboardPage() {
                  <Button asChild>
                     <Link href="/admin/dashboard/gallery">Manage Gallery</Link>
                  </Button>
-                <p className="text-xs text-muted-foreground mt-2">Feature coming soon.</p>
+                <p className="text-xs text-muted-foreground mt-2">Manage your public portfolio.</p>
               </CardContent>
             </Card>
           </div>
@@ -130,46 +129,6 @@ export default function AdminDashboardPage() {
               </CardContent>
             </Card>
           </div>
-        </section>
-
-        <section>
-            <h2 className="text-2xl font-semibold tracking-tight my-4">Search Engine Data</h2>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm font-medium">Top Search Keyword</CardTitle>
-                  <Search className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">--</div>
-                    <p className="text-xs text-muted-foreground">Search Console data loading...</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm font-medium">Search Clicks</CardTitle>
-                  <BarChart className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">--</div>
-                    <p className="text-xs text-muted-foreground">Search Console data loading...</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm font-medium">View on Search Console</CardTitle>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <Button size="sm" asChild variant="outline">
-                        <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">
-                            Open Search Console
-                        </a>
-                    </Button>
-                    <p className="text-xs text-muted-foreground mt-2">Connect via Google Console</p>
-                </CardContent>
-              </Card>
-            </div>
         </section>
       </main>
     </>
