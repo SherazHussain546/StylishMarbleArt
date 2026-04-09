@@ -8,22 +8,23 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // Validation for Contact Messages
+    function isValidContactMessage(data) {
+      return data.name is string && data.name.size() >= 2
+          && data.email is string && data.email.matches('^.+@.+\\..+$')
+          && data.message is string && data.message.size() >= 10;
+    }
+
     // GALLERY: Public can read, only signed-in admins can write/delete
     match /gallery/{imageId} {
       allow read;
       allow write, delete: if isSignedIn();
     }
     
-    // CONTACT MESSAGES: Only signed-in admins can read/delete, anyone can create
+    // CONTACT MESSAGES: Anyone can create if valid, admins can read/delete
     match /contact-messages/{messageId} {
       allow read, delete: if isSignedIn();
-      allow create;
-    }
-    
-    // TESTIMONIALS: Public can read, only signed-in admins can write/delete
-    match /testimonials/{testimonialId} {
-      allow read;
-      allow write, delete: if isSignedIn();
+      allow create: if isValidContactMessage(request.resource.data);
     }
     
     // Default deny all other collections
