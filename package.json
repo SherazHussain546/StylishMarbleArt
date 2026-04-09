@@ -1,3 +1,4 @@
+
 {
   "name": "nextn",
   "version": "0.1.0",
@@ -12,8 +13,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@genkit-ai/google-genai": "latest",
-    "@genkit-ai/next": "latest",
+    "@genkit-ai/google-genai": "^1.0.0",
+    "@genkit-ai/next": "^1.0.0",
     "@hookform/resolvers": "latest",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-alert-dialog": "latest",
@@ -42,7 +43,7 @@
     "dotenv": "latest",
     "embla-carousel-react": "latest",
     "firebase": "^10.8.0",
-    "genkit": "latest",
+    "genkit": "^1.0.0",
     "lucide-react": "latest",
     "next": "latest",
     "patch-package": "latest",
@@ -64,8 +65,8 @@
     "typescript": "latest"
   },
   "overrides": {
-    "genkit": "latest",
-    "@genkit-ai/google-genai": "latest",
-    "@genkit-ai/next": "latest"
+    "genkit": "^1.0.0",
+    "@genkit-ai/google-genai": "^1.0.0",
+    "@genkit-ai/next": "^1.0.0"
   }
 }
