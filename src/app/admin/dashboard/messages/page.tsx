@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,8 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, Eye, Loader2, Inbox } from 'lucide-react';
-import { useFirestore, useCollection } from '@/firebase';
+import { ArrowLeft, Trash2, Eye, Inbox } from 'lucide-react';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -22,12 +21,12 @@ export default function MessagesPage() {
   const { toast } = useToast();
   const [selectedMessage, setSelectedMessage] = useState<any | null>(null);
 
-  const messagesQuery = useMemo(() => {
+  const messagesQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'contact-messages'), orderBy('createdAt', 'desc'));
   }, [db]);
 
-  const { data: messages, loading } = useCollection<any>(messagesQuery);
+  const { data: messages, isLoading: loading } = useCollection<any>(messagesQuery);
 
   const handleDelete = (id: string) => {
     const docRef = doc(db, 'contact-messages', id);
@@ -83,7 +82,7 @@ export default function MessagesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? renderSkeleton() : messages.length > 0 ? messages.map((msg: any) => (
+              {loading ? renderSkeleton() : (messages && messages.length > 0) ? messages.map((msg: any) => (
                 <TableRow key={msg.id}>
                   <TableCell className="font-medium">{msg.name}</TableCell>
                   <TableCell>{msg.email}</TableCell>

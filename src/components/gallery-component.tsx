@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -8,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
 import { ChevronLeft, ChevronRight, Loader2, ImageIcon } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
-import { useFirestore, useCollection } from '@/firebase';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy } from 'firebase/firestore';
 
 type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
@@ -28,12 +27,12 @@ export function GalleryComponent() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState<Category | 'All'>('All');
 
-  const galleryQuery = useMemo(() => {
+  const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
   }, [db]);
 
-  const { data: dbImages, loading } = useCollection<any>(galleryQuery);
+  const { data: dbImages, isLoading: loading } = useCollection<any>(galleryQuery);
 
   const filteredImages = useMemo(() => {
     if (!dbImages) return [];
@@ -149,7 +148,6 @@ export function GalleryComponent() {
                     priority
                 />
                 
-                {/* Navigation Controls */}
                 <div className="absolute inset-0 flex items-center justify-between p-4 pointer-events-none">
                     <Button 
                         variant="ghost" 
@@ -169,7 +167,6 @@ export function GalleryComponent() {
                     </Button>
                 </div>
 
-                {/* Info Bar */}
                 <div className="absolute bottom-0 left-0 right-0 bg-black/80 p-6 text-white backdrop-blur-sm">
                     <div className="flex justify-between items-center max-w-4xl mx-auto">
                         <div>

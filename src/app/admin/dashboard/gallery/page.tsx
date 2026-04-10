@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,7 +11,7 @@ import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lu
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore, useCollection, useStorage } from '@/firebase';
+import { useFirestore, useCollection, useStorage, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { generateAltText } from '@/ai/flows/generate-alt-text';
@@ -39,12 +38,12 @@ export default function GalleryManagementPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
 
-  const galleryQuery = useMemo(() => {
+  const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
   }, [db]);
 
-  const { data: images, loading: imagesLoading } = useCollection<any>(galleryQuery);
+  const { data: images, isLoading: imagesLoading } = useCollection<any>(galleryQuery);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -90,11 +89,9 @@ export default function GalleryManagementPage() {
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      // 1. Upload to Firebase Storage
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // 2. Save Metadata to Firestore
       const galleryRef = collection(db, 'gallery');
       const imageData = {
         url: downloadURL,
@@ -104,7 +101,6 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      // We use addDoc and handle the outcome
       addDoc(galleryRef, imageData)
         .then(() => {
           toast({ title: 'Success!', description: 'Image added to gallery.' });
@@ -115,7 +111,6 @@ export default function GalleryManagementPage() {
           if (fileInput) fileInput.value = '';
         })
         .catch(async (error: any) => {
-          console.error("Firestore Save Error:", error);
           if (error.code === 'permission-denied') {
             const permissionError = new FirestorePermissionError({
               path: 'gallery',
@@ -132,7 +127,6 @@ export default function GalleryManagementPage() {
         });
 
     } catch (error: any) {
-      console.error("Storage Upload Error:", error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
