@@ -7,12 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, RefreshCw, Zap } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, RefreshCw, Zap, Edit2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, updateDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 
 const categories = [
     { id: 'Graves', name: 'Graves' },
@@ -32,6 +33,10 @@ export default function GalleryManagementPage() {
   const [altText, setAltText] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
+  // Edit State
+  const [editingImage, setEditingImage] = useState<any | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
@@ -50,7 +55,7 @@ export default function GalleryManagementPage() {
         toast({ 
             variant: 'destructive', 
             title: 'File Too Large', 
-            description: 'For direct database storage, please use an image under 800KB.' 
+            description: 'Please use an image under 800KB for direct storage.' 
         });
         return;
     }
@@ -58,9 +63,7 @@ export default function GalleryManagementPage() {
     setIsUploading(true);
     
     try {
-      // Direct "No BS" approach: Convert to Data URL and save to Firestore
       const reader = new FileReader();
-      
       const dataUrl = await new Promise<string>((resolve, reject) => {
         reader.onload = () => resolve(reader.result as string);
         reader.onerror = reject;
@@ -76,7 +79,7 @@ export default function GalleryManagementPage() {
 
       await addDoc(collection(db, 'gallery'), imageData);
       
-      toast({ title: 'Success', description: 'Image saved directly to database.' });
+      toast({ title: 'Success', description: 'Image added to gallery.' });
       
       setFile(null);
       setCategory('');
@@ -85,14 +88,29 @@ export default function GalleryManagementPage() {
       if (input) input.value = '';
 
     } catch (error: any) {
-      console.error("Upload Error:", error);
-      toast({ 
-        variant: 'destructive', 
-        title: 'Upload Failed', 
-        description: error.message 
-      });
+      toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingImage) return;
+
+    setIsUpdating(true);
+    try {
+      const imageRef = doc(db, 'gallery', editingImage.id);
+      await updateDoc(imageRef, {
+        category: editingImage.category,
+        alt: editingImage.alt,
+      });
+      toast({ title: 'Updated', description: 'Item details saved.' });
+      setEditingImage(null);
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Update Failed', description: error.message });
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -110,7 +128,7 @@ export default function GalleryManagementPage() {
     try {
         await addDoc(collection(db, 'gallery'), {
             url: 'https://picsum.photos/seed/test/800/600',
-            alt: 'Verified Connection Test Entry',
+            alt: 'Test Entry',
             category: 'Graves',
             createdAt: serverTimestamp()
         });
@@ -144,7 +162,7 @@ export default function GalleryManagementPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-1 shadow-md border-primary/20">
+        <Card className="lg:col-span-1 shadow-md border-primary/20 h-fit">
           <CardHeader>
             <CardTitle>Direct Upload</CardTitle>
             <CardDescription>Saves directly to database for maximum speed.</CardDescription>
@@ -161,7 +179,7 @@ export default function GalleryManagementPage() {
                     onChange={(e) => setFile(e.target.files?.[0] || null)} 
                     disabled={isUploading} 
                 />
-                <p className="text-[10px] text-muted-foreground">Max size: 800KB (Recommended for speed)</p>
+                <p className="text-[10px] text-muted-foreground">Recommended: Under 800KB</p>
               </div>
               
               <div className="space-y-2">
@@ -191,7 +209,7 @@ export default function GalleryManagementPage() {
               </div>
 
               <Button type="submit" className="w-full py-6 text-lg" disabled={isUploading}>
-                  {isUploading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Saving...</> : <><UploadCloud className="mr-2 h-5 w-5" /> Save to Website</>}
+                  {isUploading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Saving...</> : <><UploadCloud className="mr-2 h-5 w-5" /> Add to Gallery</>}
               </Button>
             </form>
           </CardContent>
@@ -200,7 +218,7 @@ export default function GalleryManagementPage() {
         <Card className="lg:col-span-2 shadow-md">
           <CardHeader>
             <CardTitle>Live Portfolio</CardTitle>
-            <CardDescription>Photos currently synced to the live site.</CardDescription>
+            <CardDescription>All project images synced to the live site.</CardDescription>
           </CardHeader>
           <CardContent>
              {imagesLoading ? (
@@ -212,7 +230,10 @@ export default function GalleryManagementPage() {
                  {images.map((img: any) => (
                    <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border bg-muted shadow-sm">
                       <Image src={img.url} alt={img.alt} fill className="object-cover" unoptimized />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                      <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50">
+                         <Button variant="secondary" size="icon" onClick={() => setEditingImage(img)}>
+                            <Edit2 className="h-4 w-4" />
+                         </Button>
                          <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id)}>
                             <Trash2 className="h-4 w-4" />
                          </Button>
@@ -232,6 +253,52 @@ export default function GalleryManagementPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editingImage} onOpenChange={() => setEditingImage(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Image Details</DialogTitle>
+            <DialogDescription>Update the category or description for this project.</DialogDescription>
+          </DialogHeader>
+          {editingImage && (
+            <form onSubmit={handleUpdate} className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Category</Label>
+                <Select 
+                  value={editingImage.category} 
+                  onValueChange={(val) => setEditingImage({...editingImage, category: val})}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map(cat => (
+                      <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Description</Label>
+                <Input 
+                  value={editingImage.alt} 
+                  onChange={(e) => setEditingImage({...editingImage, alt: e.target.value})}
+                  required
+                />
+              </div>
+              <DialogFooter className="pt-4">
+                <DialogClose asChild>
+                  <Button variant="ghost">Cancel</Button>
+                </DialogClose>
+                <Button type="submit" disabled={isUpdating}>
+                  {isUpdating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Save Changes'}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

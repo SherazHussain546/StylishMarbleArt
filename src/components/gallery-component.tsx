@@ -101,6 +101,7 @@ export function GalleryComponent() {
                 src={image.url}
                 alt={image.alt}
                 fill
+                unoptimized={image.url.startsWith('data:')}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -143,6 +144,7 @@ export function GalleryComponent() {
                     src={selectedImage.url}
                     alt={selectedImage.alt}
                     fill
+                    unoptimized={selectedImage.url.startsWith('data:')}
                     className="object-contain"
                     sizes="100vw"
                     priority
