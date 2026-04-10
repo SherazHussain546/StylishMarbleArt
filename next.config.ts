@@ -7,7 +7,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data: https://firebasestorage.googleapis.com;
   font-src 'self';
-  connect-src 'self' vitals.vercel-insights.com https://*.googleapis.com https://*.firebase.com https://*.firebaseio.com https://*.cloudworkstations.dev;
+  connect-src 'self' vitals.vercel-insights.com https://*.googleapis.com https://*.firebase.com https://*.firebaseio.com https://*.cloudworkstations.dev https://firebasestorage.googleapis.com;
   frame-src 'self' https://www.google.com https://*.firebaseapp.com;
   upgrade-insecure-requests;
 `;

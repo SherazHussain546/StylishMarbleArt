@@ -8,13 +8,14 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database, XCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database, XCircle, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore, useCollection, useStorage, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { generateAltText } from '@/ai/flows/generate-alt-text';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
@@ -28,7 +29,7 @@ const categories = [
     { id: 'Hindu Memorials', name: 'Hindu' },
 ];
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit for stability
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
 
 export default function GalleryManagementPage() {
   const db = useFirestore();
@@ -39,8 +40,8 @@ export default function GalleryManagementPage() {
   const [category, setCategory] = useState('');
   const [altText, setAltText] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
@@ -50,13 +51,14 @@ export default function GalleryManagementPage() {
   const { data: images, isLoading: imagesLoading } = useCollection<any>(galleryQuery);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUploadError(null);
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       if (selectedFile.size > MAX_FILE_SIZE) {
         toast({
           variant: 'destructive',
           title: 'File too large',
-          description: 'Please select an image smaller than 5MB for a faster upload.',
+          description: 'Please select an image smaller than 5MB.',
         });
         e.target.value = '';
         return;
@@ -75,7 +77,7 @@ export default function GalleryManagementPage() {
         try {
           const result = await generateAltText({ photoDataUri: dataUri });
           setAltText(result.altText);
-          toast({ title: 'AI Success', description: 'Alt text generated successfully.' });
+          toast({ title: 'AI Success', description: 'Alt text generated.' });
         } catch (err) {
           toast({ variant: 'destructive', title: 'AI Error', description: 'Could not analyze image.' });
         } finally {
@@ -91,7 +93,6 @@ export default function GalleryManagementPage() {
 
   const handleSeedMockData = () => {
     if (!db) return;
-    
     const mockData = {
       url: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/600`,
       alt: 'Test Gallery Image (Mock)',
@@ -102,7 +103,7 @@ export default function GalleryManagementPage() {
 
     addDoc(collection(db, 'gallery'), mockData)
       .then(() => {
-        toast({ title: 'Mock Added', description: 'A test entry was successfully added to Firestore.' });
+        toast({ title: 'Mock Added', description: 'Database connection verified.' });
       })
       .catch((err) => {
         errorEmitter.emit('permission-error', new FirestorePermissionError({
@@ -117,8 +118,8 @@ export default function GalleryManagementPage() {
     setFile(null);
     setCategory('');
     setAltText('');
-    setUploadProgress(0);
     setIsUploading(false);
+    setUploadError(null);
     const fileInput = document.getElementById('image-file') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
   };
@@ -131,84 +132,69 @@ export default function GalleryManagementPage() {
     }
 
     setIsUploading(true);
-    setUploadProgress(0);
+    setUploadError(null);
     
+    // Set a safety timeout for the network transfer
+    const timeoutId = setTimeout(() => {
+      if (isUploading) {
+        setUploadError('The upload is taking too long. This might be a network proxy issue in the development environment. Please try "Reset Connection" and a smaller file.');
+        setIsUploading(false);
+      }
+    }, 60000); // 60 seconds
+
     try {
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      // Use uploadBytes instead of uploadBytesResumable for better compatibility with proxies
+      const snapshot = await uploadBytes(storageRef, file);
+      clearTimeout(timeoutId);
 
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadProgress(progress);
-        }, 
-        (error) => {
-          console.error('Upload error:', error);
-          toast({ 
-            variant: 'destructive', 
-            title: 'Upload Failed', 
-            description: 'The connection was interrupted. Try a smaller image or reset the connection.' 
-          });
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      const galleryRef = collection(db, 'gallery');
+      const imageData = {
+        url: downloadURL,
+        alt: altText,
+        category: category,
+        path: snapshot.ref.fullPath,
+        createdAt: serverTimestamp(),
+      };
+
+      addDoc(galleryRef, imageData)
+        .then(() => {
+          toast({ title: 'Success!', description: 'Image published to gallery.' });
+          resetForm();
+        })
+        .catch((error: any) => {
+          errorEmitter.emit('permission-error', new FirestorePermissionError({
+            path: 'gallery',
+            operation: 'create',
+            requestResourceData: imageData,
+          }));
           setIsUploading(false);
-        }, 
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          const galleryRef = collection(db, 'gallery');
-          const imageData = {
-            url: downloadURL,
-            alt: altText,
-            category: category,
-            path: uploadTask.snapshot.ref.fullPath,
-            createdAt: serverTimestamp(),
-          };
-
-          addDoc(galleryRef, imageData)
-            .then(() => {
-              toast({ title: 'Success!', description: 'Image added to gallery.' });
-              resetForm();
-            })
-            .catch(async (error: any) => {
-              errorEmitter.emit('permission-error', new FirestorePermissionError({
-                path: 'gallery',
-                operation: 'create',
-                requestResourceData: imageData,
-              }));
-              setIsUploading(false);
-            });
-        }
-      );
+        });
 
     } catch (error: any) {
-      toast({ 
-        variant: 'destructive', 
-        title: 'Upload Failed', 
-        description: error.message 
-      });
+      clearTimeout(timeoutId);
+      console.error('Upload error:', error);
+      setUploadError(error.message || 'Network transfer failed. The workstation proxy may be blocking the binary stream.');
       setIsUploading(false);
     }
   };
 
   const handleDelete = async (id: string, path: string) => {
-    if (!confirm('Are you sure you want to delete this image?')) return;
-
+    if (!confirm('Are you sure?')) return;
     try {
       if (path !== 'mock/path') {
         const storageRef = ref(storage, path);
         await deleteObject(storageRef);
       }
-      
       const docRef = doc(db, 'gallery', id);
-      deleteDoc(docRef).catch(async (error: any) => {
-        errorEmitter.emit('permission-error', new FirestorePermissionError({
-          path: docRef.path,
-          operation: 'delete',
-        }));
+      deleteDoc(docRef).catch((err) => {
+        errorEmitter.emit('permission-error', new FirestorePermissionError({ path: docRef.path, operation: 'delete' }));
       });
-
-      toast({ title: 'Deleted', description: 'Image removed from gallery.' });
+      toast({ title: 'Deleted' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
     }
@@ -242,10 +228,17 @@ export default function GalleryManagementPage() {
         <div className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardHeader>
-              <CardTitle>Upload New Image</CardTitle>
-              <CardDescription>Add a new piece of work to your public portfolio. Max size 5MB.</CardDescription>
+              <CardTitle>Upload Image</CardTitle>
+              <CardDescription>Max size 5MB. Use small files for better performance.</CardDescription>
             </CardHeader>
             <CardContent>
+              {uploadError && (
+                <Alert variant="destructive" className="mb-4">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Upload Problem</AlertTitle>
+                  <AlertDescription className="text-xs">{uploadError}</AlertDescription>
+                </Alert>
+              )}
               <form onSubmit={handleUpload} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="image-file">1. Select Image</Label>
@@ -253,7 +246,7 @@ export default function GalleryManagementPage() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="category">2. Choose Category</Label>
+                  <Label htmlFor="category">2. Category</Label>
                   <Select required onValueChange={setCategory} value={category} disabled={isUploading}>
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Select a category" />
@@ -292,26 +285,21 @@ export default function GalleryManagementPage() {
                 {isUploading && (
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs font-medium">
-                      <span>Uploading to Storage...</span>
-                      <span>{Math.round(uploadProgress)}%</span>
+                      <span className="animate-pulse">Transferring data...</span>
                     </div>
-                    <Progress value={uploadProgress} className="h-2" />
+                    <Progress value={undefined} className="h-2" />
+                    <p className="text-[10px] text-muted-foreground">This may take a minute depending on your connection.</p>
                   </div>
                 )}
 
                 <div className="flex gap-2">
                   <Button type="submit" className="flex-1" disabled={isUploading}>
                     {isUploading ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
+                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
                     ) : (
                         <><UploadCloud className="mr-2 h-4 w-4" /> Publish</>
                     )}
                   </Button>
-                  {isUploading && (
-                    <Button type="button" variant="outline" size="icon" onClick={resetForm}>
-                      <XCircle className="h-4 w-4" />
-                    </Button>
-                  )}
                 </div>
               </form>
             </CardContent>
@@ -322,11 +310,8 @@ export default function GalleryManagementPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Current Gallery Items</CardTitle>
-                <CardDescription>Visible on the public gallery page.</CardDescription>
-              </div>
-              <div className="text-sm font-medium text-muted-foreground bg-secondary px-3 py-1 rounded-full">
-                {images?.length || 0} Total
+                <CardTitle>Portfolio Items</CardTitle>
+                <CardDescription>Live Gallery Data</CardDescription>
               </div>
             </CardHeader>
             <CardContent>
@@ -353,8 +338,8 @@ export default function GalleryManagementPage() {
                ) : (
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
-                    <h3 className="font-semibold text-lg">No Gallery Data</h3>
-                    <p className="text-sm">Upload images or use "Seed Test Entry" to verify database connection.</p>
+                    <h3 className="font-semibold text-lg">No Images Found</h3>
+                    <p className="text-sm">If uploads fail, check "Reset Connection" or use "Seed Test Entry".</p>
                  </div>
                )}
             </CardContent>
