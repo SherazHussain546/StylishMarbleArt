@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { initializeFirestore, getFirestore, Firestore, terminate } from 'firebase/firestore';
+import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
@@ -20,18 +20,19 @@ export function initializeFirebase() {
     app = initializeApp(firebaseConfig);
   }
 
-  // We attempt to initialize Firestore with long polling. 
-  // If it's already initialized, getFirestore(app) will return the existing instance.
-  try {
-    db = initializeFirestore(app, {
-      experimentalForceLongPolling: true,
-    });
-  } catch (e) {
-    db = getFirestore(app);
+  // Ensure Firestore is initialized with long-polling only once
+  if (!db) {
+    try {
+      db = initializeFirestore(app, {
+        experimentalForceLongPolling: true,
+      });
+    } catch (e) {
+      db = getFirestore(app);
+    }
   }
 
-  auth = getAuth(app);
-  storage = getStorage(app);
+  if (!auth) auth = getAuth(app);
+  if (!storage) storage = getStorage(app);
 
   return { firebaseApp: app, firestore: db, auth, storage };
 }
