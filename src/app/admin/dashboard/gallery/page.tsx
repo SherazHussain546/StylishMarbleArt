@@ -7,9 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, CheckCircle2, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -29,8 +28,6 @@ const categories = [
     { id: 'Hindu Memorials', name: 'Hindu' },
 ];
 
-const RECOMMENDED_MAX_SIZE = 500 * 1024; // 500KB recommended for proxy stability
-
 export default function GalleryManagementPage() {
   const db = useFirestore();
   const storage = useStorage();
@@ -41,7 +38,7 @@ export default function GalleryManagementPage() {
   const [altText, setAltText] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
 
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
@@ -51,20 +48,17 @@ export default function GalleryManagementPage() {
   const { data: images, isLoading: imagesLoading } = useCollection<any>(galleryQuery);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploadError(null);
+    setStatusMsg(null);
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      if (selectedFile.size > 5 * 1024 * 1024) {
+      if (selectedFile.size > 2 * 1024 * 1024) {
         toast({
           variant: 'destructive',
           title: 'File too large',
-          description: 'Please select an image smaller than 5MB.',
+          description: 'Please use an image under 2MB for faster uploading in this environment.',
         });
         e.target.value = '';
         return;
-      }
-      if (selectedFile.size > RECOMMENDED_MAX_SIZE) {
-         setUploadError(`Note: This file is ${Math.round(selectedFile.size / 1024)}KB. Large files may hang due to the cloud workstation's network proxy. For best results, use files under 500KB.`);
       }
       setFile(selectedFile);
     }
@@ -92,76 +86,48 @@ export default function GalleryManagementPage() {
     }
   };
 
-  const handleSeedMockData = () => {
+  const handleVerifyDB = () => {
     if (!db) return;
     const mockData = {
       url: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/600`,
-      alt: 'Test Gallery Entry (Verified Connection)',
+      alt: 'Connection Verified',
       category: 'Graves',
-      path: 'mock/path',
+      path: 'mock/test',
       createdAt: serverTimestamp(),
     };
-
     addDoc(collection(db, 'gallery'), mockData)
-      .then(() => {
-        toast({ title: 'Database Verified', description: 'Firestore is working perfectly.' });
-      })
-      .catch((err) => {
-        errorEmitter.emit('permission-error', new FirestorePermissionError({
-          path: 'gallery',
-          operation: 'create',
-          requestResourceData: mockData
-        }));
-      });
-  };
-
-  const resetForm = () => {
-    setFile(null);
-    setCategory('');
-    setAltText('');
-    setIsUploading(false);
-    setUploadError(null);
-    const fileInput = document.getElementById('image-file') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
+      .then(() => toast({ title: 'Database Connected' }))
+      .catch((err) => errorEmitter.emit('permission-error', new FirestorePermissionError({ path: 'gallery', operation: 'create', requestResourceData: mockData })));
   };
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !category || !altText) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please fill all fields.' });
+      toast({ variant: 'destructive', title: 'Missing Info', description: 'Please fill all fields.' });
       return;
     }
 
     setIsUploading(true);
-    setUploadError(null);
+    setStatusMsg('Initiating transfer...');
     
-    // Safety timeout for proxy hangs
-    const timeoutId = setTimeout(() => {
+    // Safety timeout for proxy issues
+    const timeout = setTimeout(() => {
       if (isUploading) {
-        setUploadError('The upload has timed out. The cloud workstation proxy is likely blocking the binary stream. Try a smaller file or use "Reset Connection".');
-        setIsUploading(false);
+        setStatusMsg('Network bottleneck detected. If this continues, try a smaller file or refresh.');
       }
-    }, 45000); 
+    }, 15000);
 
     try {
-      const timestamp = Date.now();
-      const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      // Explicit metadata helps the server process the stream faster
-      const metadata = {
-        contentType: file.type,
-        customMetadata: {
-          'originalName': file.name,
-          'category': category
-        }
-      };
-
-      const snapshot = await uploadBytes(storageRef, file, metadata);
-      clearTimeout(timeoutId);
-
+      setStatusMsg('Uploading image to secure storage...');
+      const snapshot = await uploadBytes(storageRef, file, { contentType: file.type });
+      
+      setStatusMsg('Image uploaded. Getting public link...');
       const downloadURL = await getDownloadURL(snapshot.ref);
-      const galleryRef = collection(db, 'gallery');
+      
+      setStatusMsg('Saving to website gallery...');
       const imageData = {
         url: downloadURL,
         alt: altText,
@@ -170,41 +136,36 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      addDoc(galleryRef, imageData)
-        .then(() => {
-          toast({ title: 'Success!', description: 'Image published to gallery.' });
-          resetForm();
-        })
-        .catch((error: any) => {
-          errorEmitter.emit('permission-error', new FirestorePermissionError({
-            path: 'gallery',
-            operation: 'create',
-            requestResourceData: imageData,
-          }));
-          setIsUploading(false);
-        });
-
+      await addDoc(collection(db, 'gallery'), imageData);
+      
+      clearTimeout(timeout);
+      toast({ title: 'Successfully Published!' });
+      setFile(null);
+      setCategory('');
+      setAltText('');
+      setStatusMsg(null);
+      const input = document.getElementById('image-file') as HTMLInputElement;
+      if (input) input.value = '';
     } catch (error: any) {
-      clearTimeout(timeoutId);
-      setUploadError(error.message || 'The network transfer failed. This usually happens when the dev environment buffers large files.');
+      clearTimeout(timeout);
+      console.error(error);
+      setStatusMsg(`Upload failed: ${error.message}`);
+    } finally {
       setIsUploading(false);
     }
   };
 
   const handleDelete = async (id: string, path: string) => {
-    if (!confirm('Are you sure?')) return;
+    if (!confirm('Permanently delete this item?')) return;
     try {
-      if (path && path !== 'mock/path') {
+      if (path && path !== 'mock/test') {
         const storageRef = ref(storage, path);
-        await deleteObject(storageRef).catch(e => console.warn('Storage file already gone or missing'));
+        await deleteObject(storageRef).catch(e => console.warn('File already gone'));
       }
-      const docRef = doc(db, 'gallery', id);
-      deleteDoc(docRef).catch((err) => {
-        errorEmitter.emit('permission-error', new FirestorePermissionError({ path: docRef.path, operation: 'delete' }));
-      });
-      toast({ title: 'Deleted successfully' });
+      await deleteDoc(doc(db, 'gallery', id));
+      toast({ title: 'Item removed' });
     } catch (error: any) {
-       toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
+       toast({ variant: 'destructive', title: 'Error', description: error.message });
     }
   };
 
@@ -215,15 +176,14 @@ export default function GalleryManagementPage() {
             <Button variant="outline" size="icon" asChild>
             <Link href="/admin/dashboard">
                 <ArrowLeft className="h-4 w-4" />
-                <span className="sr-only">Back</span>
             </Link>
             </Button>
             <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
         </div>
         <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleSeedMockData} className="bg-primary/5 border-primary/20 text-primary">
-                <CheckCircle2 className="mr-2 h-4 w-4" />
-                Verify Connection
+            <Button variant="outline" size="sm" onClick={handleVerifyDB}>
+                <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
+                Verify Database
             </Button>
             <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
                 <RefreshCcw className="mr-2 h-4 w-4" />
@@ -233,126 +193,104 @@ export default function GalleryManagementPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1">
-          <Card className="sticky top-24">
-            <CardHeader>
-              <CardTitle>Add to Portfolio</CardTitle>
-              <CardDescription>Upload a photo of your recent craftsmanship.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {uploadError && (
-                <Alert variant="destructive" className="mb-6 bg-destructive/10 text-destructive border-destructive/20">
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Upload Status</AlertTitle>
-                  <AlertDescription className="text-xs">{uploadError}</AlertDescription>
-                </Alert>
-              )}
-              
-              <form onSubmit={handleUpload} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="image-file">1. Select Photo</Label>
-                  <Input id="image-file" type="file" required accept="image/*" onChange={handleFileChange} disabled={isUploading} />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="category">2. Category</Label>
-                  <Select required onValueChange={setCategory} value={category} disabled={isUploading}>
-                    <SelectTrigger id="category">
-                      <SelectValue placeholder="Where does this belong?" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map(cat => (
-                        <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="alt-text">3. Description (SEO)</Label>
-                   <div className="flex gap-2">
-                    <Input 
-                        id="alt-text" 
-                        placeholder="e.g., Ziarat White Gravestone" 
-                        value={altText} 
-                        onChange={(e) => setAltText(e.target.value)} 
-                        required 
-                        disabled={isUploading} 
-                    />
-                    <Button 
-                        type="button" 
-                        variant="secondary" 
-                        size="icon" 
-                        onClick={handleGenerateAlt} 
-                        disabled={!file || isUploading || isGeneratingAlt} 
-                        title="AI Help"
-                    >
-                        {isGeneratingAlt ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-                    </Button>
-                   </div>
-                </div>
-
-                {isUploading && (
-                  <div className="space-y-2 pt-2">
-                    <div className="flex justify-between text-xs font-medium">
-                      <span className="animate-pulse">Transferring binary data...</span>
-                    </div>
-                    <Progress value={undefined} className="h-2" />
-                    <p className="text-[10px] text-muted-foreground">Note: If this hangs at 0%, the workstation proxy is blocking the file.</p>
-                  </div>
-                )}
-
-                <Button type="submit" className="w-full mt-4" disabled={isUploading}>
-                    {isUploading ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
-                    ) : (
-                        <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
-                    )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Live Portfolio</CardTitle>
-                <CardDescription>Manage images appearing on the public website.</CardDescription>
+        <Card className="lg:col-span-1 h-fit">
+          <CardHeader>
+            <CardTitle>Add New Work</CardTitle>
+            <CardDescription>Upload a photo to appear in the gallery.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {statusMsg && (
+              <Alert className="mb-4 bg-primary/5 border-primary/20">
+                <AlertTriangle className="h-4 w-4 text-primary" />
+                <AlertTitle>Status</AlertTitle>
+                <AlertDescription className="text-xs">{statusMsg}</AlertDescription>
+              </Alert>
+            )}
+            
+            <form onSubmit={handleUpload} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="image-file">1. Select Image</Label>
+                <Input id="image-file" type="file" required accept="image/*" onChange={handleFileChange} disabled={isUploading} />
               </div>
-            </CardHeader>
-            <CardContent>
-               {imagesLoading ? (
-                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {[...Array(6)].map((_, i) => <Skeleton key={i} className="aspect-square rounded-md" />)}
+              
+              <div className="space-y-2">
+                <Label htmlFor="category">2. Choose Category</Label>
+                <Select required onValueChange={setCategory} value={category} disabled={isUploading}>
+                  <SelectTrigger id="category">
+                    <SelectValue placeholder="Select category..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map(cat => (
+                      <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="alt-text">3. SEO Alt Text</Label>
+                 <div className="flex gap-2">
+                  <Input 
+                      id="alt-text" 
+                      placeholder="e.g., Ziarat White Grave" 
+                      value={altText} 
+                      onChange={(e) => setAltText(e.target.value)} 
+                      required 
+                      disabled={isUploading} 
+                  />
+                  <Button 
+                      type="button" 
+                      variant="secondary" 
+                      size="icon" 
+                      onClick={handleGenerateAlt} 
+                      disabled={!file || isUploading || isGeneratingAlt}
+                  >
+                      {isGeneratingAlt ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                  </Button>
                  </div>
-               ) : images && images.length > 0 ? (
-                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                   {images.map((img: any) => (
-                     <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border shadow-sm bg-muted">
-                        <Image src={img.url} alt={img.alt} fill className="object-cover transition-opacity group-hover:opacity-75" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                           <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)}>
-                              <Trash2 className="h-4 w-4" />
-                           </Button>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-[10px] text-white">
-                           <div className="font-bold uppercase">{img.category}</div>
-                        </div>
-                     </div>
-                   ))}
-                 </div>
-               ) : (
-                 <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
-                    <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
-                    <h3 className="font-semibold text-lg">Your Gallery is Empty</h3>
-                    <p className="text-sm max-w-xs mx-auto mb-4">Click "Verify Connection" to test your database, or upload a small photo to start your portfolio.</p>
-                 </div>
-               )}
-            </CardContent>
-          </Card>
-        </div>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isUploading}>
+                  {isUploading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</> : <><UploadCloud className="mr-2 h-4 w-4" /> Publish Now</>}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Live Gallery Items</CardTitle>
+            <CardDescription>Current photos displayed on the site.</CardDescription>
+          </CardHeader>
+          <CardContent>
+             {imagesLoading ? (
+               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {[...Array(6)].map((_, i) => <Skeleton key={i} className="aspect-square rounded-md" />)}
+               </div>
+             ) : images && images.length > 0 ? (
+               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                 {images.map((img: any) => (
+                   <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border bg-muted">
+                      <Image src={img.url} alt={img.alt} fill className="object-cover" />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                         <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)}>
+                            <Trash2 className="h-4 w-4" />
+                         </Button>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-[10px] text-white uppercase font-bold">
+                         {img.category}
+                      </div>
+                   </div>
+                 ))}
+               </div>
+             ) : (
+               <div className="py-20 text-center border-2 border-dashed rounded-lg">
+                  <ImageIcon className="h-12 w-12 mx-auto mb-4 opacity-20" />
+                  <p className="text-muted-foreground">No images found. Verify database or upload your first photo.</p>
+               </div>
+             )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

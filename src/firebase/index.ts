@@ -1,40 +1,33 @@
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
-import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
-import { initializeFirestore, getFirestore, Firestore, terminate } from 'firebase/firestore';
-import { getStorage, FirebaseStorage } from 'firebase/storage';
-
-let globalFirestore: Firestore | null = null;
+import { initializeApp, getApps } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { initializeFirestore, getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 /**
  * Standardized Firebase initialization for this environment.
- * Ensures Firestore uses long-polling to prevent 'code=unavailable' errors
- * frequently seen in restricted network environments.
+ * Force aggressive settings to bypass cloud workstation proxy issues.
  */
 export function initializeFirebase() {
   const apps = getApps();
   const firebaseApp = apps.length ? apps[0] : initializeApp(firebaseConfig);
 
-  if (!globalFirestore) {
-    try {
-      // Force aggressive long-polling and disable fetch streams
-      // This is the most stable configuration for cloud development environments
-      globalFirestore = initializeFirestore(firebaseApp, {
-        experimentalForceLongPolling: true,
-        useFetchStreams: false,
-      });
-    } catch (e) {
-      console.warn('Firestore already initialized, retrieving existing instance.');
-      globalFirestore = getFirestore(firebaseApp);
-    }
+  let firestore;
+  try {
+    firestore = initializeFirestore(firebaseApp, {
+      experimentalForceLongPolling: true,
+      useFetchStreams: false,
+    });
+  } catch (e) {
+    firestore = getFirestore(firebaseApp);
   }
 
   return {
     firebaseApp,
     auth: getAuth(firebaseApp),
-    firestore: globalFirestore,
+    firestore: firestore,
     storage: getStorage(firebaseApp),
   };
 }
