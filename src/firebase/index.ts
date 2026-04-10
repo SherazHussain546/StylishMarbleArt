@@ -26,6 +26,7 @@ export function initializeFirebase() {
         useFetchStreams: false,
       });
     } catch (e) {
+      console.warn('Firestore already initialized, retrieving existing instance.');
       globalFirestore = getFirestore(firebaseApp);
     }
   }

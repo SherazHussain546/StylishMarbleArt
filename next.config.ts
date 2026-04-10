@@ -1,10 +1,9 @@
-
 import type { NextConfig } from 'next';
 
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com https://apis.google.com;
-  child-src 'self';
+  child-src 'self' https://*.firebaseapp.com;
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data: https://firebasestorage.googleapis.com;
   font-src 'self';
