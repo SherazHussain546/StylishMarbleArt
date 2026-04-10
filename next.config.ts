@@ -6,7 +6,7 @@ const ContentSecurityPolicy = `
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
   child-src 'self';
   style-src 'self' 'unsafe-inline';
-  img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data:;
+  img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data: https://firebasestorage.googleapis.com;
   font-src 'self';
   connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://firebasestorage.googleapis.com;
   frame-src 'self' https://www.google.com;

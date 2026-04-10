@@ -1,6 +1,6 @@
 
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { initializeFirestore, Firestore, terminate } from 'firebase/firestore';
+import { initializeFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
@@ -12,7 +12,8 @@ let storage: FirebaseStorage;
 
 /**
  * Initializes Firebase services with standardized configuration.
- * Uses experimentalForceLongPolling to ensure connectivity in Cloud Workstation environments.
+ * Uses experimentalForceLongPolling and disables fetch streams to ensure 
+ * connectivity in Cloud Workstation and restricted network environments.
  */
 export function initializeFirebase() {
   if (getApps().length > 0) {
@@ -26,7 +27,8 @@ export function initializeFirebase() {
     // to bypass potential gRPC/WebSocket blocks in development environments.
     db = initializeFirestore(app, {
       experimentalForceLongPolling: true,
-      useFetchStreams: false, // Ensure maximum compatibility
+      // @ts-ignore - useFetchStreams is an internal/experimental setting that helps in some cloud environments
+      useFetchStreams: false, 
     });
   }
 
