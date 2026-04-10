@@ -7,13 +7,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore, useCollection, useStorage, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { generateAltText } from '@/ai/flows/generate-alt-text';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
@@ -27,6 +28,8 @@ const categories = [
     { id: 'Hindu Memorials', name: 'Hindu' },
 ];
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit for stability
+
 export default function GalleryManagementPage() {
   const db = useFirestore();
   const storage = useStorage();
@@ -36,6 +39,7 @@ export default function GalleryManagementPage() {
   const [category, setCategory] = useState('');
   const [altText, setAltText] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
 
   const galleryQuery = useMemoFirebase(() => {
@@ -47,7 +51,17 @@ export default function GalleryManagementPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      if (selectedFile.size > MAX_FILE_SIZE) {
+        toast({
+          variant: 'destructive',
+          title: 'File too large',
+          description: 'Please select an image smaller than 5MB for a faster upload.',
+        });
+        e.target.value = '';
+        return;
+      }
+      setFile(selectedFile);
     }
   };
 
@@ -99,6 +113,16 @@ export default function GalleryManagementPage() {
       });
   };
 
+  const resetForm = () => {
+    setFile(null);
+    setCategory('');
+    setAltText('');
+    setUploadProgress(0);
+    setIsUploading(false);
+    const fileInput = document.getElementById('image-file') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  };
+
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !category || !altText) {
@@ -107,55 +131,61 @@ export default function GalleryManagementPage() {
     }
 
     setIsUploading(true);
+    setUploadProgress(0);
     
     try {
-      console.log('Starting upload to Firebase Storage...');
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      // 1. Upload the file
-      const snapshot = await uploadBytes(storageRef, file);
-      console.log('File uploaded, getting download URL...');
-      
-      // 2. Get the URL
-      const downloadURL = await getDownloadURL(snapshot.ref);
-      console.log('URL obtained:', downloadURL);
+      const uploadTask = uploadBytesResumable(storageRef, file);
 
-      // 3. Save to Firestore (Non-blocking)
-      const galleryRef = collection(db, 'gallery');
-      const imageData = {
-        url: downloadURL,
-        alt: altText,
-        category: category,
-        path: snapshot.ref.fullPath,
-        createdAt: serverTimestamp(),
-      };
-
-      addDoc(galleryRef, imageData)
-        .catch(async (error: any) => {
-          const permissionError = new FirestorePermissionError({
-            path: 'gallery',
-            operation: 'create',
-            requestResourceData: imageData,
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        }, 
+        (error) => {
+          console.error('Upload error:', error);
+          toast({ 
+            variant: 'destructive', 
+            title: 'Upload Failed', 
+            description: 'The connection was interrupted. Try a smaller image or reset the connection.' 
           });
-          errorEmitter.emit('permission-error', permissionError);
-        });
-      
-      toast({ title: 'Success!', description: 'Image added to gallery database.' });
-      setFile(null);
-      setCategory('');
-      setAltText('');
-      const fileInput = document.getElementById('image-file') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
-      setIsUploading(false);
+          setIsUploading(false);
+        }, 
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          const galleryRef = collection(db, 'gallery');
+          const imageData = {
+            url: downloadURL,
+            alt: altText,
+            category: category,
+            path: uploadTask.snapshot.ref.fullPath,
+            createdAt: serverTimestamp(),
+          };
+
+          addDoc(galleryRef, imageData)
+            .then(() => {
+              toast({ title: 'Success!', description: 'Image added to gallery.' });
+              resetForm();
+            })
+            .catch(async (error: any) => {
+              errorEmitter.emit('permission-error', new FirestorePermissionError({
+                path: 'gallery',
+                operation: 'create',
+                requestResourceData: imageData,
+              }));
+              setIsUploading(false);
+            });
+        }
+      );
 
     } catch (error: any) {
-      console.error('Upload Error Details:', error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || 'Could not complete the file upload. Check your connection.' 
+        description: error.message 
       });
       setIsUploading(false);
     }
@@ -172,11 +202,10 @@ export default function GalleryManagementPage() {
       
       const docRef = doc(db, 'gallery', id);
       deleteDoc(docRef).catch(async (error: any) => {
-        const permissionError = new FirestorePermissionError({
+        errorEmitter.emit('permission-error', new FirestorePermissionError({
           path: docRef.path,
           operation: 'delete',
-        });
-        errorEmitter.emit('permission-error', permissionError);
+        }));
       });
 
       toast({ title: 'Deleted', description: 'Image removed from gallery.' });
@@ -214,7 +243,7 @@ export default function GalleryManagementPage() {
           <Card className="sticky top-24">
             <CardHeader>
               <CardTitle>Upload New Image</CardTitle>
-              <CardDescription>Add a new piece of work to your public portfolio.</CardDescription>
+              <CardDescription>Add a new piece of work to your public portfolio. Max size 5MB.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpload} className="space-y-4">
@@ -260,13 +289,30 @@ export default function GalleryManagementPage() {
                    </div>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isUploading}>
-                  {isUploading ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
-                  ) : (
-                      <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
+                {isUploading && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-medium">
+                      <span>Uploading to Storage...</span>
+                      <span>{Math.round(uploadProgress)}%</span>
+                    </div>
+                    <Progress value={uploadProgress} className="h-2" />
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1" disabled={isUploading}>
+                    {isUploading ? (
+                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
+                    ) : (
+                        <><UploadCloud className="mr-2 h-4 w-4" /> Publish</>
+                    )}
+                  </Button>
+                  {isUploading && (
+                    <Button type="button" variant="outline" size="icon" onClick={resetForm}>
+                      <XCircle className="h-4 w-4" />
+                    </Button>
                   )}
-                </Button>
+                </div>
               </form>
             </CardContent>
           </Card>
