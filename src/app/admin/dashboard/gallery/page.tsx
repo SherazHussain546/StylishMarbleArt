@@ -53,6 +53,7 @@ export default function GalleryManagementPage() {
       return;
     }
 
+    // Limit size to avoid Firestore document limits (1MB)
     if (file.size > 800000) {
         toast({ 
             variant: 'destructive', 
@@ -81,7 +82,6 @@ export default function GalleryManagementPage() {
 
       const galleryRef = collection(db, 'gallery');
       
-      // CRITICAL: Non-blocking addDoc
       addDoc(galleryRef, imageData)
         .catch(async (error) => {
           const permissionError = new FirestorePermissionError({
@@ -92,7 +92,7 @@ export default function GalleryManagementPage() {
           errorEmitter.emit('permission-error', permissionError);
         });
       
-      toast({ title: 'Success', description: 'Image upload initiated.' });
+      toast({ title: 'Success', description: 'Image saving to database.' });
       
       setFile(null);
       setCategory('');
@@ -118,7 +118,6 @@ export default function GalleryManagementPage() {
       alt: editingImage.alt,
     };
 
-    // CRITICAL: Non-blocking updateDoc
     updateDoc(imageRef, updateData)
       .catch(async (error) => {
         const permissionError = new FirestorePermissionError({
@@ -129,17 +128,16 @@ export default function GalleryManagementPage() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Updated', description: 'Item details update initiated.' });
+    toast({ title: 'Updated', description: 'Image details updated.' });
     setEditingImage(null);
     setIsUpdating(false);
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm('Permanently delete this item?')) return;
+    if (!window.confirm('Are you sure you want to permanently delete this image? This cannot be undone.')) return;
     
     const imageRef = doc(db, 'gallery', id);
     
-    // CRITICAL: Non-blocking deleteDoc
     deleteDoc(imageRef)
       .catch(async (error) => {
         const permissionError = new FirestorePermissionError({
@@ -149,14 +147,14 @@ export default function GalleryManagementPage() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Deleted', description: 'Deletion initiated.' });
+    toast({ title: 'Deleted', description: 'Removing from database...' });
   };
 
-  const handleSeed = () => {
+  const handleVerify = () => {
     const galleryRef = collection(db, 'gallery');
     const seedData = {
-      url: 'https://picsum.photos/seed/test/800/600',
-      alt: 'Test Entry',
+      url: 'https://picsum.photos/seed/verify/800/600',
+      alt: 'Verification Entry',
       category: 'Graves',
       createdAt: serverTimestamp()
     };
@@ -171,7 +169,7 @@ export default function GalleryManagementPage() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Success', description: 'Test entry creation initiated.' });
+    toast({ title: 'Verifying', description: 'Adding test document...' });
   };
 
   return (
@@ -186,13 +184,13 @@ export default function GalleryManagementPage() {
             <h1 className="text-3xl font-bold tracking-tight">Gallery Workshop</h1>
         </div>
         <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleSeed}>
+            <Button variant="outline" size="sm" onClick={handleVerify}>
                 <Zap className="mr-2 h-4 w-4 text-yellow-500" />
                 Verify Connection
             </Button>
             <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Refresh Sync
+                Reload
             </Button>
         </div>
       </div>
@@ -201,7 +199,7 @@ export default function GalleryManagementPage() {
         <Card className="lg:col-span-1 shadow-md border-primary/20 h-fit">
           <CardHeader>
             <CardTitle>Direct Upload</CardTitle>
-            <CardDescription>Saves directly to database for maximum speed.</CardDescription>
+            <CardDescription>Instant database storage for your projects.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleUpload} className="space-y-5">
@@ -215,7 +213,7 @@ export default function GalleryManagementPage() {
                     onChange={(e) => setFile(e.target.files?.[0] || null)} 
                     disabled={isUploading} 
                 />
-                <p className="text-[10px] text-muted-foreground">Recommended: Under 800KB</p>
+                <p className="text-[10px] text-muted-foreground">Keep files under 800KB for best performance.</p>
               </div>
               
               <div className="space-y-2">
@@ -254,7 +252,7 @@ export default function GalleryManagementPage() {
         <Card className="lg:col-span-2 shadow-md">
           <CardHeader>
             <CardTitle>Live Portfolio</CardTitle>
-            <CardDescription>All project images synced to the live site.</CardDescription>
+            <CardDescription>Your work, synced in real-time across the site.</CardDescription>
           </CardHeader>
           <CardContent>
              {imagesLoading ? (

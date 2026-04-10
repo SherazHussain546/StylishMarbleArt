@@ -27,6 +27,7 @@ export function GalleryComponent() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState<Category | 'All'>('All');
 
+  // Real-time synchronization with Firestore
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
