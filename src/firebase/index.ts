@@ -22,14 +22,10 @@ export function initializeFirebase() {
   }
 
   if (!db) {
-    try {
-      // Re-initializing with long polling to ensure stability in this environment
-      db = initializeFirestore(app, {
-        experimentalForceLongPolling: true,
-      });
-    } catch (e) {
-      db = getFirestore(app);
-    }
+    // Re-initializing with long polling to ensure stability in this environment
+    db = initializeFirestore(app, {
+      experimentalForceLongPolling: true,
+    });
   }
 
   if (!auth) auth = getAuth(app);

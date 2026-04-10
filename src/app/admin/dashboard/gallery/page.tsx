@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -62,6 +62,7 @@ export default function GalleryManagementPage() {
         try {
           const result = await generateAltText({ photoDataUri: dataUri });
           setAltText(result.altText);
+          toast({ title: 'AI Success', description: 'Alt text generated successfully.' });
         } catch (err) {
           toast({ variant: 'destructive', title: 'AI Error', description: 'Could not analyze image.' });
         } finally {
@@ -71,30 +72,30 @@ export default function GalleryManagementPage() {
       reader.readAsDataURL(file);
     } catch (error) {
       setIsGeneratingAlt(false);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to read file.' });
     }
   };
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !category || !altText) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please fill all fields.' });
+      toast({ variant: 'destructive', title: 'Error', description: 'Please fill all fields before uploading.' });
       return;
     }
 
     setIsUploading(true);
     try {
       const timestamp = Date.now();
-      const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
-      const storagePath = `gallery/${timestamp}_${cleanFileName}`;
+      const storagePath = `gallery/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, storagePath);
       
-      // Upload to Storage
+      // 1. Upload to Firebase Storage
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // Save to Firestore
+      // 2. Save Metadata to Firestore
       const galleryRef = collection(db, 'gallery');
-      const data = {
+      const imageData = {
         url: downloadURL,
         alt: altText,
         category: category,
@@ -102,45 +103,49 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      // We use .then() and .catch() to ensure we can handle the promise without blocking if needed,
-      // but here we are in a transitionary state so we wait for the result to update UI.
-      try {
-        await addDoc(galleryRef, data);
-        toast({ title: 'Success', description: 'Image uploaded to gallery.' });
-        setFile(null);
-        setCategory('');
-        setAltText('');
-        const fileInput = document.getElementById('image-file') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
-      } catch (err: any) {
-        const permissionError = new FirestorePermissionError({
-          path: galleryRef.path,
-          operation: 'create',
-          requestResourceData: data,
-        });
-        errorEmitter.emit('permission-error', permissionError);
-        throw err; // Re-throw to hit the outer catch
-      }
+      await addDoc(galleryRef, imageData);
+      
+      toast({ 
+        title: 'Success!', 
+        description: 'Your image has been added to the gallery.',
+      });
+
+      // Reset form
+      setFile(null);
+      setCategory('');
+      setAltText('');
+      const fileInput = document.getElementById('image-file') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
 
     } catch (error: any) {
-      console.error("Upload error details:", error);
+      console.error("Upload error:", error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || 'An error occurred. Check if you are signed in as admin.' 
+        description: error.message || 'An error occurred during upload.' 
       });
+      
+      // If Firestore fails but storage succeeded, we don't handle cleanup here for simplicity in MVP
+      if (error.code === 'permission-denied') {
+          const permissionError = new FirestorePermissionError({
+            path: 'gallery',
+            operation: 'create',
+          });
+          errorEmitter.emit('permission-error', permissionError);
+      }
     } finally {
       setIsUploading(false);
     }
   };
 
   const handleDelete = async (id: string, path: string) => {
-    const docRef = doc(db, 'gallery', id);
+    if (!confirm('Are you sure you want to delete this image?')) return;
+
     try {
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
-
-      await deleteDoc(docRef);
+      await deleteDoc(doc(db, 'gallery', id));
+      
       toast({ title: 'Deleted', description: 'Image removed from gallery.' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
@@ -161,10 +166,10 @@ export default function GalleryManagementPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
-          <Card>
+          <Card className="sticky top-24">
             <CardHeader>
               <CardTitle>Upload New Image</CardTitle>
-              <CardDescription>Add a new piece of work to your public gallery.</CardDescription>
+              <CardDescription>Add a new piece of work to your public portfolio.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpload} className="space-y-4">
@@ -172,6 +177,7 @@ export default function GalleryManagementPage() {
                   <Label htmlFor="image-file">1. Select Image</Label>
                   <Input id="image-file" type="file" required accept="image/*" onChange={handleFileChange} disabled={isUploading} />
                 </div>
+                
                 <div className="space-y-2">
                   <Label htmlFor="category">2. Choose Category</Label>
                   <Select required onValueChange={setCategory} value={category} disabled={isUploading}>
@@ -185,18 +191,38 @@ export default function GalleryManagementPage() {
                     </SelectContent>
                   </Select>
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="alt-text">3. Alt Text (SEO)</Label>
+                  <Label htmlFor="alt-text">3. SEO Alt Text</Label>
                    <div className="flex gap-2">
-                    <Input id="alt-text" placeholder="Description of the image" value={altText} onChange={(e) => setAltText(e.target.value)} required disabled={isUploading} />
-                    <Button type="button" variant="outline" size="icon" onClick={handleGenerateAlt} disabled={!file || isUploading || isGeneratingAlt} title="Generate with AI">
+                    <Input 
+                        id="alt-text" 
+                        placeholder="e.g., White marble gravestone" 
+                        value={altText} 
+                        onChange={(e) => setAltText(e.target.value)} 
+                        required 
+                        disabled={isUploading} 
+                    />
+                    <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={handleGenerateAlt} 
+                        disabled={!file || isUploading || isGeneratingAlt} 
+                        title="Generate with AI"
+                    >
                         {isGeneratingAlt ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                     </Button>
                    </div>
+                   <p className="text-[10px] text-muted-foreground">AI can help write descriptive text for SEO.</p>
                 </div>
+
                 <Button type="submit" className="w-full" disabled={isUploading}>
-                  {isUploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UploadCloud className="mr-2 h-4 w-4" />}
-                  {isUploading ? 'Processing...' : 'Upload Image'}
+                  {isUploading ? (
+                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
+                  ) : (
+                      <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
+                  )}
                 </Button>
               </form>
             </CardContent>
@@ -205,9 +231,14 @@ export default function GalleryManagementPage() {
 
         <div className="lg:col-span-2">
           <Card>
-            <CardHeader>
-              <CardTitle>Uploaded Images</CardTitle>
-              <CardDescription>Images currently displayed in your gallery.</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Current Gallery Items</CardTitle>
+                <CardDescription>These images are visible to the public.</CardDescription>
+              </div>
+              <div className="text-sm font-medium text-muted-foreground bg-secondary px-3 py-1 rounded-full">
+                {images?.length || 0} Total
+              </div>
             </CardHeader>
             <CardContent>
                {imagesLoading ? (
@@ -217,24 +248,27 @@ export default function GalleryManagementPage() {
                ) : images && images.length > 0 ? (
                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                    {images.map((img: any) => (
-                     <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border shadow-sm">
-                        <Image src={img.url} alt={img.alt} fill className="object-cover" />
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                           <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)}>
+                     <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border shadow-sm bg-muted">
+                        <Image src={img.url} alt={img.alt} fill className="object-cover transition-opacity group-hover:opacity-75" />
+                        
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                           <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)} className="shadow-lg">
                               <Trash2 className="h-4 w-4" />
                            </Button>
                         </div>
-                        <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-1 text-[10px] text-white truncate">
-                           {img.category}
+                        
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-[10px] text-white backdrop-blur-sm">
+                           <div className="font-bold uppercase tracking-wider">{img.category}</div>
+                           <div className="truncate opacity-80">{img.alt}</div>
                         </div>
                      </div>
                    ))}
                  </div>
                ) : (
-                 <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-12 border-2 border-dashed rounded-lg">
-                    <ImageIcon className="h-12 w-12 mb-4 opacity-20" />
-                    <h3 className="font-semibold text-lg">No Images Found</h3>
-                    <p className="text-sm">Your gallery is empty. Upload your first piece above!</p>
+                 <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
+                    <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
+                    <h3 className="font-semibold text-lg">Your Gallery is Empty</h3>
+                    <p className="text-sm max-w-xs mx-auto">Upload photos of your gravestones, memorials, or home projects to showcase your work.</p>
                  </div>
                )}
             </CardContent>

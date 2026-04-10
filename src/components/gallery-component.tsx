@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -5,10 +6,8 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
-import { ChevronLeft, ChevronRight, Phone, Mail, Loader2, ImageIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2, ImageIcon } from 'lucide-react';
 import { WatermarkLogo } from './watermark-logo';
-import { content } from '@/lib/content';
-import { WhatsappFooterIcon } from './icons/whatsapp-footer-icon';
 import { useFirestore, useCollection } from '@/firebase';
 import { collection, query, orderBy } from 'firebase/firestore';
 
@@ -37,6 +36,7 @@ export function GalleryComponent() {
   const { data: dbImages, loading } = useCollection<any>(galleryQuery);
 
   const filteredImages = useMemo(() => {
+    if (!dbImages) return [];
     if (activeFilter === 'All') return dbImages;
     return dbImages.filter((img: any) => img.category === activeFilter);
   }, [dbImages, activeFilter]);
@@ -59,15 +59,11 @@ export function GalleryComponent() {
   
   const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
 
-  const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
-  const whatsappNumber = phone.replace(/\D/g, '');
-  const email = content.contactPage.contactInfo.email.en;
-
   if (loading) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center text-muted-foreground">
-        <Loader2 className="h-8 w-8 animate-spin mb-4" />
-        <p>{language === 'en' ? 'Loading Gallery...' : 'گیلری لوڈ ہو رہی ہے...'}</p>
+      <div className="flex h-64 flex-col items-center justify-center text-muted-foreground bg-secondary/20 rounded-xl">
+        <Loader2 className="h-8 w-8 animate-spin mb-4 text-primary" />
+        <p className="font-medium animate-pulse">{language === 'en' ? 'Syncing with Workshop Gallery...' : 'گیلری سے مطابقت پذیر ہو رہا ہے...'}</p>
       </div>
     );
   }
@@ -78,14 +74,16 @@ export function GalleryComponent() {
          <Button
             variant={activeFilter === 'All' ? 'default' : 'outline'}
             onClick={() => setActiveFilter('All')}
+            className="rounded-full px-6"
             >
-            {language === 'en' ? 'All' : 'سب'}
+            {language === 'en' ? 'All Projects' : 'تمام منصوبے'}
         </Button>
         {categories.map((cat) => (
         <Button
             key={cat.id}
             variant={activeFilter === cat.id ? 'default' : 'outline'}
             onClick={() => setActiveFilter(cat.id)}
+            className="rounded-full px-6"
         >
             {cat.name[language]}
         </Button>
@@ -93,62 +91,98 @@ export function GalleryComponent() {
       </div>
 
       {filteredImages.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredImages.map((image, index) => (
             <div
               key={image.id}
-              className="group relative h-64 cursor-pointer overflow-hidden rounded-lg shadow-md"
+              className="group relative h-80 cursor-pointer overflow-hidden rounded-xl shadow-lg border-2 border-transparent hover:border-primary transition-all duration-300"
               onClick={() => setSelectedImageIndex(index)}
             >
               <Image
                 src={image.url}
                 alt={image.alt}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/20 transition-opacity duration-300 group-hover:bg-black/40"></div>
-              <div className="absolute top-2 left-2 select-none text-xs font-bold text-white opacity-50 transition-opacity duration-300 group-hover:opacity-80">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="absolute top-4 left-4 select-none drop-shadow-lg">
                 <WatermarkLogo />
+              </div>
+
+              <div className="absolute bottom-4 left-4 right-4 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-xs font-bold uppercase tracking-widest bg-primary/80 inline-block px-2 py-0.5 rounded mb-1">{image.category}</p>
+                  <p className="font-medium text-sm line-clamp-2">{image.alt}</p>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-12 border-2 border-dashed rounded-lg">
+        <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-24 border-2 border-dashed rounded-2xl bg-secondary/10">
           <ImageIcon className="h-16 w-16 mb-4 opacity-20" />
           <h3 className="text-xl font-semibold">
-            {language === 'en' ? 'No Images Found' : 'کوئی تصویر نہیں ملی'}
+            {language === 'en' ? 'No Work to Show Yet' : 'دکھانے کے لیے ابھی کوئی کام نہیں ہے'}
           </h3>
-          <p className="mt-2">
+          <p className="mt-2 max-w-sm">
             {language === 'en' 
-              ? 'Try selecting a different category or check back later.' 
-              : 'براہ کرم کوئی دوسرا زمرہ منتخب کریں یا بعد میں دوبارہ چیک کریں۔'}
+              ? 'Our craftsmen are currently working on new projects. Check back soon for updates!' 
+              : 'ہمارے کاریگر اس وقت نئے منصوبوں پر کام کر رہے ہیں۔ اپ ڈیٹس کے لیے جلد ہی دوبارہ چیک کریں!'}
           </p>
         </div>
       )}
 
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
-        <DialogContent className="max-w-4xl p-0">
+        <DialogContent className="max-w-5xl p-0 overflow-hidden bg-black/95 border-none">
             <DialogHeader className="sr-only">
                 <DialogTitle>{language === 'en' ? 'Enlarged Image' : 'بڑی تصویر'}</DialogTitle>
                 <DialogDescription>{selectedImage?.alt}</DialogDescription>
             </DialogHeader>
           {selectedImage && (
-            <div className="relative aspect-video">
+            <div className="relative aspect-[4/3] w-full flex items-center justify-center">
                 <Image
                     src={selectedImage.url}
                     alt={selectedImage.alt}
                     fill
                     className="object-contain"
                     sizes="100vw"
+                    priority
                 />
-                <Button variant="ghost" size="icon" onClick={handlePrev} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/75 hover:text-white h-10 w-10">
-                    <ChevronLeft className="h-6 w-6" />
-                </Button>
-                <Button variant="ghost" size="icon" onClick={handleNext} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/75 hover:text-white h-10 w-10">
-                    <ChevronRight className="h-6 w-6" />
-                </Button>
+                
+                {/* Navigation Controls */}
+                <div className="absolute inset-0 flex items-center justify-between p-4 pointer-events-none">
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={handlePrev} 
+                        className="pointer-events-auto rounded-full bg-white/10 text-white hover:bg-white/20 h-12 w-12"
+                    >
+                        <ChevronLeft className="h-8 w-8" />
+                    </Button>
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={handleNext} 
+                        className="pointer-events-auto rounded-full bg-white/10 text-white hover:bg-white/20 h-12 w-12"
+                    >
+                        <ChevronRight className="h-8 w-8" />
+                    </Button>
+                </div>
+
+                {/* Info Bar */}
+                <div className="absolute bottom-0 left-0 right-0 bg-black/80 p-6 text-white backdrop-blur-sm">
+                    <div className="flex justify-between items-center max-w-4xl mx-auto">
+                        <div>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-1 block">
+                                {selectedImage.category}
+                            </span>
+                            <h3 className="text-lg font-medium">{selectedImage.alt}</h3>
+                        </div>
+                        <div className="text-xs opacity-50 font-mono">
+                            {selectedImageIndex! + 1} / {filteredImages.length}
+                        </div>
+                    </div>
+                </div>
             </div>
           )}
         </DialogContent>
