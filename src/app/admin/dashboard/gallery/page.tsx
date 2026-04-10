@@ -7,13 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, RefreshCw } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, RefreshCw, Zap } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore, useCollection, useStorage, useMemoFirebase } from '@/firebase';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 const categories = [
     { id: 'Graves', name: 'Graves' },
@@ -26,7 +25,6 @@ const categories = [
 
 export default function GalleryManagementPage() {
   const db = useFirestore();
-  const storage = useStorage();
   const { toast } = useToast();
   
   const [file, setFile] = useState<File | null>(null);
@@ -34,7 +32,6 @@ export default function GalleryManagementPage() {
   const [altText, setAltText] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
-  // Simple query for the gallery
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
@@ -49,29 +46,38 @@ export default function GalleryManagementPage() {
       return;
     }
 
+    if (file.size > 800000) {
+        toast({ 
+            variant: 'destructive', 
+            title: 'File Too Large', 
+            description: 'For direct database storage, please use an image under 800KB.' 
+        });
+        return;
+    }
+
     setIsUploading(true);
+    
     try {
-      // 1. Simple Binary Upload to Storage
-      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-      const storageRef = ref(storage, `gallery/${fileName}`);
+      // Direct "No BS" approach: Convert to Data URL and save to Firestore
+      const reader = new FileReader();
       
-      const snapshot = await uploadBytes(storageRef, file, { contentType: file.type });
-      const downloadURL = await getDownloadURL(snapshot.ref);
-      
-      // 2. Immediate Write to Firestore (Simplified)
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
       const imageData = {
-        url: downloadURL,
+        url: dataUrl,
         alt: altText,
         category: category,
-        path: snapshot.ref.fullPath,
         createdAt: serverTimestamp(),
       };
 
       await addDoc(collection(db, 'gallery'), imageData);
       
-      toast({ title: 'Success', description: 'Image added to gallery.' });
+      toast({ title: 'Success', description: 'Image saved directly to database.' });
       
-      // Clear form
       setFile(null);
       setCategory('');
       setAltText('');
@@ -83,20 +89,16 @@ export default function GalleryManagementPage() {
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || "Is your internet connection stable?" 
+        description: error.message 
       });
     } finally {
       setIsUploading(false);
     }
   };
 
-  const handleDelete = async (id: string, path: string) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Permanently delete this item?')) return;
     try {
-      if (path) {
-        const storageRef = ref(storage, path);
-        deleteObject(storageRef).catch(() => {});
-      }
       await deleteDoc(doc(db, 'gallery', id));
       toast({ title: 'Deleted', description: 'Item removed.' });
     } catch (error: any) {
@@ -104,8 +106,18 @@ export default function GalleryManagementPage() {
     }
   };
 
-  const handleResetConnection = () => {
-    window.location.reload();
+  const handleSeed = async () => {
+    try {
+        await addDoc(collection(db, 'gallery'), {
+            url: 'https://picsum.photos/seed/test/800/600',
+            alt: 'Verified Connection Test Entry',
+            category: 'Graves',
+            createdAt: serverTimestamp()
+        });
+        toast({ title: 'Success', description: 'Test entry added!' });
+    } catch (e: any) {
+        toast({ variant: 'destructive', title: 'Connection Error', description: e.message });
+    }
   };
 
   return (
@@ -119,17 +131,23 @@ export default function GalleryManagementPage() {
             </Button>
             <h1 className="text-3xl font-bold tracking-tight">Gallery Workshop</h1>
         </div>
-        <Button variant="ghost" size="sm" onClick={handleResetConnection}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Refresh Sync
-        </Button>
+        <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={handleSeed}>
+                <Zap className="mr-2 h-4 w-4 text-yellow-500" />
+                Verify Connection
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Refresh Sync
+            </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-1 shadow-md border-primary/20">
           <CardHeader>
-            <CardTitle>Add New Work</CardTitle>
-            <CardDescription>Directly upload from your device.</CardDescription>
+            <CardTitle>Direct Upload</CardTitle>
+            <CardDescription>Saves directly to database for maximum speed.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleUpload} className="space-y-5">
@@ -142,12 +160,12 @@ export default function GalleryManagementPage() {
                     accept="image/*" 
                     onChange={(e) => setFile(e.target.files?.[0] || null)} 
                     disabled={isUploading} 
-                    className="cursor-pointer"
                 />
+                <p className="text-[10px] text-muted-foreground">Max size: 800KB (Recommended for speed)</p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="category">2. Workshop Category</Label>
+                <Label htmlFor="category">2. Category</Label>
                 <Select required onValueChange={setCategory} value={category} disabled={isUploading}>
                   <SelectTrigger id="category">
                     <SelectValue placeholder="Pick a category..." />
@@ -161,10 +179,10 @@ export default function GalleryManagementPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="alt-text">3. Description / Alt Text</Label>
+                <Label htmlFor="alt-text">3. Description</Label>
                 <Input 
                     id="alt-text" 
-                    placeholder="e.g. Ziarat White Gravestone" 
+                    placeholder="e.g. White Marble Headstone" 
                     value={altText} 
                     onChange={(e) => setAltText(e.target.value)} 
                     required 
@@ -173,14 +191,8 @@ export default function GalleryManagementPage() {
               </div>
 
               <Button type="submit" className="w-full py-6 text-lg" disabled={isUploading}>
-                  {isUploading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Uploading...</> : <><UploadCloud className="mr-2 h-5 w-5" /> Save to Gallery</>}
+                  {isUploading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Saving...</> : <><UploadCloud className="mr-2 h-5 w-5" /> Save to Website</>}
               </Button>
-              
-              {isUploading && (
-                  <p className="text-[10px] text-center text-muted-foreground animate-pulse">
-                    Please stay on this page while the file transfers...
-                  </p>
-              )}
             </form>
           </CardContent>
         </Card>
@@ -188,7 +200,7 @@ export default function GalleryManagementPage() {
         <Card className="lg:col-span-2 shadow-md">
           <CardHeader>
             <CardTitle>Live Portfolio</CardTitle>
-            <CardDescription>Current photos synced to the public website.</CardDescription>
+            <CardDescription>Photos currently synced to the live site.</CardDescription>
           </CardHeader>
           <CardContent>
              {imagesLoading ? (
@@ -199,13 +211,13 @@ export default function GalleryManagementPage() {
                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                  {images.map((img: any) => (
                    <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border bg-muted shadow-sm">
-                      <Image src={img.url} alt={img.alt} fill className="object-cover" />
+                      <Image src={img.url} alt={img.alt} fill className="object-cover" unoptimized />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-                         <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)}>
+                         <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id)}>
                             <Trash2 className="h-4 w-4" />
                          </Button>
                       </div>
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-1 text-[9px] text-white uppercase font-bold text-center tracking-tighter">
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-1 text-[9px] text-white uppercase font-bold text-center">
                          {img.category}
                       </div>
                    </div>
@@ -215,7 +227,6 @@ export default function GalleryManagementPage() {
                <div className="py-24 text-center border-2 border-dashed rounded-xl bg-muted/30">
                   <ImageIcon className="h-16 w-16 mx-auto mb-4 opacity-20 text-primary" />
                   <p className="text-muted-foreground font-medium">Your gallery is empty.</p>
-                  <p className="text-xs text-muted-foreground/60">Upload your first project to see it here.</p>
                </div>
              )}
           </CardContent>

@@ -6,9 +6,9 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // GALLERY: Wide open for testing to bypass workstation proxy/timeout issues
+    // GALLERY: Simple, open rules for development speed
     match /gallery/{imageId} {
-      allow read, list, create, update, delete: if true;
+      allow read, list, create, delete, update: if true;
     }
 
     // CONTACT MESSAGES: Open creation, restricted reading
