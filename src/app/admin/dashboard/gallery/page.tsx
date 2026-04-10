@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -38,7 +38,6 @@ export default function GalleryManagementPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
 
-  // Use the specialized useMemoFirebase hook to stabilize the query
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
@@ -85,16 +84,26 @@ export default function GalleryManagementPage() {
 
     setIsUploading(true);
     
+    // Safety timeout to prevent permanent loading state if Firebase hangs
+    const timeoutId = setTimeout(() => {
+        if (isUploading) {
+            setIsUploading(false);
+            toast({ 
+                variant: 'destructive', 
+                title: 'Connection Timeout', 
+                description: 'The upload is taking longer than expected. Please check your connection and try again.' 
+            });
+        }
+    }, 30000);
+
     try {
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      // 1. Upload to Storage
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // 2. Save Metadata to Firestore
       const galleryRef = collection(db, 'gallery');
       const imageData = {
         url: downloadURL,
@@ -104,38 +113,35 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      addDoc(galleryRef, imageData)
-        .then(() => {
-          toast({ title: 'Success!', description: 'Image added to gallery.' });
-          setFile(null);
-          setCategory('');
-          setAltText('');
-          const fileInput = document.getElementById('image-file') as HTMLInputElement;
-          if (fileInput) fileInput.value = '';
-        })
-        .catch(async (error: any) => {
-          if (error.code === 'permission-denied') {
-            const permissionError = new FirestorePermissionError({
-              path: 'gallery',
-              operation: 'create',
-              requestResourceData: imageData,
-            });
-            errorEmitter.emit('permission-error', permissionError);
-          } else {
-            toast({ variant: 'destructive', title: 'Database Error', description: error.message || 'Failed to save metadata.' });
-          }
-        })
-        .finally(() => {
-          setIsUploading(false);
-        });
+      await addDoc(galleryRef, imageData);
+      
+      clearTimeout(timeoutId);
+      toast({ title: 'Success!', description: 'Image added to gallery.' });
+      setFile(null);
+      setCategory('');
+      setAltText('');
+      const fileInput = document.getElementById('image-file') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+      setIsUploading(false);
 
     } catch (error: any) {
+      clearTimeout(timeoutId);
       console.error('Upload Error:', error);
-      toast({ 
-        variant: 'destructive', 
-        title: 'Upload Failed', 
-        description: error.message || 'Could not upload image to storage.' 
-      });
+      
+      if (error.code === 'permission-denied') {
+        const permissionError = new FirestorePermissionError({
+          path: 'gallery',
+          operation: 'create',
+          requestResourceData: { category, altText },
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      } else {
+        toast({ 
+          variant: 'destructive', 
+          title: 'Upload Failed', 
+          description: error.message || 'Could not complete the upload.' 
+        });
+      }
       setIsUploading(false);
     }
   };
@@ -155,14 +161,20 @@ export default function GalleryManagementPage() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/admin/dashboard">
-            <ArrowLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
-          </Link>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" asChild>
+            <Link href="/admin/dashboard">
+                <ArrowLeft className="h-4 w-4" />
+                <span className="sr-only">Back</span>
+            </Link>
+            </Button>
+            <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
+        </div>
+        <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
+            <RefreshCcw className="mr-2 h-4 w-4" />
+            Reset Connection
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -223,6 +235,12 @@ export default function GalleryManagementPage() {
                       <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
                   )}
                 </Button>
+                
+                {isUploading && (
+                    <p className="text-[10px] text-center text-muted-foreground animate-pulse mt-2">
+                        Connecting to secure storage...
+                    </p>
+                )}
               </form>
             </CardContent>
           </Card>
