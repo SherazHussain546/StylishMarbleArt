@@ -109,13 +109,20 @@ export default function GalleryManagementPage() {
     setIsUploading(true);
     
     try {
+      console.log('Starting upload to Firebase Storage...');
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
+      // 1. Upload the file
       const snapshot = await uploadBytes(storageRef, file);
+      console.log('File uploaded, getting download URL...');
+      
+      // 2. Get the URL
       const downloadURL = await getDownloadURL(snapshot.ref);
+      console.log('URL obtained:', downloadURL);
 
+      // 3. Save to Firestore (Non-blocking)
       const galleryRef = collection(db, 'gallery');
       const imageData = {
         url: downloadURL,
@@ -144,11 +151,11 @@ export default function GalleryManagementPage() {
       setIsUploading(false);
 
     } catch (error: any) {
-      console.error('Upload Error:', error);
+      console.error('Upload Error Details:', error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || 'Could not complete the file upload.' 
+        description: error.message || 'Could not complete the file upload. Check your connection.' 
       });
       setIsUploading(false);
     }
