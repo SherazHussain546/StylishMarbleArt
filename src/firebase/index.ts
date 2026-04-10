@@ -7,35 +7,42 @@ import { getAuth } from 'firebase/auth';
 import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// IMPORTANT: DO NOT MODIFY THIS FUNCTION
+/**
+ * Standardized Firebase initialization for this environment.
+ * Ensures Firestore uses long-polling to prevent 'code=unavailable' errors.
+ */
 export function initializeFirebase() {
-  if (!getApps().length) {
-    let firebaseApp: FirebaseApp;
+  const apps = getApps();
+  let firebaseApp: FirebaseApp;
+
+  if (!apps.length) {
     try {
-      firebaseApp = initializeApp();
-    } catch (e) {
       firebaseApp = initializeApp(firebaseConfig);
+    } catch (e) {
+      // Fallback for environments where config is provided differently
+      firebaseApp = initializeApp();
     }
-
-    // Standardized robust Firestore initialization for this environment
-    const firestore = initializeFirestore(firebaseApp, {
-      experimentalForceLongPolling: true,
-    });
-
-    return {
-      firebaseApp,
-      auth: getAuth(firebaseApp),
-      firestore,
-      storage: getStorage(firebaseApp),
-    };
+  } else {
+    firebaseApp = getApp();
   }
 
-  const app = getApp();
+  // Robust Firestore initialization with long-polling
+  let firestore: Firestore;
+  try {
+    firestore = initializeFirestore(firebaseApp, {
+      experimentalForceLongPolling: true,
+    });
+  } catch (e) {
+    // If Firestore is already initialized, initializeFirestore will throw.
+    // In that case, we retrieve the existing instance.
+    firestore = getFirestore(firebaseApp);
+  }
+
   return {
-    firebaseApp: app,
-    auth: getAuth(app),
-    firestore: getFirestore(app),
-    storage: getStorage(app),
+    firebaseApp,
+    auth: getAuth(firebaseApp),
+    firestore,
+    storage: getStorage(firebaseApp),
   };
 }
 

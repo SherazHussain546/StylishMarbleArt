@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -38,6 +39,7 @@ export default function GalleryManagementPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
 
+  // Use the specialized useMemoFirebase hook to stabilize the query
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
