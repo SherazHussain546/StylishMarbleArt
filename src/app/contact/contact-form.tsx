@@ -45,14 +45,8 @@ export function ContactForm() {
         read: false,
       };
 
+      // CRITICAL: Do NOT await addDoc
       addDoc(contactRef, data)
-        .then(() => {
-          toast({
-            title: content.contactPage.form.successTitle[language],
-            description: content.contactPage.form.successMessage[language],
-          });
-          form.reset();
-        })
         .catch(async (err) => {
           const permissionError = new FirestorePermissionError({
             path: contactRef.path,
@@ -61,6 +55,13 @@ export function ContactForm() {
           });
           errorEmitter.emit('permission-error', permissionError);
         });
+
+      // Optimistic Success
+      toast({
+        title: content.contactPage.form.successTitle[language],
+        description: content.contactPage.form.successMessage[language],
+      });
+      form.reset();
     });
   };
 

@@ -30,10 +30,9 @@ export default function MessagesPage() {
 
   const handleDelete = (id: string) => {
     const docRef = doc(db, 'contact-messages', id);
+    
+    // CRITICAL: Do NOT await deleteDoc
     deleteDoc(docRef)
-      .then(() => {
-        toast({ title: 'Success', description: 'Message deleted successfully.' });
-      })
       .catch(async (err) => {
         const permissionError = new FirestorePermissionError({
           path: docRef.path,
@@ -41,6 +40,9 @@ export default function MessagesPage() {
         });
         errorEmitter.emit('permission-error', permissionError);
       });
+    
+    // Optimistic success
+    toast({ title: 'Success', description: 'Message deletion initiated.' });
   };
 
   const renderSkeleton = () => (

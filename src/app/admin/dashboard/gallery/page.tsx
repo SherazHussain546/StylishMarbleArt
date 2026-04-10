@@ -84,19 +84,8 @@ export default function GalleryManagementPage() {
 
     setIsUploading(true);
     
-    // Safety timeout to prevent permanent loading state if Firebase hangs
-    const timeoutId = setTimeout(() => {
-        if (isUploading) {
-            setIsUploading(false);
-            toast({ 
-                variant: 'destructive', 
-                title: 'Connection Timeout', 
-                description: 'The upload is taking longer than expected. Please check your connection and try again.' 
-            });
-        }
-    }, 30000);
-
     try {
+      // 1. Upload to Storage (Must await this to get the URL)
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
@@ -104,6 +93,7 @@ export default function GalleryManagementPage() {
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
+      // 2. Add to Firestore (NON-BLOCKING)
       const galleryRef = collection(db, 'gallery');
       const imageData = {
         url: downloadURL,
@@ -113,10 +103,19 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      await addDoc(galleryRef, imageData);
+      // CRITICAL: Do NOT await addDoc
+      addDoc(galleryRef, imageData)
+        .catch(async (error: any) => {
+          const permissionError = new FirestorePermissionError({
+            path: 'gallery',
+            operation: 'create',
+            requestResourceData: imageData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+        });
       
-      clearTimeout(timeoutId);
-      toast({ title: 'Success!', description: 'Image added to gallery.' });
+      // Optimistic Success Response
+      toast({ title: 'Success!', description: 'Image added to gallery database.' });
       setFile(null);
       setCategory('');
       setAltText('');
@@ -125,23 +124,12 @@ export default function GalleryManagementPage() {
       setIsUploading(false);
 
     } catch (error: any) {
-      clearTimeout(timeoutId);
       console.error('Upload Error:', error);
-      
-      if (error.code === 'permission-denied') {
-        const permissionError = new FirestorePermissionError({
-          path: 'gallery',
-          operation: 'create',
-          requestResourceData: { category, altText },
-        });
-        errorEmitter.emit('permission-error', permissionError);
-      } else {
-        toast({ 
-          variant: 'destructive', 
-          title: 'Upload Failed', 
-          description: error.message || 'Could not complete the upload.' 
-        });
-      }
+      toast({ 
+        variant: 'destructive', 
+        title: 'Upload Failed', 
+        description: error.message || 'Could not complete the file upload.' 
+      });
       setIsUploading(false);
     }
   };
@@ -150,9 +138,20 @@ export default function GalleryManagementPage() {
     if (!confirm('Are you sure you want to delete this image?')) return;
 
     try {
+      // Delete from Storage first
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
-      await deleteDoc(doc(db, 'gallery', id));
+      
+      // Delete from Firestore (NON-BLOCKING)
+      const docRef = doc(db, 'gallery', id);
+      deleteDoc(docRef).catch(async (error: any) => {
+        const permissionError = new FirestorePermissionError({
+          path: docRef.path,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
+
       toast({ title: 'Deleted', description: 'Image removed from gallery.' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
@@ -238,7 +237,7 @@ export default function GalleryManagementPage() {
                 
                 {isUploading && (
                     <p className="text-[10px] text-center text-muted-foreground animate-pulse mt-2">
-                        Connecting to secure storage...
+                        Files are being sent to secure storage. This may take a moment.
                     </p>
                 )}
               </form>
