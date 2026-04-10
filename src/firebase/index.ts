@@ -1,6 +1,6 @@
 
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
+import { initializeFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
@@ -22,7 +22,7 @@ export function initializeFirebase() {
   }
 
   if (!db) {
-    // Re-initializing with long polling to ensure stability in this environment
+    // Re-initializing with long polling to ensure stability in restricted network environments
     db = initializeFirestore(app, {
       experimentalForceLongPolling: true,
     });

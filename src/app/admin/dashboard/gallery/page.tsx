@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -84,6 +84,7 @@ export default function GalleryManagementPage() {
     }
 
     setIsUploading(true);
+    
     try {
       const timestamp = Date.now();
       const storagePath = `gallery/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
@@ -103,37 +104,40 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      await addDoc(galleryRef, imageData);
-      
-      toast({ 
-        title: 'Success!', 
-        description: 'Your image has been added to the gallery.',
-      });
-
-      // Reset form
-      setFile(null);
-      setCategory('');
-      setAltText('');
-      const fileInput = document.getElementById('image-file') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
+      // We initiate the write without blocking to improve perceived speed
+      addDoc(galleryRef, imageData)
+        .then(() => {
+          toast({ title: 'Success!', description: 'Image added to gallery.' });
+          // Reset form on success
+          setFile(null);
+          setCategory('');
+          setAltText('');
+          const fileInput = document.getElementById('image-file') as HTMLInputElement;
+          if (fileInput) fileInput.value = '';
+        })
+        .catch(async (error: any) => {
+          if (error.code === 'permission-denied') {
+            const permissionError = new FirestorePermissionError({
+              path: 'gallery',
+              operation: 'create',
+              requestResourceData: imageData,
+            });
+            errorEmitter.emit('permission-error', permissionError);
+          } else {
+            toast({ variant: 'destructive', title: 'Firestore Error', description: error.message });
+          }
+        })
+        .finally(() => {
+          setIsUploading(false);
+        });
 
     } catch (error: any) {
-      console.error("Upload error:", error);
+      console.error("Storage upload error:", error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || 'An error occurred during upload.' 
+        description: error.message || 'An error occurred during storage upload.' 
       });
-      
-      // If Firestore fails but storage succeeded, we don't handle cleanup here for simplicity in MVP
-      if (error.code === 'permission-denied') {
-          const permissionError = new FirestorePermissionError({
-            path: 'gallery',
-            operation: 'create',
-          });
-          errorEmitter.emit('permission-error', permissionError);
-      }
-    } finally {
       setIsUploading(false);
     }
   };
@@ -145,7 +149,6 @@ export default function GalleryManagementPage() {
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
       await deleteDoc(doc(db, 'gallery', id));
-      
       toast({ title: 'Deleted', description: 'Image removed from gallery.' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
@@ -209,17 +212,15 @@ export default function GalleryManagementPage() {
                         size="icon" 
                         onClick={handleGenerateAlt} 
                         disabled={!file || isUploading || isGeneratingAlt} 
-                        title="Generate with AI"
                     >
                         {isGeneratingAlt ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                     </Button>
                    </div>
-                   <p className="text-[10px] text-muted-foreground">AI can help write descriptive text for SEO.</p>
                 </div>
 
                 <Button type="submit" className="w-full" disabled={isUploading}>
                   {isUploading ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
+                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Publishing...</>
                   ) : (
                       <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
                   )}
@@ -234,7 +235,7 @@ export default function GalleryManagementPage() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Current Gallery Items</CardTitle>
-                <CardDescription>These images are visible to the public.</CardDescription>
+                <CardDescription>Visible to your customers on the site.</CardDescription>
               </div>
               <div className="text-sm font-medium text-muted-foreground bg-secondary px-3 py-1 rounded-full">
                 {images?.length || 0} Total
@@ -250,16 +251,13 @@ export default function GalleryManagementPage() {
                    {images.map((img: any) => (
                      <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border shadow-sm bg-muted">
                         <Image src={img.url} alt={img.alt} fill className="object-cover transition-opacity group-hover:opacity-75" />
-                        
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                           <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)} className="shadow-lg">
+                           <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)}>
                               <Trash2 className="h-4 w-4" />
                            </Button>
                         </div>
-                        
-                        <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-[10px] text-white backdrop-blur-sm">
-                           <div className="font-bold uppercase tracking-wider">{img.category}</div>
-                           <div className="truncate opacity-80">{img.alt}</div>
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-[10px] text-white">
+                           <div className="font-bold uppercase">{img.category}</div>
                         </div>
                      </div>
                    ))}
@@ -267,8 +265,8 @@ export default function GalleryManagementPage() {
                ) : (
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
-                    <h3 className="font-semibold text-lg">Your Gallery is Empty</h3>
-                    <p className="text-sm max-w-xs mx-auto">Upload photos of your gravestones, memorials, or home projects to showcase your work.</p>
+                    <h3 className="font-semibold text-lg">Empty Gallery</h3>
+                    <p className="text-sm">Upload photos to showcase your work.</p>
                  </div>
                )}
             </CardContent>
