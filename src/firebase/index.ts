@@ -1,3 +1,4 @@
+
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
@@ -27,6 +28,7 @@ export function initializeFirebase() {
         experimentalForceLongPolling: true,
       });
     } catch (e) {
+      // If already initialized (e.g. by a legacy module), just get the existing instance
       db = getFirestore(app);
     }
   }

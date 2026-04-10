@@ -1,8 +1,9 @@
+
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { onAuthStateChanged, type User } from 'firebase/auth';
-import { auth } from '@/lib/firebase/client';
+import { useAuth as useFirebaseAuthHook } from '@/firebase';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface AuthContextType {
@@ -20,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const auth = useFirebaseAuthHook();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -29,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     // This effect handles redirection logic based on auth state and current path
