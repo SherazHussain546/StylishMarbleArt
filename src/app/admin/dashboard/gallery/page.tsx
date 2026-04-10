@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database, XCircle, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -29,7 +29,7 @@ const categories = [
     { id: 'Hindu Memorials', name: 'Hindu' },
 ];
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
+const RECOMMENDED_MAX_SIZE = 500 * 1024; // 500KB recommended for proxy stability
 
 export default function GalleryManagementPage() {
   const db = useFirestore();
@@ -54,7 +54,7 @@ export default function GalleryManagementPage() {
     setUploadError(null);
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      if (selectedFile.size > MAX_FILE_SIZE) {
+      if (selectedFile.size > 5 * 1024 * 1024) {
         toast({
           variant: 'destructive',
           title: 'File too large',
@@ -62,6 +62,9 @@ export default function GalleryManagementPage() {
         });
         e.target.value = '';
         return;
+      }
+      if (selectedFile.size > RECOMMENDED_MAX_SIZE) {
+         setUploadError(`Note: This file is ${Math.round(selectedFile.size / 1024)}KB. Large files may hang due to the cloud workstation's network proxy. For best results, use files under 500KB.`);
       }
       setFile(selectedFile);
     }
@@ -77,7 +80,6 @@ export default function GalleryManagementPage() {
         try {
           const result = await generateAltText({ photoDataUri: dataUri });
           setAltText(result.altText);
-          toast({ title: 'AI Success', description: 'Alt text generated.' });
         } catch (err) {
           toast({ variant: 'destructive', title: 'AI Error', description: 'Could not analyze image.' });
         } finally {
@@ -87,7 +89,6 @@ export default function GalleryManagementPage() {
       reader.readAsDataURL(file);
     } catch (error) {
       setIsGeneratingAlt(false);
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to read file.' });
     }
   };
 
@@ -95,7 +96,7 @@ export default function GalleryManagementPage() {
     if (!db) return;
     const mockData = {
       url: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/600`,
-      alt: 'Test Gallery Image (Mock)',
+      alt: 'Test Gallery Entry (Verified Connection)',
       category: 'Graves',
       path: 'mock/path',
       createdAt: serverTimestamp(),
@@ -103,7 +104,7 @@ export default function GalleryManagementPage() {
 
     addDoc(collection(db, 'gallery'), mockData)
       .then(() => {
-        toast({ title: 'Mock Added', description: 'Database connection verified.' });
+        toast({ title: 'Database Verified', description: 'Firestore is working perfectly.' });
       })
       .catch((err) => {
         errorEmitter.emit('permission-error', new FirestorePermissionError({
@@ -134,21 +135,29 @@ export default function GalleryManagementPage() {
     setIsUploading(true);
     setUploadError(null);
     
-    // Set a safety timeout for the network transfer
+    // Safety timeout for proxy hangs
     const timeoutId = setTimeout(() => {
       if (isUploading) {
-        setUploadError('The upload is taking too long. This might be a network proxy issue in the development environment. Please try "Reset Connection" and a smaller file.');
+        setUploadError('The upload has timed out. The cloud workstation proxy is likely blocking the binary stream. Try a smaller file or use "Reset Connection".');
         setIsUploading(false);
       }
-    }, 60000); // 60 seconds
+    }, 45000); 
 
     try {
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      // Use uploadBytes instead of uploadBytesResumable for better compatibility with proxies
-      const snapshot = await uploadBytes(storageRef, file);
+      // Explicit metadata helps the server process the stream faster
+      const metadata = {
+        contentType: file.type,
+        customMetadata: {
+          'originalName': file.name,
+          'category': category
+        }
+      };
+
+      const snapshot = await uploadBytes(storageRef, file, metadata);
       clearTimeout(timeoutId);
 
       const downloadURL = await getDownloadURL(snapshot.ref);
@@ -177,8 +186,7 @@ export default function GalleryManagementPage() {
 
     } catch (error: any) {
       clearTimeout(timeoutId);
-      console.error('Upload error:', error);
-      setUploadError(error.message || 'Network transfer failed. The workstation proxy may be blocking the binary stream.');
+      setUploadError(error.message || 'The network transfer failed. This usually happens when the dev environment buffers large files.');
       setIsUploading(false);
     }
   };
@@ -186,15 +194,15 @@ export default function GalleryManagementPage() {
   const handleDelete = async (id: string, path: string) => {
     if (!confirm('Are you sure?')) return;
     try {
-      if (path !== 'mock/path') {
+      if (path && path !== 'mock/path') {
         const storageRef = ref(storage, path);
-        await deleteObject(storageRef);
+        await deleteObject(storageRef).catch(e => console.warn('Storage file already gone or missing'));
       }
       const docRef = doc(db, 'gallery', id);
       deleteDoc(docRef).catch((err) => {
         errorEmitter.emit('permission-error', new FirestorePermissionError({ path: docRef.path, operation: 'delete' }));
       });
-      toast({ title: 'Deleted' });
+      toast({ title: 'Deleted successfully' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
     }
@@ -202,7 +210,7 @@ export default function GalleryManagementPage() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div className="flex items-center gap-4">
             <Button variant="outline" size="icon" asChild>
             <Link href="/admin/dashboard">
@@ -213,13 +221,13 @@ export default function GalleryManagementPage() {
             <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
         </div>
         <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleSeedMockData}>
-                <Database className="mr-2 h-4 w-4" />
-                Seed Test Entry
+            <Button variant="outline" size="sm" onClick={handleSeedMockData} className="bg-primary/5 border-primary/20 text-primary">
+                <CheckCircle2 className="mr-2 h-4 w-4" />
+                Verify Connection
             </Button>
             <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
                 <RefreshCcw className="mr-2 h-4 w-4" />
-                Reset Connection
+                Reset UI
             </Button>
         </div>
       </div>
@@ -228,20 +236,21 @@ export default function GalleryManagementPage() {
         <div className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardHeader>
-              <CardTitle>Upload Image</CardTitle>
-              <CardDescription>Max size 5MB. Use small files for better performance.</CardDescription>
+              <CardTitle>Add to Portfolio</CardTitle>
+              <CardDescription>Upload a photo of your recent craftsmanship.</CardDescription>
             </CardHeader>
             <CardContent>
               {uploadError && (
-                <Alert variant="destructive" className="mb-4">
+                <Alert variant="destructive" className="mb-6 bg-destructive/10 text-destructive border-destructive/20">
                   <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Upload Problem</AlertTitle>
+                  <AlertTitle>Upload Status</AlertTitle>
                   <AlertDescription className="text-xs">{uploadError}</AlertDescription>
                 </Alert>
               )}
+              
               <form onSubmit={handleUpload} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="image-file">1. Select Image</Label>
+                  <Label htmlFor="image-file">1. Select Photo</Label>
                   <Input id="image-file" type="file" required accept="image/*" onChange={handleFileChange} disabled={isUploading} />
                 </div>
                 
@@ -249,7 +258,7 @@ export default function GalleryManagementPage() {
                   <Label htmlFor="category">2. Category</Label>
                   <Select required onValueChange={setCategory} value={category} disabled={isUploading}>
                     <SelectTrigger id="category">
-                      <SelectValue placeholder="Select a category" />
+                      <SelectValue placeholder="Where does this belong?" />
                     </SelectTrigger>
                     <SelectContent>
                       {categories.map(cat => (
@@ -260,11 +269,11 @@ export default function GalleryManagementPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="alt-text">3. SEO Alt Text</Label>
+                  <Label htmlFor="alt-text">3. Description (SEO)</Label>
                    <div className="flex gap-2">
                     <Input 
                         id="alt-text" 
-                        placeholder="e.g., White marble gravestone" 
+                        placeholder="e.g., Ziarat White Gravestone" 
                         value={altText} 
                         onChange={(e) => setAltText(e.target.value)} 
                         required 
@@ -272,10 +281,11 @@ export default function GalleryManagementPage() {
                     />
                     <Button 
                         type="button" 
-                        variant="outline" 
+                        variant="secondary" 
                         size="icon" 
                         onClick={handleGenerateAlt} 
                         disabled={!file || isUploading || isGeneratingAlt} 
+                        title="AI Help"
                     >
                         {isGeneratingAlt ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                     </Button>
@@ -283,24 +293,22 @@ export default function GalleryManagementPage() {
                 </div>
 
                 {isUploading && (
-                  <div className="space-y-2">
+                  <div className="space-y-2 pt-2">
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="animate-pulse">Transferring data...</span>
+                      <span className="animate-pulse">Transferring binary data...</span>
                     </div>
                     <Progress value={undefined} className="h-2" />
-                    <p className="text-[10px] text-muted-foreground">This may take a minute depending on your connection.</p>
+                    <p className="text-[10px] text-muted-foreground">Note: If this hangs at 0%, the workstation proxy is blocking the file.</p>
                   </div>
                 )}
 
-                <div className="flex gap-2">
-                  <Button type="submit" className="flex-1" disabled={isUploading}>
+                <Button type="submit" className="w-full mt-4" disabled={isUploading}>
                     {isUploading ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
+                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
                     ) : (
-                        <><UploadCloud className="mr-2 h-4 w-4" /> Publish</>
+                        <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
                     )}
-                  </Button>
-                </div>
+                </Button>
               </form>
             </CardContent>
           </Card>
@@ -310,8 +318,8 @@ export default function GalleryManagementPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Portfolio Items</CardTitle>
-                <CardDescription>Live Gallery Data</CardDescription>
+                <CardTitle>Live Portfolio</CardTitle>
+                <CardDescription>Manage images appearing on the public website.</CardDescription>
               </div>
             </CardHeader>
             <CardContent>
@@ -338,8 +346,8 @@ export default function GalleryManagementPage() {
                ) : (
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
-                    <h3 className="font-semibold text-lg">No Images Found</h3>
-                    <p className="text-sm">If uploads fail, check "Reset Connection" or use "Seed Test Entry".</p>
+                    <h3 className="font-semibold text-lg">Your Gallery is Empty</h3>
+                    <p className="text-sm max-w-xs mx-auto mb-4">Click "Verify Connection" to test your database, or upload a small photo to start your portfolio.</p>
                  </div>
                )}
             </CardContent>
