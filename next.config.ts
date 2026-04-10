@@ -1,14 +1,15 @@
+
 import type { NextConfig } from 'next';
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com https://apis.google.com;
   child-src 'self';
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data: https://firebasestorage.googleapis.com;
   font-src 'self';
-  connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://firebasestorage.googleapis.com;
-  frame-src 'self' https://www.google.com;
+  connect-src 'self' vitals.vercel-insights.com https://*.googleapis.com https://*.firebase.com https://*.firebaseio.com https://*.cloudworkstations.dev;
+  frame-src 'self' https://www.google.com https://*.firebaseapp.com;
   upgrade-insecure-requests;
 `;
 

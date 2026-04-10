@@ -1,3 +1,4 @@
+
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
@@ -6,6 +7,8 @@ import { getAuth, Auth } from 'firebase/auth';
 import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 
+let globalFirestore: Firestore | null = null;
+
 /**
  * Standardized Firebase initialization for this environment.
  * Ensures Firestore uses long-polling to prevent 'code=unavailable' errors
@@ -13,33 +16,28 @@ import { getStorage, FirebaseStorage } from 'firebase/storage';
  */
 export function initializeFirebase() {
   const apps = getApps();
-  let firebaseApp: FirebaseApp;
+  const firebaseApp = apps.length ? apps[0] : initializeApp(firebaseConfig);
 
-  if (!apps.length) {
-    firebaseApp = initializeApp(firebaseConfig);
-  } else {
-    firebaseApp = getApp();
-  }
-
-  // Robust Firestore initialization with long-polling
-  let firestore: Firestore;
-  try {
-    // We force long polling and disable fetch streams for maximum compatibility
-    // with restricted cloud development environments.
-    firestore = initializeFirestore(firebaseApp, {
-      experimentalForceLongPolling: true,
-      useFetchStreams: false,
-    });
-  } catch (e) {
-    // If Firestore is already initialized, initializeFirestore will throw.
-    // In that case, we retrieve the existing instance.
-    firestore = getFirestore(firebaseApp);
+  if (!globalFirestore) {
+    try {
+      // Robust Firestore initialization with long-polling
+      // We force long polling and disable fetch streams for maximum compatibility
+      // with restricted cloud development environments.
+      globalFirestore = initializeFirestore(firebaseApp, {
+        experimentalForceLongPolling: true,
+        useFetchStreams: false,
+      });
+    } catch (e) {
+      // If Firestore is already initialized, initializeFirestore will throw.
+      // In that case, we retrieve the existing instance.
+      globalFirestore = getFirestore(firebaseApp);
+    }
   }
 
   return {
     firebaseApp,
     auth: getAuth(firebaseApp),
-    firestore,
+    firestore: globalFirestore,
     storage: getStorage(firebaseApp),
   };
 }
