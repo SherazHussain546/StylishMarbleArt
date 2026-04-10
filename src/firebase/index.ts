@@ -24,8 +24,11 @@ export function initializeFirebase() {
   // Robust Firestore initialization with long-polling
   let firestore: Firestore;
   try {
+    // We force long polling and disable fetch streams for maximum compatibility
+    // with restricted cloud development environments.
     firestore = initializeFirestore(firebaseApp, {
       experimentalForceLongPolling: true,
+      useFetchStreams: false,
     });
   } catch (e) {
     // If Firestore is already initialized, initializeFirestore will throw.

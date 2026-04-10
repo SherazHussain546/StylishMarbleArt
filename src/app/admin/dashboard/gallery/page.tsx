@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -91,9 +90,11 @@ export default function GalleryManagementPage() {
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
+      // 1. Upload to Storage
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
+      // 2. Save Metadata to Firestore
       const galleryRef = collection(db, 'gallery');
       const imageData = {
         url: downloadURL,
@@ -129,6 +130,7 @@ export default function GalleryManagementPage() {
         });
 
     } catch (error: any) {
+      console.error('Upload Error:', error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
