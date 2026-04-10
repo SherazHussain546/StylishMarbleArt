@@ -98,7 +98,6 @@ export default function GalleryManagementPage() {
           setFile(null);
           setCategory('');
           setAltText('');
-          // Reset file input
           const fileInput = document.getElementById('image-file') as HTMLInputElement;
           if (fileInput) fileInput.value = '';
         })
@@ -121,11 +120,9 @@ export default function GalleryManagementPage() {
   const handleDelete = async (id: string, path: string) => {
     const docRef = doc(db, 'gallery', id);
     try {
-      // Delete from storage first
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
 
-      // Then delete metadata from Firestore
       deleteDoc(docRef)
         .then(() => {
           toast({ title: 'Deleted', description: 'Image removed from gallery.' });
@@ -159,7 +156,7 @@ export default function GalleryManagementPage() {
           <Card>
             <CardHeader>
               <CardTitle>Upload New Image</CardTitle>
-              <CardDescription>Add a new piece of work to your public gallery.</CardDescription>
+              <CardDescription>Add a new piece of work to your public gallery. Collections appear in your console after the first upload.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpload} className="space-y-4">
@@ -229,7 +226,7 @@ export default function GalleryManagementPage() {
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-12 w-12 mb-4" />
                     <h3 className="font-semibold text-lg">No Images Found</h3>
-                    <p className="text-sm">Your gallery is currently empty. Upload some images to get started.</p>
+                    <p className="text-sm">Your gallery is currently empty. Upload an image to create the collection in Firestore.</p>
                  </div>
                )}
             </CardContent>
