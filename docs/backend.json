@@ -1,322 +1,47 @@
 {
   "entities": {
-    "PageContent": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "PageContent",
-      "type": "object",
-      "description": "Represents a block of content for various static pages or sections of the website, supporting multiple languages and SEO metadata.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the PageContent entity."
-        },
-        "pageIdentifier": {
-          "type": "string",
-          "description": "A unique identifier for the page this content belongs to (e.g., 'home', 'about-us', 'services')."
-        },
-        "sectionIdentifier": {
-          "type": "string",
-          "description": "A unique identifier for the specific section within the page (e.g., 'hero-section', 'about-us-summary', 'welcome-message')."
-        },
-        "titleEn": {
-          "type": "string",
-          "description": "The title of the content block in English."
-        },
-        "titleUr": {
-          "type": "string",
-          "description": "The title of the content block in Urdu."
-        },
-        "contentEn": {
-          "type": "string",
-          "description": "The main textual content in English."
-        },
-        "contentUr": {
-          "type": "string",
-          "description": "The main textual content in Urdu."
-        },
-        "imageUrl": {
-          "type": "string",
-          "description": "URL to an image associated with this content block (e.g., a hero image).",
-          "format": "uri"
-        },
-        "altTextEn": {
-          "type": "string",
-          "description": "Alternative text for the image in English, for accessibility and SEO."
-        },
-        "altTextUr": {
-          "type": "string",
-          "description": "Alternative text for the image in Urdu, for accessibility and SEO."
-        },
-        "order": {
-          "type": "number",
-          "description": "The display order of this content section within its page, allowing for custom arrangement."
-        },
-        "metaTitleEn": {
-          "type": "string",
-          "description": "SEO meta title for the page/section in English."
-        },
-        "metaDescriptionEn": {
-          "type": "string",
-          "description": "SEO meta description for the page/section in English."
-        },
-        "metaTitleUr": {
-          "type": "string",
-          "description": "SEO meta title for the page/section in Urdu."
-        },
-        "metaDescriptionUr": {
-          "type": "string",
-          "description": "SEO meta description for the page/section in Urdu."
-        },
-        "slugEn": {
-          "type": "string",
-          "description": "URL-friendly slug for the page in English, used for cleaner URLs."
-        },
-        "slugUr": {
-          "type": "string",
-          "description": "URL-friendly slug for the page in Urdu, used for cleaner URLs."
-        }
-      },
-      "required": [
-        "id",
-        "pageIdentifier",
-        "sectionIdentifier"
-      ]
-    },
-    "Service": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Service",
-      "type": "object",
-      "description": "Represents a distinct service offered by Legacy Stone, with multilingual titles and descriptions.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Service entity."
-        },
-        "titleEn": {
-          "type": "string",
-          "description": "The title of the service in English."
-        },
-        "titleUr": {
-          "type": "string",
-          "description": "The title of the service in Urdu."
-        },
-        "descriptionEn": {
-          "type": "string",
-          "description": "A detailed description of the service in English."
-        },
-        "descriptionUr": {
-          "type": "string",
-          "description": "A detailed description of the service in Urdu."
-        },
-        "iconUrl": {
-          "type": "string",
-          "description": "URL to an icon representing this service, enhancing visual appeal.",
-          "format": "uri"
-        },
-        "order": {
-          "type": "number",
-          "description": "The display order of this service on the services page, allowing for custom arrangement."
-        }
-      },
-      "required": [
-        "id",
-        "titleEn",
-        "titleUr",
-        "descriptionEn",
-        "descriptionUr"
-      ]
-    },
     "GalleryImage": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "GalleryImage",
       "type": "object",
-      "description": "Represents an image in the interactive gallery, including its details, captions, and categories in multiple languages.",
+      "description": "Represents a project image in the gallery.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the GalleryImage entity."
-        },
-        "imageUrl": {
-          "type": "string",
-          "description": "URL to the high-resolution gallery image file.",
-          "format": "uri"
-        },
-        "thumbnailUrl": {
-          "type": "string",
-          "description": "URL to a smaller thumbnail version of the image for gallery previews, optimizing load times.",
-          "format": "uri"
-        },
-        "titleEn": {
-          "type": "string",
-          "description": "The title or caption for the image in English."
-        },
-        "titleUr": {
-          "type": "string",
-          "description": "The title or caption for the image in Urdu."
-        },
-        "descriptionEn": {
-          "type": "string",
-          "description": "A detailed description of the image or project it represents in English."
-        },
-        "descriptionUr": {
-          "type": "string",
-          "description": "A detailed description of the image or project it represents in Urdu."
-        },
-        "categoryEn": {
-          "type": "string",
-          "description": "Category for the image in English (e.g., 'Headstones', 'Engravings', 'Memorials'), useful for filtering."
-        },
-        "categoryUr": {
-          "type": "string",
-          "description": "Category for the image in Urdu."
-        },
-        "uploadDateTime": {
-          "type": "string",
-          "description": "Timestamp indicating when the image was uploaded to the gallery.",
-          "format": "date-time"
-        }
+        "url": { "type": "string", "format": "uri" },
+        "alt": { "type": "string" },
+        "category": { "type": "string" },
+        "path": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": [
-        "id",
-        "imageUrl",
-        "thumbnailUrl"
-      ]
+      "required": ["url", "alt", "category"]
     },
-    "ContactSubmission": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "ContactSubmission",
+    "ContactMessage": {
+      "title": "ContactMessage",
       "type": "object",
-      "description": "Stores information submitted through the website's contact form, allowing administrators to review inquiries.",
+      "description": "A message sent via the contact form.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the ContactSubmission entity."
-        },
-        "senderName": {
-          "type": "string",
-          "description": "The full name of the person submitting the contact form."
-        },
-        "senderEmail": {
-          "type": "string",
-          "description": "The email address provided by the sender for communication.",
-          "format": "email"
-        },
-        "senderPhone": {
-          "type": "string",
-          "description": "The phone number of the person submitting the contact form (optional, but useful for direct contact)."
-        },
-        "messageContent": {
-          "type": "string",
-          "description": "The actual message or inquiry content submitted by the user."
-        },
-        "submissionDateTime": {
-          "type": "string",
-          "description": "Timestamp indicating the exact date and time when the contact form was submitted.",
-          "format": "date-time"
-        },
-        "isRead": {
-          "type": "boolean",
-          "description": "A flag indicating whether this contact submission has been reviewed or processed by an administrator."
-        }
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "read": { "type": "boolean" }
       },
-      "required": [
-        "id",
-        "senderName",
-        "senderEmail",
-        "messageContent",
-        "submissionDateTime"
-      ]
+      "required": ["name", "email", "message"]
     }
   },
   "auth": {
-    "providers": [
-      "password",
-      "anonymous"
-    ]
+    "providers": ["password"]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "/page_content/{pageContentId}",
-        "definition": {
-          "entityName": "PageContent",
-          "schema": {
-            "$ref": "#/backend/entities/PageContent"
-          },
-          "description": "Stores content blocks for various static pages (e.g., Home, About Us). These documents are publicly readable and can only be created, updated, or deleted by administrators.",
-          "params": [
-            {
-              "name": "pageContentId",
-              "description": "The unique identifier for a specific page content block."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/services/{serviceId}",
-        "definition": {
-          "entityName": "Service",
-          "schema": {
-            "$ref": "#/backend/entities/Service"
-          },
-          "description": "Contains details about the services offered by Legacy Stone. These documents are publicly readable and can only be managed (create, update, delete) by administrators.",
-          "params": [
-            {
-              "name": "serviceId",
-              "description": "The unique identifier for a specific service."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/gallery_images/{galleryImageId}",
-        "definition": {
-          "entityName": "GalleryImage",
-          "schema": {
-            "$ref": "#/backend/entities/GalleryImage"
-          },
-          "description": "Holds information and URLs for images displayed in the website's gallery. These documents are publicly readable and editable only by administrators.",
-          "params": [
-            {
-              "name": "galleryImageId",
-              "description": "The unique identifier for a specific gallery image."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/contact_submissions/{contactSubmissionId}",
-        "definition": {
-          "entityName": "ContactSubmission",
-          "schema": {
-            "$ref": "#/backend/entities/ContactSubmission"
-          },
-          "description": "Stores messages submitted through the website's contact form. Any user (authenticated or unauthenticated) can create a submission, but only administrators can read or list these documents.",
-          "params": [
-            {
-              "name": "contactSubmissionId",
-              "description": "The unique identifier for a specific contact form submission."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/admins/{uid}",
-        "definition": {
-          "entityName": "Admin",
-          "schema": {
-            "$ref": "#/backend/entities/Admin"
-          },
-          "description": "Defines users with administrative privileges. The document ID is the user's Firebase Authentication UID. The existence of a document at this path grants admin access, facilitating DBAC (Database-Backed Access Control).",
-          "params": [
-            {
-              "name": "uid",
-              "description": "The unique Firebase Authentication User ID of an administrator."
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "The Firestore structure for Legacy Stone prioritizes clarity, security, and performance by adhering strictly to the core design principles. The primary goal is to provide a highly available public website while securely managing administrative content and user submissions.\n\n**Authorization Independence (CRITICAL) & Denormalization:**\nThis design achieves authorization independence by ensuring that no security rule relies on `get()` calls to parent documents for authorization decisions. Instead, authorization is either:\n1.  **Path-based for Public Data:** Collections like `/page_content`, `/services`, and `/gallery_images` are inherently public-readable, meaning any user (authenticated or unauthenticated) can read their documents. Rules for these collections simply check if `request.auth != null` for writes (admin-only) and `true` for reads (public).\n2.  **Role-based for Administrative Access:** A dedicated top-level collection, `/admins/{uid}`, is used to store administrator roles. For any operation requiring admin privileges (e.g., creating/updating/deleting `PageContent`, `Service`, `GalleryImage`, or reading `ContactSubmission`), the security rules will perform an `exists()` check on `match /admins/{uid}` where `{uid}` is `request.auth.uid`. This check is atomic and does not create hierarchical dependencies on the data being accessed, thereby ensuring authorization independence. Denormalization is not explicitly required for nested authorization data in this specific use case, as there are no deep, permission-sensitive subcollections that derive access from their parents.\n\n**Querying for All Permissions (QAPs - Rules are not Filters):**\nThis structure strongly supports QAPs by ensuring that `list` operations either return all available documents to an authorized user or are completely denied to an unauthorized user, without the need for server-side filtering by security rules.\n*   For **publicly readable collections** (`/page_content`, `/services`, `/gallery_images`), any client `list` query will retrieve all documents, as intended. The rules permit reads globally.\n*   For **admin-only readable collections** (`/contact_submissions`, `/admins`), only users whose `uid` exists in the `/admins` collection will be able to perform `list` queries. All other users will have their `list` requests denied, preventing any partial or filtered results and ensuring predictable security outcomes.\n*   `ContactSubmission` allows any user (even unauthenticated) to create documents, so write access is granted broadly, again without filtering concerns.\n\n**Structural Segregation & Access Modeling:**\nEach collection serves a distinct purpose with a homogeneous security posture:\n*   `/page_content`, `/services`, `/gallery_images`: Public read, Admin write. Structured as top-level collections for global access.\n*   `/contact_submissions`: Public write, Admin read. A distinct collection to segregate user submissions from public content.\n*   `/admins`: Admin role definition using the DBAC pattern (existence over content). Only admins can read/write this collection, primarily for self-verification and role management.\n\nThis design results in simple, explicit, and highly debuggable security rules, aligning with all core design principles and mandates."
+    "/gallery/{imageId}": {
+      "schema": { "$ref": "#/entities/GalleryImage" },
+      "description": "Public gallery images."
+    },
+    "/contact-messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ContactMessage" },
+      "description": "User inquiries."
+    },
+    "/admins/{uid}": {
+      "schema": { "type": "object", "properties": {} },
+      "description": "Admin users list."
+    }
   }
 }

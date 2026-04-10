@@ -1,22 +1,15 @@
 /**
- * Legacy Stone - Firestore Security Rules
+ * Stylish Marble Art - Firestore Security Rules
  * 
  * Core Philosophy:
- * This ruleset implements a Database-Backed Access Control (DBAC) model for administrative content 
- * management. It provides public read access to marketing content (pages, services, gallery) while 
- * strictly limiting modifications to authorized administrators. User-generated content 
- * (contact form submissions) is securely captured and restricted for administrative review only.
+ * This ruleset implements a Database-Backed Access Control (DBAC) model.
+ * It provides public read access to the portfolio (gallery) while 
+ * limiting modifications to authorized administrators.
  * 
- * Data Structure:
- * - /admins/{uid}: Role definition collection. Existence of a UID here defines an administrator.
- * - /page_content/{id}, /services/{id}, /gallery_images/{id}: Publicly readable content.
- * - /contact_submissions/{id}: Write-only for users, read-only for administrators.
- * 
- * Key Security Decisions:
- * - Admin Role Verification: Uses an exists() check on the /admins collection to verify privileges.
- * - Relational Integrity: Enforces that the 'id' field in the document matches the Firestore document ID during creation.
- * - Anonymous Auth Support: Requires authentication (even anonymous) for writes to contact_submissions to 
- *   prevent completely open write paths while still allowing "unauthenticated" user interactions.
+ * Collections:
+ * - /admins/{uid}: Role definition. Existence of a UID here defines an admin.
+ * - /gallery/{id}: Publicly readable work portfolio.
+ * - /contact-messages/{id}: Write-only for users, read-only for admins.
  */
 
 rules_version = '2';
@@ -25,94 +18,58 @@ service cloud.firestore {
 
     // --- HELPER FUNCTIONS ---
 
-    /**
-     * @description Checks if the user is authenticated with Firebase Auth.
-     */
     function isSignedIn() {
       return request.auth != null;
     }
 
     /**
-     * @description Checks if the current authenticated user's UID exists in the /admins collection.
+     * @description Checks if the current user's UID exists in the /admins collection.
+     * NOTE: You must manually add your UID to the /admins collection in the Firebase Console
+     * to gain administrative privileges.
      */
     function isAdmin() {
       return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
-    /**
-     * @description Combines admin check with a check for document existence for destructive/state-changing operations.
-     */
-    function isExistingAdmin() {
-      return isAdmin() && resource != null;
-    }
-
     // --- COLLECTION RULES ---
 
-    /**
-     * @description Administrative privileges collection. Only existing admins can read or manage this list.
-     * @path /admins/{uid}
-     * @allow (get/list) if an administrator is logged in.
-     * @deny (get/list) if a regular user or unauthenticated user tries to read the admin list.
-     * @principle Role-Based Access Control via DBAC (Database-Backed Access Control).
-     */
+    // Admin list management
     match /admins/{uid} {
-      allow get, list: if isAdmin();
-      allow create, update, delete: if isExistingAdmin();
+      allow read: if isSignedIn();
+      allow write: if false; // Only manageable via Firebase Console for maximum security
     }
 
-    /**
-     * @description Static page content blocks (e.g., Hero, About Us). Publicly readable for the website.
-     * @path /page_content/{pageContentId}
-     * @allow (get/list) for any visitor to the site.
-     * @deny (create/update/delete) for any user who is not a verified administrator.
-     * @principle Public read access with administrative write control.
-     */
-    match /page_content/{pageContentId} {
-      allow get, list: if true;
-      allow create: if isAdmin() && request.resource.data.id == pageContentId;
-      allow update, delete: if isExistingAdmin();
+    // Gallery portfolio
+    match /gallery/{imageId} {
+      // Anyone can view the gallery
+      allow read, list: if true;
+      // Only admins can upload or delete images
+      allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Service descriptions and details. Publicly readable for the website.
-     * @path /services/{serviceId}
-     * @allow (get/list) for any visitor to the site.
-     * @deny (create/update/delete) for any user who is not a verified administrator.
-     * @principle Public read access with administrative write control.
-     */
-    match /services/{serviceId} {
-      allow get, list: if true;
-      allow create: if isAdmin() && request.resource.data.id == serviceId;
-      allow update, delete: if isExistingAdmin();
+    // Contact form submissions
+    match /contact-messages/{messageId} {
+      // Anyone can send a message
+      allow create: if true;
+      // Only admins can read or delete messages
+      allow read, list, delete: if isAdmin();
+      allow update: if isAdmin();
+    }
+    
+    // Page Content and Services (Placeholder for future dynamic content)
+    match /page_content/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /services/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    /**
-     * @description Gallery images and metadata. Publicly readable for the website.
-     * @path /gallery_images/{galleryImageId}
-     * @allow (get/list) for any visitor to the site.
-     * @deny (create/update/delete) for any user who is not a verified administrator.
-     * @principle Public read access with administrative write control.
-     */
-    match /gallery_images/{galleryImageId} {
-      allow get, list: if true;
-      allow create: if isAdmin() && request.resource.data.id == galleryImageId;
-      allow update, delete: if isExistingAdmin();
-    }
-
-    /**
-     * @description Inquiries submitted via the contact form. Users can submit, only admins can view.
-     * @path /contact_submissions/{contactSubmissionId}
-     * @allow (create) for anyone (including anonymous users) to submit a contact form.
-     * @allow (get/list) for administrators to review incoming inquiries.
-     * @deny (get/list) for public users; they cannot see others' messages.
-     * @principle Unauthenticated create access with strictly administrative read privileges.
-     */
-    match /contact_submissions/{contactSubmissionId} {
-      allow get, list: if isAdmin();
-      // Enforces authentication (even anonymous) to prevent bot spam while allowing unauthenticated form use.
-      // Validates relational integrity between the document ID and internal data.
-      allow create: if isSignedIn() && request.resource.data.id == contactSubmissionId;
-      allow update, delete: if isExistingAdmin();
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
