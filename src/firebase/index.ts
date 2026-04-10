@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
+import { initializeFirestore, getFirestore, Firestore, terminate } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
@@ -11,23 +11,27 @@ let storage: FirebaseStorage;
 
 /**
  * Initializes Firebase services with standardized configuration.
- * Includes long-polling fix for Firestore to prevent 'unavailable' errors in restricted environments.
+ * Uses experimentalForceLongPolling to ensure connectivity in Cloud Workstation environments.
  */
 export function initializeFirebase() {
   if (getApps().length > 0) {
     app = getApp();
-    db = getFirestore(app);
-    auth = getAuth(app);
-    storage = getStorage(app);
   } else {
     app = initializeApp(firebaseConfig);
-    // Standardizing Firestore initialization with long-polling for stability in dev environments
+  }
+
+  // We attempt to initialize Firestore with long polling. 
+  // If it's already initialized, getFirestore(app) will return the existing instance.
+  try {
     db = initializeFirestore(app, {
       experimentalForceLongPolling: true,
     });
-    auth = getAuth(app);
-    storage = getStorage(app);
+  } catch (e) {
+    db = getFirestore(app);
   }
+
+  auth = getAuth(app);
+  storage = getStorage(app);
 
   return { firebaseApp: app, firestore: db, auth, storage };
 }
