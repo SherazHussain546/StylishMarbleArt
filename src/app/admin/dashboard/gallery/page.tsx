@@ -14,6 +14,8 @@ import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, deleteDoc, updateDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 const categories = [
     { id: 'Graves', name: 'Graves' },
@@ -77,9 +79,20 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      await addDoc(collection(db, 'gallery'), imageData);
+      const galleryRef = collection(db, 'gallery');
       
-      toast({ title: 'Success', description: 'Image added to gallery.' });
+      // CRITICAL: Non-blocking addDoc
+      addDoc(galleryRef, imageData)
+        .catch(async (error) => {
+          const permissionError = new FirestorePermissionError({
+            path: galleryRef.path,
+            operation: 'create',
+            requestResourceData: imageData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+        });
+      
+      toast({ title: 'Success', description: 'Image upload initiated.' });
       
       setFile(null);
       setCategory('');
@@ -88,54 +101,77 @@ export default function GalleryManagementPage() {
       if (input) input.value = '';
 
     } catch (error: any) {
-      toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
+      toast({ variant: 'destructive', title: 'Process Failed', description: error.message });
     } finally {
       setIsUploading(false);
     }
   };
 
-  const handleUpdate = async (e: React.FormEvent) => {
+  const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingImage) return;
 
     setIsUpdating(true);
-    try {
-      const imageRef = doc(db, 'gallery', editingImage.id);
-      await updateDoc(imageRef, {
-        category: editingImage.category,
-        alt: editingImage.alt,
-      });
-      toast({ title: 'Updated', description: 'Item details saved.' });
-      setEditingImage(null);
-    } catch (error: any) {
-      toast({ variant: 'destructive', title: 'Update Failed', description: error.message });
-    } finally {
-      setIsUpdating(false);
-    }
-  };
+    const imageRef = doc(db, 'gallery', editingImage.id);
+    const updateData = {
+      category: editingImage.category,
+      alt: editingImage.alt,
+    };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Permanently delete this item?')) return;
-    try {
-      await deleteDoc(doc(db, 'gallery', id));
-      toast({ title: 'Deleted', description: 'Item removed.' });
-    } catch (error: any) {
-       toast({ variant: 'destructive', title: 'Error', description: error.message });
-    }
-  };
-
-  const handleSeed = async () => {
-    try {
-        await addDoc(collection(db, 'gallery'), {
-            url: 'https://picsum.photos/seed/test/800/600',
-            alt: 'Test Entry',
-            category: 'Graves',
-            createdAt: serverTimestamp()
+    // CRITICAL: Non-blocking updateDoc
+    updateDoc(imageRef, updateData)
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: imageRef.path,
+          operation: 'update',
+          requestResourceData: updateData,
         });
-        toast({ title: 'Success', description: 'Test entry added!' });
-    } catch (e: any) {
-        toast({ variant: 'destructive', title: 'Connection Error', description: e.message });
-    }
+        errorEmitter.emit('permission-error', permissionError);
+      });
+
+    toast({ title: 'Updated', description: 'Item details update initiated.' });
+    setEditingImage(null);
+    setIsUpdating(false);
+  };
+
+  const handleDelete = (id: string) => {
+    if (!confirm('Permanently delete this item?')) return;
+    
+    const imageRef = doc(db, 'gallery', id);
+    
+    // CRITICAL: Non-blocking deleteDoc
+    deleteDoc(imageRef)
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: imageRef.path,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
+
+    toast({ title: 'Deleted', description: 'Deletion initiated.' });
+  };
+
+  const handleSeed = () => {
+    const galleryRef = collection(db, 'gallery');
+    const seedData = {
+      url: 'https://picsum.photos/seed/test/800/600',
+      alt: 'Test Entry',
+      category: 'Graves',
+      createdAt: serverTimestamp()
+    };
+
+    addDoc(galleryRef, seedData)
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: galleryRef.path,
+          operation: 'create',
+          requestResourceData: seedData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
+
+    toast({ title: 'Success', description: 'Test entry creation initiated.' });
   };
 
   return (
