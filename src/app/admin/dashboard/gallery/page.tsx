@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, Database } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -75,6 +75,30 @@ export default function GalleryManagementPage() {
     }
   };
 
+  const handleSeedMockData = () => {
+    if (!db) return;
+    
+    const mockData = {
+      url: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/600`,
+      alt: 'Test Gallery Image (Mock)',
+      category: 'Graves',
+      path: 'mock/path',
+      createdAt: serverTimestamp(),
+    };
+
+    addDoc(collection(db, 'gallery'), mockData)
+      .then(() => {
+        toast({ title: 'Mock Added', description: 'A test entry was successfully added to Firestore.' });
+      })
+      .catch((err) => {
+        errorEmitter.emit('permission-error', new FirestorePermissionError({
+          path: 'gallery',
+          operation: 'create',
+          requestResourceData: mockData
+        }));
+      });
+  };
+
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !category || !altText) {
@@ -85,7 +109,6 @@ export default function GalleryManagementPage() {
     setIsUploading(true);
     
     try {
-      // 1. Upload to Storage (Must await this to get the URL)
       const timestamp = Date.now();
       const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
@@ -93,7 +116,6 @@ export default function GalleryManagementPage() {
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // 2. Add to Firestore (NON-BLOCKING)
       const galleryRef = collection(db, 'gallery');
       const imageData = {
         url: downloadURL,
@@ -103,7 +125,6 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      // CRITICAL: Do NOT await addDoc
       addDoc(galleryRef, imageData)
         .catch(async (error: any) => {
           const permissionError = new FirestorePermissionError({
@@ -114,7 +135,6 @@ export default function GalleryManagementPage() {
           errorEmitter.emit('permission-error', permissionError);
         });
       
-      // Optimistic Success Response
       toast({ title: 'Success!', description: 'Image added to gallery database.' });
       setFile(null);
       setCategory('');
@@ -138,11 +158,11 @@ export default function GalleryManagementPage() {
     if (!confirm('Are you sure you want to delete this image?')) return;
 
     try {
-      // Delete from Storage first
-      const storageRef = ref(storage, path);
-      await deleteObject(storageRef);
+      if (path !== 'mock/path') {
+        const storageRef = ref(storage, path);
+        await deleteObject(storageRef);
+      }
       
-      // Delete from Firestore (NON-BLOCKING)
       const docRef = doc(db, 'gallery', id);
       deleteDoc(docRef).catch(async (error: any) => {
         const permissionError = new FirestorePermissionError({
@@ -170,10 +190,16 @@ export default function GalleryManagementPage() {
             </Button>
             <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
         </div>
-        <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
-            <RefreshCcw className="mr-2 h-4 w-4" />
-            Reset Connection
-        </Button>
+        <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={handleSeedMockData}>
+                <Database className="mr-2 h-4 w-4" />
+                Seed Test Entry
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
+                <RefreshCcw className="mr-2 h-4 w-4" />
+                Reset Connection
+            </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -234,12 +260,6 @@ export default function GalleryManagementPage() {
                       <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
                   )}
                 </Button>
-                
-                {isUploading && (
-                    <p className="text-[10px] text-center text-muted-foreground animate-pulse mt-2">
-                        Files are being sent to secure storage. This may take a moment.
-                    </p>
-                )}
               </form>
             </CardContent>
           </Card>
@@ -281,7 +301,7 @@ export default function GalleryManagementPage() {
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
                     <h3 className="font-semibold text-lg">No Gallery Data</h3>
-                    <p className="text-sm">Upload images to populate the database.</p>
+                    <p className="text-sm">Upload images or use "Seed Test Entry" to verify database connection.</p>
                  </div>
                )}
             </CardContent>
