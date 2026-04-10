@@ -108,7 +108,6 @@ export default function GalleryManagementPage() {
       addDoc(galleryRef, imageData)
         .then(() => {
           toast({ title: 'Success!', description: 'Image added to gallery.' });
-          // Reset form on success
           setFile(null);
           setCategory('');
           setAltText('');
@@ -124,7 +123,7 @@ export default function GalleryManagementPage() {
             });
             errorEmitter.emit('permission-error', permissionError);
           } else {
-            toast({ variant: 'destructive', title: 'Firestore Error', description: error.message });
+            toast({ variant: 'destructive', title: 'Firestore Error', description: error.message || 'Check your internet connection.' });
           }
         })
         .finally(() => {
@@ -132,11 +131,11 @@ export default function GalleryManagementPage() {
         });
 
     } catch (error: any) {
-      console.error("Storage upload error:", error);
+      console.error("Upload error:", error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || 'An error occurred during storage upload.' 
+        description: error.message || 'An error occurred during upload. Please try again.' 
       });
       setIsUploading(false);
     }
