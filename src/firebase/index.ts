@@ -21,14 +21,12 @@ export function initializeFirebase() {
     app = initializeApp(firebaseConfig);
   }
 
-  // Ensure Firestore is initialized with long-polling only once
   if (!db) {
     try {
       db = initializeFirestore(app, {
         experimentalForceLongPolling: true,
       });
     } catch (e) {
-      // If already initialized (e.g. by a legacy module), just get the existing instance
       db = getFirestore(app);
     }
   }

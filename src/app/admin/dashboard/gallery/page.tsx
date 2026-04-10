@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -11,9 +12,9 @@ import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lu
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore, useCollection } from '@/firebase';
+import { useFirestore, useCollection, useStorage } from '@/firebase';
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { generateAltText } from '@/ai/flows/generate-alt-text';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
@@ -29,7 +30,7 @@ const categories = [
 
 export default function GalleryManagementPage() {
   const db = useFirestore();
-  const storage = getStorage();
+  const storage = useStorage();
   const { toast } = useToast();
   
   const [file, setFile] = useState<File | null>(null);
@@ -58,13 +59,17 @@ export default function GalleryManagementPage() {
       const reader = new FileReader();
       reader.onload = async (e) => {
         const dataUri = e.target?.result as string;
-        const result = await generateAltText({ photoDataUri: dataUri });
-        setAltText(result.altText);
-        setIsGeneratingAlt(false);
+        try {
+          const result = await generateAltText({ photoDataUri: dataUri });
+          setAltText(result.altText);
+        } catch (err) {
+          toast({ variant: 'destructive', title: 'AI Error', description: 'Could not analyze image.' });
+        } finally {
+          setIsGeneratingAlt(false);
+        }
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate description.' });
       setIsGeneratingAlt(false);
     }
   };
@@ -78,8 +83,12 @@ export default function GalleryManagementPage() {
 
     setIsUploading(true);
     try {
-      const fileName = `${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, `gallery/${fileName}`);
+      // Use a cleaner filename
+      const timestamp = Date.now();
+      const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+      const storagePath = `gallery/${timestamp}_${cleanFileName}`;
+      const storageRef = ref(storage, storagePath);
+      
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
@@ -108,11 +117,13 @@ export default function GalleryManagementPage() {
             requestResourceData: data,
           });
           errorEmitter.emit('permission-error', permissionError);
+        })
+        .finally(() => {
+          setIsUploading(false);
         });
 
     } catch (error: any) {
-      toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
-    } finally {
+      toast({ variant: 'destructive', title: 'Upload Failed', description: error.message || 'An unknown error occurred during upload.' });
       setIsUploading(false);
     }
   };
@@ -156,7 +167,7 @@ export default function GalleryManagementPage() {
           <Card>
             <CardHeader>
               <CardTitle>Upload New Image</CardTitle>
-              <CardDescription>Add a new piece of work to your public gallery. Collections appear in your console after the first upload.</CardDescription>
+              <CardDescription>Add a new piece of work to your public gallery.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpload} className="space-y-4">
@@ -226,7 +237,7 @@ export default function GalleryManagementPage() {
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-12 w-12 mb-4" />
                     <h3 className="font-semibold text-lg">No Images Found</h3>
-                    <p className="text-sm">Your gallery is currently empty. Upload an image to create the collection in Firestore.</p>
+                    <p className="text-sm">Your gallery is currently empty.</p>
                  </div>
                )}
             </CardContent>

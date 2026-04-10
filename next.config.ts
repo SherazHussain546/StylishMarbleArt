@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const ContentSecurityPolicy = `
@@ -6,8 +7,8 @@ const ContentSecurityPolicy = `
   child-src 'self';
   style-src 'self' 'unsafe-inline';
   img-src 'self' https://placehold.co https://picsum.photos https://images.unsplash.com data:;
-  font-src 'self';  
-  connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com;
+  font-src 'self';
+  connect-src 'self' vitals.vercel-insights.com https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://firebasestorage.googleapis.com;
   frame-src 'self' https://www.google.com;
   upgrade-insecure-requests;
 `;
@@ -29,11 +30,11 @@ const securityHeaders = [
     key: 'Strict-Transport-Security',
     value: 'max-age=63072000; includeSubDomains; preload'
   },
-   {
+  {
     key: 'Referrer-Policy',
     value: 'strict-origin-when-cross-origin'
   },
-   {
+  {
     key: 'Permissions-Policy',
     value: "camera=(), microphone=(), geolocation=(), oversized-images=()"
   }
@@ -63,6 +64,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
         port: '',
         pathname: '/**',
       }
