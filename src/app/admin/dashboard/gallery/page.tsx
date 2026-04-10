@@ -79,7 +79,7 @@ export default function GalleryManagementPage() {
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !category || !altText) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please fill all fields before uploading.' });
+      toast({ variant: 'destructive', title: 'Error', description: 'Please fill all fields.' });
       return;
     }
 
@@ -87,8 +87,8 @@ export default function GalleryManagementPage() {
     
     try {
       const timestamp = Date.now();
-      const storagePath = `gallery/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-      const storageRef = ref(storage, storagePath);
+      const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+      const storageRef = ref(storage, `gallery/${fileName}`);
       
       // 1. Upload to Firebase Storage
       const snapshot = await uploadBytes(storageRef, file);
@@ -104,7 +104,7 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      // We initiate the write without blocking to improve perceived speed
+      // We use addDoc and handle the outcome
       addDoc(galleryRef, imageData)
         .then(() => {
           toast({ title: 'Success!', description: 'Image added to gallery.' });
@@ -115,6 +115,7 @@ export default function GalleryManagementPage() {
           if (fileInput) fileInput.value = '';
         })
         .catch(async (error: any) => {
+          console.error("Firestore Save Error:", error);
           if (error.code === 'permission-denied') {
             const permissionError = new FirestorePermissionError({
               path: 'gallery',
@@ -123,7 +124,7 @@ export default function GalleryManagementPage() {
             });
             errorEmitter.emit('permission-error', permissionError);
           } else {
-            toast({ variant: 'destructive', title: 'Firestore Error', description: error.message || 'Check your internet connection.' });
+            toast({ variant: 'destructive', title: 'Database Error', description: error.message || 'Failed to save metadata.' });
           }
         })
         .finally(() => {
@@ -131,11 +132,11 @@ export default function GalleryManagementPage() {
         });
 
     } catch (error: any) {
-      console.error("Upload error:", error);
+      console.error("Storage Upload Error:", error);
       toast({ 
         variant: 'destructive', 
         title: 'Upload Failed', 
-        description: error.message || 'An error occurred during upload. Please try again.' 
+        description: error.message || 'Could not upload image to storage.' 
       });
       setIsUploading(false);
     }
@@ -219,7 +220,7 @@ export default function GalleryManagementPage() {
 
                 <Button type="submit" className="w-full" disabled={isUploading}>
                   {isUploading ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Publishing...</>
+                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
                   ) : (
                       <><UploadCloud className="mr-2 h-4 w-4" /> Publish to Gallery</>
                   )}
@@ -234,7 +235,7 @@ export default function GalleryManagementPage() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Current Gallery Items</CardTitle>
-                <CardDescription>Visible to your customers on the site.</CardDescription>
+                <CardDescription>Visible on the public gallery page.</CardDescription>
               </div>
               <div className="text-sm font-medium text-muted-foreground bg-secondary px-3 py-1 rounded-full">
                 {images?.length || 0} Total
@@ -264,8 +265,8 @@ export default function GalleryManagementPage() {
                ) : (
                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-20 border-2 border-dashed rounded-lg">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-10" />
-                    <h3 className="font-semibold text-lg">Empty Gallery</h3>
-                    <p className="text-sm">Upload photos to showcase your work.</p>
+                    <h3 className="font-semibold text-lg">No Gallery Data</h3>
+                    <p className="text-sm">Upload images to populate the database.</p>
                  </div>
                )}
             </CardContent>

@@ -23,11 +23,10 @@ export function initializeFirebase() {
   }
 
   if (!db) {
-    // We use a robust initialization for Firestore with long polling forced
-    // to bypass potential gRPC/WebSocket blocks in development environments.
+    // Force long polling to bypass proxy/workstation blocks
     db = initializeFirestore(app, {
       experimentalForceLongPolling: true,
-      // @ts-ignore - useFetchStreams is an internal/experimental setting that helps in some cloud environments
+      // @ts-ignore
       useFetchStreams: false, 
     });
   }
