@@ -7,8 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles, RefreshCcw, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, UploadCloud, ImageIcon, Trash2, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
@@ -16,8 +15,6 @@ import { useFirestore, useCollection, useStorage, useMemoFirebase } from '@/fire
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { generateAltText } from '@/ai/flows/generate-alt-text';
-import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
 
 const categories = [
     { id: 'Graves', name: 'Graves' },
@@ -38,7 +35,6 @@ export default function GalleryManagementPage() {
   const [altText, setAltText] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
-  const [statusMsg, setStatusMsg] = useState<string | null>(null);
 
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
@@ -48,19 +44,8 @@ export default function GalleryManagementPage() {
   const { data: images, isLoading: imagesLoading } = useCollection<any>(galleryQuery);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStatusMsg(null);
     if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      if (selectedFile.size > 2 * 1024 * 1024) {
-        toast({
-          variant: 'destructive',
-          title: 'File too large',
-          description: 'Please use an image under 2MB for faster uploading in this environment.',
-        });
-        e.target.value = '';
-        return;
-      }
-      setFile(selectedFile);
+      setFile(e.target.files[0]);
     }
   };
 
@@ -86,20 +71,6 @@ export default function GalleryManagementPage() {
     }
   };
 
-  const handleVerifyDB = () => {
-    if (!db) return;
-    const mockData = {
-      url: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/600`,
-      alt: 'Connection Verified',
-      category: 'Graves',
-      path: 'mock/test',
-      createdAt: serverTimestamp(),
-    };
-    addDoc(collection(db, 'gallery'), mockData)
-      .then(() => toast({ title: 'Database Connected' }))
-      .catch((err) => errorEmitter.emit('permission-error', new FirestorePermissionError({ path: 'gallery', operation: 'create', requestResourceData: mockData })));
-  };
-
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !category || !altText) {
@@ -108,26 +79,15 @@ export default function GalleryManagementPage() {
     }
 
     setIsUploading(true);
-    setStatusMsg('Initiating transfer...');
-    
-    // Safety timeout for proxy issues
-    const timeout = setTimeout(() => {
-      if (isUploading) {
-        setStatusMsg('Network bottleneck detected. If this continues, try a smaller file or refresh.');
-      }
-    }, 15000);
-
     try {
       const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `gallery/${fileName}`);
       
-      setStatusMsg('Uploading image to secure storage...');
+      // 1. Simple Upload to Storage
       const snapshot = await uploadBytes(storageRef, file, { contentType: file.type });
-      
-      setStatusMsg('Image uploaded. Getting public link...');
       const downloadURL = await getDownloadURL(snapshot.ref);
       
-      setStatusMsg('Saving to website gallery...');
+      // 2. Direct Write to Firestore
       const imageData = {
         url: downloadURL,
         alt: altText,
@@ -136,20 +96,17 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      await addDoc(collection(db, 'gallery'), imageData);
+      addDoc(collection(db, 'gallery'), imageData);
       
-      clearTimeout(timeout);
-      toast({ title: 'Successfully Published!' });
+      toast({ title: 'Success', description: 'Image published to gallery.' });
       setFile(null);
       setCategory('');
       setAltText('');
-      setStatusMsg(null);
       const input = document.getElementById('image-file') as HTMLInputElement;
       if (input) input.value = '';
     } catch (error: any) {
-      clearTimeout(timeout);
       console.error(error);
-      setStatusMsg(`Upload failed: ${error.message}`);
+      toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
     } finally {
       setIsUploading(false);
     }
@@ -158,12 +115,12 @@ export default function GalleryManagementPage() {
   const handleDelete = async (id: string, path: string) => {
     if (!confirm('Permanently delete this item?')) return;
     try {
-      if (path && path !== 'mock/test') {
+      if (path) {
         const storageRef = ref(storage, path);
-        await deleteObject(storageRef).catch(e => console.warn('File already gone'));
+        deleteObject(storageRef).catch(() => {}); // Silent fail for storage
       }
-      await deleteDoc(doc(db, 'gallery', id));
-      toast({ title: 'Item removed' });
+      deleteDoc(doc(db, 'gallery', id));
+      toast({ title: 'Deleted', description: 'Item removed from gallery.' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Error', description: error.message });
     }
@@ -171,25 +128,13 @@ export default function GalleryManagementPage() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" asChild>
-            <Link href="/admin/dashboard">
-                <ArrowLeft className="h-4 w-4" />
-            </Link>
-            </Button>
-            <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
-        </div>
-        <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleVerifyDB}>
-                <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                Verify Database
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
-                <RefreshCcw className="mr-2 h-4 w-4" />
-                Reset UI
-            </Button>
-        </div>
+      <div className="flex items-center gap-4 mb-8">
+        <Button variant="outline" size="icon" asChild>
+          <Link href="/admin/dashboard">
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
+        </Button>
+        <h1 className="text-3xl font-bold tracking-tight">Gallery Management</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -199,14 +144,6 @@ export default function GalleryManagementPage() {
             <CardDescription>Upload a photo to appear in the gallery.</CardDescription>
           </CardHeader>
           <CardContent>
-            {statusMsg && (
-              <Alert className="mb-4 bg-primary/5 border-primary/20">
-                <AlertTriangle className="h-4 w-4 text-primary" />
-                <AlertTitle>Status</AlertTitle>
-                <AlertDescription className="text-xs">{statusMsg}</AlertDescription>
-              </Alert>
-            )}
-            
             <form onSubmit={handleUpload} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="image-file">1. Select Image</Label>
@@ -286,7 +223,7 @@ export default function GalleryManagementPage() {
              ) : (
                <div className="py-20 text-center border-2 border-dashed rounded-lg">
                   <ImageIcon className="h-12 w-12 mx-auto mb-4 opacity-20" />
-                  <p className="text-muted-foreground">No images found. Verify database or upload your first photo.</p>
+                  <p className="text-muted-foreground">No images found. Upload your first photo.</p>
                </div>
              )}
           </CardContent>
