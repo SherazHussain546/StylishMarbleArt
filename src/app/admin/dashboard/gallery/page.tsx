@@ -39,6 +39,7 @@ export default function GalleryManagementPage() {
   const [editingImage, setEditingImage] = useState<any | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
+  // Real-time synchronization
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
@@ -53,7 +54,7 @@ export default function GalleryManagementPage() {
       return;
     }
 
-    // Limit size to avoid Firestore document limits (1MB)
+    // Direct database storage limit (Firestore 1MB limit)
     if (file.size > 800000) {
         toast({ 
             variant: 'destructive', 
@@ -92,7 +93,7 @@ export default function GalleryManagementPage() {
           errorEmitter.emit('permission-error', permissionError);
         });
       
-      toast({ title: 'Success', description: 'Image saving to database.' });
+      toast({ title: 'Success', description: 'Image added to database.' });
       
       setFile(null);
       setCategory('');
@@ -128,16 +129,17 @@ export default function GalleryManagementPage() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Updated', description: 'Image details updated.' });
+    toast({ title: 'Updated', description: 'Image details updated in real-time.' });
     setEditingImage(null);
     setIsUpdating(false);
   };
 
   const handleDelete = (id: string) => {
-    if (!window.confirm('Are you sure you want to permanently delete this image? This cannot be undone.')) return;
+    if (!window.confirm('Are you sure you want to permanently delete this image? It will be removed from the database and the live site immediately.')) return;
     
     const imageRef = doc(db, 'gallery', id);
     
+    // Direct, non-blocking deletion
     deleteDoc(imageRef)
       .catch(async (error) => {
         const permissionError = new FirestorePermissionError({
@@ -147,14 +149,14 @@ export default function GalleryManagementPage() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Deleted', description: 'Removing from database...' });
+    toast({ title: 'Deleting...', description: 'Removing entry from database.' });
   };
 
   const handleVerify = () => {
     const galleryRef = collection(db, 'gallery');
     const seedData = {
-      url: 'https://picsum.photos/seed/verify/800/600',
-      alt: 'Verification Entry',
+      url: `https://picsum.photos/seed/${Math.random()}/800/600`,
+      alt: 'Verification Test Entry',
       category: 'Graves',
       createdAt: serverTimestamp()
     };
@@ -169,28 +171,31 @@ export default function GalleryManagementPage() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Verifying', description: 'Adding test document...' });
+    toast({ title: 'Verifying', description: 'Sending test document to Firestore...' });
   };
 
   return (
     <div className="p-4 md:p-8 bg-secondary/10 min-h-screen">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
             <Button variant="outline" size="icon" asChild>
             <Link href="/admin/dashboard">
                 <ArrowLeft className="h-4 w-4" />
             </Link>
             </Button>
-            <h1 className="text-3xl font-bold tracking-tight">Gallery Workshop</h1>
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Gallery Workshop</h1>
+              <p className="text-sm text-muted-foreground">Manage your portfolio in real-time.</p>
+            </div>
         </div>
-        <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleVerify}>
+        <div className="flex gap-2 w-full md:w-auto">
+            <Button variant="outline" size="sm" onClick={handleVerify} className="flex-1 md:flex-none">
                 <Zap className="mr-2 h-4 w-4 text-yellow-500" />
                 Verify Connection
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => window.location.reload()}>
+            <Button variant="ghost" size="sm" onClick={() => window.location.reload()} className="flex-1 md:flex-none">
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Reload
+                Refresh
             </Button>
         </div>
       </div>
@@ -199,7 +204,7 @@ export default function GalleryManagementPage() {
         <Card className="lg:col-span-1 shadow-md border-primary/20 h-fit">
           <CardHeader>
             <CardTitle>Direct Upload</CardTitle>
-            <CardDescription>Instant database storage for your projects.</CardDescription>
+            <CardDescription>Instant database storage for your work.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleUpload} className="space-y-5">
@@ -213,7 +218,7 @@ export default function GalleryManagementPage() {
                     onChange={(e) => setFile(e.target.files?.[0] || null)} 
                     disabled={isUploading} 
                 />
-                <p className="text-[10px] text-muted-foreground">Keep files under 800KB for best performance.</p>
+                <p className="text-[10px] text-muted-foreground uppercase font-bold">Max size: 800KB</p>
               </div>
               
               <div className="space-y-2">
@@ -234,7 +239,7 @@ export default function GalleryManagementPage() {
                 <Label htmlFor="alt-text">3. Description</Label>
                 <Input 
                     id="alt-text" 
-                    placeholder="e.g. White Marble Headstone" 
+                    placeholder="e.g. Black Granite Headstone" 
                     value={altText} 
                     onChange={(e) => setAltText(e.target.value)} 
                     required 
@@ -252,7 +257,7 @@ export default function GalleryManagementPage() {
         <Card className="lg:col-span-2 shadow-md">
           <CardHeader>
             <CardTitle>Live Portfolio</CardTitle>
-            <CardDescription>Your work, synced in real-time across the site.</CardDescription>
+            <CardDescription>All images currently synced from Firestore.</CardDescription>
           </CardHeader>
           <CardContent>
              {imagesLoading ? (
@@ -263,8 +268,14 @@ export default function GalleryManagementPage() {
                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                  {images.map((img: any) => (
                    <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border bg-muted shadow-sm">
-                      <Image src={img.url} alt={img.alt} fill className="object-cover" unoptimized />
-                      <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50">
+                      <Image 
+                        src={img.url} 
+                        alt={img.alt} 
+                        fill 
+                        className="object-cover" 
+                        unoptimized={img.url.startsWith('data:')} 
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60">
                          <Button variant="secondary" size="icon" onClick={() => setEditingImage(img)}>
                             <Edit2 className="h-4 w-4" />
                          </Button>
@@ -272,7 +283,7 @@ export default function GalleryManagementPage() {
                             <Trash2 className="h-4 w-4" />
                          </Button>
                       </div>
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-1 text-[9px] text-white uppercase font-bold text-center">
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/80 p-1 text-[9px] text-white uppercase font-bold text-center">
                          {img.category}
                       </div>
                    </div>
@@ -282,6 +293,7 @@ export default function GalleryManagementPage() {
                <div className="py-24 text-center border-2 border-dashed rounded-xl bg-muted/30">
                   <ImageIcon className="h-16 w-16 mx-auto mb-4 opacity-20 text-primary" />
                   <p className="text-muted-foreground font-medium">Your gallery is empty.</p>
+                  <p className="text-xs text-muted-foreground">Upload a photo or verify the connection above.</p>
                </div>
              )}
           </CardContent>
