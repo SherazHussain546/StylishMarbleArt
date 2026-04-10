@@ -1,27 +1,22 @@
-
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, Auth } from 'firebase/auth';
 import { initializeFirestore, getFirestore, Firestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getStorage, FirebaseStorage } from 'firebase/storage';
 
 /**
  * Standardized Firebase initialization for this environment.
- * Ensures Firestore uses long-polling to prevent 'code=unavailable' errors.
+ * Ensures Firestore uses long-polling to prevent 'code=unavailable' errors
+ * frequently seen in restricted network environments.
  */
 export function initializeFirebase() {
   const apps = getApps();
   let firebaseApp: FirebaseApp;
 
   if (!apps.length) {
-    try {
-      firebaseApp = initializeApp(firebaseConfig);
-    } catch (e) {
-      // Fallback for environments where config is provided differently
-      firebaseApp = initializeApp();
-    }
+    firebaseApp = initializeApp(firebaseConfig);
   } else {
     firebaseApp = getApp();
   }
