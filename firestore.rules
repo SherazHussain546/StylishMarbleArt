@@ -6,7 +6,7 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // GALLERY: Completely open for MVP testing to ensure no connection BS
+    // GALLERY: Wide open for testing to bypass workstation proxy/timeout issues
     match /gallery/{imageId} {
       allow read, list, create, update, delete: if true;
     }
@@ -17,7 +17,7 @@ service cloud.firestore {
       allow read, list, delete, update: if isSignedIn();
     }
     
-    // ADMINS
+    // ADMINS: Basic read check
     match /admins/{uid} {
       allow read: if isSignedIn();
       allow write: if false;
