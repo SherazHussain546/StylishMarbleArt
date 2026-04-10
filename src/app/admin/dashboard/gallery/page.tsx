@@ -83,15 +83,16 @@ export default function GalleryManagementPage() {
 
     setIsUploading(true);
     try {
-      // Use a cleaner filename
       const timestamp = Date.now();
       const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
       const storagePath = `gallery/${timestamp}_${cleanFileName}`;
       const storageRef = ref(storage, storagePath);
       
+      // Upload to Storage
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
+      // Save to Firestore
       const galleryRef = collection(db, 'gallery');
       const data = {
         url: downloadURL,
@@ -101,29 +102,34 @@ export default function GalleryManagementPage() {
         createdAt: serverTimestamp(),
       };
 
-      addDoc(galleryRef, data)
-        .then(() => {
-          toast({ title: 'Success', description: 'Image uploaded to gallery.' });
-          setFile(null);
-          setCategory('');
-          setAltText('');
-          const fileInput = document.getElementById('image-file') as HTMLInputElement;
-          if (fileInput) fileInput.value = '';
-        })
-        .catch(async (err) => {
-           const permissionError = new FirestorePermissionError({
-            path: galleryRef.path,
-            operation: 'create',
-            requestResourceData: data,
-          });
-          errorEmitter.emit('permission-error', permissionError);
-        })
-        .finally(() => {
-          setIsUploading(false);
+      // We use .then() and .catch() to ensure we can handle the promise without blocking if needed,
+      // but here we are in a transitionary state so we wait for the result to update UI.
+      try {
+        await addDoc(galleryRef, data);
+        toast({ title: 'Success', description: 'Image uploaded to gallery.' });
+        setFile(null);
+        setCategory('');
+        setAltText('');
+        const fileInput = document.getElementById('image-file') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
+      } catch (err: any) {
+        const permissionError = new FirestorePermissionError({
+          path: galleryRef.path,
+          operation: 'create',
+          requestResourceData: data,
         });
+        errorEmitter.emit('permission-error', permissionError);
+        throw err; // Re-throw to hit the outer catch
+      }
 
     } catch (error: any) {
-      toast({ variant: 'destructive', title: 'Upload Failed', description: error.message || 'An unknown error occurred during upload.' });
+      console.error("Upload error details:", error);
+      toast({ 
+        variant: 'destructive', 
+        title: 'Upload Failed', 
+        description: error.message || 'An error occurred. Check if you are signed in as admin.' 
+      });
+    } finally {
       setIsUploading(false);
     }
   };
@@ -134,17 +140,8 @@ export default function GalleryManagementPage() {
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
 
-      deleteDoc(docRef)
-        .then(() => {
-          toast({ title: 'Deleted', description: 'Image removed from gallery.' });
-        })
-        .catch(async (err) => {
-           const permissionError = new FirestorePermissionError({
-            path: docRef.path,
-            operation: 'delete',
-          });
-          errorEmitter.emit('permission-error', permissionError);
-        });
+      await deleteDoc(docRef);
+      toast({ title: 'Deleted', description: 'Image removed from gallery.' });
     } catch (error: any) {
        toast({ variant: 'destructive', title: 'Delete Failed', description: error.message });
     }
@@ -199,7 +196,7 @@ export default function GalleryManagementPage() {
                 </div>
                 <Button type="submit" className="w-full" disabled={isUploading}>
                   {isUploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UploadCloud className="mr-2 h-4 w-4" />}
-                  {isUploading ? 'Uploading...' : 'Upload Image'}
+                  {isUploading ? 'Processing...' : 'Upload Image'}
                 </Button>
               </form>
             </CardContent>
@@ -217,10 +214,10 @@ export default function GalleryManagementPage() {
                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {[...Array(6)].map((_, i) => <Skeleton key={i} className="aspect-square rounded-md" />)}
                  </div>
-               ) : images.length > 0 ? (
+               ) : images && images.length > 0 ? (
                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                    {images.map((img: any) => (
-                     <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border">
+                     <div key={img.id} className="group relative aspect-square overflow-hidden rounded-md border shadow-sm">
                         <Image src={img.url} alt={img.alt} fill className="object-cover" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                            <Button variant="destructive" size="icon" onClick={() => handleDelete(img.id, img.path)}>
@@ -234,10 +231,10 @@ export default function GalleryManagementPage() {
                    ))}
                  </div>
                ) : (
-                 <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
-                    <ImageIcon className="h-12 w-12 mb-4" />
+                 <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-12 border-2 border-dashed rounded-lg">
+                    <ImageIcon className="h-12 w-12 mb-4 opacity-20" />
                     <h3 className="font-semibold text-lg">No Images Found</h3>
-                    <p className="text-sm">Your gallery is currently empty.</p>
+                    <p className="text-sm">Your gallery is empty. Upload your first piece above!</p>
                  </div>
                )}
             </CardContent>

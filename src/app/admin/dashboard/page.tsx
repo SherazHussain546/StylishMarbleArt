@@ -1,17 +1,17 @@
+
 'use client';
 
-import { useAuth as useFirebaseUser } from '@/firebase';
+import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LogOut, Users, BarChart, ExternalLink, Search, ImageIcon, MessageSquare } from 'lucide-react';
+import { LogOut, ImageIcon, MessageSquare, LayoutDashboard, Settings } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { useAuth } from '@/firebase';
 
 export default function AdminDashboardPage() {
-  const { user, loading } = useFirebaseUser();
+  const { user, loading } = useUser();
   const auth = useAuth();
   const router = useRouter();
 
@@ -23,19 +23,7 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-secondary">
-        <div className="p-8 space-y-6 w-full max-w-4xl">
-          <div className="flex justify-between items-center">
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-10 w-24" />
-          </div>
-          <Skeleton className="h-8 w-64" />
-          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Skeleton className="h-32 rounded-lg" />
-            <Skeleton className="h-32 rounded-lg" />
-            <Skeleton className="h-32 rounded-lg" />
-          </div>
-           <Skeleton className="h-64 rounded-lg mt-8" />
-        </div>
+        <p className="animate-pulse font-medium">Loading Dashboard...</p>
       </div>
     );
   }
@@ -45,92 +33,67 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-secondary/30">
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-             <span className="text-sm text-muted-foreground hidden md:inline">Welcome, {user.email}</span>
-             <Button variant="ghost" onClick={handleLogout}>
+             <span className="text-sm text-muted-foreground hidden md:inline">{user.email}</span>
+             <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
             </Button>
           </div>
         </div>
       </header>
-      <main className="flex-1 space-y-4 p-4 md:p-8">
-        <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+      
+      <main className="container py-8 md:py-12 space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+          <p className="text-muted-foreground mt-1">Manage your website content and inquiries.</p>
+        </div>
         
-        <section>
-          <h2 className="text-2xl font-semibold tracking-tight mb-4">Content Management</h2>
-           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Message Inbox</CardTitle>
-                <MessageSquare className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                 <Button asChild>
-                    <Link href="/admin/dashboard/messages">View Messages</Link>
-                 </Button>
-                <p className="text-xs text-muted-foreground mt-2">View & manage contact form submissions.</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Gallery Management</CardTitle>
-                <ImageIcon className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                 <Button asChild>
-                    <Link href="/admin/dashboard/gallery">Manage Gallery</Link>
-                 </Button>
-                <p className="text-xs text-muted-foreground mt-2">Manage your public portfolio.</p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-lg font-bold">Gallery</CardTitle>
+              <ImageIcon className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+               <CardDescription className="mb-4">Upload new photos of your work and manage the public portfolio.</CardDescription>
+               <Button asChild className="w-full">
+                  <Link href="/admin/dashboard/gallery">Manage Gallery</Link>
+               </Button>
+            </CardContent>
+          </Card>
 
-        <section>
-          <h2 className="text-2xl font-semibold tracking-tight mb-4">Website Analytics</h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Visitors</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">--</div>
-                <p className="text-xs text-muted-foreground">Analytics data loading...</p>
-              </CardContent>
-            </Card>
-             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Top Page</CardTitle>
-                <BarChart className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">--</div>
-                <p className="text-xs text-muted-foreground">Analytics data loading...</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">View on Google Analytics</CardTitle>
-                 <ExternalLink className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" asChild variant="outline">
-                    <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">
-                        Open Analytics
-                    </a>
-                </Button>
-                <p className="text-xs text-muted-foreground mt-2">Connect via Google Console</p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-lg font-bold">Messages</CardTitle>
+              <MessageSquare className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+               <CardDescription className="mb-4">Read and manage inquiries sent through the contact form.</CardDescription>
+               <Button asChild className="w-full" variant="secondary">
+                  <Link href="/admin/dashboard/messages">View Inbox</Link>
+               </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="opacity-60 grayscale hover:grayscale-0 transition-all">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-lg font-bold">Settings</CardTitle>
+              <Settings className="h-5 w-5 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+               <CardDescription className="mb-4">Configure website metadata, phone numbers, and address.</CardDescription>
+               <Button disabled className="w-full" variant="outline">
+                  Coming Soon
+               </Button>
+            </CardContent>
+          </Card>
+        </div>
       </main>
-    </>
+    </div>
   );
 }
