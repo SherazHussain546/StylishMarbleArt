@@ -6,12 +6,12 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2 } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, Droplets, Leaf, Brush } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -19,6 +19,7 @@ import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
 import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 const honorifics = [
     { id: 'none', en: 'None', ur: 'کوئی نہیں' },
@@ -203,15 +204,39 @@ export default function LocatorPageClient() {
     }
   };
 
-  const services = [
-    { id: 'cleaning', name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' } },
-    { id: 'watering', name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' } },
-    { id: 'planting', name: { en: 'Planting & Care', ur: 'پودے لگانا' } },
-    { id: 'custom', name: { en: 'Custom Service', ur: 'کسٹم سروس' } },
+  const careServices = [
+    { 
+        id: 'cleaning', 
+        name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' },
+        icon: Brush,
+        color: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100",
+        description: { en: 'Professional cleaning to remove dust, debris, and stains from the stone surface.', ur: 'پتھر کی سطح سے گرد و غبار، ملبہ اور داغ دھبوں کو دور کرنے کے لیے پیشہ ورانہ صفائی۔' }
+    },
+    { 
+        id: 'watering', 
+        name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' },
+        icon: Droplets,
+        color: "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100",
+        description: { en: 'Regular watering of the grave site to maintain moisture and respect.', ur: 'نمی اور احترام برقرار رکھنے کے لیے قبر کے مقام پر باقاعدگی سے پانی دینا۔' }
+    },
+    { 
+        id: 'planting', 
+        name: { en: 'Planting & Care', ur: 'پودے لگانا' },
+        icon: Leaf,
+        color: "bg-green-50 text-green-900 border-green-200 hover:bg-green-100",
+        description: { en: 'Planting fresh flowers or greenery and providing ongoing botanical maintenance.', ur: 'تازہ پھول یا سبزہ لگانا اور نباتاتی دیکھ بھال فراہم کرنا۔' }
+    },
+    { 
+        id: 'custom', 
+        name: { en: 'Custom Service', ur: 'کسٹم سروس' },
+        icon: Heart,
+        color: "border-primary/10 hover:bg-primary hover:text-white",
+        description: { en: 'Special requests for restorations, custom engraving, or unique memorials.', ur: 'مرمت، کسٹم کندہ کاری، یا منفرد یادگاروں کے لیے خصوصی درخواستیں۔' }
+    },
   ];
 
   const handleGetQuote = (m: any, serviceId: string) => {
-    const service = services.find(s => s.id === serviceId);
+    const service = careServices.find(s => s.id === serviceId);
     const serviceName = service?.name.en || 'General Service';
     const whatsappNumber = "+923083401606".replace(/\D/g, '');
     const title = m.honorific && m.honorific !== 'none' ? honorifics.find(h => h.id === m.honorific)?.en + ' ' : '';
@@ -230,331 +255,436 @@ Please provide details on pricing and timeline.`;
   };
 
   return (
-    <div className="bg-secondary/10 min-h-screen">
-      <div className="container mx-auto px-4 py-16">
-        <header className="max-w-4xl mx-auto text-center mb-12">
-          <h1 className="text-4xl font-bold text-primary mb-4">{pageContent.title[language]}</h1>
-          <p className="text-lg text-muted-foreground">{pageContent.description[language]}</p>
-        </header>
+    <div className="bg-secondary/10 min-h-screen pb-24">
+      {/* Hero Content Section */}
+      <section className="relative py-20 bg-primary overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <Image src="/SMAHeader.png" alt="Texture" fill className="object-cover grayscale" />
+        </div>
+        <div className="container relative z-10 mx-auto px-4 text-center">
+            <div className="max-w-4xl mx-auto text-primary-foreground">
+                <div className="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                    {language === 'en' ? 'A Free Community Service' : 'ایک مفت عوامی خدمت'}
+                </div>
+                <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    {pageContent.title[language]}
+                </h1>
+                <p className="text-xl opacity-90 leading-relaxed mb-10 max-w-3xl mx-auto">
+                    {pageContent.description[language]}
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Button size="lg" variant="secondary" className="rounded-full px-10 font-bold" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
+                        <Search className="mr-2 h-5 w-5" />
+                        {language === 'en' ? 'Start Searching' : 'تلاش شروع کریں'}
+                    </Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button size="lg" variant="outline" className="rounded-full px-10 font-bold bg-transparent text-white border-white hover:bg-white hover:text-primary">
+                                <Plus className="mr-2 h-5 w-5" />
+                                {pageContent.addMemorial[language]}
+                            </Button>
+                        </DialogTrigger>
+                        {/* Reuse Dialog Content logic below */}
+                    </Dialog>
+                </div>
+            </div>
+        </div>
+      </section>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-16 max-w-4xl mx-auto">
-          <div className="relative flex-grow">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
-            <Input 
-              placeholder={language === 'en' ? "Search by name or graveyard..." : "نام یا قبرستان سے تلاش کریں..."}
-              className="pl-10 h-12 bg-background border-primary/20 shadow-sm"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            />
-            {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute z-50 w-full mt-1 bg-background border rounded-md shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                {suggestions.map((val) => (
-                  <button
-                    key={val}
-                    type="button"
-                    className="w-full text-left px-4 py-2 hover:bg-muted text-sm transition-colors border-b last:border-0 flex items-center gap-2"
-                    onClick={() => {
-                      setSearchQuery(val);
-                      setShowSuggestions(false);
-                    }}
-                  >
-                    <Search className="h-3 w-3 opacity-50" />
-                    {val}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="lg" className="h-12 shadow-lg px-8">
-                <Plus className="mr-2 h-5 w-5" />
-                {pageContent.addMemorial[language]}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{pageContent.addMemorial[language]}</DialogTitle>
-                <DialogDescription>
-                    {language === 'en' ? 'Fill in the details below to pin a loved one\'s grave location.' : 'اپنے پیارے کی قبر کا مقام پن کرنے کے لیے نیچے دی گئی تفصیلات بھریں۔'}
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
-                
-                <div className="space-y-4">
-                    <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
-                        <Heart className="h-5 w-5 text-primary" />
-                        {language === 'en' ? 'Deceased Information' : 'مرحوم کی معلومات'}
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Title / Rank' : 'لقب / عہدہ'}</Label>
-                            <Select value={newMemorial.honorific} onValueChange={(v) => setNewMemorial({...newMemorial, honorific: v})}>
-                                <SelectTrigger>
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {honorifics.map(h => (
-                                        <SelectItem key={h.id} value={h.id}>{h[language]}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
-                            <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
-                            <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
-                            <Input type="date" value={newMemorial.dateOfBirth} onChange={(e) => setNewMemorial({...newMemorial, dateOfBirth: e.target.value})} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Date of Death' : 'تاریخ وفات'}</Label>
-                            <Input type="date" required value={newMemorial.dateOfDeath} onChange={(e) => setNewMemorial({...newMemorial, dateOfDeath: e.target.value})} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
-                            <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                            <Label>{pageContent.graveyardLabel[language]}</Label>
-                            <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
-                        </div>
+      {/* Trust & Global Reach Badges */}
+      <section className="container mx-auto px-4 -mt-12 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="shadow-xl border-none">
+                <CardContent className="p-6 flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Globe className="h-6 w-6" />
                     </div>
-                    
-                    <div className="space-y-2">
-                        <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم کی تصویر (اختیاری)'}</Label>
-                        <Tabs defaultValue="upload" className="w-full">
-                            <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="upload">
-                                <Upload className="mr-2 h-4 w-4" />
-                                {language === 'en' ? 'Upload' : 'اپ لوڈ'}
-                            </TabsTrigger>
-                            <TabsTrigger value="url">
-                                <Camera className="mr-2 h-4 w-4" />
-                                {language === 'en' ? 'Link' : 'لنک'}
-                            </TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="upload" className="space-y-4 pt-4 border rounded-md p-4 bg-muted/20">
-                            <div className="flex items-center gap-4">
-                                <Input 
-                                type="file" 
-                                accept="image/*" 
-                                onChange={handleFileChange} 
-                                disabled={uploading}
-                                className="bg-background"
-                                />
-                                {uploading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+                    <div>
+                        <h3 className="font-bold">{language === 'en' ? 'Global Access' : 'عالمی رسائی'}</h3>
+                        <p className="text-xs text-muted-foreground">{language === 'en' ? 'Manage resting places from anywhere in the world.' : 'دنیا میں کہیں سے بھی آرام گاہوں کا انتظام کریں۔'}</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card className="shadow-xl border-none">
+                <CardContent className="p-6 flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <ShieldCheck className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold">{language === 'en' ? 'Verified Pains' : 'تصدیق شدہ پن'}</h3>
+                        <p className="text-xs text-muted-foreground">{language === 'en' ? 'Exact GPS coordinates for easy visitation.' : 'آسان زیارت کے لیے درست جی پی ایس کوآرڈینیٹس۔'}</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card className="shadow-xl border-none">
+                <CardContent className="p-6 flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Heart className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold">{language === 'en' ? 'Dignified Care' : 'باوقار دیکھ بھال'}</h3>
+                        <p className="text-xs text-muted-foreground">{language === 'en' ? 'Maintaining the sanctity of every memorial.' : 'ہر یادگار کے تقدس کو برقرار رکھنا۔'}</p>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+      </section>
+
+      {/* Main Search Tool Section */}
+      <section id="search-tool" className="container mx-auto px-4 py-24 scroll-mt-24">
+        <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row gap-4 mb-16">
+                <div className="relative flex-grow">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                    <Input 
+                    placeholder={language === 'en' ? "Search by deceased name or graveyard..." : "مرحوم کا نام یا قبرستان سے تلاش کریں..."}
+                    className="pl-10 h-14 bg-background border-primary/20 shadow-md text-lg rounded-xl"
+                    value={searchQuery}
+                    onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setShowSuggestions(true);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    />
+                    {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute z-50 w-full mt-2 bg-background border rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                        {suggestions.map((val) => (
+                        <button
+                            key={val}
+                            type="button"
+                            className="w-full text-left px-6 py-3 hover:bg-primary/5 text-sm transition-colors border-b last:border-0 flex items-center gap-3"
+                            onClick={() => {
+                            setSearchQuery(val);
+                            setShowSuggestions(false);
+                            }}
+                        >
+                            <MapPin className="h-4 w-4 text-primary/40" />
+                            <span className="font-medium">{val}</span>
+                        </button>
+                        ))}
+                    </div>
+                    )}
+                </div>
+                <Dialog>
+                    <DialogTrigger asChild>
+                    <Button size="lg" className="h-14 shadow-lg px-8 rounded-xl">
+                        <Plus className="mr-2 h-5 w-5" />
+                        {pageContent.addMemorial[language]}
+                    </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold">{pageContent.addMemorial[language]}</DialogTitle>
+                        <DialogDescription className="text-lg">
+                            {language === 'en' ? 'Preserve the legacy. Add a location to help family and friends find the resting place.' : 'میراث کو محفوظ رکھیں۔ خاندان اور دوستوں کو آرام گاہ تلاش کرنے میں مدد کے لیے ایک مقام شامل کریں۔'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
+                        <div className="space-y-4">
+                            <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
+                                <Heart className="h-5 w-5 text-primary" />
+                                {language === 'en' ? 'Deceased Information' : 'مرحوم کی معلومات'}
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Title / Rank' : 'لقب / عہدہ'}</Label>
+                                    <Select value={newMemorial.honorific} onValueChange={(v) => setNewMemorial({...newMemorial, honorific: v})}>
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {honorifics.map(h => (
+                                                <SelectItem key={h.id} value={h.id}>{h[language]}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
+                                    <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
+                                    <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
+                                    <Input type="date" value={newMemorial.dateOfBirth} onChange={(e) => setNewMemorial({...newMemorial, dateOfBirth: e.target.value})} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Date of Death' : 'تاریخ وفات'}</Label>
+                                    <Input type="date" required value={newMemorial.dateOfDeath} onChange={(e) => setNewMemorial({...newMemorial, dateOfDeath: e.target.value})} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
+                                    <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <Label>{pageContent.graveyardLabel[language]}</Label>
+                                    <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
+                                </div>
                             </div>
-                            {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
-                                <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
-                                <img src={newMemorial.imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                            
+                            <div className="space-y-2">
+                                <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم کی تصویر (اختیاری)'}</Label>
+                                <Tabs defaultValue="upload" className="w-full">
+                                    <TabsList className="grid w-full grid-cols-2">
+                                    <TabsTrigger value="upload">
+                                        <Upload className="mr-2 h-4 w-4" />
+                                        {language === 'en' ? 'Upload' : 'اپ لوڈ'}
+                                    </TabsTrigger>
+                                    <TabsTrigger value="url">
+                                        <Camera className="mr-2 h-4 w-4" />
+                                        {language === 'en' ? 'Link' : 'لنک'}
+                                    </TabsTrigger>
+                                    </TabsList>
+                                    <TabsContent value="upload" className="space-y-4 pt-4 border rounded-md p-4 bg-muted/20">
+                                    <div className="flex items-center gap-4">
+                                        <Input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onChange={handleFileChange} 
+                                        disabled={uploading}
+                                        className="bg-background"
+                                        />
+                                        {uploading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+                                    </div>
+                                    {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
+                                        <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
+                                        <img src={newMemorial.imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                                        </div>
+                                    )}
+                                    <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
+                                    </TabsContent>
+                                    <TabsContent value="url" className="pt-4">
+                                    <Input 
+                                        placeholder="https://..." 
+                                        value={newMemorial.imageUrl.startsWith('data:') ? '' : newMemorial.imageUrl} 
+                                        onChange={(e) => setNewMemorial({...newMemorial, imageUrl: e.target.value})} 
+                                    />
+                                    </TabsContent>
+                                </Tabs>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 pt-4 border-t">
+                            <h3 className="font-bold text-lg flex items-center gap-2">
+                                <User className="h-5 w-5 text-primary" />
+                                {language === 'en' ? 'Your Contact Details (Confidential)' : 'آپ کے رابطے کی تفصیلات'}
+                            </h3>
+                            <p className="text-xs text-muted-foreground">
+                                {language === 'en' ? 'This information is only visible to the workshop admin for service inquiries.' : 'یہ معلومات صرف سروس انکوائری کے لیے ورکشاپ ایڈمن کو نظر آئے گی۔'}
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Your Name' : 'آپ کا نام'}</Label>
+                                    <Input required value={newMemorial.publisherName} onChange={(e) => setNewMemorial({...newMemorial, publisherName: e.target.value})} placeholder="e.g. Zahid Khan" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>{language === 'en' ? 'Your Email' : 'آپ کا ای میل'}</Label>
+                                    <Input required type="email" value={newMemorial.publisherEmail} onChange={(e) => setNewMemorial({...newMemorial, publisherEmail: e.target.value})} placeholder="e.g. zahid@example.com" />
+                                </div>
+                                <div className="md:col-span-2 space-y-2">
+                                    <Label>{language === 'en' ? 'Phone Number (with Country Code)' : 'فون نمبر (کنٹری کوڈ کے ساتھ)'}</Label>
+                                    <Input required value={newMemorial.publisherPhone} onChange={(e) => setNewMemorial({...newMemorial, publisherPhone: e.target.value})} placeholder="e.g. +92 300 1234567" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <DialogFooter className="pt-4">
+                        <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
+                            {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : pageContent.addMemorial[language]}
+                        </Button>
+                        </DialogFooter>
+                    </form>
+                    </DialogContent>
+                </Dialog>
+            </div>
+
+            {/* Results Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[400px]">
+                {isLoading ? (
+                    <div className="col-span-full flex flex-col items-center justify-center p-12">
+                        <Loader2 className="animate-spin h-12 w-12 text-primary mb-4" />
+                        <p className="font-medium text-muted-foreground">{language === 'en' ? 'Accessing records...' : 'ریکارڈز تک رسائی حاصل کی جا رہی ہے...'}</p>
+                    </div>
+                ) : filteredMemorials.length > 0 ? (
+                    filteredMemorials.map((m: any) => (
+                    <Card key={m.id} className="flex flex-col h-full shadow-md hover:shadow-2xl transition-all border-t-4 border-primary group overflow-hidden bg-background">
+                        {m.imageUrl && (
+                        <div className="relative aspect-square w-full bg-muted overflow-hidden border-b">
+                            <img 
+                            src={m.imageUrl} 
+                            alt={m.deceasedName} 
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                            />
+                            <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                            <div className="bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                                {m.graveyardName || 'Karachi Graveyard'}
+                            </div>
+                            <Button 
+                                variant="secondary" 
+                                size="icon" 
+                                className="rounded-full h-8 w-8 shadow-lg"
+                                onClick={() => handleShare(m)}
+                            >
+                                <Share2 className="h-4 w-4" />
+                            </Button>
+                            </div>
+                        </div>
+                        )}
+                        
+                        <CardContent className="p-6 flex flex-col flex-grow">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                                {m.honorific && m.honorific !== 'none' && (
+                                    <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                                        {honorifics.find(h => h.id === m.honorific)?.[language] || m.honorific}
+                                    </span>
+                                )}
+                                <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground italic">
+                                {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
+                            </p>
+                            </div>
+                            {!m.imageUrl && (
+                            <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                className="rounded-full h-10 w-10 text-primary hover:bg-primary/10"
+                                onClick={() => handleShare(m)}
+                            >
+                                <Share2 className="h-5 w-5" />
+                            </Button>
+                            )}
+                        </div>
+
+                        {!m.imageUrl && m.graveyardName && (
+                            <div className="mb-4 flex items-center gap-2 text-primary">
+                            <MapPin className="h-4 w-4" />
+                            <span className="text-sm font-bold uppercase tracking-wider">{m.graveyardName}</span>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-muted">
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</p>
+                                <p className="text-sm font-semibold flex items-center gap-1.5">
+                                    <Calendar className="h-3 w-3 text-primary" />
+                                    {m.dateOfBirth || 'N/A'}
+                                </p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Died</p>
+                                <p className="text-sm font-semibold flex items-center gap-1.5">
+                                    <Heart className="h-3 w-3 text-red-500" />
+                                    {m.dateOfDeath || 'N/A'}
+                                </p>
+                            </div>
+                            {m.islamicDate && (
+                                <div className="col-span-2 space-y-1">
+                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Islamic Date</p>
+                                    <p className="text-sm font-semibold italic text-primary">{m.islamicDate}</p>
                                 </div>
                             )}
-                            <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
-                            </TabsContent>
-                            <TabsContent value="url" className="pt-4">
-                            <Input 
-                                placeholder="https://..." 
-                                value={newMemorial.imageUrl.startsWith('data:') ? '' : newMemorial.imageUrl} 
-                                onChange={(e) => setNewMemorial({...newMemorial, imageUrl: e.target.value})} 
-                            />
-                            </TabsContent>
-                        </Tabs>
-                    </div>
-                </div>
+                        </div>
 
-                <div className="space-y-4 pt-4 border-t">
-                    <h3 className="font-bold text-lg flex items-center gap-2">
-                        <User className="h-5 w-5 text-primary" />
-                        {language === 'en' ? 'Your Contact Details (Confidential)' : 'آپ کے رابطے کی تفصیلات'}
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                        {language === 'en' ? 'This information is only visible to the workshop admin for service inquiries.' : 'یہ معلومات صرف سروس انکوائری کے لیے ورکشاپ ایڈمن کو نظر آئے گی۔'}
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Your Name' : 'آپ کا نام'}</Label>
-                            <Input required value={newMemorial.publisherName} onChange={(e) => setNewMemorial({...newMemorial, publisherName: e.target.value})} placeholder="e.g. Zahid Khan" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>{language === 'en' ? 'Your Email' : 'آپ کا ای میل'}</Label>
-                            <Input required type="email" value={newMemorial.publisherEmail} onChange={(e) => setNewMemorial({...newMemorial, publisherEmail: e.target.value})} placeholder="e.g. zahid@example.com" />
-                        </div>
-                        <div className="md:col-span-2 space-y-2">
-                            <Label>{language === 'en' ? 'Phone Number (with Country Code)' : 'فون نمبر (کنٹری کوڈ کے ساتھ)'}</Label>
-                            <Input required value={newMemorial.publisherPhone} onChange={(e) => setNewMemorial({...newMemorial, publisherPhone: e.target.value})} placeholder="e.g. +92 300 1234567" />
-                        </div>
-                    </div>
-                </div>
-
-                <DialogFooter className="pt-4">
-                  <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
-                    {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : pageContent.addMemorial[language]}
-                  </Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        <div className="space-y-12">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {isLoading ? (
-                <div className="col-span-full flex justify-center p-12"><Loader2 className="animate-spin h-8 w-8 text-primary" /></div>
-              ) : filteredMemorials.length > 0 ? (
-                filteredMemorials.map((m: any) => (
-                  <Card key={m.id} className="flex flex-col h-full shadow-md hover:shadow-xl transition-all border-t-4 border-primary group overflow-hidden bg-background">
-                    {m.imageUrl && (
-                      <div className="relative aspect-square w-full bg-muted overflow-hidden border-b">
-                        <img 
-                          src={m.imageUrl} 
-                          alt={m.deceasedName} 
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                        />
-                        <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
-                          <div className="bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-                              {m.graveyardName || 'Karachi Graveyard'}
-                          </div>
-                          <Button 
-                              variant="secondary" 
-                              size="icon" 
-                              className="rounded-full h-8 w-8 shadow-lg"
-                              onClick={() => handleShare(m)}
-                          >
-                              <Share2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                    
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                             {m.honorific && m.honorific !== 'none' && (
-                                <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
-                                    {honorifics.find(h => h.id === m.honorific)?.[language] || m.honorific}
-                                </span>
-                             )}
-                             <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
-                          </div>
-                          <p className="text-sm text-muted-foreground italic">
-                            {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
-                          </p>
-                        </div>
-                        {!m.imageUrl && (
-                          <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              className="rounded-full h-10 w-10 text-primary hover:bg-primary/10"
-                              onClick={() => handleShare(m)}
-                          >
-                              <Share2 className="h-5 w-5" />
-                          </Button>
-                        )}
-                      </div>
-
-                      {!m.imageUrl && m.graveyardName && (
-                        <div className="mb-4 flex items-center gap-2 text-primary">
-                          <MapPin className="h-4 w-4" />
-                          <span className="text-sm font-bold uppercase tracking-wider">{m.graveyardName}</span>
-                        </div>
-                      )}
-
-                      <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-muted">
-                        <div className="space-y-1">
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</p>
-                            <p className="text-sm font-semibold flex items-center gap-1.5">
-                                <Calendar className="h-3 w-3 text-primary" />
-                                {m.dateOfBirth || 'N/A'}
-                            </p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Died</p>
-                            <p className="text-sm font-semibold flex items-center gap-1.5">
-                                <Heart className="h-3 w-3 text-red-500" />
-                                {m.dateOfDeath || 'N/A'}
-                            </p>
-                        </div>
-                        {m.islamicDate && (
-                            <div className="col-span-2 space-y-1">
-                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Islamic Date</p>
-                                <p className="text-sm font-semibold italic text-primary">{m.islamicDate}</p>
-                            </div>
-                        )}
-                      </div>
-
-                      <div className="mt-auto space-y-3">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
-                        <div className="grid grid-cols-2 gap-2">
-                            {services.map((s) => {
-                                const styles = {
-                                    cleaning: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100",
-                                    watering: "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100",
-                                    planting: "bg-green-50 text-green-900 border-green-200 hover:bg-green-100",
-                                    custom: "border-primary/10 hover:bg-primary hover:text-white",
-                                };
-                                return (
+                        <div className="mt-auto space-y-3">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
+                            <div className="grid grid-cols-2 gap-2">
+                                {careServices.map((s) => (
                                     <Button 
                                         key={s.id} 
                                         variant="outline" 
                                         size="sm" 
                                         className={cn(
                                             "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold",
-                                            styles[s.id as keyof typeof styles]
+                                            s.color
                                         )}
                                         onClick={() => handleGetQuote(m, s.id)}
                                     >
                                         {s.name[language]}
                                     </Button>
-                                )
-                            })}
+                                ))}
+                            </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                <div className="col-span-full text-center py-24 bg-muted/20 rounded-xl border-2 border-dashed">
-                  <Search className="h-12 w-12 mx-auto mb-4 opacity-10" />
-                  <p className="text-lg font-medium text-muted-foreground">No matching graves found.</p>
-                  <p className="text-sm text-muted-foreground">Try searching for a different name or graveyard.</p>
-                </div>
-              )}
-           </div>
-
-           {/* Map View at Bottom */}
-           <div className="mt-24">
-              <div className="text-center mb-12">
-                 <h2 className="text-3xl font-bold text-primary mb-2">{language === 'en' ? 'Karachi Cemetery Interactive Map' : 'کراچی قبرستان کا انٹرایکٹو نقشہ'}</h2>
-                 <p className="text-muted-foreground">{language === 'en' ? 'Visualize exact grave locations across the city cemeteries.' : 'شہر بھر کے قبرستانوں میں قبروں کے صحیح مقامات دیکھیں۔'}</p>
-              </div>
-              <div className="bg-background rounded-[2.5rem] shadow-2xl overflow-hidden h-[600px] relative border-8 border-white">
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-secondary/5">
-                   <div className="text-center p-8">
-                      <MapPin className="h-20 w-20 mx-auto mb-6 text-primary opacity-20" />
-                      <p className="font-bold text-2xl uppercase tracking-widest opacity-20">Karachi Cemetery Map View</p>
-                      <p className="text-sm mt-2 max-w-xs mx-auto">Markers will appear here for searched graves in Karachi's major graveyards.</p>
-                   </div>
-                </div>
-                <div className="absolute top-6 left-6 bg-primary text-white px-6 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
-                   <MapPin className="h-4 w-4" />
-                   {filteredMemorials.length} Graves Located
-                </div>
-              </div>
-           </div>
+                        </CardContent>
+                    </Card>
+                    ))
+                ) : (
+                    <div className="col-span-full text-center py-24 bg-background rounded-3xl border-2 border-dashed shadow-inner">
+                    <Search className="h-16 w-16 mx-auto mb-4 opacity-10 text-primary" />
+                    <p className="text-2xl font-bold text-muted-foreground">No matching graves found.</p>
+                    <p className="text-muted-foreground mt-2">Try searching for a different name or graveyard, or add a new location above.</p>
+                    </div>
+                )}
+            </div>
         </div>
-      </div>
+      </section>
+
+      {/* Professional Care Services Marketing Section */}
+      <section className="bg-white py-24 border-y">
+        <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center mb-16">
+                <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">
+                    {language === 'en' ? 'Honoring Legacies with Professional Care' : 'پیشہ ورانہ دیکھ بھال کے ساتھ میراث کا احترام'}
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                    {language === 'en' 
+                        ? 'At Stylish Marble Art, we understand that visiting a graveyard can be difficult for those living abroad. Our dedicated teams in Karachi provide respectful maintenance services to ensure your loved one\'s final resting place remains beautiful and dignified.' 
+                        : 'سٹائلش ماربل آرٹ میں، ہم سمجھتے ہیں کہ بیرون ملک مقیم افراد کے لیے قبرستان جانا مشکل ہو سکتا ہے۔ ہماری کراچی میں وقف ٹیمیں اس بات کو یقینی بنانے کے لیے باوقار دیکھ بھال کی خدمات فراہم کرتی ہیں کہ آپ کے پیارے کی آخری آرام گاہ خوبصورت اور باوقار رہے۔'}
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {careServices.map((s) => {
+                    const Icon = s.icon;
+                    return (
+                        <Card key={s.id} className="border-none shadow-lg hover:shadow-xl transition-shadow text-center group">
+                            <CardHeader className="pt-8">
+                                <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/5 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <Icon className="h-8 w-8" />
+                                </div>
+                                <CardTitle className="text-xl">{s.name[language]}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pb-8">
+                                <p className="text-sm text-muted-foreground mb-6">
+                                    {s.description[language]}
+                                </p>
+                                <Button variant="link" className="font-bold text-primary" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
+                                    {language === 'en' ? 'Learn More' : 'مزید جانیں'}
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    );
+                })}
+            </div>
+        </div>
+      </section>
+
+      {/* Map View Section */}
+      <section className="container mx-auto px-4 pt-24">
+        <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary mb-4">{language === 'en' ? 'Karachi Cemetery Interactive Map' : 'کراچی قبرستان کا انٹرایکٹو نقشہ'}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'Visualize exact grave locations across Wadi-e-Hussain, Mewa Shah, and major city cemeteries to plan your next visit.' : 'اپنی اگلی زیارت کی منصوبہ بندی کرنے کے لیے وادی حسین، میوہ شاہ، اور شہر کے بڑے قبرستانوں میں قبروں کے صحیح مقامات دیکھیں۔'}</p>
+        </div>
+        <div className="bg-background rounded-[3rem] shadow-2xl overflow-hidden h-[600px] relative border-8 border-white group">
+            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-secondary/10">
+                <div className="text-center p-8">
+                    <MapPin className="h-24 w-24 mx-auto mb-6 text-primary opacity-20 transition-transform group-hover:scale-110 duration-500" />
+                    <p className="font-bold text-3xl uppercase tracking-widest opacity-20">Cemetery Map View</p>
+                    <p className="text-sm mt-4 max-w-xs mx-auto opacity-40">Markers will appear here for searched graves in Karachi's major graveyards.</p>
+                </div>
+            </div>
+            <div className="absolute top-8 left-8 bg-primary/90 backdrop-blur-md text-white px-8 py-3 rounded-full text-sm font-bold shadow-2xl flex items-center gap-3">
+                <MapPin className="h-5 w-5" />
+                {filteredMemorials.length} {language === 'en' ? 'Graves Located' : 'قبریں مل گئیں'}
+            </div>
+        </div>
+      </section>
     </div>
   );
 }
