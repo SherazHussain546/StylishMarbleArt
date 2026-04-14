@@ -55,8 +55,8 @@ export const content = {
   homeFamilyTree: {
     title: { en: 'Preserve Your Family Legacy', ur: 'اپنے خاندان کی میراث کو محفوظ کریں' },
     description: { 
-      en: 'A free community service to build and share your family lineage. Connect generations and find ancestral resting places in Karachi from anywhere in the world.',
-      ur: 'اپنے خاندان کے شجرے کو بنانے اور شیئر کرنے کے لیے ایک مفت کمیونٹی سروس۔ نسلوں کو جوڑیں اور دنیا میں کہیں سے بھی کراچی میں آباؤ اجداد کی آرام گاہیں تلاش کریں۔'
+      en: 'A free community service to build and share your family lineage. Connect generations and find ancestral resting places in Karachi from anywhere in the world. Help your children remember their roots.',
+      ur: 'اپنے خاندان کے شجرے کو بنانے اور شیئر کرنے کے لیے ایک مفت کمیونٹی سروس۔ نسلوں کو جوڑیں اور دنیا میں کہیں سے بھی کراچی میں آباؤ اجداد کی آرام گاہیں تلاش کریں۔ اپنے بچوں کو ان کی جڑوں کو یاد رکھنے میں مدد کریں۔'
     },
     cta: { en: 'Explore the Registry', ur: 'رجسٹری دیکھیں' },
     features: [
@@ -390,4 +390,15 @@ export const content = {
       ur: '© 2024 سٹائلش ماربل آرٹ کراچی۔ جملہ حقوق محفوظ ہیں.',
     },
   },
+  locatorPage: {
+    title: { en: 'Digital Memorial Registry & Family Tree', ur: 'ڈیجیٹل یادگار رجسٹری اور خاندانی شجرہ' },
+    graveyardLabel: { en: 'Graveyard Name', ur: 'قبرستان کا نام' },
+    encouragement: {
+        title: { en: 'Honor Your Ancestors, Guide Your Generations', ur: 'اپنے آباؤ اجداد کی عزت کریں، اپنی نسلوں کی رہنمائی کریں' },
+        description: { 
+            en: 'Every family has a story. By documenting your loved ones today, you are giving a priceless gift to the next generation—the ability to find their roots and visit their ancestral resting places. Help us keep memories alive by keeping their lasting place remembered forever.',
+            ur: 'ہر خاندان کی ایک کہانی ہوتی ہے۔ آج اپنے پیاروں کو دستاویزی شکل دے کر، آپ اگلی نسل کو ایک انمول تحفہ دے رہے ہیں—ان کی جڑیں تلاش کرنے اور ان کے آباؤ اجداد کی آرام گاہوں پر جانے کی صلاحیت۔ ان کی مستقل جگہ کو ہمیشہ کے لیے یاد رکھ کر یادوں کو زندہ رکھنے میں ہماری مدد کریں۔'
+        }
+    }
+  }
 };

@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users, UserPlus, Info, MessageCircle } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users, UserPlus, Info, MessageCircle, Landmark, Sparkles } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -550,8 +550,36 @@ Please provide details on pricing and timeline.`;
         </div>
       </section>
 
+      {/* Encouragement Banner */}
+      <section className="container mx-auto px-4 -mt-12 mb-12 relative z-20">
+        <Card className="bg-background shadow-2xl border-none overflow-hidden rounded-[2.5rem]">
+            <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
+                <div className="md:col-span-4 bg-primary p-10 flex flex-col justify-center text-primary-foreground relative">
+                    <Sparkles className="h-12 w-12 mb-6 opacity-50" />
+                    <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
+                        {pageContent.encouragement.title[language]}
+                    </h2>
+                    <div className="h-1 w-12 bg-white/30 rounded-full"></div>
+                </div>
+                <div className="md:col-span-8 p-10 flex flex-col justify-center bg-white/50 backdrop-blur-sm">
+                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed italic">
+                        "{pageContent.encouragement.description[language]}"
+                    </p>
+                    <div className="mt-8 flex items-center gap-4">
+                        <div className="bg-primary/10 p-3 rounded-full">
+                            <Landmark className="h-6 w-6 text-primary" />
+                        </div>
+                        <p className="text-sm font-bold text-primary uppercase tracking-widest">
+                            {language === 'en' ? 'A Gift to Future Generations' : 'آنے والی نسلوں کے لیے ایک تحفہ'}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </Card>
+      </section>
+
       {/* Main Search Tool Section */}
-      <section id="search-tool" className="container mx-auto px-4 py-24 scroll-mt-24">
+      <section id="search-tool" className="container mx-auto px-4 py-12 scroll-mt-24">
         <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-4 mb-16">
                 <div className="relative flex-grow">
