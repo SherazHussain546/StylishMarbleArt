@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -91,6 +92,9 @@ export default function LocatorPageClient() {
     const matches: string[] = [];
     
     memorials.forEach((m: any) => {
+      // Hide living members from suggestions
+      if (m.isAlive) return;
+
       if (m.deceasedName.toLowerCase().includes(queryTerm) && !matches.includes(m.deceasedName)) {
         matches.push(m.deceasedName);
       }
@@ -106,8 +110,10 @@ export default function LocatorPageClient() {
     if (!memorials) return [];
     const q = searchQuery.toLowerCase();
     return memorials.filter((m: any) => 
-      m.deceasedName.toLowerCase().includes(q) ||
-      (m.graveyardName && m.graveyardName.toLowerCase().includes(q))
+      !m.isAlive && ( // Hide living members from search results
+        m.deceasedName.toLowerCase().includes(q) ||
+        (m.graveyardName && m.graveyardName.toLowerCase().includes(q))
+      )
     );
   }, [memorials, searchQuery]);
 
@@ -585,7 +591,7 @@ Please provide details on pricing and timeline.`;
                 </Button>
             </div>
 
-            {/* Results Grid */}
+            {/* Results Grid - ONLY SHOW DECEASED */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[400px]">
                 {isLoading ? (
                     <div className="col-span-full flex flex-col items-center justify-center p-12">
@@ -603,9 +609,6 @@ Please provide details on pricing and timeline.`;
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
                             />
                             <div className="absolute top-3 right-3 flex gap-2">
-                                {m.isAlive && (
-                                    <Badge className="bg-green-500 text-white font-bold border-none shadow-lg">ALIVE</Badge>
-                                )}
                                 <Button 
                                     variant="secondary" 
                                     size="icon" 
@@ -618,7 +621,7 @@ Please provide details on pricing and timeline.`;
                         </div>
                         ) : (
                             <div className="p-4 bg-muted/20 flex justify-between items-center border-b">
-                                {m.isAlive ? <Badge className="bg-green-500">ALIVE</Badge> : <Badge variant="outline">MEMORIAL</Badge>}
+                                <Badge variant="outline">MEMORIAL</Badge>
                                 <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" onClick={() => handleShare(m)}>
                                     <Share2 className="h-4 w-4 text-primary" />
                                 </Button>
@@ -647,12 +650,7 @@ Please provide details on pricing and timeline.`;
                         </div>
 
                         <div className="mb-4 space-y-2">
-                            {m.isAlive ? (
-                                <div className="flex items-center gap-2 text-green-600">
-                                    <Heart className="h-4 w-4 fill-current" />
-                                    <span className="text-sm font-bold uppercase tracking-wider">{language === 'en' ? 'Currently Alive' : 'ماشاءاللہ زندہ ہیں'}</span>
-                                </div>
-                            ) : m.graveyardName && (
+                            {m.graveyardName && (
                                 <div className="flex items-center gap-2 text-primary">
                                     <MapPin className="h-4 w-4" />
                                     <span className="text-sm font-bold uppercase tracking-wider">{m.graveyardName}</span>
@@ -667,13 +665,9 @@ Please provide details on pricing and timeline.`;
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{m.isAlive ? 'Status' : 'Died'}</div>
+                                    <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Died</div>
                                     <div className="text-sm font-semibold flex items-center gap-1.5">
-                                        {m.isAlive ? (
-                                            <Badge variant="outline" className="text-[10px] h-5 bg-green-50 border-green-200 text-green-700">Healthy</Badge>
-                                        ) : (
-                                            <><Heart className="h-3 w-3 text-red-500" /> {m.dateOfDeath || 'N/A'}</>
-                                        )}
+                                        <Heart className="h-3 w-3 text-red-500" /> {m.dateOfDeath || 'N/A'}
                                     </div>
                                 </div>
                             </div>
@@ -689,33 +683,23 @@ Please provide details on pricing and timeline.`;
                                 {language === 'en' ? 'Family Connections' : 'خاندانی تعلقات'}
                             </Button>
 
-                            {m.isAlive ? (
-                                <Button 
-                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold gap-2"
-                                    onClick={() => handleRequestUpdate(m)}
-                                >
-                                    <MessageCircle className="h-4 w-4" />
-                                    {language === 'en' ? 'Notify Death / Request Update' : 'وفات کی اطلاع / ریکارڈ تبدیل کریں'}
-                                </Button>
-                            ) : (
-                                <div className="space-y-2">
-                                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {careServices.map((s) => (
-                                            <button 
-                                                key={s.id} 
-                                                className={cn(
-                                                    "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold border rounded-md",
-                                                    s.color
-                                                )}
-                                                onClick={() => handleGetQuote(m, s.id)}
-                                            >
-                                                {s.name[language]}
-                                            </button>
-                                        ))}
-                                    </div>
+                            <div className="space-y-2">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {careServices.map((s) => (
+                                        <button 
+                                            key={s.id} 
+                                            className={cn(
+                                                "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold border rounded-md",
+                                                s.color
+                                            )}
+                                            onClick={() => handleGetQuote(m, s.id)}
+                                        >
+                                            {s.name[language]}
+                                        </button>
+                                    ))}
                                 </div>
-                            )}
+                            </div>
                         </div>
                         </CardContent>
                     </Card>
@@ -723,7 +707,7 @@ Please provide details on pricing and timeline.`;
                 ) : (
                     <div className="col-span-full text-center py-24 bg-background rounded-3xl border-2 border-dashed shadow-inner">
                     <Search className="h-16 w-16 mx-auto mb-4 opacity-10 text-primary" />
-                    <p className="text-2xl font-bold text-muted-foreground">No records found.</p>
+                    <p className="text-2xl font-bold text-muted-foreground">No memorials found.</p>
                     <p className="text-muted-foreground mt-2">Try searching for a different name, or add a new family member above.</p>
                     </div>
                 )}
@@ -775,6 +759,18 @@ Please provide details on pricing and timeline.`;
                             <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{language === 'en' ? 'Focus Person' : 'منتخب فرد'}</p>
                             <h3 className="text-xl font-bold">{viewingFamily?.deceasedName}</h3>
                             <p className="text-xs text-muted-foreground">{viewingFamily?.isAlive ? (language === 'en' ? 'Active in Tree' : 'شجرہ میں فعال') : viewingFamily?.graveyardName}</p>
+                            
+                            {/* Action for living person in tree */}
+                            {viewingFamily?.isAlive && (
+                                <Button 
+                                    size="sm" 
+                                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold gap-2 h-8"
+                                    onClick={() => handleRequestUpdate(viewingFamily)}
+                                >
+                                    <MessageCircle className="h-3 w-3" />
+                                    {language === 'en' ? 'Notify Death / Update' : 'وفات کی اطلاع'}
+                                </Button>
+                            )}
                         </CardContent>
                     </Card>
 
@@ -861,7 +857,7 @@ Please provide details on pricing and timeline.`;
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {careServices.map((s) => (
                     <Card key={s.id} className="border-none shadow-lg hover:shadow-xl transition-shadow text-center group">
-                        <CardHeader className="pt-8">
+                        <CardHeader>
                             <CardTitle className="text-xl">{s.name[language]}</CardTitle>
                         </CardHeader>
                         <CardContent className="pb-8">
