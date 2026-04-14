@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -8,14 +9,41 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane } from 'lucide-react';
+import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, Sparkles, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { suggestInscription, type SuggestInscriptionOutput } from '@/ai/flows/suggest-inscription';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
   const pageContent = content.servicesPage;
   const phone = content.contactPage.contactInfo.phone.en.replace(/\s/g, '');
   const whatsappNumber = phone.replace(/\D/g, '');
-  const email = content.contactPage.contactInfo.email.en;
+  
+  // AI Tool State
+  const [relationship, setRelationship] = useState('');
+  const [tone, setTone] = useState<'poetic' | 'religious' | 'simple'>('religious');
+  const [aiResult, setAiResult] = useState<string | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const handleSuggest = async () => {
+    if (!relationship) return;
+    setIsAiLoading(true);
+    try {
+      const result = await suggestInscription({
+        relationship,
+        language,
+        tone,
+      });
+      setAiResult(result.inscription);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
 
   return (
     <div className="bg-background">
@@ -43,8 +71,78 @@ export default function ServicesPageClient() {
           </div>
         </div>
 
+        {/* AI Inscription Tool */}
+        <div className="mt-24 max-w-3xl mx-auto">
+            <Card className="border-primary/20 shadow-2xl overflow-hidden">
+                <CardHeader className="bg-primary text-primary-foreground text-center">
+                    <div className="mx-auto bg-white/20 p-3 rounded-full w-fit mb-4">
+                        <Sparkles className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-2xl">
+                        {language === 'en' ? 'AI Inscription Assistant' : 'اے آئی کتبہ معاون'}
+                    </CardTitle>
+                    <CardDescription className="text-primary-foreground/80">
+                        {language === 'en' ? 'Let our AI suggest a respectful inscription or Dua for your memorial.' : 'ہمارے اے آئی کو اپنی یادگار کے لیے ایک معزز کتبہ یا دعا تجویز کرنے دیں۔'}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-8 space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Relationship' : 'رشتہ'}</Label>
+                            <Input 
+                                placeholder={language === 'en' ? "e.g. Father, Mother" : "مثلاً والد، والدہ"} 
+                                value={relationship}
+                                onChange={(e) => setRelationship(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Style/Tone' : 'انداز'}</Label>
+                            <Select value={tone} onValueChange={(val: any) => setTone(val)}>
+                                <SelectTrigger>
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="religious">{language === 'en' ? 'Religious (Dua)' : 'مذہبی (دعا)'}</SelectItem>
+                                    <SelectItem value="poetic">{language === 'en' ? 'Poetic' : 'شاعرانہ'}</SelectItem>
+                                    <SelectItem value="simple">{language === 'en' ? 'Simple' : 'سادہ'}</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+                    <Button 
+                        onClick={handleSuggest} 
+                        className="w-full py-6 text-lg" 
+                        disabled={isAiLoading || !relationship}
+                    >
+                        {isAiLoading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Suggesting...</> : <><Sparkles className="mr-2 h-5 w-5" /> Generate Suggestion</>}
+                    </Button>
+
+                    {aiResult && (
+                        <div className="mt-8 p-6 bg-secondary/30 rounded-2xl border border-primary/10 relative group">
+                            <p className="text-lg font-medium text-center italic leading-relaxed">
+                                "{aiResult}"
+                            </p>
+                            <div className="mt-4 flex justify-center gap-2">
+                                <Button variant="outline" size="sm" onClick={() => {
+                                    navigator.clipboard.writeText(aiResult);
+                                    alert(language === 'en' ? 'Copied to clipboard!' : 'کلپ بورڈ پر کاپی ہو گیا!');
+                                }}>
+                                    {language === 'en' ? 'Copy Text' : 'کاپی کریں'}
+                                </Button>
+                                <Button variant="secondary" size="sm" asChild>
+                                    <Link href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(aiResult)}`} target="_blank">
+                                        {language === 'en' ? 'Inquire with this Inscription' : 'اس کتبے کے ساتھ انکوائری کریں'}
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+        </div>
+
         {/* Why Choose Us / Trust Badges */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="mt-32 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
                 <div className="bg-primary/10 p-3 rounded-full mb-4">
                     <ShieldCheck className="h-8 w-8 text-primary" />
