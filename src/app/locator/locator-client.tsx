@@ -1,26 +1,29 @@
+
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription as CardDescUI } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, User, Mail, Upload, MessageCircle, Calendar } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, MessageCircle, Calendar, Share2 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
+import { useSearchParams } from 'next/navigation';
 
 export default function LocatorPageClient() {
   const { language } = useLanguage();
   const { toast } = useToast();
   const db = useFirestore();
+  const searchParams = useSearchParams();
   const pageContent = content.locatorPage;
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,6 +32,12 @@ export default function LocatorPageClient() {
   const [uploading, setUploading] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Record<string, string>>({});
   
+  // Handle URL search param for direct sharing
+  useEffect(() => {
+    const q = searchParams.get('search');
+    if (q) setSearchQuery(q);
+  }, [searchParams]);
+
   const [newMemorial, setNewMemorial] = useState({
     deceasedName: '',
     parentName: '',
@@ -138,6 +147,28 @@ export default function LocatorPageClient() {
         publisherEmail: '',
         publisherPhone: '',
     });
+  };
+
+  const handleShare = async (m: any) => {
+    const shareUrl = `${window.location.origin}/locator?search=${encodeURIComponent(m.deceasedName)}`;
+    const shareText = language === 'en' 
+        ? `View the memorial for ${m.deceasedName} at Stylish Marble Art.` 
+        : `${m.deceasedName} کی یادگار سٹائلش ماربل آرٹ پر دیکھیں۔`;
+
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: 'Stylish Marble Art - Memorial',
+                text: shareText,
+                url: shareUrl,
+            });
+        } catch (err) {
+            console.error('Error sharing:', err);
+        }
+    } else {
+        await navigator.clipboard.writeText(shareUrl);
+        toast({ title: 'Link Copied', description: 'Memorial link copied to clipboard.' });
+    }
   };
 
   const services = [
@@ -357,8 +388,18 @@ Please provide details on pricing and timeline.`;
                         alt={m.deceasedName} 
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
                       />
-                      <div className="absolute top-3 right-3 bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-                         {m.graveyardName || 'Karachi Graveyard'}
+                      <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                        <div className="bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                            {m.graveyardName || 'Karachi Graveyard'}
+                        </div>
+                        <Button 
+                            variant="secondary" 
+                            size="icon" 
+                            className="rounded-full h-8 w-8 shadow-lg"
+                            onClick={() => handleShare(m)}
+                        >
+                            <Share2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                     

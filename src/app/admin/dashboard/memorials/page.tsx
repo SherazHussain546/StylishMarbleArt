@@ -4,21 +4,25 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download, Loader2 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import QRCode from 'qrcode';
 
 export default function AdminMemorialLeadsPage() {
   const db = useFirestore();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
+  const [qrCodeData, setQrCodeData] = useState<{ url: string, name: string } | null>(null);
+  const [generatingQR, setGeneratingQR] = useState(false);
 
   const memorialsQuery = useMemoFirebase(() => {
     if (!db) return null;
@@ -53,6 +57,37 @@ export default function AdminMemorialLeadsPage() {
       });
     
     toast({ title: 'Success', description: 'Lead deleted.' });
+  };
+
+  const generateQRCode = async (m: any) => {
+    setGeneratingQR(true);
+    try {
+      const memorialUrl = `${window.location.origin}/locator?search=${encodeURIComponent(m.deceasedName)}`;
+      // Generate standard high-quality PNG data URL
+      const dataUrl = await QRCode.toDataURL(memorialUrl, {
+        width: 1024,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      });
+      setQrCodeData({ url: dataUrl, name: m.deceasedName });
+    } catch (err) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate QR code.' });
+    } finally {
+      setGeneratingQR(false);
+    }
+  };
+
+  const downloadQR = () => {
+    if (!qrCodeData) return;
+    const link = document.createElement('a');
+    link.href = qrCodeData.url;
+    link.download = `QR_${qrCodeData.name.replace(/\s+/g, '_')}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -105,9 +140,14 @@ export default function AdminMemorialLeadsPage() {
                         </div>
                       )}
                     </div>
-                    <Button variant="destructive" size="icon" onClick={() => handleDelete(m.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="icon" onClick={() => generateQRCode(m)} title="Generate QR Code">
+                            <QrCode className="h-4 w-4 text-blue-600" />
+                        </Button>
+                        <Button variant="destructive" size="icon" onClick={() => handleDelete(m.id)}>
+                            <Trash2 className="h-4 w-4" />
+                        </Button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -159,6 +199,33 @@ export default function AdminMemorialLeadsPage() {
           </div>
         )}
       </div>
+
+      <Dialog open={!!qrCodeData} onOpenChange={() => setQrCodeData(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Grave QR Code</DialogTitle>
+            <DialogDescription>
+              Unique digital link for {qrCodeData?.name}. Print this code to place on the physical headstone.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg border">
+            {qrCodeData && (
+                <img 
+                    src={qrCodeData.url} 
+                    alt={`QR Code for ${qrCodeData.name}`} 
+                    className="w-64 h-64 shadow-sm"
+                />
+            )}
+          </div>
+          <DialogFooter className="sm:justify-between">
+            <Button variant="ghost" onClick={() => setQrCodeData(null)}>Close</Button>
+            <Button onClick={downloadQR} className="bg-blue-600 hover:bg-blue-700">
+                <Download className="mr-2 h-4 w-4" />
+                Download .PNG
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -47,6 +47,7 @@
     "lucide-react": "latest",
     "next": "15.3.8",
     "patch-package": "latest",
+    "qrcode": "^1.5.4",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
@@ -57,6 +58,7 @@
   },
   "devDependencies": {
     "@types/node": "latest",
+    "@types/qrcode": "^1.5.5",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "genkit-cli": "latest",
