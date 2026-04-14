@@ -211,9 +211,10 @@
     "Memorial": {
       "title": "Memorial",
       "type": "object",
-      "description": "Represents a grave location and information about the deceased, including specific family relationships.",
+      "description": "Represents a person in the family registry, whether alive or deceased.",
       "properties": {
         "id": { "type": "string" },
+        "isAlive": { "type": "boolean", "description": "Whether the person is currently alive." },
         "honorific": { "type": "string", "description": "Title like Dr., Prof, Shaheed, etc." },
         "deceasedName": { "type": "string" },
         "fatherName": { "type": "string" },
@@ -233,7 +234,7 @@
         "publisherPhone": { "type": "string" },
         "createdAt": { "type": "string", format: "date-time" }
       },
-      "required": ["deceasedName", "latitude", "longitude", "publisherName", "publisherEmail", "publisherPhone"]
+      "required": ["deceasedName", "publisherName", "publisherEmail", "publisherPhone"]
     }
   },
   "auth": {
@@ -315,11 +316,11 @@
           "schema": {
             "$ref": "#/backend/entities/Memorial"
           },
-          "description": "Stores grave location and deceased person details, plus business lead contact info.",
+          "description": "Stores person records for family trees, including alive status and lineage links.",
           "params": [
             {
               "name": "memorialId",
-              "description": "Unique ID for the memorial document."
+              "description": "Unique ID for the record."
             }
           ]
         }
@@ -341,6 +342,6 @@
         }
       }
     ],
-    "reasoning": "Updated Memorial entity to include specific family relationship fields (father, mother, step-parents, husband) for advanced family tree linking."
+    "reasoning": "Enhanced Memorial entity to support living family members (isAlive) and flexible relationship logic for community family trees."
   }
 }
