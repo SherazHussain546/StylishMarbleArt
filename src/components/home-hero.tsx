@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -6,6 +7,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import Image from 'next/image';
 import { useVariant } from '@/firebase';
+import { Search } from 'lucide-react';
 
 export function HomeHero() {
   const { language } = useLanguage();
@@ -53,10 +55,16 @@ export function HomeHero() {
             {currentContent.subtitle[language]}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="shadow-lg px-8">
               <Link href="/services">{content.hero.cta[language]}</Link>
             </Button>
-             <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="secondary" className="shadow-lg px-8">
+               <Link href="/locator" className="flex items-center gap-2">
+                <Search className="h-5 w-5" />
+                {content.hero.locatorCta[language]}
+               </Link>
+            </Button>
+             <Button asChild size="lg" variant="outline" className="px-8">
                <Link href="/gallery">
                 {content.hero.galleryCta[language]}
                </Link>

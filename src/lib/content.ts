@@ -21,6 +21,7 @@ export const content = {
     },
     cta: { en: 'Explore Our Services', ur: 'ہماری خدمات دریافت کریں' },
     galleryCta: { en: 'View Our Gallery', ur: 'ہماری گیلری دیکھیں' },
+    locatorCta: { en: 'Start Your Family Tree', ur: 'خاندانی شجرہ شروع کریں' },
   },
   homeServices: {
     title: { en: 'Expert Marble Services in Karachi', ur: 'کراچی میں ماہرانہ ماربل سروسز' },
@@ -30,7 +31,7 @@ export const content = {
         name: { en: 'Marble Gravestones & Memorials', ur: 'ماربل کے کتبے اور یادگاریں' },
         description: {
           en: 'Custom headstone maker in Karachi providing dignified Ziarat White and Black Granite memorials. We handle design, engraving, and installation with compassion.',
-          ur: 'کراچی میں کسٹم کتبہ بنانے والے، جو زیارت وائٹ اور بلیک گرینائٹ کی باوقار یادگاریں فراہم کرتے ہیں۔ ہم ڈیزائن، کندہ کاری اور تنصیب کو ہمدردی کے ساتھ سنبھالتے ہیں۔',
+          ur: 'کراچی میں کسٹم کتبہ بنانے والے، جو زیارت وائٹ اور بلیک گرینائٹ کی باوقار یادگاریں فراہم کرتے ہیں۔ ہم ڈیزائن، کندہ کاری اور تنصیب کو ہمدردی کے ساتھ سنبالتے ہیں۔',
         },
       },
       {
@@ -50,6 +51,19 @@ export const content = {
         },
       },
     ],
+  },
+  homeFamilyTree: {
+    title: { en: 'Preserve Your Family Legacy', ur: 'اپنے خاندان کی میراث کو محفوظ کریں' },
+    description: { 
+      en: 'A free community service to build and share your family lineage. Connect generations and find ancestral resting places in Karachi with ease.',
+      ur: 'اپنے خاندان کے شجرے کو بنانے اور شیئر کرنے کے لیے ایک مفت کمیونٹی سروس۔ نسلوں کو جوڑیں اور کراچی میں آباؤ اجداد کی آرام گاہیں آسانی سے تلاش کریں۔'
+    },
+    cta: { en: 'Explore the Registry', ur: 'رجسٹری دیکھیں' },
+    features: [
+      { title: { en: 'Digital Tree', ur: 'ڈیجیٹل شجرہ' }, description: { en: 'Link parents, spouses, and children dynamically.', ur: 'والدین، شریک حیات اور بچوں کو متحرک طور پر جوڑیں۔' } },
+      { title: { en: 'GPS Locations', ur: 'جی پی ایس مقامات' }, description: { en: 'Pin and find exact grave markers in any cemetery.', ur: 'کسی بھی قبرستان میں قبر کے صحیح نشانات پن کریں اور تلاش کریں۔' } },
+      { title: { en: 'Global Sharing', ur: 'عالمی شیئرنگ' }, description: { en: 'Share direct links to your tree with family worldwide.', ur: 'دنیا بھر میں خاندان کے ساتھ اپنے شجرے کے براہ راست لنکس شیئر کریں۔' } },
+    ]
   },
   marbleTypes: {
     title: { en: "Marble & Granite Selection", ur: "ماربل اور گرینائٹ کا انتخاب" },
@@ -307,7 +321,7 @@ export const content = {
         answer: { en: 'We provide custom design, crafting, and professional installation of high-quality gravestones and headstones across Pakistan and for export to the Middle East and worldwide.', ur: 'ہم پورے پاکستان میں اعلیٰ معیار کے کتبوں اور یادگاروں کے کسٹم ڈیزائن، تیاری اور پیشہ ورانہ تنصیب فراہم کرتے ہیں اور مشرق وسطیٰ اور دنیا بھر میں برآمد کے لیے بھی دستیاب ہیں۔' },
       },
       {
-        question: { en: 'Do you handle the complete preparation of a grave?', ur: 'کیا آپ قبر کی مکمل تیاری کو سنبھالتے ہیں؟' },
+        question: { en: 'Do you handle the complete preparation of a grave?', ur: 'کیا آپ قبر کی مکمل تیاری کو سنبالتے ہیں؟' },
         answer: { en: 'Yes, we offer comprehensive services for the complete preparation of graves following burial, including the base structure and headstone.', ur: 'جی ہاں، ہم تدفین کے بعد قبروں کی مکمل تیاری بشمول بنیادی ڈھانچے اور کتبے کے جامع خدمات پیش کرتے ہیں۔' },
       },
       {
