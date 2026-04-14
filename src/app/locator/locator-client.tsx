@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -284,7 +283,132 @@ Please provide details on pricing and timeline.`;
                                 {pageContent.addMemorial[language]}
                             </Button>
                         </DialogTrigger>
-                        {/* Reuse Dialog Content logic below */}
+                        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                            <DialogHeader>
+                                <DialogTitle className="text-2xl font-bold">{pageContent.addMemorial[language]}</DialogTitle>
+                                <DialogDescription className="text-lg">
+                                    {language === 'en' ? 'Preserve the legacy. Add a location to help family and friends find the resting place. This listing service is free.' : 'میراث کو محفوظ رکھیں۔ خاندان اور دوستوں کو آرام گاہ تلاش کرنے میں مدد کے لیے ایک مقام شامل کریں۔ یہ فہرست سازی کی خدمت مفت ہے۔'}
+                                </DialogDescription>
+                            </DialogHeader>
+                            <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
+                                        <Heart className="h-5 w-5 text-primary" />
+                                        {language === 'en' ? 'Deceased Information' : 'مرحوم کی معلومات'}
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Title / Rank' : 'لقب / عہدہ'}</Label>
+                                            <Select value={newMemorial.honorific} onValueChange={(v) => setNewMemorial({...newMemorial, honorific: v})}>
+                                                <SelectTrigger>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {honorifics.map(h => (
+                                                        <SelectItem key={h.id} value={h.id}>{h[language]}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
+                                            <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
+                                            <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
+                                            <Input type="date" value={newMemorial.dateOfBirth} onChange={(e) => setNewMemorial({...newMemorial, dateOfBirth: e.target.value})} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Date of Death' : 'تاریخ وفات'}</Label>
+                                            <Input type="date" required value={newMemorial.dateOfDeath} onChange={(e) => setNewMemorial({...newMemorial, dateOfDeath: e.target.value})} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
+                                            <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2">
+                                            <Label>{pageContent.graveyardLabel[language]}</Label>
+                                            <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-2">
+                                        <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم کی تصویر (اختیاری)'}</Label>
+                                        <Tabs defaultValue="upload" className="w-full">
+                                            <TabsList className="grid w-full grid-cols-2">
+                                            <TabsTrigger value="upload">
+                                                <Upload className="mr-2 h-4 w-4" />
+                                                {language === 'en' ? 'Upload' : 'اپ لوڈ'}
+                                            </TabsTrigger>
+                                            <TabsTrigger value="url">
+                                                <Camera className="mr-2 h-4 w-4" />
+                                                {language === 'en' ? 'Link' : 'لنک'}
+                                            </TabsTrigger>
+                                            </TabsList>
+                                            <TabsContent value="upload" className="space-y-4 pt-4 border rounded-md p-4 bg-muted/20">
+                                            <div className="flex items-center gap-4">
+                                                <Input 
+                                                type="file" 
+                                                accept="image/*" 
+                                                onChange={handleFileChange} 
+                                                disabled={uploading}
+                                                className="bg-background"
+                                                />
+                                                {uploading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+                                            </div>
+                                            {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
+                                                <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
+                                                <img src={newMemorial.imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                                                </div>
+                                            )}
+                                            <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
+                                            </TabsContent>
+                                            <TabsContent value="url" className="pt-4">
+                                            <Input 
+                                                placeholder="https://..." 
+                                                value={newMemorial.imageUrl.startsWith('data:') ? '' : newMemorial.imageUrl} 
+                                                onChange={(e) => setNewMemorial({...newMemorial, imageUrl: e.target.value})} 
+                                            />
+                                            </TabsContent>
+                                        </Tabs>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4 pt-4 border-t">
+                                    <h3 className="font-bold text-lg flex items-center gap-2">
+                                        <User className="h-5 w-5 text-primary" />
+                                        {language === 'en' ? 'Your Contact Details (Confidential)' : 'آپ کے رابطے کی تفصیلات'}
+                                    </h3>
+                                    <p className="text-xs text-muted-foreground">
+                                        {language === 'en' ? 'This information is only visible to the workshop admin for service inquiries.' : 'یہ معلومات صرف سروس انکوائری کے لیے ورکشاپ ایڈمن کو نظر آئے گی۔'}
+                                    </p>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Your Name' : 'آپ کا نام'}</Label>
+                                            <Input required value={newMemorial.publisherName} onChange={(e) => setNewMemorial({...newMemorial, publisherName: e.target.value})} placeholder="e.g. Zahid Khan" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>{language === 'en' ? 'Your Email' : 'آپ کا ای میل'}</Label>
+                                            <Input required type="email" value={newMemorial.publisherEmail} onChange={(e) => setNewMemorial({...newMemorial, publisherEmail: e.target.value})} placeholder="e.g. zahid@example.com" />
+                                        </div>
+                                        <div className="md:col-span-2 space-y-2">
+                                            <Label>{language === 'en' ? 'Phone Number (with Country Code)' : 'فون نمبر (کنٹری کوڈ کے ساتھ)'}</Label>
+                                            <Input required value={newMemorial.publisherPhone} onChange={(e) => setNewMemorial({...newMemorial, publisherPhone: e.target.value})} placeholder="e.g. +92 300 1234567" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <DialogFooter className="pt-4">
+                                <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
+                                    {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : pageContent.addMemorial[language]}
+                                </Button>
+                                </DialogFooter>
+                            </form>
+                        </DialogContent>
                     </Dialog>
                 </div>
             </div>
@@ -377,7 +501,7 @@ Please provide details on pricing and timeline.`;
                     <DialogHeader>
                         <DialogTitle className="text-2xl font-bold">{pageContent.addMemorial[language]}</DialogTitle>
                         <DialogDescription className="text-lg">
-                            {language === 'en' ? 'Preserve the legacy. Add a location to help family and friends find the resting place.' : 'میراث کو محفوظ رکھیں۔ خاندان اور دوستوں کو آرام گاہ تلاش کرنے میں مدد کے لیے ایک مقام شامل کریں۔'}
+                            {language === 'en' ? 'Preserve the legacy. Add a location to help family and friends find the resting place. This listing service is free.' : 'میراث کو محفوظ رکھیں۔ خاندان اور دوستوں کو آرام گاہ تلاش کرنے میں مدد کے لیے ایک مقام شامل کریں۔ یہ فہرست سازی کی خدمت مفت ہے۔'}
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
@@ -634,8 +758,8 @@ Please provide details on pricing and timeline.`;
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                     {language === 'en' 
-                        ? 'At Stylish Marble Art, we understand that visiting a graveyard can be difficult for those living abroad. Our dedicated teams in Karachi provide respectful maintenance services to ensure your loved one\'s final resting place remains beautiful and dignified.' 
-                        : 'سٹائلش ماربل آرٹ میں، ہم سمجھتے ہیں کہ بیرون ملک مقیم افراد کے لیے قبرستان جانا مشکل ہو سکتا ہے۔ ہماری کراچی میں وقف ٹیمیں اس بات کو یقینی بنانے کے لیے باوقار دیکھ بھال کی خدمات فراہم کرتی ہیں کہ آپ کے پیارے کی آخری آرام گاہ خوبصورت اور باوقار رہے۔'}
+                        ? 'At Stylish Marble Art, we understand that visiting a graveyard can be difficult for those living abroad. While our digital memorial listing is a free gift to the community, our dedicated teams in Karachi provide professional maintenance services to ensure your loved one\'s final resting place remains beautiful and dignified. Request a custom quote today for ongoing care.' 
+                        : 'سٹائلش ماربل آرٹ میں، ہم سمجھتے ہیں کہ بیرون ملک مقیم افراد کے لیے قبرستان جانا مشکل ہو سکتا ہے۔ اگرچہ ہماری ڈیجیٹل میموریل لسٹنگ کمیونٹی کے لیے ایک مفت تحفہ ہے، ہماری کراچی میں وقف ٹیمیں پیشہ ورانہ دیکھ بھال کی خدمات فراہم کرتی ہیں تاکہ یہ یقینی بنایا جا سکے کہ آپ کے پیارے کی آخری آرام گاہ خوبصورت اور باوقار رہے۔ جاری دیکھ بھال کے لیے آج ہی کسٹم کوٹیشن کی درخواست کریں۔'}
                 </p>
             </div>
 
@@ -655,7 +779,7 @@ Please provide details on pricing and timeline.`;
                                     {s.description[language]}
                                 </p>
                                 <Button variant="link" className="font-bold text-primary" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
-                                    {language === 'en' ? 'Learn More' : 'مزید جانیں'}
+                                    {language === 'en' ? 'Get a Price Quote' : 'قیمت معلوم کریں'}
                                 </Button>
                             </CardContent>
                         </Card>
