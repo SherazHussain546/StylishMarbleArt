@@ -1,10 +1,12 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export default function AboutPageClient() {
   const { language } = useLanguage();
@@ -31,6 +33,12 @@ export default function AboutPageClient() {
           <div>
             <h2 className="text-3xl font-bold">{pageContent.ourStoryTitle[language]}</h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{pageContent.ourStoryText[language]}</p>
+            <Button asChild className="mt-8">
+                <Link href="/services" className="flex items-center gap-2">
+                    {language === 'en' ? 'See Our Services' : 'ہماری خدمات دیکھیں'}
+                    <ArrowRight className="h-4 w-4" />
+                </Link>
+            </Button>
           </div>
         </div>
 
@@ -50,6 +58,18 @@ export default function AboutPageClient() {
               </Card>
             ))}
           </div>
+        </div>
+        
+        <div className="mt-24 text-center">
+            <h2 className="text-2xl font-bold mb-6">{language === 'en' ? 'Have a specific project in mind?' : 'کیا آپ کے ذہن میں کوئی مخصوص منصوبہ ہے؟'}</h2>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Button asChild size="lg" variant="default">
+                    <Link href="/contact">{language === 'en' ? 'Request a Quote' : 'کوٹیشن حاصل کریں'}</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                    <Link href="/gallery">{language === 'en' ? 'View Our Work' : 'ہمارا کام دیکھیں'}</Link>
+                </Button>
+            </div>
         </div>
       </div>
     </div>

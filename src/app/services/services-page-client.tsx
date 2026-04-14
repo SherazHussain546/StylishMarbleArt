@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -9,7 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Mail, MessageCircle, Phone } from 'lucide-react';
+import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -24,6 +23,20 @@ export default function ServicesPageClient() {
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{pageContent.title[language]}</h1>
           <p className="mt-4 text-xl text-muted-foreground leading-relaxed">{pageContent.description[language]}</p>
+          <div className="mt-8 flex justify-center gap-4">
+             <Button asChild variant="outline" size="sm" className="rounded-full">
+                <Link href="/faq" className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4" />
+                    {language === 'en' ? 'View FAQ' : 'سوالات دیکھیں'}
+                </Link>
+             </Button>
+             <Button asChild variant="outline" size="sm" className="rounded-full">
+                <Link href="/gallery" className="flex items-center gap-2">
+                    {language === 'en' ? 'Browse Gallery' : 'گیلری دیکھیں'}
+                    <ArrowRight className="h-4 w-4" />
+                </Link>
+             </Button>
+          </div>
         </div>
         <div className="mt-16 mx-auto max-w-5xl space-y-24">
           {pageContent.serviceList.map((service, index) => (
@@ -31,7 +44,6 @@ export default function ServicesPageClient() {
               <div className="text-center md:text-left">
                 <h2 className="text-3xl font-bold">{service.name[language]}</h2>
                 <div className="mt-6 text-lg text-muted-foreground space-y-4">
-                  {/* Expanded text content for SEO (>300 words total across descriptions) */}
                   <p className="leading-relaxed">{service.description[language]}</p>
                   <p className="leading-relaxed">
                     {language === 'en' 

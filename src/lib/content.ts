@@ -226,20 +226,84 @@ export const content = {
     description: { en: 'Common questions about marble types, gravestones, and pricing in Karachi.', ur: 'کراچی میں ماربل کی اقسام، کتبوں اور قیمتوں کے بارے میں عام سوالات۔' },
     faqs: [
       {
-        question: { en: 'What is the best marble for gravestones in Pakistan?', ur: 'پاکستان میں کتبوں کے لیے بہترین ماربل کون سا ہے؟' },
-        answer: { en: 'Ziarat White is the most popular choice due to its purity and durability in the Pakistani climate. Black Granite is also highly recommended for its strength.', ur: 'زیارت وائٹ اپنی پاکیزگی اور پاکستانی آب و ہوا میں پائیداری کی وجہ سے سب سے مقبول انتخاب ہے۔ بلیک گرینائٹ اپنی مضبوطی کے لیے بھی انتہائی تجویز کیا جاتا ہے۔' },
+        question: { en: 'Where is Stylish Marble Art located?', ur: 'سٹائلش ماربل آرٹ کہاں واقع ہے؟' },
+        answer: { en: 'We are located at Malir 15, on the Main National Highway near Bank Al-Habib Ltd, Karachi, Pakistan.', ur: 'ہم ملیر 15، مین نیشنل ہائی وے، بینک الحبیب لمیٹڈ کے قریب، کراچی، پاکستان میں واقع ہیں۔' },
       },
       {
-        question: { en: 'How long does it take to engrave a headstone?', ur: 'کتبے پر کندہ کاری میں کتنا وقت لگتا ہے؟' },
-        answer: { en: 'Standard engraving typically takes 3-5 days depending on the complexity of the calligraphy and design.', ur: 'خطاطی اور ڈیزائن کی پیچیدگی کے لحاظ سے معیاری کندہ کاری میں عام طور پر 3-5 دن لگتے ہیں۔' },
+        question: { en: 'Do you serve locations outside of Karachi?', ur: 'کیا آپ کراچی سے باہر بھی خدمات فراہم کرتے ہیں؟' },
+        answer: { en: 'Yes, while based in Karachi, we serve families and homeowners across all of Pakistan with our expert marble craftsmanship.', ur: 'جی ہاں، اگرچہ ہم کراچی میں مقیم ہیں، ہم اپنی ماہرانہ ماربل کاریگری کے ذریعے پورے پاکستان میں خاندانوں اور گھر مالکان کی خدمت کرتے ہیں۔' },
       },
       {
-        question: { en: 'Do you provide home installation in Karachi?', ur: 'کیا آپ کراچی میں گھر پر انسٹالیشن فراہم کرتے ہیں؟' },
-        answer: { en: 'Yes, we provide full measurement, cutting, and installation services for kitchens and flooring across Karachi.', ur: 'جی ہاں، ہم پورے کراچی میں کچن اور فرش کے لیے پیمائش، کٹنگ اور تنصیب کی مکمل خدمات فراہم کرتے ہیں۔' },
+        question: { en: 'How long has the company been in business?', ur: 'کمپنی کتنے عرصے سے کام کر رہی ہے؟' },
+        answer: { en: 'Stylish Marble Art has been operating for over 50 years as a trusted, family-run business in the stonemasonry industry.', ur: 'سٹائلش ماربل آرٹ 50 سال سے زیادہ عرصے سے سنگ تراشی کی صنعت میں ایک قابل اعتماد، خاندانی کاروبار کے طور پر کام کر رہا ہے۔' },
       },
       {
-        question: { en: 'What is the price of marble flooring in Pakistan?', ur: 'پاکستان میں ماربل فلورنگ کی قیمت کیا ہے؟' },
-        answer: { en: 'Prices vary by type (e.g. Sunny Grey vs. Ziarat White). Contact us for a precise quote based on your square footage.', ur: 'قیمتیں قسم کے لحاظ سے مختلف ہوتی ہیں (مثلاً سنی گرے بمقابلہ زیارت وائٹ)۔ اپنے رقبے کی بنیاد پر درست کوٹیشن کے لیے ہم سے رابطہ کریں۔' },
+        question: { en: 'How can I get a price quote?', ur: 'میں قیمت کا کوٹیشن کیسے حاصل کر سکتا ہوں؟' },
+        answer: { en: 'You can request a quote via our website contact form, WhatsApp (+92 308 3401606), or by visiting our workshop directly in Malir 15.', ur: 'آپ ہماری ویب سائٹ کے رابطہ فارم، واٹس ایپ (+92 308 3401606)، یا ملیر 15 میں ہماری ورکشاپ پر براہ راست آ کر کوٹیشن حاصل کر سکتے ہیں۔' },
+      },
+      {
+        question: { en: 'Can I see your work in person?', ur: 'کیا میں آپ کا کام خود دیکھ سکتا ہوں؟' },
+        answer: { en: 'Absolutely. Customers are encouraged to visit our workshop in Karachi to see our quality marble selection and finished craftsmanship firsthand.', ur: 'بالکل۔ صارفین کو کراچی میں ہماری ورکشاپ کا دورہ کرنے کی ترغیب دی جاتی ہے تاکہ وہ ہمارے معیاری ماربل کے انتخاب اور تیار شدہ دستکاری کو خود دیکھ سکیں۔' },
+      },
+      {
+        question: { en: 'What types of gravestone services do you offer?', ur: 'آپ کتبے کی کونسی خدمات پیش کرتے ہیں؟' },
+        answer: { en: 'We provide custom design, crafting, and professional installation of high-quality gravestones and headstones across Pakistan.', ur: 'ہم پورے پاکستان میں اعلیٰ معیار کے کتبوں اور یادگاروں کے کسٹم ڈیزائن، تیاری اور پیشہ ورانہ تنصیب فراہم کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'Do you handle the complete preparation of a grave?', ur: 'کیا آپ قبر کی مکمل تیاری کو سنبھالتے ہیں؟' },
+        answer: { en: 'Yes, we offer comprehensive services for the complete preparation of graves following burial, including the base structure and headstone.', ur: 'جی ہاں، ہم تدفین کے بعد قبروں کی مکمل تیاری بشمول بنیادی ڈھانچے اور کتبے کے جامع خدمات پیش کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'What materials are used for memorials?', ur: 'یادگاروں کے لیے کون سا میٹریل استعمال کیا جاتا ہے؟' },
+        answer: { en: 'We work with a variety of premium stones, including Ziarat White marble, Black Granite, and specialized artificial composites.', ur: 'ہم مختلف پریمیم پتھروں کے ساتھ کام کرتے ہیں، بشمول زیارت وائٹ ماربل، بلیک گرینائٹ، اور خصوصی مصنوعی ماربل۔' },
+      },
+      {
+        question: { en: 'Can portraits or custom photos be engraved on a gravestone?', ur: 'کیا کتبے پر تصاویر یا کسٹم ڈیزائن کندہ کیے جا سکتے ہیں؟' },
+        answer: { en: 'Yes, our state-of-the-art engraving technology allows for intricate designs, religious text, and detailed portraits on stone.', ur: 'جی ہاں، ہماری جدید ترین کندہ کاری کی ٹیکنالوجی پتھر پر پیچیدہ ڈیزائن، مذہبی متن اور تفصیلی تصاویر بنانے کی اجازت دیتی ہے۔' },
+      },
+      {
+        question: { en: 'Do you offer grave restoration services?', ur: 'کیا آپ قبروں کی بحالی کی خدمات پیش کرتے ہیں؟' },
+        answer: { en: 'Yes, we provide cleaning, chip repair, and professional polishing for existing memorials to restore their original dignified appearance.', ur: 'جی ہاں، ہم موجودہ یادگاروں کی صفائی، مرمت اور پروفیشنل پالش فراہم کرتے ہیں تاکہ ان کی اصل باوقار شکل کو بحال کیا جا سکے۔' },
+      },
+      {
+        question: { en: 'What home marble services are available?', ur: 'گھر کے لیے کون سی ماربل خدمات دستیاب ہیں؟' },
+        answer: { en: 'We specialize in custom kitchen countertops, elegant marble flooring, wall cladding, and various decorative stone elements for your home.', ur: 'ہم کسٹم کچن کاؤنٹر ٹاپس، خوبصورت ماربل فلورنگ، وال کلیڈنگ اور آپ کے گھر کے لیے مختلف آرائشی پتھروں کے عناصر میں مہارت رکھتے ہیں۔' },
+      },
+      {
+        question: { en: 'Do you offer custom engraving for non-memorial purposes?', ur: 'کیا آپ غیر یادگاری مقاصد کے لیے بھی کندہ کاری کرتے ہیں؟' },
+        answer: { en: 'Yes, we create high-quality engraved plaques, nameplates, and custom stone designs for government buildings and residential decor.', ur: 'جی ہاں، ہم سرکاری عمارتوں اور رہائشی سجاوٹ کے لیے اعلیٰ معیار کی کندہ شدہ تختیاں، نام کی تختیاں اور کسٹم ڈیزائن تیار کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'Can I choose the specific type of stone for my kitchen counter?', ur: 'کیا میں اپنے کچن کاؤنٹر کے لیے مخصوص پتھر کا انتخاب کر سکتا ہوں؟' },
+        answer: { en: 'Yes, we offer a vast selection of natural stones like Granite and Ziarat White, as well as modern artificial marble to match your specific style.', ur: 'جی ہاں، ہم گرینائٹ اور زیارت وائٹ جیسے قدرتی پتھروں کے ساتھ ساتھ جدید مصنوعی ماربل کا ایک وسیع انتخاب پیش کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'Is artificial marble more durable than natural stone?', ur: 'کیا مصنوعی ماربل قدرتی پتھر سے زیادہ پائیدار ہے؟' },
+        answer: { en: 'It depends on the specific use. Our expert team provides guidance on which material (natural stone vs. composite) is best for your project.', ur: 'یہ استعمال پر منحصر ہے۔ ہماری ماہر ٹیم اس بارے میں رہنمائی فراہم کرتی ہے کہ آپ کے پروجیکٹ کے لیے کون سا میٹریل (قدرتی بمقابلہ مصنوعی) بہترین ہے۔' },
+      },
+      {
+        question: { en: 'How do I maintain my marble kitchen countertop?', ur: 'میں اپنے ماربل کچن کاؤنٹر کی دیکھ بھال کیسے کروں؟' },
+        answer: { en: 'We provide professional cleaning and periodic polishing services to ensure your stone surfaces remain beautiful for years to come.', ur: 'ہم آپ کے پتھر کی سطحوں کو برسوں تک خوبصورت رکھنے کے لیے پیشہ ورانہ صفائی اور وقفے وقفے سے پالش کرنے کی خدمات فراہم کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'What is "Ziarat White" marble?', ur: '"زیارت وائٹ" ماربل کیا ہے؟' },
+        answer: { en: 'Ziarat White is a premium natural white stone from Pakistan, highly valued for its serene white look and durability in both memorials and luxury flooring.', ur: 'زیارت وائٹ پاکستان کا ایک پریمیم قدرتی سفید پتھر ہے، جو اپنی خوبصورت سفید شکل اور پائیداری کی وجہ سے یادگاروں اور پرتعیش فرش کے لیے انتہائی موزوں ہے۔' },
+      },
+      {
+        question: { en: 'Can you engrave on artificial marble?', ur: 'کیا آپ مصنوعی ماربل پر کندہ کاری کر سکتے ہیں؟' },
+        answer: { en: 'Yes, our modern laser and mechanical engraving technology is fully compatible with both natural stone and artificial composites.', ur: 'جی ہاں، ہماری جدید لیزر اور مکینیکل کندہ کاری کی ٹیکنالوجی قدرتی پتھر اور مصنوعی ماربل دونوں کے لیے موزوں ہے۔' },
+      },
+      {
+        question: { en: 'How long does it take to complete a custom gravestone?', ur: 'ایک کسٹم کتبہ تیار کرنے میں کتنا وقت لگتا ہے؟' },
+        answer: { en: 'Completion times vary based on the complexity of the design and text. Most standard headstones are completed within 3 to 7 working days.', ur: 'تیاری کا وقت ڈیزائن اور متن کی پیچیدگی پر منحصر ہے۔ زیادہ تر معیاری کتبے 3 سے 7 کام کے دنوں میں مکمل ہو جاتے ہیں۔' },
+      },
+      {
+        question: { en: 'Do you offer 3D design previews?', ur: 'کیا آپ تھری ڈی ڈیزائن پری ویو پیش کرتے ہیں؟' },
+        answer: { en: 'Yes, for custom projects, we provide digital sketches and design previews to ensure the final product meets your expectations.', ur: 'جی ہاں، کسٹم پروجیکٹس کے لیے، ہم ڈیجیٹل خاکے اور ڈیزائن پری ویو فراہم کرتے ہیں تاکہ یہ یقینی بنایا جا سکے کہ فائنل پروڈکٹ آپ کی توقعات کے مطابق ہو۔' },
+      },
+      {
+        question: { en: 'What sets Stylish Marble Art apart from other shops?', ur: 'سٹائلش ماربل آرٹ کو دیگر دکانوں سے کیا چیز ممتاز کرتی ہے؟' },
+        answer: { en: 'Our 50-year legacy in Karachi, focus on compassionate service, and the use of cutting-edge engraving technology for unmatched detail.', ur: 'کراچی میں ہماری 50 سالہ میراث، ہمدردانہ خدمت پر توجہ، اور بے مثال تفصیل کے لیے جدید ترین کندہ کاری کی ٹیکنالوجی کا استعمال۔' },
       }
     ]
   },
