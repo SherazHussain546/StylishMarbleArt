@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
-import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download, Edit2, Loader2, Heart, Calendar } from 'lucide-react';
+import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download, Edit2, Loader2, Heart, Calendar, Users } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -182,9 +182,13 @@ export default function AdminMemorialLeadsPage() {
                         )}
                         <h2 className="text-2xl font-bold text-primary">{m.deceasedName}</h2>
                       </div>
-                      <p className="text-sm text-muted-foreground italic">{m.parentName}</p>
+                      <div className="space-y-0.5">
+                        {m.fatherName && <p className="text-xs text-muted-foreground">Father: {m.fatherName}</p>}
+                        {m.motherName && <p className="text-xs text-muted-foreground">Mother: {m.motherName}</p>}
+                        {m.husbandName && <p className="text-xs text-muted-foreground">Husband: {m.husbandName}</p>}
+                      </div>
                       {m.graveyardName && (
-                        <div className="flex items-center gap-1 text-sm font-semibold text-primary mt-1">
+                        <div className="flex items-center gap-1 text-sm font-semibold text-primary mt-2">
                             <MapPin className="h-3 w-3" />
                             {m.graveyardName}
                         </div>
@@ -285,10 +289,35 @@ export default function AdminMemorialLeadsPage() {
                         <Label>Deceased Name</Label>
                         <Input required value={editingMemorial.deceasedName} onChange={(e) => setEditingMemorial({...editingMemorial, deceasedName: e.target.value})} />
                     </div>
-                    <div className="space-y-2">
-                        <Label>Father/Mother Name</Label>
-                        <Input value={editingMemorial.parentName} onChange={(e) => setEditingMemorial({...editingMemorial, parentName: e.target.value})} />
+                    
+                    <div className="space-y-4 md:col-span-2">
+                        <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                            <Users className="h-3 w-3" /> Family Tree Links
+                        </Label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/30 p-4 rounded-lg">
+                            <div className="space-y-2">
+                                <Label>Father's Name</Label>
+                                <Input value={editingMemorial.fatherName || ''} onChange={(e) => setEditingMemorial({...editingMemorial, fatherName: e.target.value})} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Mother's Name</Label>
+                                <Input value={editingMemorial.motherName || ''} onChange={(e) => setEditingMemorial({...editingMemorial, motherName: e.target.value})} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Step-Father</Label>
+                                <Input value={editingMemorial.stepFatherName || ''} onChange={(e) => setEditingMemorial({...editingMemorial, stepFatherName: e.target.value})} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Step-Mother</Label>
+                                <Input value={editingMemorial.stepMotherName || ''} onChange={(e) => setEditingMemorial({...editingMemorial, stepMotherName: e.target.value})} />
+                            </div>
+                            <div className="space-y-2 md:col-span-2">
+                                <Label>Husband's Name</Label>
+                                <Input value={editingMemorial.husbandName || ''} onChange={(e) => setEditingMemorial({...editingMemorial, husbandName: e.target.value})} />
+                            </div>
+                        </div>
                     </div>
+
                     <div className="space-y-2">
                         <Label>Date of Birth</Label>
                         <Input type="date" value={editingMemorial.dateOfBirth} onChange={(e) => setEditingMemorial({...editingMemorial, dateOfBirth: e.target.value})} />

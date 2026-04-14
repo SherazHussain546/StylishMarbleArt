@@ -211,12 +211,16 @@
     "Memorial": {
       "title": "Memorial",
       "type": "object",
-      "description": "Represents a grave location and information about the deceased, plus publisher lead info.",
+      "description": "Represents a grave location and information about the deceased, including specific family relationships.",
       "properties": {
         "id": { "type": "string" },
         "honorific": { "type": "string", "description": "Title like Dr., Prof, Shaheed, etc." },
         "deceasedName": { "type": "string" },
-        "parentName": { "type": "string" },
+        "fatherName": { "type": "string" },
+        "motherName": { "type": "string" },
+        "stepFatherName": { "type": "string" },
+        "stepMotherName": { "type": "string" },
+        "husbandName": { "type": "string" },
         "dateOfBirth": { "type": "string" },
         "dateOfDeath": { "type": "string" },
         "islamicDate": { "type": "string" },
@@ -337,6 +341,6 @@
         }
       }
     ],
-    "reasoning": "Updated Memorial entity to include honorific field for professional and martyr titles."
+    "reasoning": "Updated Memorial entity to include specific family relationship fields (father, mother, step-parents, husband) for advanced family tree linking."
   }
 }
