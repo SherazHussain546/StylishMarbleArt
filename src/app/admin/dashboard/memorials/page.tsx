@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -121,7 +120,7 @@ export default function AdminMemorialLeadsPage() {
           filteredMemorials.map((m: any) => (
             <Card key={m.id} className="overflow-hidden border-l-4 border-green-500">
               <div className="grid grid-cols-1 md:grid-cols-4">
-                <div className="md:col-span-1 relative h-48 md:h-full bg-muted">
+                <div className="md:col-span-1 relative aspect-square bg-muted">
                   <img 
                     src={m.imageUrl || 'https://picsum.photos/seed/placeholder/400/400'} 
                     alt={m.deceasedName} 

@@ -1,4 +1,3 @@
-
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,7 +25,7 @@ export function MarbleTypes() {
             <Link key={marble.slug} href={`/marbles/${marble.slug}`} className="group block">
               <Card className="overflow-hidden h-full transition-shadow duration-300 group-hover:shadow-xl">
                 <CardHeader className="p-0">
-                  <div className="relative h-60 w-full">
+                  <div className="relative aspect-square w-full">
                     <Image
                       src={marble.image}
                       alt={`High-quality ${marble.name.en} offered by Stylish Marble Art for custom work`}

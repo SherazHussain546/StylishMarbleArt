@@ -386,9 +386,9 @@ Please provide details on pricing and timeline.`;
               ) : filteredMemorials.length > 0 ? (
                 filteredMemorials.map((m: any) => (
                   <Card key={m.id} className="flex flex-col h-full shadow-md hover:shadow-xl transition-all border-t-4 border-primary group overflow-hidden bg-background">
-                    <div className="relative h-56 w-full bg-muted overflow-hidden">
+                    <div className="relative aspect-square w-full bg-muted overflow-hidden">
                       <img 
-                        src={m.imageUrl || 'https://picsum.photos/seed/memorial/400/300'} 
+                        src={m.imageUrl || 'https://picsum.photos/seed/memorial/400/400'} 
                         alt={m.deceasedName} 
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
                       />

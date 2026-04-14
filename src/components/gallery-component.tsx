@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -119,7 +118,7 @@ export function GalleryComponent() {
               className="group relative flex flex-col cursor-pointer overflow-hidden rounded-xl bg-card shadow-lg border-2 border-transparent hover:border-primary transition-all duration-300"
               onClick={() => setSelectedImageIndex(index)}
             >
-              <div className="relative h-72 w-full overflow-hidden">
+              <div className="relative aspect-square w-full overflow-hidden">
                 <Image
                   src={image.url}
                   alt={image.alt}
