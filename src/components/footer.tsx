@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -24,6 +23,7 @@ export function Footer() {
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/about', label: content.nav.about[language] },
+    { href: '/faq', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },
   ];
 

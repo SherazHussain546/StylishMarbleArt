@@ -6,6 +6,7 @@ export const content = {
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     updates: { en: 'Articles & Updates', ur: 'مضامین اور اپ ڈیٹس' },
+    faq: { en: 'FAQ', ur: 'سوالات' },
   },
   hero: {
     title: {
@@ -197,28 +198,50 @@ export const content = {
        {
         name: { en: 'Gravestones & Memorials (کتبے)', ur: 'قبر کے کتبے اور یادگاریں' },
         description: {
-          en: 'Custom headstone maker specializing in Ziarat White and Black Granite. Respectful engraving and installation services across Pakistan.',
-          ur: 'زیارت وائٹ اور بلیک گرینائٹ میں مہارت رکھنے والے کسٹم کتبہ بنانے والے۔ پورے پاکستان میں احترام والی کندہ کاری اور تنصیب کی خدمات۔',
+          en: 'Our Karachi workshop specializes in crafting high-quality gravestones and memorials. With over 50 years of experience, we understand the importance of creating a lasting tribute. We use premium Ziarat White marble and durable Black Granite to ensure your loved one\'s memorial stands the test of time. Our services include custom design, Urdu and Arabic calligraphy engraving, and professional installation in all Karachi cemeteries. Whether you need a simple headstone or a complete grave structure, we provide compassionate service and expert craftsmanship.',
+          ur: 'ہماری کراچی ورکشاپ اعلیٰ معیار کے کتبے اور یادگاریں بنانے میں مہارت رکھتی ہے۔ 50 سال سے زیادہ کے تجربے کے ساتھ، ہم ایک دیرپا خراج عقیدت پیدا کرنے کی اہمیت کو سمجھتے ہیں۔ ہم پریمیم زیارت وائٹ ماربل اور پائیدار بلیک گرینائٹ کا استعمال کرتے ہیں تاکہ یہ یقینی بنایا جا سکے کہ آپ کے پیارے کی یادگار وقت کی کسوٹی پر کھڑی اترے۔ ہماری خدمات میں کسٹم ڈیزائن، اردو اور عربی خطاطی کی کندہ کاری، اور کراچی کے تمام قبرستانوں میں پیشہ ورانہ تنصیب شامل ہے۔ چاہے آپ کو ایک سادہ کتبے کی ضرورت ہو یا مکمل قبر کی تعمیر کی، ہم ہمدردانہ خدمت اور ماہرانہ دستکاری فراہم کرتے ہیں۔',
         },
         images: [
-          { src: '/Gallery/Grave/8.png', alt: 'White Ziarat marble gravestone with Urdu engraving', hint: 'gravestone' },
-          { src: '/Gallery/Headstone/8.png', alt: 'Black granite headstone with custom Islamic calligraphy', hint: 'gravestone' },
-          { src: '/Gallery/Headstone/4.png', alt: 'Custom grave memorial design and installation', hint: 'cemetery work' },
+          { src: '/Gallery/Grave/8.png', alt: 'White Ziarat marble gravestone with Urdu engraving in Karachi', hint: 'gravestone' },
+          { src: '/Gallery/Headstone/8.png', alt: 'Black granite headstone with custom Islamic calligraphy Pakistan', hint: 'gravestone' },
+          { src: '/Gallery/Headstone/4.png', alt: 'Custom grave memorial design and installation Malir 15', hint: 'cemetery work' },
         ],
       },
       {
         name: { en: 'Kitchen & Home Installation', ur: 'کچن اور ہوم انسٹالیشن' },
         description: {
-          en: 'Expert installation of kitchen countertops, marble flooring, and wall cladding. Quality stone at competitive prices in Karachi.',
-          ur: 'کچن کاؤنٹر ٹاپس، ماربل فلورنگ اور وال کلیڈنگ کی ماہرانہ تنصیب۔ کراچی میں مسابقتی قیمتوں پر معیاری پتھر۔',
+          en: 'Transform your home with our premium marble installation services. We specialize in high-end kitchen countertops, elegant marble flooring, and custom wall cladding. Our team sources the best marble from across Pakistan, including Peshawar White and artificial options, to provide a clean and modern look. We provide end-to-end services from measurement and stone selection to expert cutting and polishing. Enhance the value and beauty of your property in Karachi with durable, heat-resistant granite and marble surfaces that last for generations.',
+          ur: 'ہماری پریمیم ماربل انسٹالیشن سروسز کے ساتھ اپنے گھر کو تبدیل کریں۔ ہم ہائی اینڈ کچن کاؤنٹر ٹاپس، خوبصورت ماربل فلورنگ، اور کسٹم وال کلیڈنگ میں مہارت رکھتے ہیں۔ ہماری ٹیم پورے پاکستان سے بہترین ماربل حاصل کرتی ہے، بشمول پشاور وائٹ اور مصنوعی آپشنز، ایک صاف ستھری اور جدید شکل فراہم کرنے کے لیے۔ ہم پیمائش اور پتھر کے انتخاب سے لے کر ماہرانہ کٹنگ اور پالش تک مکمل خدمات فراہم کرتے ہیں۔ کراچی میں اپنی پراپرٹی کی قدر اور خوبصورتی میں اضافہ کریں پائیدار، حرارت سے بچنے والے گرینائٹ اور ماربل کی سطحوں کے ساتھ جو نسلوں تک چلتی ہیں۔',
         },
         images: [
-          { src: '/Gallery/HomeDecor/1.png', alt: 'Modern marble kitchen countertop in Karachi', hint: 'kitchen countertop' },
-          { src: '/Gallery/HomeDecor/2.png', alt: 'Premium marble flooring for Karachi homes', hint: 'marble floor' },
-          { src: '/Gallery/HomeDecor/3.png', alt: 'Custom engraved wall cladding for government projects', hint: 'wall cladding' },
+          { src: '/Gallery/HomeDecor/1.png', alt: 'Modern marble kitchen countertop installation Karachi home', hint: 'kitchen countertop' },
+          { src: '/Gallery/HomeDecor/2.png', alt: 'Premium marble flooring for high-end Karachi residential project', hint: 'marble floor' },
+          { src: '/Gallery/HomeDecor/3.png', alt: 'Custom engraved wall cladding for government building project Pakistan', hint: 'wall cladding' },
         ],
       },
     ],
+  },
+  faqPage: {
+    title: { en: 'Frequently Asked Questions', ur: 'اکثر پوچھے گئے سوالات' },
+    description: { en: 'Common questions about marble types, gravestones, and pricing in Karachi.', ur: 'کراچی میں ماربل کی اقسام، کتبوں اور قیمتوں کے بارے میں عام سوالات۔' },
+    faqs: [
+      {
+        question: { en: 'What is the best marble for gravestones in Pakistan?', ur: 'پاکستان میں کتبوں کے لیے بہترین ماربل کون سا ہے؟' },
+        answer: { en: 'Ziarat White is the most popular choice due to its purity and durability in the Pakistani climate. Black Granite is also highly recommended for its strength.', ur: 'زیارت وائٹ اپنی پاکیزگی اور پاکستانی آب و ہوا میں پائیداری کی وجہ سے سب سے مقبول انتخاب ہے۔ بلیک گرینائٹ اپنی مضبوطی کے لیے بھی انتہائی تجویز کیا جاتا ہے۔' },
+      },
+      {
+        question: { en: 'How long does it take to engrave a headstone?', ur: 'کتبے پر کندہ کاری میں کتنا وقت لگتا ہے؟' },
+        answer: { en: 'Standard engraving typically takes 3-5 days depending on the complexity of the calligraphy and design.', ur: 'خطاطی اور ڈیزائن کی پیچیدگی کے لحاظ سے معیاری کندہ کاری میں عام طور پر 3-5 دن لگتے ہیں۔' },
+      },
+      {
+        question: { en: 'Do you provide home installation in Karachi?', ur: 'کیا آپ کراچی میں گھر پر انسٹالیشن فراہم کرتے ہیں؟' },
+        answer: { en: 'Yes, we provide full measurement, cutting, and installation services for kitchens and flooring across Karachi.', ur: 'جی ہاں، ہم پورے کراچی میں کچن اور فرش کے لیے پیمائش، کٹنگ اور تنصیب کی مکمل خدمات فراہم کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'What is the price of marble flooring in Pakistan?', ur: 'پاکستان میں ماربل فلورنگ کی قیمت کیا ہے؟' },
+        answer: { en: 'Prices vary by type (e.g. Sunny Grey vs. Ziarat White). Contact us for a precise quote based on your square footage.', ur: 'قیمتیں قسم کے لحاظ سے مختلف ہوتی ہیں (مثلاً سنی گرے بمقابلہ زیارت وائٹ)۔ اپنے رقبے کی بنیاد پر درست کوٹیشن کے لیے ہم سے رابطہ کریں۔' },
+      }
+    ]
   },
   galleryPage: {
     title: { en: 'Marble Work Gallery - Karachi', ur: 'ماربل ورک گیلری - کراچی' },
@@ -294,26 +317,35 @@ export const content = {
         {
           type: 'custom',
           image: '/Gallery/Grave/8.png',
-          title: { en: 'How to Choose a Gravestone in Pakistan', ur: 'پاکستان میں کتبے کا انتخاب کیسے کریں' },
-          date: { en: 'April 2024', ur: 'اپریل ۲۰۲۴' },
-          content: { en: 'A guide comparing Ziarat White marble vs. Black Granite for durability and Islamic aesthetic in Karachi cemeteries.', ur: 'کراچی کے قبرستانوں میں پائیداری اور اسلامی جمالیات کے لیے زیارت وائٹ ماربل بمقابلہ بلیک گرینائٹ کا موازنہ کرنے والی گائیڈ۔' },
-          alt: { en: 'Ziarat White marble gravestone guide Pakistan', ur: 'زیارت وائٹ ماربل کتبہ گائیڈ پاکستان' },
+          title: { en: 'How to Choose the Right Gravestone Marble in Pakistan', ur: 'پاکستان میں کتبے کے لیے صحیح ماربل کا انتخاب کیسے کریں' },
+          date: { en: 'May 2024', ur: 'مئی ۲۰۲۴' },
+          content: { en: 'Choosing a lasting memorial requires understanding stone durability. In Pakistan, Ziarat White and Black Granite are the leading choices for their ability to withstand the harsh Karachi climate. This guide compares porosity, heat resistance, and aesthetic appeal for Islamic memorials.', ur: 'ایک دیرپا یادگار کا انتخاب کرنے کے لیے پتھر کی پائیداری کو سمجھنے کی ضرورت ہے۔ پاکستان میں، زیارت وائٹ اور بلیک گرینائٹ کراچی کی سخت آب و ہوا کو برداشت کرنے کی صلاحیت کی وجہ سے اولین انتخاب ہیں۔ یہ گائیڈ اسلامی یادگاروں کے لیے مسامیت، گرمی کے خلاف مزاحمت اور جمالیاتی اپیل کا موازنہ کرتی ہے۔' },
+          alt: { en: 'Choosing gravestone marble Karachi Pakistan', ur: 'کراچی پاکستان میں کتبے کے ماربل کا انتخاب' },
           hint: 'marble guide'
         },
         {
           type: 'custom',
           image: '/Gallery/tom/ziaratwhite.png',
-          title: { en: 'Ziarat White: Pakistan\'s Finest Stone', ur: 'زیارت وائٹ: پاکستان کا بہترین پتھر' },
-          date: { en: 'March 2024', ur: 'مارچ ۲۰۲۴' },
-          content: { en: 'Why Ziarat White marble remains the top choice for luxury flooring and custom memorial headstones.', ur: 'کیوں زیارت وائٹ ماربل پرتعیش فرش اور کسٹم کتبوں کے لیے اولین انتخاب رہتا ہے۔' },
-          alt: { en: 'Ziarat White marble Pakistan stone', ur: 'زیارت وائٹ ماربل پاکستان کا پتھر' },
+          title: { en: 'Ziarat White Marble: Pakistan\'s Finest Stone Explained', ur: 'زیارت وائٹ ماربل: پاکستان کے بہترین پتھر کی وضاحت' },
+          date: { en: 'April 2024', ur: 'اپریل ۲۰۲۴' },
+          content: { en: 'Ziarat White is globally recognized for its purity. Sourced from the mountains of Balochistan, it offers a clean, serene look ideal for both luxury home flooring and dignified grave markers. Learn why this stone remains a bestseller at our Malir workshop.', ur: 'زیارت وائٹ اپنی پاکیزگی کی وجہ سے عالمی سطح پر پہچانا جاتا ہے۔ بلوچستان کے پہاڑوں سے حاصل کیا گیا، یہ ایک صاف ستھری، پرسکون شکل پیش کرتا ہے جو پرتعیش گھریلو فرش اور باوقار قبر کے نشانات دونوں کے لیے موزوں ہے۔ جانیں کہ یہ پتھر ہماری ملیر ورکشاپ میں کیوں بیسٹ سیلر رہتا ہے۔' },
+          alt: { en: 'Ziarat White marble guide Pakistan stone', ur: 'زیارت وائٹ ماربل گائیڈ پاکستان کا پتھر' },
           hint: 'marble stone'
+        },
+        {
+          type: 'custom',
+          image: '/Gallery/HomeDecor/1.png',
+          title: { en: 'Best Marble Types for Kitchen Countertops in Pakistan', ur: 'پاکستان میں کچن کاؤنٹر ٹاپس کے لیے بہترین ماربل کی اقسام' },
+          date: { en: 'March 2024', ur: 'مارچ ۲۰۲۴' },
+          content: { en: 'Kitchen countertops face heat and stains. While Peshawar White is a budget-friendly option, Black Granite provides the ultimate protection. We review the top 5 stones for modern Pakistani kitchens.', ur: 'کچن کاؤنٹر ٹاپس کو گرمی اور داغ دھبوں کا سامنا کرنا پڑتا ہے۔ جبکہ پشاور وائٹ ایک بجٹ فرینڈلی آپشن ہے، بلیک گرینائٹ بہترین تحفظ فراہم کرتا ہے۔ ہم جدید پاکستانی کچن کے لیے ٹاپ 5 پتھروں کا جائزہ لیتے ہیں۔' },
+          alt: { en: 'Kitchen marble guide Karachi Pakistan', ur: 'کچن ماربل گائیڈ کراچی پاکستان' },
+          hint: 'kitchen marble'
         }
     ]
   },
   footer: {
     tagline: {
-      en: 'Karachi\'s Premium Marble & Headstone Maker - malir 15',
+      en: 'Karachi\'s Premium Marble & Headstone Maker - Malir 15',
       ur: 'کراچی کا پریمیم ماربل اور کتبہ بنانے والا - ملیر 15',
     },
     quickLinks: { en: 'Quick Links', ur: 'فوری لنکس' },
