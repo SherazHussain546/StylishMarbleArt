@@ -1,3 +1,4 @@
+
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -21,11 +22,15 @@ export default function MarbleDetailClient() {
   }
 
   const productSchema = useMemo(() => {
+    // Specific metadata for Rosso Verona based on user requirement
+    const isRosso = marble.slug === 'rosso-verona-marble';
     return {
       "@context": "https://schema.org",
       "@type": "Product",
       "name": marble.name.en,
-      "description": marble.meta_description?.en || marble.page_description.en,
+      "description": isRosso 
+        ? "Buy premium Rosso Verona marble in Karachi, Pakistan. Stylish Marble Art offers custom cutting, engraving, and installation of Rosso Verona for floors, countertops, and memorials. Call +92 308 3401606."
+        : marble.meta_description?.en || marble.page_description.en,
       "image": marble.image.startsWith('http') ? marble.image : `https://www.stylishmarbleart.com${marble.image}`,
       "brand": {
         "@type": "Brand",
@@ -42,8 +47,8 @@ export default function MarbleDetailClient() {
             "telephone": "+923083401606"
         }
       },
-      "material": marble.slug === 'rosso-verona-marble' ? "Natural Rosso Verona Marble" : `Natural ${marble.name.en}`,
-      "color": marble.appearance?.en || ""
+      "material": isRosso ? "Natural Rosso Verona Marble" : `Natural ${marble.name.en}`,
+      "color": isRosso ? "Deep warm red to burgundy base with white, cream, and fossil-pattern veining" : (marble.appearance?.en || "")
     };
   }, [marble]);
   
@@ -78,7 +83,7 @@ export default function MarbleDetailClient() {
                 <Image
                   src={marble.image}
                   alt={marble.slug === 'rosso-verona-marble' ? `Premium Rosso Verona Marble slab — Rosso Verona Marble by Stylish Marble Art, Karachi` : `${marble.name['en']} - ${marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
-                  data-ai-hint={marble.hint}
+                  data-ai-hint={marble.hint || "marble"}
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -155,7 +160,7 @@ export default function MarbleDetailClient() {
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold">{language === 'en' ? 'Typical Uses & Applications' : 'عام استعمال اور اطلاقات'}</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {marble.uses[language].map((use, idx) => (
+                        {(marble.uses[language] || []).map((use: string, idx: number) => (
                             <div key={idx} className="flex items-center gap-3 p-4 bg-secondary/20 rounded-xl">
                                 <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                                 <span className="font-medium">{use}</span>
@@ -177,6 +182,14 @@ export default function MarbleDetailClient() {
 
               {/* Conversion Box */}
               <div className="pt-6 space-y-6">
+                  <div className="space-y-4">
+                    <h2 className="text-2xl font-bold">{language === 'en' ? 'Get a Free Quote Today' : 'مفت کوٹیشن حاصل کریں'}</h2>
+                    <p className="text-muted-foreground leading-relaxed">
+                        {language === 'en' 
+                            ? 'Ready to transform your space — or create a lasting memorial — with Rosso Verona Marble? Contact Stylish Marble Art in Karachi today. We offer free consultations, competitive pricing, and professional installation across all of Pakistan.' 
+                            : 'کیا آپ روسو ویرونا ماربل کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابقتی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔'}
+                    </p>
+                  </div>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button asChild size="lg" className="rounded-full px-10 h-14 text-lg shadow-lg">
                         <Link href="/contact" className="flex items-center gap-2">
@@ -194,11 +207,11 @@ export default function MarbleDetailClient() {
                   <div className="flex flex-col gap-2 text-sm text-muted-foreground items-start">
                     <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4 text-primary" />
-                        <span>🌐 Website: www.stylishmarbleart.com</span>
+                        <span>Website: www.stylishmarbleart.com</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-primary" />
-                        <span>📍 Location: Malir 15, National Highway, Near Bank Al-Habib, Karachi</span>
+                        <span>Location: Malir 15, National Highway, Near Bank Al-Habib, Karachi</span>
                     </div>
                   </div>
               </div>
