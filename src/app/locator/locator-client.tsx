@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, MessageCircle, Calendar, Share2, Droplets, Shovel, Sparkles, Settings2 } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, MessageCircle, Calendar, Share2 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -181,10 +181,10 @@ export default function LocatorPageClient() {
   };
 
   const services = [
-    { id: 'cleaning', icon: Sparkles, name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' } },
-    { id: 'watering', icon: Droplets, name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' } },
-    { id: 'planting', icon: Shovel, name: { en: 'Planting & Care', ur: 'پودے لگانا' } },
-    { id: 'custom', icon: Settings2, name: { en: 'Custom Service', ur: 'کسٹم سروس' } },
+    { id: 'cleaning', name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' } },
+    { id: 'watering', name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' } },
+    { id: 'planting', name: { en: 'Planting & Care', ur: 'پودے لگانا' } },
+    { id: 'custom', name: { en: 'Custom Service', ur: 'کسٹم سروس' } },
   ];
 
   const handleGetQuote = (m: any, serviceId: string) => {
@@ -440,21 +440,17 @@ Please provide details on pricing and timeline.`;
                       <div className="mt-auto space-y-3">
                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
                         <div className="grid grid-cols-2 gap-2">
-                            {services.map((s) => {
-                                const Icon = s.icon;
-                                return (
-                                    <Button 
-                                        key={s.id} 
-                                        variant="outline" 
-                                        size="sm" 
-                                        className="text-[10px] h-auto py-2.5 px-1 flex flex-col items-center gap-1.5 hover:bg-primary hover:text-white transition-all border-primary/10"
-                                        onClick={() => handleGetQuote(m, s.id)}
-                                    >
-                                        <Icon className="h-3.5 w-3.5" />
-                                        <span className="leading-tight text-center whitespace-normal">{s.name[language]}</span>
-                                    </Button>
-                                );
-                            })}
+                            {services.map((s) => (
+                                <Button 
+                                    key={s.id} 
+                                    variant="outline" 
+                                    size="sm" 
+                                    className="text-[10px] h-auto py-3 px-2 hover:bg-primary hover:text-white transition-all border-primary/10 whitespace-normal leading-tight text-center"
+                                    onClick={() => handleGetQuote(m, s.id)}
+                                >
+                                    {s.name[language]}
+                                </Button>
+                            ))}
                         </div>
                       </div>
                     </CardContent>
