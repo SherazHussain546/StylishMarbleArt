@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download, Loader2 } from 'lucide-react';
+import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -103,7 +103,7 @@ export default function AdminMemorialLeadsPage() {
         <div className="relative w-full md:w-72">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 
-                placeholder="Search leads..." 
+                placeholder="Search by name or graveyard..." 
                 className="pl-9"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -140,7 +140,7 @@ export default function AdminMemorialLeadsPage() {
                       )}
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" size="icon" onClick={() => generateQRCode(m)} title="Generate QR Code">
+                        <Button variant="outline" size="icon" onClick={() => generateQRCode(m)} title="Generate QR Code" disabled={generatingQR}>
                             <QrCode className="h-4 w-4 text-blue-600" />
                         </Button>
                         <Button variant="destructive" size="icon" onClick={() => handleDelete(m.id)}>

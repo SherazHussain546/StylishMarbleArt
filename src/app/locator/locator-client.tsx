@@ -5,11 +5,11 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, MessageCircle, Calendar, Share2 } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -59,18 +59,28 @@ export default function LocatorPageClient() {
 
   const suggestions = useMemo(() => {
     if (!memorials || searchQuery.length < 1) return [];
-    const uniqueNames = Array.from(new Set(memorials.map((m: any) => m.deceasedName))) as string[];
-    return uniqueNames.filter((name: string) => 
-      name.toLowerCase().includes(searchQuery.toLowerCase()) && 
-      name.toLowerCase() !== searchQuery.toLowerCase()
-    ).slice(0, 5);
+    
+    const query = searchQuery.toLowerCase();
+    const matches: string[] = [];
+    
+    memorials.forEach((m: any) => {
+      if (m.deceasedName.toLowerCase().includes(query) && !matches.includes(m.deceasedName)) {
+        matches.push(m.deceasedName);
+      }
+      if (m.graveyardName && m.graveyardName.toLowerCase().includes(query) && !matches.includes(m.graveyardName)) {
+        matches.push(m.graveyardName);
+      }
+    });
+
+    return matches.filter(s => s.toLowerCase() !== query).slice(0, 5);
   }, [memorials, searchQuery]);
 
   const filteredMemorials = useMemo(() => {
     if (!memorials) return [];
+    const q = searchQuery.toLowerCase();
     return memorials.filter((m: any) => 
-      m.deceasedName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (m.graveyardName && m.graveyardName.toLowerCase().includes(searchQuery.toLowerCase()))
+      m.deceasedName.toLowerCase().includes(q) ||
+      (m.graveyardName && m.graveyardName.toLowerCase().includes(q))
     );
   }, [memorials, searchQuery]);
 
@@ -115,7 +125,7 @@ export default function LocatorPageClient() {
 
     const data = {
       ...newMemorial,
-      latitude: 24.8778 + (Math.random() - 0.5) * 0.01, // Mocking GPS for MVP
+      latitude: 24.8778 + (Math.random() - 0.5) * 0.01,
       longitude: 67.1952 + (Math.random() - 0.5) * 0.01,
       createdAt: serverTimestamp(),
     };
@@ -153,7 +163,6 @@ export default function LocatorPageClient() {
         ? `View the memorial for ${m.deceasedName} at Stylish Marble Art.` 
         : `${m.deceasedName} کی یادگار سٹائلش ماربل آرٹ پر دیکھیں۔`;
 
-    let shared = false;
     if (navigator.share) {
         try {
             await navigator.share({
@@ -161,23 +170,17 @@ export default function LocatorPageClient() {
                 text: shareText,
                 url: shareUrl,
             });
-            shared = true;
+            return;
         } catch (err) {
-            if ((err as Error).name !== 'AbortError') {
-                console.warn('Native share failed, falling back to clipboard copy:', err);
-            } else {
-                return;
-            }
+            if ((err as Error).name === 'AbortError') return;
         }
     }
 
-    if (!shared) {
-        try {
-            await navigator.clipboard.writeText(shareUrl);
-            toast({ title: 'Link Copied', description: 'Memorial link copied to clipboard.' });
-        } catch (clipboardErr) {
-            toast({ variant: 'destructive', title: 'Share Failed', description: 'Could not copy link to clipboard.' });
-        }
+    try {
+        await navigator.clipboard.writeText(shareUrl);
+        toast({ title: 'Link Copied', description: 'Memorial link copied to clipboard.' });
+    } catch (clipboardErr) {
+        toast({ variant: 'destructive', title: 'Share Failed', description: 'Could not copy link to clipboard.' });
     }
   };
 
@@ -218,7 +221,7 @@ Please provide details on pricing and timeline.`;
           <div className="relative flex-grow">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input 
-              placeholder={pageContent.searchPlaceholder[language]} 
+              placeholder={language === 'en' ? "Search by name or graveyard..." : "نام یا قبرستان سے تلاش کریں..."}
               className="pl-10 h-12 bg-background border-primary/20 shadow-sm"
               value={searchQuery}
               onChange={(e) => {
@@ -230,18 +233,18 @@ Please provide details on pricing and timeline.`;
             />
             {showSuggestions && suggestions.length > 0 && (
               <div className="absolute z-50 w-full mt-1 bg-background border rounded-md shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                {suggestions.map((name) => (
+                {suggestions.map((val) => (
                   <button
-                    key={name}
+                    key={val}
                     type="button"
                     className="w-full text-left px-4 py-2 hover:bg-muted text-sm transition-colors border-b last:border-0 flex items-center gap-2"
                     onClick={() => {
-                      setSearchQuery(name);
+                      setSearchQuery(val);
                       setShowSuggestions(false);
                     }}
                   >
                     <Search className="h-3 w-3 opacity-50" />
-                    {name}
+                    {val}
                   </button>
                 ))}
               </div>
@@ -296,7 +299,7 @@ Please provide details on pricing and timeline.`;
                     </div>
                     
                     <div className="space-y-2">
-                        <Label>{language === 'en' ? 'Deceased Photo' : 'مرحوم کی تصویر'}</Label>
+                        <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم کی تصویر (اختیاری)'}</Label>
                         <Tabs defaultValue="upload" className="w-full">
                             <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="upload">
@@ -361,14 +364,6 @@ Please provide details on pricing and timeline.`;
                     </div>
                 </div>
 
-                <div className="bg-muted p-4 rounded-md text-center">
-                  <p className="text-xs text-muted-foreground uppercase font-bold mb-2">Pin Location</p>
-                  <p className="text-sm">Click on the map at the workshop to set exact GPS.</p>
-                  <div className="h-24 bg-secondary/50 rounded flex items-center justify-center border-2 border-dashed border-primary/20 mt-2">
-                    <MapPin className="h-8 w-8 text-primary opacity-50" />
-                  </div>
-                </div>
-
                 <DialogFooter className="pt-4">
                   <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
                     {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : pageContent.addMemorial[language]}
@@ -386,34 +381,55 @@ Please provide details on pricing and timeline.`;
               ) : filteredMemorials.length > 0 ? (
                 filteredMemorials.map((m: any) => (
                   <Card key={m.id} className="flex flex-col h-full shadow-md hover:shadow-xl transition-all border-t-4 border-primary group overflow-hidden bg-background">
-                    <div className="relative aspect-square w-full bg-muted overflow-hidden">
-                      <img 
-                        src={m.imageUrl || 'https://picsum.photos/seed/memorial/400/400'} 
-                        alt={m.deceasedName} 
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                      />
-                      <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
-                        <div className="bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-                            {m.graveyardName || 'Karachi Graveyard'}
+                    {m.imageUrl && (
+                      <div className="relative aspect-square w-full bg-muted overflow-hidden border-b">
+                        <img 
+                          src={m.imageUrl} 
+                          alt={m.deceasedName} 
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                        />
+                        <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                          <div className="bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                              {m.graveyardName || 'Karachi Graveyard'}
+                          </div>
+                          <Button 
+                              variant="secondary" 
+                              size="icon" 
+                              className="rounded-full h-8 w-8 shadow-lg"
+                              onClick={() => handleShare(m)}
+                          >
+                              <Share2 className="h-4 w-4" />
+                          </Button>
                         </div>
-                        <Button 
-                            variant="secondary" 
-                            size="icon" 
-                            className="rounded-full h-8 w-8 shadow-lg"
-                            onClick={() => handleShare(m)}
-                        >
-                            <Share2 className="h-4 w-4" />
-                        </Button>
                       </div>
-                    </div>
+                    )}
                     
                     <CardContent className="p-6 flex flex-col flex-grow">
-                      <div className="space-y-1 mb-4">
-                        <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
-                        <p className="text-sm text-muted-foreground italic">
-                          {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
-                        </p>
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="space-y-1">
+                          <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
+                          <p className="text-sm text-muted-foreground italic">
+                            {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
+                          </p>
+                        </div>
+                        {!m.imageUrl && (
+                          <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="rounded-full h-10 w-10 text-primary hover:bg-primary/10"
+                              onClick={() => handleShare(m)}
+                          >
+                              <Share2 className="h-5 w-5" />
+                          </Button>
+                        )}
                       </div>
+
+                      {!m.imageUrl && m.graveyardName && (
+                        <div className="mb-4 flex items-center gap-2 text-primary">
+                          <MapPin className="h-4 w-4" />
+                          <span className="text-sm font-bold uppercase tracking-wider">{m.graveyardName}</span>
+                        </div>
+                      )}
 
                       <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-muted">
                         <div className="space-y-1">
@@ -472,7 +488,7 @@ Please provide details on pricing and timeline.`;
                 <div className="col-span-full text-center py-24 bg-muted/20 rounded-xl border-2 border-dashed">
                   <Search className="h-12 w-12 mx-auto mb-4 opacity-10" />
                   <p className="text-lg font-medium text-muted-foreground">No matching graves found.</p>
-                  <p className="text-sm text-muted-foreground">Try searching for a different name or browse the list.</p>
+                  <p className="text-sm text-muted-foreground">Try searching for a different name or graveyard.</p>
                 </div>
               )}
            </div>
