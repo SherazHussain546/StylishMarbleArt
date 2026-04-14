@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, History, Target, ShieldCheck, Award, MessageCircle } from 'lucide-react';
+import { ArrowRight, History, Target, ShieldCheck, Award, MessageCircle, Globe } from 'lucide-react';
 import { useMemo } from 'react';
 
 export default function AboutPageClient() {
@@ -34,7 +34,8 @@ export default function AboutPageClient() {
         "telephone": "+92-308-3401606",
         "url": "https://www.stylishmarbleart.com/about",
         "foundingDate": "1970",
-        "priceRange": "$$"
+        "priceRange": "$$",
+        "areaServed": ["Pakistan", "Saudi Arabia", "UAE", "Qatar", "Kuwait", "Global Ummah"]
       }
     };
   }, [pageContent]);
@@ -93,10 +94,23 @@ export default function AboutPageClient() {
                     </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="rounded-full px-8">
-                    <Link href="/contact">{language === 'en' ? 'Visit Our Workshop' : 'ورکشاپ تشریف لائیں'}</Link>
+                    <Link href="/contact">{language === 'en' ? 'International Inquiry' : 'بین الاقوامی انکوائری'}</Link>
                 </Button>
             </div>
           </div>
+        </div>
+
+        {/* Global Reach Section */}
+        <div className="mt-32 bg-primary/5 rounded-[3rem] p-12 text-center border border-primary/10">
+            <div className="mx-auto bg-primary text-primary-foreground h-16 w-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <Globe className="h-10 w-10" />
+            </div>
+            <h2 className="text-3xl font-bold mb-6">{language === 'en' ? 'Serving the Global Muslim Ummah' : 'عالمی مسلم امت کی خدمت'}</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                {language === 'en' 
+                    ? 'From the Maghreb to Southeast Asia, Stylish Marble Art proudly exports high-quality Islamic memorials and marble work. We understand the cultural and religious significance of stonemasonry across the Muslim world, providing dignified Ziarat White and Black Granite solutions to clients in Algeria, Saudi Arabia, UAE, Indonesia, Nigeria, and beyond.' 
+                    : 'مغرب سے جنوب مشرقی ایشیا تک، سٹائلش ماربل آرٹ فخر کے ساتھ اعلیٰ معیار کی اسلامی یادگاریں اور ماربل کا کام برآمد کرتا ہے۔ ہم مسلم دنیا میں سنگ تراشی کی ثقافتی اور مذہبی اہمیت کو سمجھتے ہیں، اور الجزائر، سعودی عرب، متحدہ عرب امارات، انڈونیشیا، نائجیریا اور اس سے باہر کے کلائنٹس کو باوقار زیارت وائٹ اور بلیک گرینائٹ کے حل فراہم کرتے ہیں۔'}
+            </p>
         </div>
 
         {/* Values Section */}
@@ -105,8 +119,8 @@ export default function AboutPageClient() {
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.ourValuesTitle[language]}</h2>
             <p className="mt-4 text-muted-foreground text-lg">
                 {language === 'en' 
-                    ? 'Our foundation is built on three pillars that define our service in the Karachi marble industry.' 
-                    : 'ہماری بنیاد تین ستونوں پر ہے جو کراچی کی ماربل انڈسٹری میں ہماری خدمت کی تعریف کرتے ہیں۔'}
+                    ? 'Our foundation is built on three pillars that define our service in the Karachi marble industry and the global market.' 
+                    : 'ہماری بنیاد تین ستونوں پر ہے جو کراچی کی ماربل انڈسٹری اور عالمی مارکیٹ میں ہماری خدمت کی تعریف کرتے ہیں۔'}
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -133,18 +147,18 @@ export default function AboutPageClient() {
             </div>
             <div className="relative z-10 max-w-3xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                    {language === 'en' ? 'Planning a Custom Project in Karachi?' : 'کیا آپ کراچی میں کسی کسٹم پروجیکٹ کی منصوبہ بندی کر رہے ہیں؟'}
+                    {language === 'en' ? 'Planning a Custom Project Globally?' : 'کیا آپ عالمی سطح پر کسی کسٹم پروجیکٹ کی منصوبہ بندی کر رہے ہیں؟'}
                 </h2>
                 <p className="text-lg text-primary-foreground/80 mb-10 leading-relaxed">
                     {language === 'en' 
-                        ? 'From Ziarat White headstones to modern granite kitchen slabs, our artisans in Malir 15 are ready to bring your vision to life.' 
-                        : 'زیارت وائٹ کتبوں سے لے کر جدید گرینائٹ کچن سلیبس تک، ملیر 15 میں ہمارے کاریگر آپ کے وژن کو حقیقت بنانے کے لیے تیار ہیں۔'}
+                        ? 'Whether you are in Karachi or Kuwait, our artisans are ready to export the finest Pakistani marble to your doorstep.' 
+                        : 'چاہے آپ کراچی میں ہوں یا کویت میں، ہمارے کاریگر بہترین پاکستانی ماربل آپ کی دہلیز تک برآمد کرنے کے لیے تیار ہیں۔'}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button asChild size="lg" variant="secondary" className="rounded-full px-10 font-bold">
                         <Link href="/contact" className="flex items-center gap-2">
                             <MessageCircle className="h-5 w-5" />
-                            {language === 'en' ? 'Get a Free Quote' : 'مفت کوٹیشن حاصل کریں'}
+                            {language === 'en' ? 'International Quote' : 'بین الاقوامی کوٹیشن'}
                         </Link>
                     </Button>
                     <Button asChild size="lg" variant="outline" className="rounded-full px-10 font-bold bg-transparent text-white border-white hover:bg-white hover:text-primary">

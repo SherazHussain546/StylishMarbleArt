@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
@@ -14,19 +13,20 @@ const siteUrl = 'https://www.stylishmarbleart.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Stylish Marble Art - Gravestones, Kitchens & Custom Marble in Karachi',
+    default: 'Stylish Marble Art - Gravestones & Custom Marble for the Global Muslim Ummah',
     template: '%s | Stylish Marble Art',
   },
   description:
-    'Karachi-based headstone makers and marble specialists. Premium gravestones, memorials, and custom kitchen countertops in Pakistan. Expert Ziarat White and Black Granite engraving in Malir 15.',
+    'Karachi-based headstone makers serving the global Muslim community. Premium gravestones, memorials, and custom kitchen countertops in Pakistan and worldwide. Expert Ziarat White export for Middle East and beyond.',
   keywords: [
     'Stylish Marble Art', 'gravestones Karachi', 'headstone maker Karachi', 'marble gravestone Pakistan', 'marble engraving Pakistan', 'memorial services Karachi', 'custom headstones Pakistan',
     'kitchen marble Karachi', 'Peshawar White marble Pakistan', 'Ziarat White marble Pakistan', 'marble kitchen countertop Karachi', 'granite countertops Karachi', 'Islamic headstone design',
+    'Islamic memorials Saudi Arabia', 'UAE headstones', 'Kuwait marble export', 'Qatar memorials', 'Oman stone carving', 'Bahrain gravestones', 'Egypt marble', 'Morocco stone work', 'global Ummah memorials',
     'قبر کے کتبے کراچی', 'سنگ مرمر کی کندہ کاری', 'یادگار خدمات', 'باورچی خانے کا ماربل', 'ماربل ڈیزائن'
   ],
    openGraph: {
-    title: 'Stylish Marble Art - Premium Marble & Gravestones in Karachi, Pakistan',
-    description: 'Specialists in high-quality Islamic gravestones, memorials, and custom marble for kitchens and homes in Malir 15, Karachi.',
+    title: 'Stylish Marble Art - Premium Marble & Gravestones for the Global Muslim Ummah',
+    description: 'Specialists in high-quality Islamic gravestones, memorials, and custom marble for kitchens and homes in Karachi, serving clients worldwide.',
     url: siteUrl,
     siteName: 'Stylish Marble Art',
     images: [
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: '/SMAHeader.png',
         width: 1200,
         height: 630,
-        alt: 'Premium Marble Work by Stylish Marble Art in Karachi',
+        alt: 'Premium Marble Work by Stylish Marble Art - Global Reach',
       },
     ],
     locale: 'en_US',
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stylish Marble Art - Premium Marble Services in Karachi',
-    description: 'Trusted headstone makers and marble specialists in Malir 15, Karachi.',
+    title: 'Stylish Marble Art - Premium Marble Services Worldwide',
+    description: 'Trusted headstone makers and marble specialists in Karachi, serving the global Muslim community.',
     images: ['/SMAHeader.png'],
   },
   alternates: {
@@ -61,7 +61,7 @@ export default function RootLayout({
     "@type": "LocalBusiness",
     "name": "Stylish Marble Art",
     "image": `${siteUrl}/SMAHeader.png`,
-    "description": "Premium marble gravestone makers and stone specialists in Karachi. Expert Islamic memorials, kitchen countertops, and custom engraving.",
+    "description": "Premium marble gravestone makers and stone specialists in Karachi. Expert Islamic memorials, kitchen countertops, and custom engraving serving the global Muslim community.",
     "@id": siteUrl,
     "url": siteUrl,
     "telephone": "+92-308-3401606",
@@ -78,6 +78,10 @@ export default function RootLayout({
       "@type": "GeoCoordinates",
       "latitude": 24.8778,
       "longitude": 67.1952
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": ["Pakistan", "Saudi Arabia", "United Arab Emirates", "Qatar", "Kuwait", "Oman", "Bahrain", "Egypt", "Algeria", "Morocco", "Indonesia", "Malaysia", "Nigeria", "Bangladesh"]
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",

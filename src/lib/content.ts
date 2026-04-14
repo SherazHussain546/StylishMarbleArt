@@ -262,7 +262,7 @@ export const content = {
       },
       {
         question: { en: 'Do you serve locations outside of Karachi?', ur: 'کیا آپ کراچی سے باہر بھی خدمات فراہم کرتے ہیں؟' },
-        answer: { en: 'Yes, while based in Karachi, we serve families and homeowners across all of Pakistan with our expert marble craftsmanship.', ur: 'جی ہاں، اگرچہ ہم کراچی میں مقیم ہیں، ہم اپنی ماہرانہ ماربل کاریگری کے ذریعے پورے پاکستان میں خاندانوں اور گھر مالکان کی خدمت کرتے ہیں۔' },
+        answer: { en: 'Yes, while based in Karachi, we serve families and homeowners across all of Pakistan and provide international shipping options for the global Muslim community.', ur: 'جی ہاں، اگرچہ ہم کراچی میں مقیم ہیں، ہم پورے پاکستان میں خاندانوں اور گھر مالکان کی خدمت کرتے ہیں اور عالمی مسلم کمیونٹی کے لیے بین الاقوامی شپنگ کے اختیارات بھی فراہم کرتے ہیں۔' },
       },
       {
         question: { en: 'How long has the company been in business?', ur: 'کمپنی کتنے عرصے سے کام کر رہی ہے؟' },
@@ -278,7 +278,7 @@ export const content = {
       },
       {
         question: { en: 'What types of gravestone services do you offer?', ur: 'آپ کتبے کی کونسی خدمات پیش کرتے ہیں؟' },
-        answer: { en: 'We provide custom design, crafting, and professional installation of high-quality gravestones and headstones across Pakistan.', ur: 'ہم پورے پاکستان میں اعلیٰ معیار کے کتبوں اور یادگاروں کے کسٹم ڈیزائن، تیاری اور پیشہ ورانہ تنصیب فراہم کرتے ہیں۔' },
+        answer: { en: 'We provide custom design, crafting, and professional installation of high-quality gravestones and headstones across Pakistan and for export to the Middle East and worldwide.', ur: 'ہم پورے پاکستان میں اعلیٰ معیار کے کتبوں اور یادگاروں کے کسٹم ڈیزائن، تیاری اور پیشہ ورانہ تنصیب فراہم کرتے ہیں اور مشرق وسطیٰ اور دنیا بھر میں برآمد کے لیے بھی دستیاب ہیں۔' },
       },
       {
         question: { en: 'Do you handle the complete preparation of a grave?', ur: 'کیا آپ قبر کی مکمل تیاری کو سنبھالتے ہیں؟' },
@@ -334,32 +334,32 @@ export const content = {
       },
       {
         question: { en: 'What sets Stylish Marble Art apart from other shops?', ur: 'سٹائلش ماربل آرٹ کو دیگر دکانوں سے کیا چیز ممتاز کرتی ہے؟' },
-        answer: { en: 'Our 50-year legacy in Karachi, focus on compassionate service, and the use of cutting-edge engraving technology for unmatched detail.', ur: 'کراچی میں ہماری 50 سالہ میراث، ہمدردانہ خدمت پر توجہ، اور بے مثال تفصیل کے لیے جدید ترین کندہ کاری کی ٹیکنالوجی کا استعمال۔' },
+        answer: { en: 'Our 50-year legacy in Karachi, focus on compassionate service, and the use of cutting-edge engraving technology for unmatched detail, serving clients across the global Muslim Ummah.', ur: 'کراچی میں ہماری 50 سالہ میراث، ہمدردانہ خدمت پر توجہ، اور بے مثال تفصیل کے لیے جدید ترین کندہ کاری کی ٹیکنالوجی کا استعمال، جو عالمی مسلم امت کے صارفین کی خدمت کر رہی ہے۔' },
       }
     ]
   },
   galleryPage: {
-    title: { en: 'Marble Work Gallery - Karachi', ur: 'ماربل ورک گیلری - کراچی' },
+    title: { en: 'Marble Work Gallery - Global Islamic Craftsmanship', ur: 'ماربل ورک گیلری - عالمی اسلامی دستکاری' },
     description: {
-      en: 'Explore our portfolio of custom gravestones, headstones, and kitchen marble projects crafted in Pakistan.',
-      ur: 'پاکستان میں تیار کردہ کسٹم کتبوں، یادگاروں اور کچن ماربل پروجیکٹس کا ہمارا پورٹ فولیو دیکھیں۔',
+      en: 'Explore our portfolio of custom gravestones, headstones, and kitchen marble projects crafted in Pakistan for clients worldwide.',
+      ur: 'پاکستان میں دنیا بھر کے کلائنٹس کے لیے تیار کردہ کسٹم کتبوں، یادگاروں اور کچن ماربل پروجیکٹس کا ہمارا پورٹ فولیو دیکھیں۔',
     },
   },
   aboutPage: {
     title: { en: 'About Stylish Marble Art', ur: 'سٹائلش ماربل آرٹ کے بارے میں' },
     subtitle: {
-      en: 'Legacy Stonemasons & Headstone Makers in Karachi Since 1970',
-      ur: '1970 سے کراچی میں قدیم سنگ تراش اور کتبہ بنانے والے',
+      en: 'Legacy Stonemasons & Headstone Makers in Karachi Serving the Global Ummah Since 1970',
+      ur: '1970 سے عالمی امت کی خدمت کرنے والے کراچی کے قدیم سنگ تراش اور کتبہ بنانے والے',
     },
-    ourStoryTitle: { en: 'Our 50-Year Legacy in Karachi', ur: 'کراچی میں ہماری 50 سالہ میراث' },
+    ourStoryTitle: { en: 'Our 50-Year Legacy in Karachi & Beyond', ur: 'کراچی اور اس سے آگے ہماری 50 سالہ میراث' },
     ourStoryText: {
-      en: 'Stylish Marble Art is a family-owned legacy business that has stood the test of time on the Main National Highway in Karachi. For over 50 years, our workshop in Malir 15 has been the heart of premium stonemasonry in Pakistan. We specialize in high-quality Islamic gravestones, intricate memorials, and luxury kitchen marble installations. Our mission is to combine traditional hand-carving techniques with modern laser engraving technology to deliver stones that are not only beautiful but carry profound meaning for the families we serve.',
-      ur: 'سٹائلش ماربل آرٹ ایک خاندانی میراثی کاروبار ہے جو کراچی کے مین نیشنل ہائی وے پر وقت کی کسوٹی پر کھڑا اترا ہے۔ 50 سال سے زیادہ عرصے سے، ملیر 15 میں ہماری ورکشاپ پاکستان میں پریمیم سنگ تراشی کا مرکز رہی ہے۔ ہم اعلیٰ معیار کے اسلامی کتبوں، پیچیدہ یادگاروں، اور پرتعیش کچن ماربل کی تنصیبات میں مہارت رکھتے ہیں۔ ہمارا مقصد روایتی ہاتھ سے تراشنے کی تکنیک کو جدید لیزر کندہ کاری کی ٹیکنالوجی کے ساتھ جوڑنا ہے تاکہ ایسے پتھر فراہم کیے جا سکیں جو نہ صرف خوبصورت ہوں بلکہ ان خاندانوں کے لیے گہرے معنی رکھتے ہوں جن کی ہم خدمت کرتے ہیں۔',
+      en: 'Stylish Marble Art is a family-owned legacy business that has stood the test of time on the Main National Highway in Karachi. For over 50 years, our workshop in Malir 15 has been the heart of premium stonemasonry in Pakistan. We specialize in high-quality Islamic gravestones, intricate memorials, and luxury kitchen marble installations. Our mission is to combine traditional hand-carving techniques with modern laser engraving technology to deliver stones that are not only beautiful but carry profound meaning for the families we serve, from Algeria to Yemen and the global Muslim diaspora.',
+      ur: 'سٹائلش ماربل آرٹ ایک خاندانی میراثی کاروبار ہے جو کراچی کے مین نیشنل ہائی وے پر وقت کی کسوٹی پر کھڑا اترا ہے۔ 50 سال سے زیادہ عرصے سے، ملیر 15 میں ہماری ورکشاپ پاکستان میں پریمیم سنگ تراشی کا مرکز رہی ہے۔ ہم اعلیٰ معیار کے اسلامی کتبوں، پیچیدہ یادگاروں، اور پرتعیش کچن ماربل کی تنصیبات میں مہارت رکھتے ہیں۔ ہمارا مقصد روایتی ہاتھ سے تراشنے کی تکنیک کو جدید لیزر کندہ کاری کی ٹیکنالوجی کے ساتھ جوڑنا ہے تاکہ ایسے پتھر فراہم کیے جا سکیں جو نہ صرف خوبصورت ہوں بلکہ ان خاندانوں کے لیے گہرے معنی رکھتے ہوں جن کی ہم خدمت کرتے ہیں، الجیریا سے لے کر یمن اور عالمی مسلم ڈائسپورا تک۔',
     },
-    ourMissionTitle: { en: 'Our Mission & Commitment', ur: 'ہمارا مشن اور عزم' },
+    ourMissionTitle: { en: 'Our Mission & Global Commitment', ur: 'ہمارا مشن اور عالمی عزم' },
     ourMissionText: {
-      en: 'We believe that every piece of marble tells a story. Whether it is a kitchen countertop that brings a family together or a gravestone that honors a loved one\'s memory, we treat every project with the utmost respect and precision. We are committed to sourcing only the finest A-grade Ziarat White, Black Granite, and imported stones to ensure that our craftsmanship endures for generations in the Pakistani climate.',
-      ur: 'ہمارا ماننا ہے کہ ماربل کا ہر ٹکڑا ایک کہانی سناتا ہے۔ چاہے وہ کچن کا کاؤنٹر ٹاپ ہو جو خاندان کو اکٹھا کرتا ہے یا قبر کا پتھر جو کسی عزیز کی یاد کا احترام کرتا ہے، ہم ہر پروجیکٹ کے ساتھ انتہائی احترام اور درستگی کے ساتھ پیش آتے ہیں۔ ہم صرف بہترین اے گریڈ زیارت وائٹ، بلیک گرینائٹ، اور درآمد شدہ پتھر حاصل کرنے کے لیے پرعزم ہیں تاکہ یہ یقینی بنایا جا سکے کہ ہماری کاریگری پاکستانی آب و ہوا میں نسلوں تک برقرار رہے۔',
+      en: 'We believe that every piece of marble tells a story. Whether it is a kitchen countertop that brings a family together or a gravestone that honors a loved one\'s memory, we treat every project with the utmost respect and precision. We are committed to sourcing only the finest A-grade Ziarat White, Black Granite, and imported stones to ensure that our craftsmanship endures for generations in the Pakistani climate and worldwide. We proudly serve the global Muslim Ummah, providing dignified memorials across the Middle East, Africa, and Asia.',
+      ur: 'ہمارا ماننا ہے کہ ماربل کا ہر ٹکڑا ایک کہانی سناتا ہے۔ چاہے وہ کچن کا کاؤنٹر ٹاپ ہو جو خاندان کو اکٹھا کرتا ہے یا قبر کا پتھر جو کسی عزیز کی یاد کا احترام کرتا ہے، ہم ہر پروجیکٹ کے ساتھ انتہائی احترام اور درستگی کے ساتھ پیش آتے ہیں۔ ہم صرف بہترین اے گریڈ زیارت وائٹ، بلیک گرینائٹ، اور درآمد شدہ پتھر حاصل کرنے کے لیے پرعزم ہیں تاکہ یہ یقینی بنایا جا سکے کہ ہماری کاریگری پاکستانی آب و ہوا میں اور دنیا بھر میں نسلوں تک برقرار رہے۔ ہم فخر کے ساتھ عالمی مسلم امت کی خدمت کرتے ہیں، مشرق وسطیٰ، افریقہ اور ایشیا میں باوقار یادگاریں فراہم کرتے ہیں۔',
     },
     ourValuesTitle: { en: 'Our Core Values', ur: 'ہمارے بنیادی اقدار' },
     values: [
@@ -389,8 +389,8 @@ export const content = {
   contactPage: {
     title: { en: 'Contact Our Karachi Workshop', ur: 'ہماری کراچی ورکشاپ سے رابطہ کریں' },
     description: {
-      en: 'Get a quote for marble gravestones, kitchen countertops, or custom engraving. Visit us in Malir 15.',
-      ur: 'ماربل کے کتبوں، کچن کاؤنٹر ٹاپس یا کسٹم کندہ کاری کے لیے کوٹیشن حاصل کریں۔ ملیر 15 میں تشریف لائیں۔',
+      en: 'Get a quote for marble gravestones, kitchen countertops, or custom engraving. International inquiries welcome.',
+      ur: 'ماربل کے کتبوں، کچن کاؤنٹر ٹاپس یا کسٹم کندہ کاری کے لیے کوٹیشن حاصل کریں۔ بین الاقوامی پوچھ گچھ خوش آئند ہے۔',
     },
     form: {
       name: { en: 'Full Name', ur: 'پورا نام' },
@@ -417,8 +417,8 @@ export const content = {
     },
   },
   updatesPage: {
-    title: { en: 'Marble Articles & News', ur: 'ماربل مضامین اور خبریں' },
-    description: { en: 'Expert guides on choosing gravestones, marble types in Pakistan, and our latest projects.', ur: 'کتبوں کے انتخاب، پاکستان میں ماربل کی اقسام اور ہمارے تازہ ترین منصوبوں پر ماہرانہ گائیڈز۔' },
+    title: { en: 'Marble Articles & Global News', ur: 'ماربل مضامین اور عالمی خبریں' },
+    description: { en: 'Expert guides on choosing gravestones, marble types in Pakistan, and serving the global Ummah.', ur: 'کتبوں کے انتخاب، پاکستان میں ماربل کی اقسام اور عالمی امت کی خدمت پر ماہرانہ گائیڈز۔' },
     feedTitle: { en: "Our Articles & Recent Work", ur: "ہمارے مضامین اور حالیہ کام" },
     items: [
         {
@@ -452,8 +452,8 @@ export const content = {
   },
   footer: {
     tagline: {
-      en: 'Karachi\'s Premium Marble & Headstone Maker - Malir 15',
-      ur: 'کراچی کا پریمیم ماربل اور کتبہ بنانے والا - ملیر 15',
+      en: 'Karachi\'s Premium Marble & Headstone Maker - Serving the Global Muslim Ummah',
+      ur: 'کراچی کا پریمیم ماربل اور کتبہ بنانے والا - عالمی مسلم امت کی خدمت کر رہا ہے',
     },
     quickLinks: { en: 'Quick Links', ur: 'فوری لنکس' },
     legal: {

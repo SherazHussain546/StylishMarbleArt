@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock } from 'lucide-react';
+import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -31,7 +31,7 @@ export default function ServicesPageClient() {
           <div className="mt-10 flex flex-wrap justify-center gap-4">
              <Button asChild variant="default" size="lg" className="rounded-full px-8 shadow-lg">
                 <Link href="/contact">
-                    {language === 'en' ? 'Get a Free Quote' : 'مفت کوٹیشن حاصل کریں'}
+                    {language === 'en' ? 'Get a Global Quote' : 'عالمی کوٹیشن حاصل کریں'}
                 </Link>
              </Button>
              <Button asChild variant="outline" size="lg" className="rounded-full px-8">
@@ -44,7 +44,7 @@ export default function ServicesPageClient() {
         </div>
 
         {/* Why Choose Us / Trust Badges */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
                 <div className="bg-primary/10 p-3 rounded-full mb-4">
                     <ShieldCheck className="h-8 w-8 text-primary" />
@@ -57,7 +57,7 @@ export default function ServicesPageClient() {
                     <Clock className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="font-bold text-lg">{language === 'en' ? '50+ Years Legacy' : '۵۰ سال سے زیادہ کی میراث'}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Trusted by families across Karachi for generations.' : 'نسلوں سے کراچی کے خاندانوں کا قابل اعتماد نام۔'}</p>
+                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Trusted by families globally for generations.' : 'نسلوں سے عالمی سطح پر خاندانوں کا قابل اعتماد نام۔'}</p>
             </div>
             <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
                 <div className="bg-primary/10 p-3 rounded-full mb-4">
@@ -65,6 +65,13 @@ export default function ServicesPageClient() {
                 </div>
                 <h3 className="font-bold text-lg">{language === 'en' ? 'Precision Carving' : 'درست تراش'}</h3>
                 <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Modern laser and traditional hand-carved engraving.' : 'جدید لیزر اور روایتی ہاتھ سے تیار کردہ کندہ کاری۔'}</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
+                <div className="bg-primary/10 p-3 rounded-full mb-4">
+                    <Plane className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg">{language === 'en' ? 'Global Shipping' : 'عالمی شپنگ'}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Expert export to Middle East, Africa, and beyond.' : 'مشرق وسطیٰ، افریقہ اور اس سے باہر ماہرانہ برآمد۔'}</p>
             </div>
         </div>
 
@@ -86,14 +93,14 @@ export default function ServicesPageClient() {
                             {(language === 'en' ? 
                                 [
                                     "Premium Ziarat White & Black Granite",
-                                    "Custom Urdu/Arabic Calligraphy",
-                                    "Professional Installation across Karachi graveyards",
+                                    "Custom Urdu/Arabic Calligraphy for Global Clients",
+                                    "International Shipping & Secure Packaging",
                                     "Mirror-finish Edge Polishing"
                                 ] : 
                                 [
                                     "پریمیم زیارت وائٹ اور بلیک گرینائٹ",
-                                    "کسٹم اردو اور عربی خطاطی",
-                                    "کراچی کے تمام قبرستانوں میں پیشہ ورانہ تنصیب",
+                                    "عالمی کلائنٹس کے لیے کسٹم اردو اور عربی خطاطی",
+                                    "بین الاقوامی شپنگ اور محفوظ پیکیجنگ",
                                     "مرر فنش ایج پالشنگ"
                                 ]
                             ).map((item, i) => (
@@ -136,7 +143,7 @@ export default function ServicesPageClient() {
                                         <CardContent className="relative flex aspect-[4/5] items-center justify-center p-0">
                                             <Image
                                                 src={img.src}
-                                                alt={`${img.alt} - Premium work in Karachi by Stylish Marble Art`}
+                                                alt={`${img.alt} - Premium work by Stylish Marble Art`}
                                                 data-ai-hint={img.hint}
                                                 fill
                                                 className="object-cover"
@@ -169,7 +176,7 @@ export default function ServicesPageClient() {
         <section className="mt-40 py-20 bg-secondary/20 rounded-[3rem] px-8 md:px-16">
             <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.processTitle[language]}</h2>
-                <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'From initial inquiry in Malir 15 to final installation, we ensure transparency and excellence.' : 'ملیر 15 میں ابتدائی انکوائری سے لے کر فائنل انسٹالیشن تک، ہم شفافیت اور فضیلت کو یقینی بناتے ہیں۔'}</p>
+                <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'From global inquiry to doorstep delivery, we ensure transparency and excellence.' : 'عالمی انکوائری سے لے کر دہلیز تک پہنچانے تک، ہم شفافیت اور فضیلت کو یقینی بناتے ہیں۔'}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {pageContent.processSteps.map((step, i) => (
@@ -191,11 +198,11 @@ export default function ServicesPageClient() {
                 <Image src="/SMAHeader.png" alt="Background pattern" fill className="object-cover grayscale" />
             </div>
             <div className="relative z-10">
-                <h2 className="text-3xl font-bold mb-6">{language === 'en' ? 'Ready to Start Your Project?' : 'کیا آپ اپنا منصوبہ شروع کرنے کے لیے تیار ہیں؟'}</h2>
+                <h2 className="text-3xl font-bold mb-6">{language === 'en' ? 'Ready to Start Your Global Project?' : 'کیا آپ اپنا عالمی منصوبہ شروع کرنے کے لیے تیار ہیں؟'}</h2>
                 <p className="mb-10 text-primary-foreground/80 max-w-xl mx-auto">
                     {language === 'en' 
-                        ? 'Contact Karachi\'s most trusted stonemasons for a detailed quote on gravestones, kitchen marble, or custom engraving.' 
-                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں تفصیلی کوٹیشن کے لیے کراچی کے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں۔'}
+                        ? 'Contact the most trusted stonemasons for a detailed quote on gravestones, kitchen marble, or custom engraving, delivered anywhere in the world.' 
+                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں تفصیلی کوٹیشن کے لیے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں، جو دنیا میں کہیں بھی پہنچایا جاتا ہے۔'}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button asChild size="lg" variant="secondary" className="px-10 rounded-full font-bold">
