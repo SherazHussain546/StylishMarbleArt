@@ -60,8 +60,8 @@ export default function ServicesPageClient() {
                 </h2>
                 <p className="text-muted-foreground text-lg mb-6">
                     {language === 'en' 
-                        ? 'Pin your loved one\'s grave location on our interactive map at no cost. Help your family find and visit their resting places easily, forever.' 
-                        : 'اپنے پیارے کی قبر کا مقام ہمارے انٹرایکٹو نقشے پر بغیر کسی قیمت کے پن کریں۔ اپنے خاندان کو ہمیشہ کے لیے ان کی آرام گاہوں کو آسانی سے تلاش کرنے اور وہاں جانے میں مدد کریں۔'}
+                        ? 'Pin your loved one\'s grave location on our interactive map at no cost. Help your family find and visit their resting places across Karachi easily, from anywhere in the world.' 
+                        : 'اپنے پیارے کی قبر کا مقام ہمارے انٹرایکٹو نقشے پر بغیر کسی قیمت کے پن کریں۔ اپنے خاندان کو دنیا میں کہیں سے بھی کراچی بھر میں ان کی آرام گاہوں کو آسانی سے تلاش کرنے اور وہاں جانے میں مدد کریں۔'}
                 </p>
                 <Button asChild size="lg" className="rounded-full px-10">
                     <Link href="/locator">
@@ -98,8 +98,8 @@ export default function ServicesPageClient() {
                 <div className="bg-primary/10 p-3 rounded-full mb-4">
                     <Plane className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-bold text-lg">{language === 'en' ? 'Global Shipping' : 'عالمی شپنگ'}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Expert export to Middle East, Africa, and beyond.' : 'مشرق وسطیٰ، افریقہ اور اس سے باہر ماہرانہ برآمد۔'}</p>
+                <h3 className="font-bold text-lg">{language === 'en' ? 'Global Export' : 'عالمی برآمد'}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Expert shipping to Middle East, Africa, and beyond.' : 'مشرق وسطیٰ، افریقہ اور اس سے باہر ماہرانہ ترسیل۔'}</p>
             </div>
         </div>
 
@@ -120,18 +120,18 @@ export default function ServicesPageClient() {
                         <ul className="space-y-3">
                             {(language === 'en' ? 
                                 [
-                                    "Premium Ziarat White & Black Granite",
-                                    "Professional Grave Cleaning & Maintenance",
-                                    "Scheduled Watering & Plant Care Services",
+                                    "Premium Ziarat White & Black Granite from Pakistan",
+                                    "Professional Grave Cleaning & Maintenance in Karachi",
+                                    "Scheduled Watering & Plant Care for Local Memorials",
                                     "Custom Urdu/Arabic Calligraphy for Global Clients",
-                                    "International Shipping & Secure Packaging"
+                                    "International Shipping & Secure Export Packaging"
                                 ] : 
                                 [
-                                    "پریمیم زیارت وائٹ اور بلیک گرینائٹ",
-                                    "قبر کی پیشہ ورانہ صفائی اور دیکھ بھال",
-                                    "طے شدہ پانی دینے اور پودوں کی دیکھ بھال کی خدمات",
+                                    "پاکستان سے پریمیم زیارت وائٹ اور بلیک گرینائٹ",
+                                    "کراچی کے قبرستانوں میں پیشہ ورانہ صفائی اور دیکھ بھال",
+                                    "مقامی یادگاروں کے لیے طے شدہ پانی اور پودوں کی دیکھ بھال",
                                     "عالمی کلائنٹس کے لیے کسٹم اردو اور عربی خطاطی",
-                                    "بین الاقوامی شپنگ اور محفوظ پیکیجنگ"
+                                    "بین الاقوامی شپنگ اور محفوظ ایکسپورٹ پیکیجنگ"
                                 ]
                             ).map((item, i) => (
                                 <li key={i} className="flex items-center gap-3 text-sm font-medium">
@@ -142,16 +142,16 @@ export default function ServicesPageClient() {
                         </ul>
                     </div>
                     <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                        <Button asChild size="lg" className="shadow-md">
+                        <Button asChild size="lg" className="shadow-md rounded-full px-8">
                             <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
                                 <MessageCircle className="mr-2 h-5 w-5" />
-                                {language === 'en' ? 'Request Pricing' : 'قیمت معلوم کریں'}
+                                {language === 'en' ? 'Request Price Quote' : 'قیمت معلوم کریں'}
                             </a>
                         </Button>
-                        <Button asChild variant="outline" size="lg">
+                        <Button asChild variant="outline" size="lg" className="rounded-full px-8">
                             <Link href="/faq">
                                 <HelpCircle className="mr-2 h-5 w-5" />
-                                {language === 'en' ? 'View FAQ' : 'سوالات دیکھیں'}
+                                {language === 'en' ? 'View Service FAQ' : 'سوالات دیکھیں'}
                             </Link>
                         </Button>
                     </div>
@@ -173,7 +173,7 @@ export default function ServicesPageClient() {
                                         <CardContent className="relative flex aspect-square items-center justify-center p-0">
                                             <Image
                                                 src={img.src}
-                                                alt={`${img.alt} - Premium work by Stylish Marble Art`}
+                                                alt={`${img.alt} - Premium marble work crafted in Karachi Pakistan`}
                                                 data-ai-hint={img.hint}
                                                 fill
                                                 className="object-cover"
@@ -206,7 +206,7 @@ export default function ServicesPageClient() {
         <section className="mt-40 py-20 bg-secondary/20 rounded-[3rem] px-8 md:px-16">
             <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.processTitle[language]}</h2>
-                <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'From global inquiry to doorstep delivery, we ensure transparency and excellence.' : 'عالمی انکوائری سے لے کر دہلیز تک پہنچانے تک، ہم شفافیت اور فضیلت کو یقینی بناتے ہیں۔'}</p>
+                <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'From initial global inquiry to doorstep delivery in Pakistan or abroad, we ensure excellence.' : 'ابتدائی عالمی انکوائری سے لے کر پاکستان یا بیرون ملک دہلیز تک ترسیل تک، ہم فضیلت کو یقینی بناتے ہیں۔'}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {pageContent.processSteps.map((step, i) => (
@@ -225,14 +225,14 @@ export default function ServicesPageClient() {
         {/* CTA Section */}
         <div className="mt-32 text-center bg-primary text-primary-foreground py-16 rounded-3xl shadow-2xl overflow-hidden relative">
             <div className="absolute inset-0 opacity-10 pointer-events-none">
-                <Image src="/SMAHeader.png" alt="Background pattern" fill className="object-cover grayscale" />
+                <Image src="/SMAHeader.png" alt="Marble texture pattern background" fill className="object-cover grayscale" />
             </div>
             <div className="relative z-10">
                 <h2 className="text-3xl font-bold mb-6">{language === 'en' ? 'Ready to Start Your Global Project?' : 'کیا آپ اپنا عالمی منصوبہ شروع کرنے کے لیے تیار ہیں؟'}</h2>
                 <p className="mb-10 text-primary-foreground/80 max-w-xl mx-auto">
                     {language === 'en' 
-                        ? 'Contact the most trusted stonemasons for a detailed quote on gravestones, kitchen marble, or custom engraving, delivered anywhere in the world.' 
-                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں تفصیلی کوٹیشن کے لیے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں، جو دنیا میں کہیں بھی پہنچایا جاتا ہے۔'}
+                        ? 'Contact Karachi\'s most trusted stonemasons for a quote on gravestones, kitchen marble, or custom engraving, delivered anywhere in Pakistan or the world.' 
+                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں کوٹیشن کے لیے کراچی کے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں، جو پاکستان یا دنیا میں کہیں بھی پہنچایا جاتا ہے۔'}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button asChild size="lg" variant="secondary" className="px-10 rounded-full font-bold">
@@ -244,7 +244,7 @@ export default function ServicesPageClient() {
                     <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 border-none text-white px-10 rounded-full font-bold">
                         <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
                             <MessageCircle className="mr-2 h-5 w-5" />
-                            {language === 'en' ? 'WhatsApp Now' : 'واٹس ایپ کریں'}
+                            {language === 'en' ? 'WhatsApp for Global Quote' : 'عالمی کوٹیشن کے لیے واٹس ایپ'}
                         </a>
                     </Button>
                 </div>

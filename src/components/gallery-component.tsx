@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -58,17 +59,22 @@ export function GalleryComponent() {
   
   const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
 
+  /**
+   * ImageGallery Schema Markup for SEO
+   */
   const gallerySchema = useMemo(() => {
     if (!filteredImages.length) return null;
     return {
       "@context": "https://schema.org",
       "@type": "ImageGallery",
+      "name": "Stylish Marble Art Custom Projects",
+      "description": "Portfolio of high-quality marble gravestones, kitchen countertops, and stone engraving crafted in Karachi, Pakistan.",
       "image": filteredImages.map((img: any) => ({
         "@type": "ImageObject",
         "url": img.url,
         "name": img.alt,
         "caption": img.alt,
-        "description": `${img.alt} - Custom marble craftsmanship by Stylish Marble Art in Karachi, Pakistan`
+        "description": `${img.alt} - Custom marble craftsmanship by Stylish Marble Art in Karachi, Pakistan. Export quality stone.`
       }))
     };
   }, [filteredImages]);
@@ -121,7 +127,7 @@ export function GalleryComponent() {
               <div className="relative aspect-square w-full overflow-hidden">
                 <Image
                   src={image.url}
-                  alt={image.alt}
+                  alt={`${image.alt} - Premium marble work in Karachi Pakistan`}
                   fill
                   unoptimized={image.url.startsWith('data:')}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -150,8 +156,8 @@ export function GalleryComponent() {
           </h3>
           <p className="mt-2 max-w-sm">
             {language === 'en' 
-              ? 'Our craftsmen are currently working on new projects in Malir 15. Check back soon for updates!' 
-              : 'ہمارے کاریگر اس وقت ملیر 15 میں نئے منصوبوں پر کام کر رہے ہیں۔ اپ ڈیٹس کے لیے جلد ہی دوبارہ چیک کریں!'}
+              ? 'Our craftsmen are currently working on new projects in Malir 15, Karachi. Check back soon for updates!' 
+              : 'ہمارے کاریگر اس وقت ملیر 15، کراچی میں نئے منصوبوں پر کام کر رہے ہیں۔ اپ ڈیٹس کے لیے جلد ہی دوبارہ چیک کریں!'}
           </p>
         </div>
       )}
@@ -160,13 +166,13 @@ export function GalleryComponent() {
         <DialogContent className="max-w-5xl p-0 overflow-hidden bg-black/95 border-none">
             <DialogHeader className="sr-only">
                 <DialogTitle>{language === 'en' ? 'Enlarged Image' : 'بڑی تصویر'}</DialogTitle>
-                <DialogDescription>{selectedImage?.alt}</DialogDescription>
+                <DialogDescription>{selectedImage?.alt} - Stylish Marble Art Karachi Portfolio</DialogDescription>
             </DialogHeader>
           {selectedImage && (
             <div className="relative aspect-[4/3] w-full flex items-center justify-center">
                 <Image
                     src={selectedImage.url}
-                    alt={selectedImage.alt}
+                    alt={`${selectedImage.alt} - Detailed marble craftsmanship from Pakistan`}
                     fill
                     unoptimized={selectedImage.url.startsWith('data:')}
                     className="object-contain"

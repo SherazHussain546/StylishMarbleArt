@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
@@ -13,11 +14,11 @@ const siteUrl = 'https://www.stylishmarbleart.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Stylish Marble Art - Gravestones & Custom Marble for the Global Muslim Ummah',
+    default: 'Stylish Marble Art - Karachi Headstones & Global Marble Export',
     template: '%s | Stylish Marble Art',
   },
   description:
-    'Karachi-based headstone makers serving the global Muslim community. Premium gravestones, memorials, and custom kitchen countertops in Pakistan and worldwide. Expert Ziarat White export for Middle East and beyond.',
+    'Karachi-based legacy headstone makers serving Pakistan and the global Muslim community. Premium gravestones, memorials, and custom kitchen countertops crafted in Malir 15. Expert Ziarat White export for Middle East, Africa, and beyond.',
   keywords: [
     'Stylish Marble Art', 'gravestones Karachi', 'headstone maker Karachi', 'marble gravestone Pakistan', 'marble engraving Pakistan', 'memorial services Karachi', 'custom headstones Pakistan',
     'kitchen marble Karachi', 'Peshawar White marble Pakistan', 'Ziarat White marble Pakistan', 'marble kitchen countertop Karachi', 'granite countertops Karachi', 'Islamic headstone design',
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
         url: '/SMAHeader.png',
         width: 1200,
         height: 630,
-        alt: 'Premium Marble Work by Stylish Marble Art - Global Reach',
+        alt: 'Premium Marble Work by Stylish Marble Art - Global Reach from Karachi',
       },
     ],
     locale: 'en_US',
@@ -61,7 +62,7 @@ export default function RootLayout({
     "@type": "LocalBusiness",
     "name": "Stylish Marble Art",
     "image": `${siteUrl}/SMAHeader.png`,
-    "description": "Premium marble gravestone makers and stone specialists in Karachi. Expert Islamic memorials, kitchen countertops, and custom engraving serving the global Muslim community.",
+    "description": "Karachi's premier headstone maker and stone specialists. Expert Islamic memorials, kitchen countertops, and custom engraving based in Pakistan, serving the global Muslim community.",
     "@id": siteUrl,
     "url": siteUrl,
     "telephone": "+92-308-3401606",
@@ -79,10 +80,40 @@ export default function RootLayout({
       "latitude": 24.8778,
       "longitude": 67.1952
     },
-    "areaServed": {
-      "@type": "Country",
-      "name": ["Pakistan", "Saudi Arabia", "United Arab Emirates", "Qatar", "Kuwait", "Oman", "Bahrain", "Egypt", "Algeria", "Morocco", "Indonesia", "Malaysia", "Nigeria", "Bangladesh"]
-    },
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Pakistan"
+      },
+      {
+        "@type": "Country",
+        "name": "Saudi Arabia"
+      },
+      {
+        "@type": "Country",
+        "name": "United Arab Emirates"
+      },
+      {
+        "@type": "Country",
+        "name": "Qatar"
+      },
+      {
+        "@type": "Country",
+        "name": "Kuwait"
+      },
+      {
+        "@type": "Country",
+        "name": "Oman"
+      },
+      {
+        "@type": "Country",
+        "name": "Algeria"
+      },
+      {
+        "@type": "Country",
+        "name": "United Kingdom"
+      }
+    ],
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": [
@@ -97,8 +128,7 @@ export default function RootLayout({
       "closes": "21:00"
     },
     "sameAs": [
-      "https://facebook.com/stylishmarbleart",
-      "https://www.google.com/maps?cid=YOUR_CID_HERE"
+      "https://facebook.com/stylishmarbleart"
     ]
   };
 

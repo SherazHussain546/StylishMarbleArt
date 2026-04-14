@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -63,7 +64,7 @@ export default function AboutPageClient() {
           <div className="relative h-[500px] w-full overflow-hidden rounded-3xl shadow-2xl">
             <Image
               src="/SMA.png"
-              alt="Artisans at Stylish Marble Art workshop in Malir 15, Karachi"
+              alt="Artisans at Stylish Marble Art workshop in Malir 15, Karachi Pakistan"
               data-ai-hint="stonemason workshop"
               fill
               className="object-cover"
@@ -143,7 +144,7 @@ export default function AboutPageClient() {
         {/* CTA Banner */}
         <div className="mt-32 rounded-[3rem] bg-primary py-16 px-8 text-center text-primary-foreground shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 opacity-10 pointer-events-none">
-                <Image src="/SMAHeader.png" alt="Marble texture" fill className="object-cover grayscale" />
+                <Image src="/SMAHeader.png" alt="Marble texture background" fill className="object-cover grayscale" />
             </div>
             <div className="relative z-10 max-w-3xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
