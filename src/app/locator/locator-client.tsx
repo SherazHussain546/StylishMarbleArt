@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, GitGraph, ArrowDown, ArrowUp, Users, Info } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, GitGraph, ArrowDown, ArrowUp, Users, Info, PlusCircle } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -47,6 +47,7 @@ export default function LocatorPageClient() {
   const [isAdding, setIsAdding] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [viewingFamily, setViewingFamily] = useState<any | null>(null);
+  const [isPinDialogOpen, setIsPinDialogOpen] = useState(false);
   
   // Handle URL search param for direct sharing
   useEffect(() => {
@@ -108,7 +109,6 @@ export default function LocatorPageClient() {
     if (!viewingFamily || !memorials) return { parents: [], children: [] };
 
     // Parent search (Deceased Name matches viewingFamily.parentName)
-    // We find ALL potential parents because of duplicate names
     const parents = memorials.filter((m: any) => 
         m.deceasedName.toLowerCase() === viewingFamily.parentName.toLowerCase()
     );
@@ -169,6 +169,29 @@ export default function LocatorPageClient() {
 
     const ref = collection(db, 'memorials');
     addDoc(ref, data)
+      .then(() => {
+        toast({ 
+            title: 'Success', 
+            description: language === 'en' 
+                ? 'Record added! You can now add other family members to build your tree.' 
+                : 'ریکارڈ شامل کر دیا گیا! اب آپ اپنا خاندانی شجرہ بنانے کے لیے خاندان کے دیگر افراد کو شامل کر سکتے ہیں۔' 
+        });
+        setIsAdding(false);
+        setIsPinDialogOpen(false);
+        setNewMemorial({ 
+            honorific: 'none',
+            deceasedName: '', 
+            parentName: '', 
+            dateOfBirth: '', 
+            dateOfDeath: '', 
+            islamicDate: '', 
+            graveyardName: '',
+            imageUrl: '',
+            publisherName: '',
+            publisherEmail: '',
+            publisherPhone: '',
+        });
+      })
       .catch(async (err) => {
         const permissionError = new FirestorePermissionError({
           path: ref.path,
@@ -176,23 +199,8 @@ export default function LocatorPageClient() {
           requestResourceData: data,
         });
         errorEmitter.emit('permission-error', permissionError);
+        setIsAdding(false);
       });
-
-    toast({ title: 'Success', description: 'Memorial location pinned successfully. Our team will review the details.' });
-    setIsAdding(false);
-    setNewMemorial({ 
-        honorific: 'none',
-        deceasedName: '', 
-        parentName: '', 
-        dateOfBirth: '', 
-        dateOfDeath: '', 
-        islamicDate: '', 
-        graveyardName: '',
-        imageUrl: '',
-        publisherName: '',
-        publisherEmail: '',
-        publisherPhone: '',
-    });
   };
 
   const handleShare = async (m: any) => {
@@ -210,6 +218,7 @@ export default function LocatorPageClient() {
             });
             return;
         } catch (err) {
+            // Ignore abort error, continue to clipboard fallback for other issues
             if ((err as Error).name === 'AbortError') return;
         }
     }
@@ -248,6 +257,12 @@ Please provide details on pricing and timeline.`;
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
+  const handleAddMissingAncestor = (name: string) => {
+    setNewMemorial(prev => ({ ...prev, deceasedName: name }));
+    setViewingFamily(null);
+    setIsPinDialogOpen(true);
+  };
+
   return (
     <div className="bg-secondary/10 min-h-screen pb-24">
       {/* Hero Content Section */}
@@ -258,20 +273,22 @@ Please provide details on pricing and timeline.`;
         <div className="container relative z-10 mx-auto px-4 text-center">
             <div className="max-w-4xl mx-auto text-primary-foreground">
                 <div className="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-                    {language === 'en' ? 'A Free Community Service' : 'ایک مفت عوامی خدمت'}
+                    {language === 'en' ? 'A Free Community Registry' : 'ایک مفت کمیونٹی رجسٹری'}
                 </div>
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                     {pageContent.title[language]}
                 </h1>
                 <p className="text-xl opacity-90 leading-relaxed mb-10 max-w-3xl mx-auto">
-                    {pageContent.description[language]}
+                    {language === 'en' 
+                        ? 'Preserve your ancestry. Pin your family memorials for free to build a searchable digital lineage for future generations.' 
+                        : 'اپنے آباؤ اجداد کو محفوظ رکھیں۔ آنے والی نسلوں کے لیے تلاش کے قابل ڈیجیٹل شجرہ بنانے کے لیے اپنے خاندان کی یادگاریں مفت پن کریں۔'}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button size="lg" variant="secondary" className="rounded-full px-10 font-bold" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
                         <Search className="mr-2 h-5 w-5" />
-                        {language === 'en' ? 'Start Searching' : 'تلاش شروع کریں'}
+                        {language === 'en' ? 'Search Database' : 'ڈیٹا بیس تلاش کریں'}
                     </Button>
-                    <Dialog>
+                    <Dialog open={isPinDialogOpen} onOpenChange={setIsPinDialogOpen}>
                         <DialogTrigger asChild>
                             <Button size="lg" variant="outline" className="rounded-full px-10 font-bold bg-transparent text-white border-white hover:bg-white hover:text-primary">
                                 <Plus className="mr-2 h-5 w-5" />
@@ -282,7 +299,7 @@ Please provide details on pricing and timeline.`;
                             <DialogHeader>
                                 <DialogTitle className="text-2xl font-bold">{pageContent.addMemorial[language]}</DialogTitle>
                                 <DialogDescription className="text-lg">
-                                    {language === 'en' ? 'Preserve the legacy. Add a location to help family and friends find the resting place. This listing service is free.' : 'میراث کو محفوظ رکھیں۔ خاندان اور دوستوں کو آرام گاہ تلاش کرنے میں مدد کے لیے ایک مقام شامل کریں۔ یہ فہرست سازی کی خدمت مفت ہے۔'}
+                                    {language === 'en' ? 'Build your family tree. Add ancestors or descendants to help relatives find their resting places.' : 'اپنا خاندانی شجرہ بنائیں۔ رشتہ داروں کو ان کی آرام گاہ تلاش کرنے میں مدد کے لیے آباؤ اجداد یا اولاد کو شامل کریں۔'}
                                 </DialogDescription>
                             </DialogHeader>
                             <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
@@ -307,11 +324,11 @@ Please provide details on pricing and timeline.`;
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
-                                            <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
+                                            <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} placeholder="e.g. Muhammad Ahmed" />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
-                                            <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
+                                            <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} placeholder="e.g. Abdullah Khan" />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
@@ -378,9 +395,6 @@ Please provide details on pricing and timeline.`;
                                         <User className="h-5 w-5 text-primary" />
                                         {language === 'en' ? 'Your Contact Details (Confidential)' : 'آپ کے رابطے کی تفصیلات'}
                                     </h3>
-                                    <p className="text-xs text-muted-foreground">
-                                        {language === 'en' ? 'This information is only visible to the workshop admin for service inquiries.' : 'یہ معلومات صرف سروس انکوائری کے لیے ورکشاپ ایڈمن کو نظر آئے گی۔'}
-                                    </p>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <Label>{language === 'en' ? 'Your Name' : 'آپ کا نام'}</Label>
@@ -446,7 +460,7 @@ Please provide details on pricing and timeline.`;
                     </div>
                     )}
                 </div>
-                <Button size="lg" className="h-14 shadow-lg px-8 rounded-xl" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
+                <Button size="lg" className="h-14 shadow-lg px-8 rounded-xl" onClick={() => setIsPinDialogOpen(true)}>
                     <Plus className="mr-2 h-5 w-5" />
                     {pageContent.addMemorial[language]}
                 </Button>
@@ -627,20 +641,33 @@ Please provide details on pricing and timeline.`;
                         </div>
                     ) : (
                         <div className="w-full p-6 border border-dashed rounded-xl text-center text-xs text-muted-foreground bg-muted/20">
-                            {language === 'en' ? `No exact record found for ${viewingFamily?.parentName}` : `${viewingFamily?.parentName} کا کوئی ریکارڈ نہیں ملا`}
-                            <br />
-                            <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                className="mt-4 text-[10px] font-bold border"
-                                onClick={() => {
-                                    setSearchQuery(viewingFamily.parentName);
-                                    setViewingFamily(null);
-                                    document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' });
-                                }}
-                            >
-                                {language === 'en' ? 'Broad Search Database' : 'ڈیٹا بیس تلاش کریں'}
-                            </Button>
+                            <p className="mb-4">
+                                {language === 'en' 
+                                    ? `No exact record found for ${viewingFamily?.parentName}. Help build the tree by adding their memorial.` 
+                                    : `${viewingFamily?.parentName} کا کوئی ریکارڈ نہیں ملا۔ ان کی یادگار شامل کر کے شجرہ بنانے میں مدد کریں۔`}
+                            </p>
+                            <div className="flex flex-col gap-2">
+                                <Button 
+                                    size="sm" 
+                                    className="font-bold gap-2"
+                                    onClick={() => handleAddMissingAncestor(viewingFamily.parentName)}
+                                >
+                                    <PlusCircle className="h-4 w-4" />
+                                    {language === 'en' ? `Pin ${viewingFamily?.parentName}` : `${viewingFamily?.parentName} کو پن کریں`}
+                                </Button>
+                                <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    className="text-[10px] font-bold border"
+                                    onClick={() => {
+                                        setSearchQuery(viewingFamily.parentName);
+                                        setViewingFamily(null);
+                                        document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' });
+                                    }}
+                                >
+                                    {language === 'en' ? 'Broad Search Database' : 'ڈیٹا بیس تلاش کریں'}
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -682,7 +709,20 @@ Please provide details on pricing and timeline.`;
                         </div>
                     ) : (
                         <div className="text-center p-4 text-xs text-muted-foreground italic border border-dashed rounded-lg w-full">
-                            {language === 'en' ? 'No descendants found in database.' : 'ڈیٹا بیس میں کوئی اولاد کا ریکارڈ نہیں ملا۔'}
+                            <p className="mb-3">{language === 'en' ? 'No descendants found in database.' : 'ڈیٹا بیس میں کوئی اولاد کا ریکارڈ نہیں ملا۔'}</p>
+                            <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="text-[10px] font-bold h-8"
+                                onClick={() => {
+                                    setNewMemorial(prev => ({ ...prev, parentName: viewingFamily.deceasedName }));
+                                    setViewingFamily(null);
+                                    setIsPinDialogOpen(true);
+                                }}
+                            >
+                                <Plus className="h-3 w-3 mr-1" />
+                                {language === 'en' ? 'Add a descendant' : 'اولاد شامل کریں'}
+                            </Button>
                         </div>
                     )}
                 </div>
