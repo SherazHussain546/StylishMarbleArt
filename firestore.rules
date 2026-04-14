@@ -3,42 +3,40 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * DATABASE ACCESS CONTROL & SECURITY PHILOSOPHY
-     * 
-     * Core Philosophy:
-     * This ruleset implements a Database Access Control (DBAC) model where administrative privileges 
-     * are determined by the presence of a user's UID in a top-level `/admins` collection. 
-     * This allows for high-performance, server-side role verification without custom claims.
-     * 
-     * Data Structure:
-     * - Public Content: Page content and gallery items are top-level collections accessible to everyone for reading.
-     * - User Submissions: Contact form entries are stored in a dedicated top-level collection.
-     * - Roles: Admin UIDs are stored in the `/admins` collection.
-     * 
-     * Key Security Decisions:
-     * 1. Public Reading: Site content (Pages/Gallery) is readable by unauthenticated users to support SEO and public access.
-     * 2. Anonymous Submissions: Any user can create a contact submission, facilitating easy communication.
-     * 3. Admin-Only Management: Only verified admins can modify site content or view/manage user contact submissions.
-     * 4. Structural Segregation: Administrative data is isolated from public data to prevent accidental exposure.
-     * 
-     * Denormalization for Authorization:
-     * This implementation relies on the `/admins/{uid}` lookup. To ensure high performance, 
-     * administrative checks use the `exists()` function, which is optimized for Firestore Security Rules.
+     * CORE SECURITY PHILOSOPHY
+     * This ruleset implements a Role-Based Access Control (RBAC) model centered around administrative privileges.
+     *
+     * DATA STRUCTURE
+     * - Public Content: /page_content, /services, and /gallery_images are globally readable to support the public website.
+     * - Communication: /contact_messages allows public submissions (write-only for guests) while restricting access to admins.
+     * - Authorization: /roles_admin is a specialized collection where document existence determines administrative rights.
+     *
+     * KEY DECISIONS
+     * - Authorization Independence: Rules avoid complex joins by using the 'exists' check on the roles_admin collection.
+     * - Prototyping Flexibility: Data types and non-critical fields are not validated to allow rapid schema iteration.
+     * - Structural Segregation: Public and private data are separated into top-level collections to simplify access logic.
+     * - Admin-Only Writes: All CMS-style content is protected by an 'isAdmin' check.
      */
 
-    // --- Helper Functions ---
+    // --- Global Helper Functions ---
 
-    /** Checks if the request is from an authenticated user. */
+    /** 
+     * @description Checks if the request is from an authenticated user.
+     */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** Checks if the authenticated user's UID exists in the admin collection. */
+    /** 
+     * @description Checks if the authenticated user has an entry in the admin roles collection.
+     */
     function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
-    /** Combines admin check with document existence for destructive/modifying operations. */
+    /** 
+     * @description Combines admin check with a verify-existence check for updates and deletes.
+     */
     function isExistingAdmin() {
       return isAdmin() && resource != null;
     }
@@ -46,54 +44,71 @@ service cloud.firestore {
     // --- Collection Rules ---
 
     /**
-     * @description Publicly readable content for static site pages. Admin-only writes.
-     * @path /pageContents/{pageContentSlug}
-     * @allow Public users (get, list), Admins (create, update, delete).
-     * @deny Non-admins attempting to edit content.
-     * @principle Public read with role-based write access via DBAC.
+     * @description Rules for website content (PageContent entity). Publicly readable, admin-managed.
+     * @path /page_content/{pageContentId}
+     * @allow Public user (get) any page content.
+     * @deny Non-admin user (update) page content.
+     * @principle Public Read with Admin-Only Writes.
      */
-    match /pageContents/{pageContentSlug} {
+    match /page_content/{pageContentId} {
       allow get, list: if true;
       allow create: if isAdmin();
       allow update, delete: if isExistingAdmin();
     }
 
     /**
-     * @description Interactive gallery items showcasing work. Publicly readable, admin-managed.
-     * @path /galleryItems/{galleryItemId}
-     * @allow Public users (get, list), Admins (create, update, delete).
-     * @deny Unauthorized users trying to modify gallery projects.
-     * @principle Public read with role-based write access via DBAC.
+     * @description Rules for service offerings (Service entity). Publicly readable, admin-managed.
+     * @path /services/{serviceId}
+     * @allow Anonymous visitor (list) services for the landing page.
+     * @deny Authenticated non-admin (delete) a service.
+     * @principle Public Read with Admin-Only Writes.
      */
-    match /galleryItems/{galleryItemId} {
+    match /services/{serviceId} {
       allow get, list: if true;
       allow create: if isAdmin();
       allow update, delete: if isExistingAdmin();
     }
 
     /**
-     * @description User-submitted contact forms. Public creation, admin-only processing.
-     * @path /contactSubmissions/{submissionId}
-     * @allow Unauthenticated users (create), Admins (get, list, update, delete).
-     * @deny Public users attempting to read or list other people's submissions.
-     * @principle Open creation for lead generation with restricted read/manage access.
+     * @description Rules for the image gallery (GalleryImage entity). Publicly readable, admin-managed.
+     * @path /gallery_images/{galleryImageId}
+     * @allow Public user (get) a specific gallery image metadata.
+     * @deny Public user (create) a new gallery image entry.
+     * @principle Public Read with Admin-Only Writes.
      */
-    match /contactSubmissions/{submissionId} {
+    match /gallery_images/{galleryImageId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Rules for contact form submissions. Publicly writable, Admin readable/updatable.
+     * @path /contact_messages/{messageId}
+     * @allow Anonymous visitor (create) a message via the contact form.
+     * @deny Public user (list) all submitted contact messages.
+     * @principle Public Create with Admin-Only Read/Update.
+     */
+    match /contact_messages/{messageId} {
       allow create: if true;
       allow get, list: if isAdmin();
       allow update, delete: if isExistingAdmin();
     }
 
     /**
-     * @description Collection for Database Access Control (DBAC). Stores administrator UIDs.
-     * @path /admins/{adminId}
-     * @allow Admins (get, list).
-     * @deny All writes and public reads.
-     * @principle Protects the list of administrative users from public exposure or unauthorized modification.
+     * @description Security definitions for the admin role registry.
+     * @path /roles_admin/{userId}
+     * @allow Signed-in user (get) their own role status to verify UI permissions.
+     * @deny Any user (create) an admin document via the client SDK.
+     * @principle Restricted registry for identity-based authorization.
      */
-    match /admins/{adminId} {
-      allow get, list: if isAdmin();
-      allow create, update, delete: if false; // Managed via Firebase Console or Admin SDK for safety
+    match /roles_admin/{userId} {
+      // Allows users to check their own admin status; also allows isAdmin() function to perform 'exists' check.
+      allow get: if isSignedIn();
+      // Listing admins is sensitive and should generally be avoided on the client.
+      allow list: if false;
+      // Admin privileges should only be granted via Admin SDK, Cloud Functions, or Firebase Console for security.
+      allow create, update, delete: if false;
     }
   }
 }

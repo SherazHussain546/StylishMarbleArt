@@ -4,180 +4,207 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "PageContent",
       "type": "object",
-      "description": "Represents the content for static pages such as 'About Us', 'Services', or sections of the home page, supporting multiple languages and SEO metadata.",
+      "description": "Represents static or dynamic content for various pages or sections of the website, supporting dual languages (English and Urdu).",
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for the PageContent entity."
         },
-        "slug": {
+        "pageKey": {
           "type": "string",
-          "description": "A URL-friendly unique identifier for the page content, e.g., 'about-us' or 'services'."
+          "description": "A unique key used to identify a specific page or section of content (e.g., 'aboutUs', 'homeHero')."
         },
         "titleEn": {
           "type": "string",
-          "description": "The title of the page content in English."
+          "description": "The English title of the content."
         },
         "titleUr": {
           "type": "string",
-          "description": "The title of the page content in Urdu."
+          "description": "The Urdu title of the content."
         },
-        "contentEn": {
+        "bodyEn": {
           "type": "string",
-          "description": "The main body content of the page in English. This can be extensive HTML or Markdown."
+          "description": "The main body text of the content in English."
         },
-        "contentUr": {
+        "bodyUr": {
           "type": "string",
-          "description": "The main body content of the page in Urdu. This can be extensive HTML or Markdown."
-        },
-        "metaTitleEn": {
-          "type": "string",
-          "description": "The SEO meta title for the page content in English, used by search engines."
-        },
-        "metaTitleUr": {
-          "type": "string",
-          "description": "The SEO meta title for the page content in Urdu, used by search engines."
-        },
-        "metaDescriptionEn": {
-          "type": "string",
-          "description": "The SEO meta description for the page content in English, providing a summary for search results."
-        },
-        "metaDescriptionUr": {
-          "type": "string",
-          "description": "The SEO meta description for the page content in Urdu, providing a summary for search results."
+          "description": "The main body text of the content in Urdu."
         },
         "lastUpdated": {
           "type": "string",
-          "description": "Timestamp indicating when the page content was last updated.",
+          "description": "Timestamp indicating when the content was last updated.",
           "format": "date-time"
         }
       },
       "required": [
         "id",
-        "slug",
+        "pageKey",
         "titleEn",
         "titleUr",
-        "contentEn",
-        "contentUr"
+        "bodyEn",
+        "bodyUr",
+        "lastUpdated"
       ]
     },
-    "GalleryItem": {
+    "Service": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "GalleryItem",
+      "title": "Service",
       "type": "object",
-      "description": "Represents an individual item or project showcased in the interactive gallery, including image details and multilingual descriptions.",
+      "description": "Defines the details of a memorial service offered by Legacy Stone, including dual-language descriptions.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the GalleryItem entity."
+          "description": "Unique identifier for the Service entity."
         },
-        "titleEn": {
+        "nameEn": {
           "type": "string",
-          "description": "The title of the gallery item in English."
+          "description": "The English name of the service."
         },
-        "titleUr": {
+        "nameUr": {
           "type": "string",
-          "description": "The title of the gallery item in Urdu."
+          "description": "The Urdu name of the service."
         },
         "descriptionEn": {
           "type": "string",
-          "description": "A detailed description of the gallery item or project in English."
+          "description": "A detailed description of the service in English."
         },
         "descriptionUr": {
           "type": "string",
-          "description": "A detailed description of the gallery item or project in Urdu."
+          "description": "A detailed description of the service in Urdu."
         },
-        "imageUrl": {
+        "iconUrl": {
           "type": "string",
-          "description": "The URL to the high-resolution image of the gallery item.",
-          "format": "uri"
-        },
-        "thumbnailUrl": {
-          "type": "string",
-          "description": "The URL to a smaller thumbnail image for the gallery item, used for previews.",
+          "description": "URL to an icon image representing the service.",
           "format": "uri"
         },
         "order": {
           "type": "number",
-          "description": "An integer representing the display order of the gallery item within the gallery."
+          "description": "The display order of the service on the website."
         },
-        "metaTitleEn": {
+        "lastUpdated": {
           "type": "string",
-          "description": "The SEO meta title for the gallery item in English."
-        },
-        "metaTitleUr": {
-          "type": "string",
-          "description": "The SEO meta title for the gallery item in Urdu."
-        },
-        "metaDescriptionEn": {
-          "type": "string",
-          "description": "The SEO meta description for the gallery item in English."
-        },
-        "metaDescriptionUr": {
-          "type": "string",
-          "description": "The SEO meta description for the gallery item in Urdu."
-        },
-        "createdAt": {
-          "type": "string",
-          "description": "Timestamp indicating when the gallery item was created.",
-          "format": "date-time"
-        },
-        "updatedAt": {
-          "type": "string",
-          "description": "Timestamp indicating when the gallery item was last updated.",
+          "description": "Timestamp indicating when the service details were last updated.",
           "format": "date-time"
         }
       },
       "required": [
         "id",
-        "titleEn",
-        "titleUr",
-        "imageUrl"
+        "nameEn",
+        "nameUr",
+        "descriptionEn",
+        "descriptionUr",
+        "iconUrl",
+        "order",
+        "lastUpdated"
       ]
     },
-    "ContactSubmission": {
+    "GalleryImage": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "ContactSubmission",
+      "title": "GalleryImage",
       "type": "object",
-      "description": "Records messages submitted by users through the website's contact form.",
+      "description": "Represents an image in the website's gallery, including image URLs and bilingual descriptive text.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the ContactSubmission entity."
+          "description": "Unique identifier for the GalleryImage entity."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the high-resolution image for full-screen viewing.",
+          "format": "uri"
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "description": "URL to the lazy-loaded thumbnail image.",
+          "format": "uri"
+        },
+        "altTextEn": {
+          "type": "string",
+          "description": "Alternative text for the image in English, used for accessibility and SEO."
+        },
+        "altTextUr": {
+          "type": "string",
+          "description": "Alternative text for the image in Urdu, used for accessibility and SEO."
+        },
+        "captionEn": {
+          "type": "string",
+          "description": "A short caption or title for the image in English."
+        },
+        "captionUr": {
+          "type": "string",
+          "description": "A short caption or title for the image in Urdu."
+        },
+        "displayOrder": {
+          "type": "number",
+          "description": "The display order of the image within the gallery."
+        },
+        "uploadDate": {
+          "type": "string",
+          "description": "Timestamp indicating when the image was uploaded.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "imageUrl",
+        "thumbnailUrl",
+        "altTextEn",
+        "altTextUr",
+        "captionEn",
+        "captionUr",
+        "displayOrder",
+        "uploadDate"
+      ]
+    },
+    "ContactMessage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactMessage",
+      "type": "object",
+      "description": "Stores messages submitted through the website's contact form.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ContactMessage entity."
         },
         "senderName": {
           "type": "string",
-          "description": "The full name of the person who submitted the contact form."
+          "description": "The full name of the person who sent the message."
         },
         "senderEmail": {
           "type": "string",
-          "description": "The email address of the person who submitted the contact form.",
+          "description": "The email address of the sender.",
           "format": "email"
+        },
+        "senderPhone": {
+          "type": "string",
+          "description": "The phone number of the sender (optional)."
         },
         "subject": {
           "type": "string",
-          "description": "The subject line of the message from the contact form."
+          "description": "The subject line of the message."
         },
         "messageBody": {
           "type": "string",
-          "description": "The main content of the message submitted through the contact form."
+          "description": "The main content of the message."
         },
-        "submissionDateTime": {
+        "submissionDate": {
           "type": "string",
-          "description": "Timestamp indicating when the contact message was submitted.",
+          "description": "Timestamp indicating when the message was submitted.",
           "format": "date-time"
         },
         "isRead": {
           "type": "boolean",
-          "description": "A flag indicating whether the submitted contact message has been marked as read by an administrator."
+          "description": "A flag indicating whether the message has been marked as read."
         }
       },
       "required": [
         "id",
         "senderName",
         "senderEmail",
+        "subject",
         "messageBody",
-        "submissionDateTime"
+        "submissionDate",
+        "isRead"
       ]
     }
   },
@@ -190,70 +217,86 @@
   "firestore": {
     "structure": [
       {
-        "path": "/pageContents/{pageContentSlug}",
+        "path": "/page_content/{pageContentId}",
         "definition": {
           "entityName": "PageContent",
           "schema": {
             "$ref": "#/backend/entities/PageContent"
           },
-          "description": "Publicly readable content for static pages (e.g., 'About Us', 'Services'). Write access is restricted to administrators only. Includes denormalized data for SEO and multilingual support.",
+          "description": "Stores static and dynamic content for website pages. Publicly readable, admin write-access. Documents include standard content fields and a 'lastUpdated' timestamp.",
           "params": [
             {
-              "name": "pageContentSlug",
-              "description": "The URL-friendly unique identifier (slug) of the page content, used as the document ID."
+              "name": "pageContentId",
+              "description": "Unique identifier for a specific page content document."
             }
           ]
         }
       },
       {
-        "path": "/galleryItems/{galleryItemId}",
+        "path": "/services/{serviceId}",
         "definition": {
-          "entityName": "GalleryItem",
+          "entityName": "Service",
           "schema": {
-            "$ref": "#/backend/entities/GalleryItem"
+            "$ref": "#/backend/entities/Service"
           },
-          "description": "Publicly readable items showcasing past work in the interactive gallery. Write access is restricted to administrators only.",
+          "description": "Stores details for memorial services offered. Publicly readable, admin write-access. Includes bilingual descriptions and display order.",
           "params": [
             {
-              "name": "galleryItemId",
-              "description": "The unique identifier for a gallery item, used as the document ID."
+              "name": "serviceId",
+              "description": "Unique identifier for a specific service document."
             }
           ]
         }
       },
       {
-        "path": "/contactSubmissions/{submissionId}",
+        "path": "/gallery_images/{galleryImageId}",
         "definition": {
-          "entityName": "ContactSubmission",
+          "entityName": "GalleryImage",
           "schema": {
-            "$ref": "#/backend/entities/ContactSubmission"
+            "$ref": "#/backend/entities/GalleryImage"
           },
-          "description": "Stores messages submitted via the contact form. Any user (including anonymous) can create submissions. Only administrators can read, update, or delete submissions.",
+          "description": "Stores metadata for gallery images, including URLs, bilingual alt text, and captions. Publicly readable, admin write-access.",
           "params": [
             {
-              "name": "submissionId",
-              "description": "The unique identifier for a contact form submission, used as the document ID."
+              "name": "galleryImageId",
+              "description": "Unique identifier for a specific gallery image document."
             }
           ]
         }
       },
       {
-        "path": "/admins/{adminId}",
+        "path": "/contact_messages/{messageId}",
         "definition": {
-          "entityName": "Admin",
+          "entityName": "ContactMessage",
           "schema": {
-            "$ref": "#/backend/entities/Admin"
+            "$ref": "#/backend/entities/ContactMessage"
           },
-          "description": "A collection for Database Access Control (DBAC). Each document in this collection represents a user with administrative privileges. The existence of a document `admins/{uid}` confirms the `uid` is an administrator. This enables secure, server-side role checks without custom claims. (Note: 'Admin' is a conceptual entity for role management, assuming its schema, often an empty document, is implicitly defined for DBAC purposes as per mandate.)",
+          "description": "Stores messages submitted via the contact form. Publicly writable (create), but only readable and updatable by administrators. Includes a 'isRead' status.",
           "params": [
             {
-              "name": "adminId",
-              "description": "The unique Firebase Authentication UID of the administrative user, used as the document ID."
+              "name": "messageId",
+              "description": "Unique identifier for a submitted contact message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "UserRoleAdmin",
+          "schema": {
+            "$ref": "#/backend/entities/user"
+          },
+          "description": "A collection where the existence of a document signifies that the user (identified by userId) has administrative privileges. Used for Authorization Independence and DBAC.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user who is an administrator."
             }
           ]
         }
       }
     ],
-    "reasoning": "The Firestore structure for Legacy Stone prioritizes security, scalability, and debuggability by strictly adhering to the core design principles and strategy mandates. \n\n**Authorization Independence (CRITICAL) & DBAC:**\nTo achieve authorization independence and implement Database Access Control (DBAC) without relying on custom claims or complex hierarchical dependencies, a dedicated top-level collection, `/admins/{adminId}`, has been introduced. This collection stores the `uid`s of administrative users. For any operation requiring admin privileges (e.g., creating/updating/deleting `PageContent` or `GalleryItem`, or reading/updating/deleting `ContactSubmission`), security rules will perform a simple `exists(/databases/$(database)/documents/admins/$(request.auth.uid))` check. This eliminates the need for `get()` calls to parent documents or external authorization contexts, ensuring atomic operations and simplified rule logic.\n\n**Structural Segregation (Homogeneous Security Posture):**\n\n*   **Public Content:** `PageContent` and `GalleryItem` are stored in top-level collections (`/pageContents/{pageContentSlug}` and `/galleryItems/{galleryItemId}`). Both are designed for public read access by any user (authenticated or unauthenticated). This segregation ensures all documents within these collections share the same security posture (publicly readable), simplifying security rules to `allow read: if true;`. Write access to these collections is restricted to administrators via the `/admins` collection.\n*   **User Submissions:** `ContactSubmission` (`/contactSubmissions/{submissionId}`) is a top-level collection where any user can `create` a new submission. Read, update, and delete operations are strictly limited to administrators. This separation of concerns ensures that public write access for new submissions does not compromise the privacy and management of existing submissions, which are admin-only.\n\n**QAPs (Rules are not Filters):**\n\n*   For `PageContent` and `GalleryItem`, `list` operations are implicitly secured for public access, as all documents in these collections are intended for public display. Security rules will simply allow reads, and clients can fetch the entire collection or specific documents based on queries without needing client-side filtering for authorization.\n*   For `ContactSubmission`, `list` operations are explicitly allowed for administrators. An admin user can securely query and retrieve all contact submissions, as the security rules will ensure that only an authenticated admin (whose `uid` exists in `/admins`) can perform these read operations. This design avoids the pitfalls of rules acting as filters, providing predictable query results based on the caller's authorization.\n\n**Data Clarity and Predictability:**\nSemantic naming is consistently used for paths and parameters (e.g., `{pageContentSlug}`, `{galleryItemId}`, `{submissionId}`, `{adminId}`). All authorization-related checks are explicit (e.g., `exists()` for admin roles). The structure promotes clear intent for data access and management, facilitating easier debugging and maintenance of security rules."
+    "reasoning": "The recommended Firestore structure is designed to be secure, scalable, and easily debuggable by strictly adhering to the core design principles. The primary strategy employed is **Structural Segregation** combined with **Authorization Independence via Denormalization** for roles. Each top-level collection groups documents with a homogeneous security posture, simplifying security rules significantly.\n\n1.  **Public Read, Admin Write Collections (`/page_content`, `/services`, `/gallery_images`):**\n    *   **Authorization Independence:** These collections do not rely on hierarchical authorization. All documents within them are publicly readable, which means `get()` calls in security rules are entirely avoided for read operations. Write operations for these collections will be restricted to users who are identified as administrators.\n    *   **QAPs (Rules are not Filters):** Since all documents in these collections are intended for public display, a simple `allow read: if true;` rule can be applied. This inherently satisfies the QAP requirement as all documents are accessible to the public for listing and reading, without needing to filter on data content for access control.\n\n2.  **Contact Messages Collection (`/contact_messages`):**\n    *   **Authorization Independence:** This collection allows anonymous or authenticated users to create documents (submit messages). Read and update access (e.g., marking `isRead`) is restricted to administrators. Like the public collections, no `get()` calls are needed for authorization. A user's ability to create a message is independent of any other document, and an admin's ability to read/update messages is solely based on their admin role.\n    *   **QAPs (Rules are not Filters):** For message creation, `allow create: if true;` (or similar for auth.uid presence if required) directly satisfies QAP. For read/update by admins, a rule like `allow read, update: if exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));` means that admins can list and read all contact messages, fulfilling the QAP without filtering data for access.\n\n3.  **Admin Roles Collection (`/roles_admin`):**\n    *   **Authorization Independence/DBAC:** A dedicated collection `/roles_admin/{userId}` is used to store administrator roles. The mere existence of a document at `/roles_admin/$(request.auth.uid)` grants administrative privileges. This design completely avoids custom claims and `get()` calls to other user-specific data, making rules extremely robust and easy to debug. Authorization logic simply checks for document existence.\n\nBy ensuring that authorization logic for any document depends only on `request.auth.uid` (for roles) or is universally `true` (for public data), we achieve strong Authorization Independence. Structural segregation ensures each collection has a clear and consistent security profile, making security rules simple to write, understand, and verify. Denormalization of the admin role status (effectively, the role *is* the document existence) ensures that rules are not complex or reliant on `get()` operations, thereby supporting atomic operations and debuggability."
   }
 }
