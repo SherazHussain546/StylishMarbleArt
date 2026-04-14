@@ -21,13 +21,30 @@ export default function MarbleDetailClient() {
   }
 
   const productSchema = useMemo(() => {
-    // Specific metadata overrides based on user provided SEO specs
+    // Exact schema matching provided by the user for specific materials
     const isRosso = marble.slug === 'rosso-verona-marble';
     const isGranite = marble.slug === 'black-granite';
+    const isSunnyGrey = marble.slug === 'sunny-grey';
     
     let schemaDescription = marble.meta_description?.en || marble.page_description.en;
-    if (isRosso) schemaDescription = "Buy premium Rosso Verona marble in Karachi, Pakistan. Stylish Marble Art offers custom cutting, engraving, and installation of Rosso Verona for floors, countertops, and memorials. Call +92 308 3401606.";
-    if (isGranite) schemaDescription = "Premium black granite headstones, grave memorials, and kitchen countertops in Karachi, Pakistan. Custom Arabic engraving available. Serving all of Pakistan. Contact Stylish Marble Art today.";
+    let materialName = `Natural ${marble.name.en}`;
+    let colorDesc = marble.appearance?.en || "";
+
+    if (isRosso) {
+        schemaDescription = "Buy premium Rosso Verona marble in Karachi, Pakistan. Stylish Marble Art offers custom cutting, engraving, and installation of Rosso Verona for floors, countertops, and memorials. Call +92 308 3401606.";
+        materialName = "Natural Rosso Verona Marble";
+        colorDesc = "Deep warm red to burgundy base with white, cream, and fossil-pattern veining";
+    }
+    if (isGranite) {
+        schemaDescription = "Premium black granite headstones, grave memorials, and kitchen countertops in Karachi, Pakistan. Custom Arabic engraving available. Serving all of Pakistan. Contact Stylish Marble Art today.";
+        materialName = "Natural Black Granite";
+        colorDesc = "Deep jet black, polished to a mirror finish";
+    }
+    if (isSunnyGrey) {
+        schemaDescription = "Premium Sunny Grey marble supply and installation in Karachi. Ideal for flooring, countertops, and wall cladding. Stylish Marble Art serves all of Pakistan. Get your free quote now.";
+        materialName = "Natural Sunny Grey Marble";
+        colorDesc = "Soft light grey base with white and pale grey veining";
+    }
 
     return {
       "@context": "https://schema.org",
@@ -50,8 +67,8 @@ export default function MarbleDetailClient() {
             "telephone": "+923083401606"
         }
       },
-      "material": isRosso ? "Natural Rosso Verona Marble" : isGranite ? "Natural Black Granite" : `Natural ${marble.name.en}`,
-      "color": isRosso ? "Deep warm red to burgundy base with white, cream, and fossil-pattern veining" : isGranite ? "Deep jet black, polished to a mirror finish" : (marble.appearance?.en || "")
+      "material": materialName,
+      "color": colorDesc
     };
   }, [marble]);
   
@@ -86,7 +103,7 @@ export default function MarbleDetailClient() {
               <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-[2rem] shadow-2xl border-8 border-white">
                 <Image
                   src={marble.image}
-                  alt={`${marble.name['en']} — ${marble.slug === 'rosso-verona-marble' ? 'Rosso Verona Marble' : marble.slug === 'black-granite' ? 'Black Granite' : marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
+                  alt={`${marble.name['en']} — ${marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
                   data-ai-hint={marble.hint || "marble"}
                   fill
                   className="object-cover"
@@ -124,7 +141,7 @@ export default function MarbleDetailClient() {
                         {marble.finishes && (
                             <div className="flex gap-4">
                                 <div className="bg-primary/10 h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{language === 'en' ? 'Available Finishes' : 'دستیاب فنشز'}</p>
@@ -191,7 +208,7 @@ export default function MarbleDetailClient() {
                     <p className="text-muted-foreground leading-relaxed">
                         {language === 'en' 
                             ? `Ready to transform your space — or create a lasting memorial — with ${marble.name.en}? Contact Stylish Marble Art in Karachi today. We offer free consultations, competitive pricing, and professional installation across all of Pakistan.` 
-                            : `کیا آپ ${marble.name.ur} کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابتقی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔`}
+                            : `کیا آپ ${marble.name.ur} کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابقتی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔`}
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">

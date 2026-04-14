@@ -59,7 +59,7 @@ export const content = {
     },
     cta: { en: 'Explore the Registry', ur: 'رجسٹری دیکھیں' },
     features: [
-      { title: { en: 'Digital Tree', ur: 'ڈیجیٹل شجرہ' }, description: { en: 'Link parents, spouses, and children dynamically.', ur: 'والدین، شریک حیات اور بچوں کو متحرک طور پر جوڑیں۔' } },
+      { title: { en: 'Digital Tree', ur: 'ڈیجیٹل شجرہ' }, description: { en: 'Link parents, spouses, and children dynamically.', ur: 'والدین، شریک حیات اور بچوں کو متحرک طور پر جوڑ۔۔' } },
       { title: { en: 'GPS Locations', ur: 'جی پی ایس مقامات' }, description: { en: 'Pin and find exact grave markers in any Karachi cemetery.', ur: 'کسی بھی کراچی کے قبرستان میں قبر کے صحیح نشانات پن کریں اور تلاش کریں۔' } },
       { title: { en: 'Global Sharing', ur: 'عالمی شیئرنگ' }, description: { en: 'Share direct links to your tree with family worldwide.', ur: 'دنیا بھر میں خاندان کے ساتھ اپنے شجرے کے براہ راست لنکس شیئر کریں۔' } },
     ]
@@ -145,6 +145,39 @@ export const content = {
         finishes: { en: "Polished, honed, or brushed", ur: "پالش، ہونڈ، یا برش" }
       },
       {
+        slug: "sunny-grey",
+        name: { en: "Sunny Grey", ur: "سنی گرے" },
+        image: "/Gallery/tom/sunnygrey.png",
+        hint: "grey marble",
+        page_description: {
+          en: "Premium Sunny Grey marble supply and installation in Karachi. Ideal for flooring, countertops, and wall cladding. Stylish Marble Art serves all of Pakistan. Get your free quote now.",
+          ur: "پریمیم سنی گرے ماربل کی فراہمی اور تنصیب۔ فرش، کاؤنٹر ٹاپس اور دیواروں کے لیے بہترین۔"
+        },
+        meta_title: { en: "Sunny Grey Marble in Karachi | Flooring & Countertops | Stylish Marble Art", ur: "کراچی میں سنی گرے ماربل | فلورنگ اور کاؤنٹر ٹاپس | سٹائلش ماربل آرٹ" },
+        meta_description: { en: "Premium Sunny Grey marble supply and installation in Karachi. Ideal for flooring, countertops, and wall cladding. Stylish Marble Art serves all of Pakistan. Get your free quote now.", ur: "کراچی میں پریمیم سنی گرے ماربل کی فراہمی اور تنصیب۔ فرش، کاؤنٹر ٹاپس اور دیواروں کی چادر کے لیے بہترین۔ سٹائلش ماربل آرٹ پورے پاکستان میں خدمات انجام دیتا ہے۔" },
+        keywords: ["Sunny Grey marble Karachi", "Sunny Grey marble Pakistan", "grey marble flooring Pakistan", "Balochistan grey marble", "grey marble countertop Karachi", "marble price Karachi", "Stylish Marble Art Pakistan"],
+        h1: { en: "Sunny Grey Marble in Karachi — Subtle Sophistication — Pakistan's Most Versatile Grey Natural Stone", ur: "کراچی میں سنی گرے ماربل — لطیف نفاست — پاکستان کا سب سے ورسٹائل گرے قدرتی پتھر" },
+        intro: { 
+          en: "Sunny Grey Marble is the quiet achiever of Pakistan's stone market — understated, elegant, and endlessly versatile. Quarried from the prized deposits of Swat, KPK, its soft grey tone and delicate white veining complement virtually any interior palette, from contemporary minimalism to classic Pakistani design. Stylish Marble Art in Karachi supplies and installs Sunny Grey marble across the country.",
+          ur: "سنی گرے ماربل پاکستان کی اسٹون مارکیٹ کا ایک خاموش شاہکار ہے — سادہ، خوبصورت اور لامتناہی طور پر ورسٹائل۔ سوات، کے پی کے کے قیمتی ذخائر سے نکالا گیا، اس کا نرم گرے ٹون اور نازک سفید رگیں ہر طرح کے انٹیریئر کے ساتھ ہم آہنگ ہوتی ہیں۔"
+        },
+        about: {
+          en: "What makes Sunny Grey so popular among architects, interior designers, and homeowners in Pakistan is its neutrality. It does not compete with your furniture or décor — it elevates everything around it. A Sunny Grey marble floor creates a sense of cool, spacious elegance in any room, while Sunny Grey countertops bring a polished professionalism to kitchens and bathrooms.\n\nSourced directly from Swat's highest-grade quarries, our Sunny Grey marble at Stylish Marble Art is selected for consistency of tone, depth of vein patterning, and surface hardness. We offer it in custom cut sizes, polished or honed finishes, and can handle projects of any scale — from a single bathroom countertop to a full commercial lobby installation in Karachi.",
+          ur: "پاکستان میں آرکیٹیکٹس اور انٹیریئر ڈیزائنرز میں سنی گرے کی مقبولیت کی وجہ اس کی غیر جانبداری ہے۔ یہ آپ کے فرنیچر یا سجاوٹ کے ساتھ مقابلہ نہیں کرتا — بلکہ یہ اپنے ارد گرد کی ہر چیز کو بلند کرتا ہے۔"
+        },
+        uses: {
+          en: ["Residential and commercial flooring", "Kitchen countertops", "Bathroom walls and floors", "Office and corporate lobbies", "Staircase cladding", "Wall feature panels"],
+          ur: ["رہائشی اور تجارتی فرش", "کچن کاؤنٹر ٹاپس", "باتھ روم کی دیواریں اور فرش", "دفتر اور کارپوریٹ لابی", "سیڑھیوں کی کلرنگ", "دیوار کے فیچر پینلز"]
+        },
+        why_choose: {
+          en: "Stylish Marble Art has worked with Sunny Grey marble on dozens of residential and commercial projects across Karachi. Our experienced cutters and installers ensure precise fitting, perfect finishing, and zero waste — delivering projects on time and on budget across Pakistan.",
+          ur: "سٹائلش ماربل آرٹ نے کراچی بھر میں درجنوں رہائشی اور تجارتی منصوبوں پر سنی گرے ماربل کے ساتھ کام کیا ہے۔ ہمارے تجربہ کار کاریگر درست فٹنگ اور بہترین فنشنگ کو یقینی بناتے ہیں۔"
+        },
+        origin: { en: "Quarried from Swat, Khyber Pakhtunkhwa, Pakistan", ur: "سوات، خیبر پختونخوا، پاکستان سے نکالا گیا" },
+        appearance: { en: "Soft light grey base with white and pale grey veining", ur: "سفید اور ہلکی گرے رگوں کے ساتھ نرم ہلکا گرے بیس" },
+        finishes: { en: "Polished or honed", ur: "پالش یا ہونڈ" }
+      },
+      {
         slug: "artificial-white",
         name: { en: "Artificial White", ur: "مصنوعی سفید" },
         image: "/Gallery/tom/artificalwhite.png",
@@ -152,16 +185,6 @@ export const content = {
         page_description: {
           en: "Minimalist Artificial White marble for consistent, clean flooring and bathroom surfaces. A cost-effective solution for large residential projects in Pakistan.",
           ur: "مستقل اور صاف فرش اور باتھ روم کی سطحوں کے لیے مصنوعی سفید ماربل۔ پاکستان میں بڑے رہائشی منصوبوں کے لیے ایک بہترین اور سستی حل۔"
-        }
-      },
-      {
-        slug: "sunny-grey",
-        name: { en: "Sunny Grey", ur: "سنی گرے" },
-        image: "/Gallery/tom/sunnygrey.png",
-        hint: "grey marble",
-        page_description: {
-          en: "Contemporary Sunny Grey marble adds sophistication to any interior. A top-selling choice for modern flooring in Karachi and abroad.",
-          ur: "عصری سنی گرے ماربل کسی بھی انٹیریئر میں نفاست کا اضافہ کرتا ہے۔ کراچی اور بیرون ملک جدید فرش کے لیے سب سے زیادہ فروخت ہونے والا انتخاب۔"
         }
       },
        {
@@ -347,7 +370,7 @@ export const content = {
     ourStoryTitle: { en: 'Our 50-Year Legacy in Karachi', ur: 'کراچی میں ہماری 50 سالہ میراث' },
     ourStoryText: {
       en: 'Stylish Marble Art is a family-owned legacy business based at Malir 15, Main National Highway, Karachi. For over 50 years, we have been the heart of premium stonemasonry in Pakistan, specializing in Ziarat White memorials and luxury home marble.',
-      ur: 'سٹائلش ماربل آرٹ ایک خاندانی میراثی کاروبار ہے جو ملیر 15، مین نیشنل ہائی وے، کراچی میں واقع ہے۔ 50 سال سے زیادہ عرصے سے، ہم پاکستان میں پریمیم سنگ تراشی کا مرکز رہے ہیں، جو زیارت وائٹ یادگاروں اور پرتعیش گھریلو ماربل میں مہارت رکھتے ہیں۔',
+      ur: 'سٹائلش ماربل آرٹ ایک خاندانی میراثی کاروبار ہے جو ملیر 15، مین نیشنل ہائی وے، کراچی میں واقع ہے۔ 50 سال سے زیادہ عرصے سے، ہم پاکستان میں پریمیم سنگ تراشی کا مرکز رہے ہیں، جو زیارت وائٹ یادگاروں اور پرتعیش گھریلو ماربل میں مہارت رکھتے ہیں۔'
     },
     ourMissionTitle: { en: 'Our Mission & Global Commitment', ur: 'ہمارا مشن اور عالمی عزم' },
     ourMissionText: {
