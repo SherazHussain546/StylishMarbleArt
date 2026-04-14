@@ -7,8 +7,9 @@ service cloud.firestore {
      * This ruleset implements a Role-Based Access Control (RBAC) model centered around administrative privileges.
      *
      * DATA STRUCTURE
-     * - Public Content: /page_content, /services, and /gallery are globally readable to support the public website.
+     * - Public Content: /page_content, /services, /gallery, and /memorials are globally readable to support the public website.
      * - Communication: /contact_messages allows public submissions (write-only for guests) while restricting access to admins.
+     * - Memorials: /memorials allows community-driven submissions (creation) while restricting management to admins.
      * - Authorization: /roles_admin is a specialized collection where document existence determines administrative rights.
      */
 
@@ -57,18 +58,8 @@ service cloud.firestore {
 
     /**
      * @description Rules for the image gallery. Publicly readable, admin-managed.
-     * Matches the 'gallery' collection used in the application code.
      */
     match /gallery/{imageId} {
-      allow get, list: if true;
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
-    }
-
-    /**
-     * @description Backup rules for legacy 'gallery_images' path.
-     */
-    match /gallery_images/{galleryImageId} {
       allow get, list: if true;
       allow create: if isAdmin();
       allow update, delete: if isExistingAdmin();
@@ -84,11 +75,13 @@ service cloud.firestore {
     }
     
     /**
-     * @description Legacy support for contact-messages path.
+     * @description Rules for the Digital Memorial Locator. 
+     * Allows public reading and community-driven pinning of grave locations.
+     * Restricts modification/deletion to administrators.
      */
-    match /contact-messages/{messageId} {
+    match /memorials/{memorialId} {
+      allow get, list: if true;
       allow create: if true;
-      allow get, list: if isAdmin();
       allow update, delete: if isExistingAdmin();
     }
 
