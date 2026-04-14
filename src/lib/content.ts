@@ -84,9 +84,32 @@ export const content = {
         image: "/Gallery/tom/granite.png",
         hint: "black granite",
         page_description: {
-          en: "Durable Black Granite for long-lasting gravestones and modern kitchen countertops. Sourced and crafted in Karachi for the global market.",
+          en: "Premium black granite headstones, grave memorials, and kitchen countertops in Karachi, Pakistan. Custom Arabic engraving available. Serving all of Pakistan. Contact Stylish Marble Art today.",
           ur: "پائیدار سیاہ گرینائٹ دیرپا کتبوں اور جدید کچن کاؤنٹر ٹاپس کے لیے۔ عالمی مارکیٹ کے لیے کراچی میں تیار کیا گیا ہے۔"
-        }
+        },
+        meta_title: { en: "Black Granite Headstones & Countertops in Karachi | Stylish Marble Art", ur: "کراچی میں بلیک گرینائٹ کتبے اور کاؤنٹر ٹاپس | سٹائلش ماربل آرٹ" },
+        meta_description: { en: "Premium black granite headstones, grave memorials, and kitchen countertops in Karachi, Pakistan. Custom Arabic engraving available. Serving all of Pakistan. Contact Stylish Marble Art today.", ur: "کراچی، پاکستان میں پریمیم بلیک گرینائٹ کتبے، قبر کی یادگاریں، اور کچن کاؤنٹر ٹاپس۔ کسٹم عربی کندہ کاری دستیاب ہے۔" },
+        keywords: ["black granite headstone Karachi", "black granite gravestone Pakistan", "black granite countertop Karachi", "granite engraving Pakistan", "Islamic headstone black granite", "قبر کا پتھر کراچی", "black granite memorial Pakistan", "Stylish Marble Art"],
+        h1: { en: "Black Granite in Karachi — The Ultimate Stone for Headstones, Memorials & Luxury Interiors in Pakistan", ur: "کراچی میں بلیک گرینائٹ — پاکستان میں کتبوں، یادگاروں اور پرتعیش انٹیریئرز کے لیے بہترین پتھر" },
+        intro: { 
+          en: "Black Granite is the most chosen material for gravestones and memorials across Pakistan — and with good reason. Its deep, uniform jet-black surface provides the perfect contrast for engraved Arabic calligraphy, Quranic verses, names, and dates. At Stylish Marble Art, Black Granite is our most requested material for both memorial work and luxury home installations in Karachi.",
+          ur: "بلیک گرینائٹ پورے پاکستان میں کتبوں اور یادگاروں کے لیے سب سے زیادہ منتخب کیا جانے والا مواد ہے — اور اس کی اچھی وجہ ہے۔ اس کی گہری، یکساں جیٹ بلیک سطح کندہ شدہ عربی خطاطی، قرآنی آیات، ناموں اور تاریخوں کے لیے بہترین کنٹراسٹ فراہم کرتی ہے۔"
+        },
+        about: {
+          en: "Unlike marble, granite is an igneous rock formed under intense heat and pressure, making it exceptionally hard, weather-resistant, and virtually impervious to staining. A black granite headstone crafted by Stylish Marble Art will remain legible and beautiful for generations — through Pakistan's harsh summers, monsoon rains, and everything in between.\n\nFor memorial work, we specialise in precision engraving of Arabic calligraphy, Urdu text, Quranic ayat (including Ayat-ul-Kursi), names, dates, and custom Islamic geometric designs. For kitchen and home use, black granite countertops offer a striking contemporary look that works with both modern and traditional Pakistani interior styles.\n\nEvery piece of black granite we use is hand-inspected for uniformity of colour, absence of pitting, and surface density. We do not compromise on quality — because we understand that for a gravestone, there is no second chance.",
+          ur: "ماربل کے برعکس، گرینائٹ ایک آگنی پتھر ہے جو شدید گرمی اور دباؤ کے تحت بنتا ہے، جو اسے غیر معمولی طور پر سخت اور موسم مزاحم بناتا ہے۔ سٹائلش ماربل آرٹ کا تیار کردہ بلیک گرینائٹ کتبہ نسلوں تک واضح اور خوبصورت رہے گا۔"
+        },
+        uses: {
+          en: ["Islamic gravestones and headstones with Arabic engraving", "Grave memorials and complete grave sets", "Kitchen countertops and island tops", "Bathroom vanities and flooring", "Wall cladding and feature panels", "Government and institutional engraving"],
+          ur: ["عربی کندہ کاری کے ساتھ اسلامی کتبے", "قبر کی یادگاریں اور مکمل قبر سیٹ", "کچن کاؤنٹر ٹاپس اور آئی لینڈ ٹاپس", "باتھ روم کی وینٹی اور فرش", "دیواروں کی چادر اور فیچر پینل", "سرکاری اور ادارہ جاتی کندہ کاری"]
+        },
+        why_choose: {
+          en: "Stylish Marble Art has completed hundreds of black granite headstone and memorial projects across Karachi and Pakistan. We work with families with compassion and care, understanding that ordering a gravestone is one of the most significant purchases a family makes. We offer free design consultations, show you a digital preview before cutting begins, and guarantee on-time delivery.",
+          ur: "سٹائلش ماربل آرٹ نے کراچی اور پاکستان بھر میں سیکڑوں بلیک گرینائٹ کتبوں اور یادگاری منصوبوں کو مکمل کیا ہے۔ ہم خاندانوں کے ساتھ ہمدردی اور دیکھ بھال کے ساتھ کام کرتے ہیں۔"
+        },
+        origin: { en: "Sourced from Mansehra (KPK), Balochistan, and imported premium grades", ur: "مانسہرہ (KPK)، بلوچستان اور درآمد شدہ پریمیم گریڈز سے حاصل کیا گیا" },
+        appearance: { en: "Deep jet black, polished to a mirror finish", ur: "گہرا جیٹ بلیک، آئینہ کی طرح پالش" },
+        finishes: { en: "High polish, flamed, or sandblasted", ur: "ہائی پالش، فلیمد، یا سینڈ بلاسٹڈ" }
       },
       {
         slug: "rosso-verona-marble",

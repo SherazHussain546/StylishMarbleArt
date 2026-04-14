@@ -21,15 +21,19 @@ export default function MarbleDetailClient() {
   }
 
   const productSchema = useMemo(() => {
-    // Specific metadata for Rosso Verona based on user requirement
+    // Specific metadata overrides based on user provided SEO specs
     const isRosso = marble.slug === 'rosso-verona-marble';
+    const isGranite = marble.slug === 'black-granite';
+    
+    let schemaDescription = marble.meta_description?.en || marble.page_description.en;
+    if (isRosso) schemaDescription = "Buy premium Rosso Verona marble in Karachi, Pakistan. Stylish Marble Art offers custom cutting, engraving, and installation of Rosso Verona for floors, countertops, and memorials. Call +92 308 3401606.";
+    if (isGranite) schemaDescription = "Premium black granite headstones, grave memorials, and kitchen countertops in Karachi, Pakistan. Custom Arabic engraving available. Serving all of Pakistan. Contact Stylish Marble Art today.";
+
     return {
       "@context": "https://schema.org",
       "@type": "Product",
       "name": marble.name.en,
-      "description": isRosso 
-        ? "Buy premium Rosso Verona marble in Karachi, Pakistan. Stylish Marble Art offers custom cutting, engraving, and installation of Rosso Verona for floors, countertops, and memorials. Call +92 308 3401606."
-        : marble.meta_description?.en || marble.page_description.en,
+      "description": schemaDescription,
       "image": marble.image.startsWith('http') ? marble.image : `https://www.stylishmarbleart.com${marble.image}`,
       "brand": {
         "@type": "Brand",
@@ -46,8 +50,8 @@ export default function MarbleDetailClient() {
             "telephone": "+923083401606"
         }
       },
-      "material": isRosso ? "Natural Rosso Verona Marble" : `Natural ${marble.name.en}`,
-      "color": isRosso ? "Deep warm red to burgundy base with white, cream, and fossil-pattern veining" : (marble.appearance?.en || "")
+      "material": isRosso ? "Natural Rosso Verona Marble" : isGranite ? "Natural Black Granite" : `Natural ${marble.name.en}`,
+      "color": isRosso ? "Deep warm red to burgundy base with white, cream, and fossil-pattern veining" : isGranite ? "Deep jet black, polished to a mirror finish" : (marble.appearance?.en || "")
     };
   }, [marble]);
   
@@ -82,7 +86,7 @@ export default function MarbleDetailClient() {
               <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-[2rem] shadow-2xl border-8 border-white">
                 <Image
                   src={marble.image}
-                  alt={marble.slug === 'rosso-verona-marble' ? `Premium Rosso Verona Marble slab — Rosso Verona Marble by Stylish Marble Art, Karachi` : `${marble.name['en']} - ${marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
+                  alt={`${marble.name['en']} — ${marble.slug === 'rosso-verona-marble' ? 'Rosso Verona Marble' : marble.slug === 'black-granite' ? 'Black Granite' : marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
                   data-ai-hint={marble.hint || "marble"}
                   fill
                   className="object-cover"
@@ -186,8 +190,8 @@ export default function MarbleDetailClient() {
                     <h2 className="text-2xl font-bold">{language === 'en' ? 'Get a Free Quote Today' : 'مفت کوٹیشن حاصل کریں'}</h2>
                     <p className="text-muted-foreground leading-relaxed">
                         {language === 'en' 
-                            ? 'Ready to transform your space — or create a lasting memorial — with Rosso Verona Marble? Contact Stylish Marble Art in Karachi today. We offer free consultations, competitive pricing, and professional installation across all of Pakistan.' 
-                            : 'کیا آپ روسو ویرونا ماربل کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابتقی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔'}
+                            ? `Ready to transform your space — or create a lasting memorial — with ${marble.name.en}? Contact Stylish Marble Art in Karachi today. We offer free consultations, competitive pricing, and professional installation across all of Pakistan.` 
+                            : `کیا آپ ${marble.name.ur} کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابتقی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔`}
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
