@@ -214,6 +214,7 @@
       "description": "Represents a grave location and information about the deceased, plus publisher lead info.",
       "properties": {
         "id": { "type": "string" },
+        "honorific": { "type": "string", "description": "Title like Dr., Prof, Shaheed, etc." },
         "deceasedName": { "type": "string" },
         "parentName": { "type": "string" },
         "dateOfBirth": { "type": "string" },
@@ -336,6 +337,6 @@
         }
       }
     ],
-    "reasoning": "Updated Memorial entity to include graveyardName for better categorization."
+    "reasoning": "Updated Memorial entity to include honorific field for professional and martyr titles."
   }
 }

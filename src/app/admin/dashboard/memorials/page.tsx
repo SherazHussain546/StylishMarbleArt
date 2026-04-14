@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -5,16 +6,33 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search, QrCode, Download, Edit2, Loader2, Heart, Calendar } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 import QRCode from 'qrcode';
+
+const honorifics = [
+    { id: 'none', en: 'None', ur: 'کوئی نہیں' },
+    { id: 'mr', en: 'Mr.', ur: 'مسٹر' },
+    { id: 'mrs', en: 'Mrs.', ur: 'مسمات' },
+    { id: 'ms', en: 'Ms.', ur: 'مس' },
+    { id: 'dr', en: 'Dr.', ur: 'ڈاکٹر' },
+    { id: 'prof', en: 'Prof.', ur: 'پروفیسر' },
+    { id: 'haji', en: 'Haji', ur: 'حاجی' },
+    { id: 'hakeem', en: 'Hakeem', ur: 'حکیم' },
+    { id: 'shaheed', en: 'Shaheed (Martyr)', ur: 'شہید' },
+    { id: 'major', en: 'Major', ur: 'میجر' },
+    { id: 'captain', en: 'Captain', ur: 'کیپٹن' },
+    { id: 'havildar', en: 'Havildar', ur: 'حوالدار' },
+];
 
 export default function AdminMemorialLeadsPage() {
   const db = useFirestore();
@@ -22,6 +40,10 @@ export default function AdminMemorialLeadsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [qrCodeData, setQrCodeData] = useState<{ url: string, name: string } | null>(null);
   const [generatingQR, setGeneratingQR] = useState(false);
+  
+  // Edit State
+  const [editingMemorial, setEditingMemorial] = useState<any | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const memorialsQuery = useMemoFirebase(() => {
     if (!db) return null;
@@ -58,11 +80,33 @@ export default function AdminMemorialLeadsPage() {
     toast({ title: 'Success', description: 'Lead deleted.' });
   };
 
+  const handleUpdate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingMemorial) return;
+
+    setIsUpdating(true);
+    const docRef = doc(db, 'memorials', editingMemorial.id);
+    const { id, createdAt, ...updateData } = editingMemorial;
+
+    updateDoc(docRef, updateData)
+      .catch(async (err) => {
+        const permissionError = new FirestorePermissionError({
+          path: docRef.path,
+          operation: 'update',
+          requestResourceData: updateData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
+
+    toast({ title: 'Updated', description: 'Memorial details updated successfully.' });
+    setEditingMemorial(null);
+    setIsUpdating(false);
+  };
+
   const generateQRCode = async (m: any) => {
     setGeneratingQR(true);
     try {
       const memorialUrl = `${window.location.origin}/locator?search=${encodeURIComponent(m.deceasedName)}`;
-      // Generate standard high-quality PNG data URL
       const dataUrl = await QRCode.toDataURL(memorialUrl, {
         width: 1024,
         margin: 2,
@@ -130,7 +174,14 @@ export default function AdminMemorialLeadsPage() {
                 <div className="md:col-span-3 p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h2 className="text-2xl font-bold text-primary">{m.deceasedName}</h2>
+                      <div className="flex items-center gap-2 mb-1">
+                        {m.honorific && m.honorific !== 'none' && (
+                            <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                                {honorifics.find(h => h.id === m.honorific)?.en || m.honorific}
+                            </span>
+                        )}
+                        <h2 className="text-2xl font-bold text-primary">{m.deceasedName}</h2>
+                      </div>
                       <p className="text-sm text-muted-foreground italic">{m.parentName}</p>
                       {m.graveyardName && (
                         <div className="flex items-center gap-1 text-sm font-semibold text-primary mt-1">
@@ -142,6 +193,9 @@ export default function AdminMemorialLeadsPage() {
                     <div className="flex gap-2">
                         <Button variant="outline" size="icon" onClick={() => generateQRCode(m)} title="Generate QR Code" disabled={generatingQR}>
                             <QrCode className="h-4 w-4 text-blue-600" />
+                        </Button>
+                        <Button variant="outline" size="icon" onClick={() => setEditingMemorial(m)} title="Edit Memorial">
+                            <Edit2 className="h-4 w-4" />
                         </Button>
                         <Button variant="destructive" size="icon" onClick={() => handleDelete(m.id)}>
                             <Trash2 className="h-4 w-4" />
@@ -198,6 +252,99 @@ export default function AdminMemorialLeadsPage() {
           </div>
         )}
       </div>
+
+      {/* Edit Memorial Dialog */}
+      <Dialog open={!!editingMemorial} onOpenChange={() => setEditingMemorial(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Memorial Profile</DialogTitle>
+            <DialogDescription>Correct or update information for this grave record.</DialogDescription>
+          </DialogHeader>
+          {editingMemorial && (
+            <form onSubmit={handleUpdate} className="space-y-6 py-4">
+              <div className="space-y-4">
+                <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
+                    <Heart className="h-5 w-5 text-primary" />
+                    Deceased Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label>Title / Rank</Label>
+                        <Select value={editingMemorial.honorific || 'none'} onValueChange={(v) => setEditingMemorial({...editingMemorial, honorific: v})}>
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {honorifics.map(h => (
+                                    <SelectItem key={h.id} value={h.id}>{h.en}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Deceased Name</Label>
+                        <Input required value={editingMemorial.deceasedName} onChange={(e) => setEditingMemorial({...editingMemorial, deceasedName: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Father/Mother Name</Label>
+                        <Input value={editingMemorial.parentName} onChange={(e) => setEditingMemorial({...editingMemorial, parentName: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Date of Birth</Label>
+                        <Input type="date" value={editingMemorial.dateOfBirth} onChange={(e) => setEditingMemorial({...editingMemorial, dateOfBirth: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Date of Death</Label>
+                        <Input type="date" required value={editingMemorial.dateOfDeath} onChange={(e) => setEditingMemorial({...editingMemorial, dateOfDeath: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Islamic Date</Label>
+                        <Input placeholder="e.g. 15 Ramadan" value={editingMemorial.islamicDate} onChange={(e) => setEditingMemorial({...editingMemorial, islamicDate: e.target.value})} />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                        <Label>Graveyard Name</Label>
+                        <Input value={editingMemorial.graveyardName} onChange={(e) => setEditingMemorial({...editingMemorial, graveyardName: e.target.value})} />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                        <Label>Photo URL</Label>
+                        <Input value={editingMemorial.imageUrl} onChange={(e) => setEditingMemorial({...editingMemorial, imageUrl: e.target.value})} placeholder="https://..." />
+                    </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                    <User className="h-5 w-5 text-primary" />
+                    Publisher Details
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label>Publisher Name</Label>
+                        <Input required value={editingMemorial.publisherName} onChange={(e) => setEditingMemorial({...editingMemorial, publisherName: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Publisher Email</Label>
+                        <Input required type="email" value={editingMemorial.publisherEmail} onChange={(e) => setEditingMemorial({...editingMemorial, publisherEmail: e.target.value})} />
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                        <Label>Publisher Phone</Label>
+                        <Input required value={editingMemorial.publisherPhone} onChange={(e) => setEditingMemorial({...editingMemorial, publisherPhone: e.target.value})} />
+                    </div>
+                </div>
+              </div>
+
+              <DialogFooter className="pt-4">
+                <DialogClose asChild>
+                    <Button variant="ghost">Cancel</Button>
+                </DialogClose>
+                <Button type="submit" disabled={isUpdating}>
+                  {isUpdating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Save Changes'}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={!!qrCodeData} onOpenChange={() => setQrCodeData(null)}>
         <DialogContent className="sm:max-w-md">

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
@@ -17,6 +19,21 @@ import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
 import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+
+const honorifics = [
+    { id: 'none', en: 'None', ur: 'کوئی نہیں' },
+    { id: 'mr', en: 'Mr.', ur: 'مسٹر' },
+    { id: 'mrs', en: 'Mrs.', ur: 'مسمات' },
+    { id: 'ms', en: 'Ms.', ur: 'مس' },
+    { id: 'dr', en: 'Dr.', ur: 'ڈاکٹر' },
+    { id: 'prof', en: 'Prof.', ur: 'پروفیسر' },
+    { id: 'haji', en: 'Haji', ur: 'حاجی' },
+    { id: 'hakeem', en: 'Hakeem', ur: 'حکیم' },
+    { id: 'shaheed', en: 'Shaheed (Martyr)', ur: 'شہید' },
+    { id: 'major', en: 'Major', ur: 'میجر' },
+    { id: 'captain', en: 'Captain', ur: 'کیپٹن' },
+    { id: 'havildar', en: 'Havildar', ur: 'حوالدار' },
+];
 
 export default function LocatorPageClient() {
   const { language } = useLanguage();
@@ -37,6 +54,7 @@ export default function LocatorPageClient() {
   }, [searchParams]);
 
   const [newMemorial, setNewMemorial] = useState({
+    honorific: 'none',
     deceasedName: '',
     parentName: '',
     dateOfBirth: '',
@@ -60,19 +78,19 @@ export default function LocatorPageClient() {
   const suggestions = useMemo(() => {
     if (!memorials || searchQuery.length < 1) return [];
     
-    const query = searchQuery.toLowerCase();
+    const queryTerm = searchQuery.toLowerCase();
     const matches: string[] = [];
     
     memorials.forEach((m: any) => {
-      if (m.deceasedName.toLowerCase().includes(query) && !matches.includes(m.deceasedName)) {
+      if (m.deceasedName.toLowerCase().includes(queryTerm) && !matches.includes(m.deceasedName)) {
         matches.push(m.deceasedName);
       }
-      if (m.graveyardName && m.graveyardName.toLowerCase().includes(query) && !matches.includes(m.graveyardName)) {
+      if (m.graveyardName && m.graveyardName.toLowerCase().includes(queryTerm) && !matches.includes(m.graveyardName)) {
         matches.push(m.graveyardName);
       }
     });
 
-    return matches.filter(s => s.toLowerCase() !== query).slice(0, 5);
+    return matches.filter(s => s.toLowerCase() !== queryTerm).slice(0, 5);
   }, [memorials, searchQuery]);
 
   const filteredMemorials = useMemo(() => {
@@ -144,6 +162,7 @@ export default function LocatorPageClient() {
     toast({ title: 'Success', description: 'Memorial location pinned successfully. Our team will review the details.' });
     setIsAdding(false);
     setNewMemorial({ 
+        honorific: 'none',
         deceasedName: '', 
         parentName: '', 
         dateOfBirth: '', 
@@ -195,10 +214,11 @@ export default function LocatorPageClient() {
     const service = services.find(s => s.id === serviceId);
     const serviceName = service?.name.en || 'General Service';
     const whatsappNumber = "+923083401606".replace(/\D/g, '');
+    const title = m.honorific && m.honorific !== 'none' ? honorifics.find(h => h.id === m.honorific)?.en + ' ' : '';
     
     const message = `Hello Stylish Marble Art, I would like a quote for:
 *Service:* ${serviceName}
-*Deceased:* ${m.deceasedName}
+*Deceased:* ${title}${m.deceasedName}
 *Parentage:* ${m.parentName}
 *Graveyard:* ${m.graveyardName || 'Not Specified'}
 *Dates:* ${m.dateOfBirth} to ${m.dateOfDeath}
@@ -273,6 +293,19 @@ Please provide details on pricing and timeline.`;
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Title / Rank' : 'لقب / عہدہ'}</Label>
+                            <Select value={newMemorial.honorific} onValueChange={(v) => setNewMemorial({...newMemorial, honorific: v})}>
+                                <SelectTrigger>
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {honorifics.map(h => (
+                                        <SelectItem key={h.id} value={h.id}>{h[language]}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
                             <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
                             <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
                         </div>
@@ -292,7 +325,7 @@ Please provide details on pricing and timeline.`;
                             <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
                             <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 md:col-span-2">
                             <Label>{pageContent.graveyardLabel[language]}</Label>
                             <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
                         </div>
@@ -407,7 +440,14 @@ Please provide details on pricing and timeline.`;
                     <CardContent className="p-6 flex flex-col flex-grow">
                       <div className="flex justify-between items-start mb-4">
                         <div className="space-y-1">
-                          <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
+                          <div className="flex items-center gap-2">
+                             {m.honorific && m.honorific !== 'none' && (
+                                <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                                    {honorifics.find(h => h.id === m.honorific)?.[language] || m.honorific}
+                                </span>
+                             )}
+                             <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
+                          </div>
                           <p className="text-sm text-muted-foreground italic">
                             {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
                           </p>
