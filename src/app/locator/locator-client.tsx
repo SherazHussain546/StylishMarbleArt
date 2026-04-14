@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, Droplets, Leaf, Brush, GitGraph, ArrowDown, ArrowUp, Users } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, GitGraph, ArrowDown, ArrowUp, Users, Info } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -103,12 +103,13 @@ export default function LocatorPageClient() {
     );
   }, [memorials, searchQuery]);
 
-  // Family Lineage Logic
+  // Family Lineage Logic with Disambiguation
   const familyConnections = useMemo(() => {
-    if (!viewingFamily || !memorials) return { parent: null, children: [] };
+    if (!viewingFamily || !memorials) return { parents: [], children: [] };
 
     // Parent search (Deceased Name matches viewingFamily.parentName)
-    const parent = memorials.find((m: any) => 
+    // We find ALL potential parents because of duplicate names
+    const parents = memorials.filter((m: any) => 
         m.deceasedName.toLowerCase() === viewingFamily.parentName.toLowerCase()
     );
 
@@ -117,7 +118,7 @@ export default function LocatorPageClient() {
         m.parentName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()
     );
 
-    return { parent, children };
+    return { parents, children };
   }, [viewingFamily, memorials]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -209,7 +210,6 @@ export default function LocatorPageClient() {
             });
             return;
         } catch (err) {
-            // Permission denied or aborted errors are common in some browsers
             if ((err as Error).name === 'AbortError') return;
         }
     }
@@ -223,34 +223,10 @@ export default function LocatorPageClient() {
   };
 
   const careServices = [
-    { 
-        id: 'cleaning', 
-        name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' },
-        icon: Brush,
-        color: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100",
-        description: { en: 'Professional cleaning to remove dust, debris, and stains from the stone surface.', ur: 'پتھر کی سطح سے گرد و غبار، ملبہ اور داغ دھبوں کو دور کرنے کے لیے پیشہ ورانہ صفائی۔' }
-    },
-    { 
-        id: 'watering', 
-        name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' },
-        icon: Droplets,
-        color: "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100",
-        description: { en: 'Regular watering of the grave site to maintain moisture and respect.', ur: 'نمی اور احترام برقرار رکھنے کے لیے قبر کے مقام پر باقاعدگی سے پانی دینا۔' }
-    },
-    { 
-        id: 'planting', 
-        name: { en: 'Planting & Care', ur: 'پودے لگانا' },
-        icon: Leaf,
-        color: "bg-green-50 text-green-900 border-green-200 hover:bg-green-100",
-        description: { en: 'Planting fresh flowers or greenery and providing ongoing botanical maintenance.', ur: 'تازہ پھول یا سبزہ لگانا اور نباتاتی دیکھ بھال فراہم کرنا۔' }
-    },
-    { 
-        id: 'custom', 
-        name: { en: 'Custom Service', ur: 'کسٹم سروس' },
-        icon: Heart,
-        color: "border-primary/10 hover:bg-primary hover:text-white",
-        description: { en: 'Special requests for restorations, custom engraving, or unique memorials.', ur: 'مرمت، کسٹم کندہ کاری، یا منفرد یادگاروں کے لیے خصوصی درخواستیں۔' }
-    },
+    { id: 'cleaning', name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' }, color: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100" },
+    { id: 'watering', name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' }, color: "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100" },
+    { id: 'planting', name: { en: 'Planting & Care', ur: 'پودے لگانا' }, color: "bg-green-50 text-green-900 border-green-200 hover:bg-green-100" },
+    { id: 'custom', name: { en: 'Custom Service', ur: 'کسٹم سروس' }, color: "border-primary/10 hover:bg-primary hover:text-white" },
   ];
 
   const handleGetQuote = (m: any, serviceId: string) => {
@@ -434,45 +410,6 @@ Please provide details on pricing and timeline.`;
         </div>
       </section>
 
-      {/* Trust & Global Reach Badges */}
-      <section className="container mx-auto px-4 -mt-12 relative z-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="shadow-xl border-none">
-                <CardContent className="p-6 flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Globe className="h-6 w-6" />
-                    </div>
-                    <div>
-                        <h3 className="font-bold">{language === 'en' ? 'Global Access' : 'عالمی رسائی'}</h3>
-                        <p className="text-xs text-muted-foreground">{language === 'en' ? 'Manage resting places from anywhere in the world.' : 'دنیا میں کہیں سے بھی آرام گاہوں کا انتظام کریں۔'}</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="shadow-xl border-none">
-                <CardContent className="p-6 flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <ShieldCheck className="h-6 w-6" />
-                    </div>
-                    <div>
-                        <h3 className="font-bold">{language === 'en' ? 'Verified Pains' : 'تصدیق شدہ پن'}</h3>
-                        <p className="text-xs text-muted-foreground">{language === 'en' ? 'Exact GPS coordinates for easy visitation.' : 'آسان زیارت کے لیے درست جی پی ایس کوآرڈینیٹس۔'}</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="shadow-xl border-none">
-                <CardContent className="p-6 flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Heart className="h-6 w-6" />
-                    </div>
-                    <div>
-                        <h3 className="font-bold">{language === 'en' ? 'Dignified Care' : 'باوقار دیکھ بھال'}</h3>
-                        <p className="text-xs text-muted-foreground">{language === 'en' ? 'Maintaining the sanctity of every memorial.' : 'ہر یادگار کے تقدس کو برقرار رکھنا۔'}</p>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
-      </section>
-
       {/* Main Search Tool Section */}
       <section id="search-tool" className="container mx-auto px-4 py-24 scroll-mt-24">
         <div className="max-w-4xl mx-auto">
@@ -509,140 +446,10 @@ Please provide details on pricing and timeline.`;
                     </div>
                     )}
                 </div>
-                <Dialog>
-                    <DialogTrigger asChild>
-                    <Button size="lg" className="h-14 shadow-lg px-8 rounded-xl">
-                        <Plus className="mr-2 h-5 w-5" />
-                        {pageContent.addMemorial[language]}
-                    </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl font-bold">{pageContent.addMemorial[language]}</DialogTitle>
-                        <DialogDescription className="text-lg">
-                            {language === 'en' ? 'Preserve the legacy. Add a location to help family and friends find the resting place. This listing service is free.' : 'میراث کو محفوظ رکھیں۔ خاندان اور دوستوں کو آرام گاہ تلاش کرنے میں مدد کے لیے ایک مقام شامل کریں۔ یہ فہرست سازی کی خدمت مفت ہے۔'}
-                        </DialogDescription>
-                    </DialogHeader>
-                    <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
-                        <div className="space-y-4">
-                            <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
-                                <Heart className="h-5 w-5 text-primary" />
-                                {language === 'en' ? 'Deceased Information' : 'مرحوم کی معلومات'}
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Title / Rank' : 'لقب / عہدہ'}</Label>
-                                    <Select value={newMemorial.honorific} onValueChange={(v) => setNewMemorial({...newMemorial, honorific: v})}>
-                                        <SelectTrigger>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {honorifics.map(h => (
-                                                <SelectItem key={h.id} value={h.id}>{h[language]}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
-                                    <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
-                                    <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
-                                    <Input type="date" value={newMemorial.dateOfBirth} onChange={(e) => setNewMemorial({...newMemorial, dateOfBirth: e.target.value})} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Date of Death' : 'تاریخ وفات'}</Label>
-                                    <Input type="date" required value={newMemorial.dateOfDeath} onChange={(e) => setNewMemorial({...newMemorial, dateOfDeath: e.target.value})} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
-                                    <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
-                                </div>
-                                <div className="space-y-2 md:col-span-2">
-                                    <Label>{pageContent.graveyardLabel[language]}</Label>
-                                    <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
-                                </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                                <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم کی تصویر (اختیاری)'}</Label>
-                                <Tabs defaultValue="upload" className="w-full">
-                                    <TabsList className="grid w-full grid-cols-2">
-                                    <TabsTrigger value="upload">
-                                        <Upload className="mr-2 h-4 w-4" />
-                                        {language === 'en' ? 'Upload' : 'اپ لوڈ'}
-                                    </TabsTrigger>
-                                    <TabsTrigger value="url">
-                                        <Camera className="mr-2 h-4 w-4" />
-                                        {language === 'en' ? 'Link' : 'لنک'}
-                                    </TabsTrigger>
-                                    </TabsList>
-                                    <TabsContent value="upload" className="space-y-4 pt-4 border rounded-md p-4 bg-muted/20">
-                                    <div className="flex items-center gap-4">
-                                        <Input 
-                                        type="file" 
-                                        accept="image/*" 
-                                        onChange={handleFileChange} 
-                                        disabled={uploading}
-                                        className="bg-background"
-                                        />
-                                        {uploading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
-                                    </div>
-                                    {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
-                                        <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
-                                        <img src={newMemorial.imageUrl} alt="Preview" className="h-full w-full object-cover" />
-                                        </div>
-                                    )}
-                                    <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
-                                    </TabsContent>
-                                    <TabsContent value="url" className="pt-4">
-                                    <Input 
-                                        placeholder="https://..." 
-                                        value={newMemorial.imageUrl.startsWith('data:') ? '' : newMemorial.imageUrl} 
-                                        onChange={(e) => setNewMemorial({...newMemorial, imageUrl: e.target.value})} 
-                                    />
-                                    </TabsContent>
-                                </Tabs>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4 pt-4 border-t">
-                            <h3 className="font-bold text-lg flex items-center gap-2">
-                                <User className="h-5 w-5 text-primary" />
-                                {language === 'en' ? 'Your Contact Details (Confidential)' : 'آپ کے رابطے کی تفصیلات'}
-                            </h3>
-                            <p className="text-xs text-muted-foreground">
-                                {language === 'en' ? 'This information is only visible to the workshop admin for service inquiries.' : 'یہ معلومات صرف سروس انکوائری کے لیے ورکشاپ ایڈمن کو نظر آئے گی۔'}
-                            </p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Your Name' : 'آپ کا نام'}</Label>
-                                    <Input required value={newMemorial.publisherName} onChange={(e) => setNewMemorial({...newMemorial, publisherName: e.target.value})} placeholder="e.g. Zahid Khan" />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>{language === 'en' ? 'Your Email' : 'آپ کا ای میل'}</Label>
-                                    <Input required type="email" value={newMemorial.publisherEmail} onChange={(e) => setNewMemorial({...newMemorial, publisherEmail: e.target.value})} placeholder="e.g. zahid@example.com" />
-                                </div>
-                                <div className="md:col-span-2 space-y-2">
-                                    <Label>{language === 'en' ? 'Phone Number (with Country Code)' : 'فون نمبر (کنٹری کوڈ کے ساتھ)'}</Label>
-                                    <Input required value={newMemorial.publisherPhone} onChange={(e) => setNewMemorial({...newMemorial, publisherPhone: e.target.value})} placeholder="e.g. +92 300 1234567" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <DialogFooter className="pt-4">
-                        <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
-                            {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : pageContent.addMemorial[language]}
-                        </Button>
-                        </DialogFooter>
-                    </form>
-                    </DialogContent>
-                </Dialog>
+                <Button size="lg" className="h-14 shadow-lg px-8 rounded-xl" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
+                    <Plus className="mr-2 h-5 w-5" />
+                    {pageContent.addMemorial[language]}
+                </Button>
             </div>
 
             {/* Results Grid */}
@@ -662,18 +469,15 @@ Please provide details on pricing and timeline.`;
                             alt={m.deceasedName} 
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
                             />
-                            <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
-                            <div className="bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-                                {m.graveyardName || 'Karachi Graveyard'}
-                            </div>
-                            <Button 
-                                variant="secondary" 
-                                size="icon" 
-                                className="rounded-full h-8 w-8 shadow-lg"
-                                onClick={() => handleShare(m)}
-                            >
-                                <Share2 className="h-4 w-4" />
-                            </Button>
+                            <div className="absolute top-3 right-3">
+                                <Button 
+                                    variant="secondary" 
+                                    size="icon" 
+                                    className="rounded-full h-8 w-8 shadow-lg"
+                                    onClick={() => handleShare(m)}
+                                >
+                                    <Share2 className="h-4 w-4" />
+                                </Button>
                             </div>
                         </div>
                         )}
@@ -708,34 +512,35 @@ Please provide details on pricing and timeline.`;
                             )}
                         </div>
 
-                        {!m.imageUrl && m.graveyardName && (
-                            <div className="mb-4 flex items-center gap-2 text-primary">
-                            <MapPin className="h-4 w-4" />
-                            <span className="text-sm font-bold uppercase tracking-wider">{m.graveyardName}</span>
-                            </div>
-                        )}
-
-                        <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-muted">
-                            <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</p>
-                                <p className="text-sm font-semibold flex items-center gap-1.5">
-                                    <Calendar className="h-3 w-3 text-primary" />
-                                    {m.dateOfBirth || 'N/A'}
-                                </p>
-                            </div>
-                            <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Died</p>
-                                <p className="text-sm font-semibold flex items-center gap-1.5">
-                                    <Heart className="h-3 w-3 text-red-500" />
-                                    {m.dateOfDeath || 'N/A'}
-                                </p>
-                            </div>
-                            {m.islamicDate && (
-                                <div className="col-span-2 space-y-1">
-                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Islamic Date</p>
-                                    <p className="text-sm font-semibold italic text-primary">{m.islamicDate}</p>
+                        <div className="mb-4 space-y-2">
+                            {m.graveyardName && (
+                                <div className="flex items-center gap-2 text-primary">
+                                    <MapPin className="h-4 w-4" />
+                                    <span className="text-sm font-bold uppercase tracking-wider">{m.graveyardName}</span>
                                 </div>
                             )}
+                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-muted">
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</p>
+                                    <p className="text-sm font-semibold flex items-center gap-1.5">
+                                        <Calendar className="h-3 w-3 text-primary" />
+                                        {m.dateOfBirth || 'N/A'}
+                                    </p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Died</p>
+                                    <p className="text-sm font-semibold flex items-center gap-1.5">
+                                        <Heart className="h-3 w-3 text-red-500" />
+                                        {m.dateOfDeath || 'N/A'}
+                                    </p>
+                                </div>
+                                {m.islamicDate && (
+                                    <div className="col-span-2 space-y-1">
+                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Islamic Date</p>
+                                        <p className="text-sm font-semibold italic text-primary">{m.islamicDate}</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mt-auto space-y-4">
@@ -780,9 +585,9 @@ Please provide details on pricing and timeline.`;
         </div>
       </section>
 
-      {/* Family Tree Modal */}
+      {/* Family Tree Modal with Disambiguation */}
       <Dialog open={!!viewingFamily} onOpenChange={() => setViewingFamily(null)}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
                     <GitGraph className="h-6 w-6 text-primary" />
@@ -790,59 +595,66 @@ Please provide details on pricing and timeline.`;
                 </DialogTitle>
                 <DialogDescription>
                     {language === 'en' 
-                        ? `Trace the lineage for ${viewingFamily?.deceasedName} based on graveyard records.` 
+                        ? `Trace the lineage for ${viewingFamily?.deceasedName} based on documented parentage.` 
                         : `${viewingFamily?.deceasedName} کے ریکارڈ کی بنیاد پر خاندانی شجرہ دیکھیں۔`}
                 </DialogDescription>
             </DialogHeader>
             
             <div className="py-8 space-y-8 flex flex-col items-center">
-                {/* Ancestor (Parent) */}
+                {/* Ancestors (Parents) - Handling duplicates */}
                 <div className="w-full flex flex-col items-center">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">{language === 'en' ? 'Ancestor (Parent)' : 'والد / بزرگ'}</p>
-                    {familyConnections.parent ? (
-                        <Card className="w-64 bg-primary/5 border-primary/20 shadow-sm">
-                            <CardContent className="p-4 text-center">
-                                <p className="font-bold text-primary">{familyConnections.parent.deceasedName}</p>
-                                <Button 
-                                    variant="link" 
-                                    size="sm" 
-                                    className="h-auto p-0 text-xs"
-                                    onClick={() => {
-                                        setViewingFamily(familyConnections.parent);
-                                    }}
-                                >
-                                    {language === 'en' ? 'View Record' : 'ریکارڈ دیکھیں'}
-                                </Button>
-                            </CardContent>
-                        </Card>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">{language === 'en' ? 'Potential Ancestors (Parents)' : 'والد / بزرگ'}</p>
+                    {familyConnections.parents.length > 0 ? (
+                        <div className="grid grid-cols-1 gap-3 w-full">
+                            {familyConnections.parents.map((parent: any) => (
+                                <Card key={parent.id} className="bg-primary/5 border-primary/20 shadow-sm hover:border-primary transition-colors cursor-pointer" onClick={() => setViewingFamily(parent)}>
+                                    <CardContent className="p-4 flex justify-between items-center">
+                                        <div>
+                                            <p className="font-bold text-primary">{parent.deceasedName}</p>
+                                            <p className="text-[10px] text-muted-foreground">
+                                                {parent.dateOfBirth} - {parent.dateOfDeath} | {parent.graveyardName}
+                                            </p>
+                                        </div>
+                                        <Info className="h-4 w-4 text-primary/40" />
+                                    </CardContent>
+                                </Card>
+                            ))}
+                            {familyConnections.parents.length > 1 && (
+                                <p className="text-[9px] text-center text-amber-600 font-bold uppercase mt-2">
+                                    {language === 'en' ? 'Multiple matches found. Select based on dates/graveyard.' : 'متعدد مماثلتیں ملی ہیں۔ تاریخوں/قبرستان کی بنیاد پر انتخاب کریں۔'}
+                                </p>
+                            )}
+                        </div>
                     ) : (
-                        <div className="w-64 p-4 border border-dashed rounded-lg text-center text-xs text-muted-foreground bg-muted/20">
-                            {language === 'en' ? `No record found for ${viewingFamily?.parentName}` : `${viewingFamily?.parentName} کا کوئی ریکارڈ نہیں ملا`}
+                        <div className="w-full p-6 border border-dashed rounded-xl text-center text-xs text-muted-foreground bg-muted/20">
+                            {language === 'en' ? `No exact record found for ${viewingFamily?.parentName}` : `${viewingFamily?.parentName} کا کوئی ریکارڈ نہیں ملا`}
                             <br />
                             <Button 
                                 variant="ghost" 
                                 size="sm" 
-                                className="mt-2 text-[10px]"
+                                className="mt-4 text-[10px] font-bold border"
                                 onClick={() => {
                                     setSearchQuery(viewingFamily.parentName);
                                     setViewingFamily(null);
+                                    document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' });
                                 }}
                             >
-                                {language === 'en' ? 'Search Database' : 'ڈیٹا بیس تلاش کریں'}
+                                {language === 'en' ? 'Broad Search Database' : 'ڈیٹا بیس تلاش کریں'}
                             </Button>
                         </div>
                     )}
                 </div>
 
-                <ArrowDown className="h-8 w-8 text-primary animate-bounce opacity-50" />
+                <ArrowDown className="h-8 w-8 text-primary animate-pulse opacity-50" />
 
-                {/* Current Person */}
+                {/* Current Person Center Node */}
                 <div className="w-full flex flex-col items-center">
-                    <Card className="w-72 border-2 border-primary shadow-xl scale-110">
+                    <Card className="w-full border-2 border-primary shadow-xl scale-105 bg-background relative z-10">
                         <CardContent className="p-6 text-center">
                             <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{language === 'en' ? 'Current Selection' : 'منتخب شخص'}</p>
                             <h3 className="text-xl font-bold">{viewingFamily?.deceasedName}</h3>
-                            <p className="text-xs text-muted-foreground">{viewingFamily?.graveyardName}</p>
+                            <p className="text-xs text-muted-foreground font-semibold">{viewingFamily?.graveyardName}</p>
+                            <p className="text-[10px] text-muted-foreground mt-1">{viewingFamily?.dateOfBirth} - {viewingFamily?.dateOfDeath}</p>
                         </CardContent>
                     </Card>
                 </div>
@@ -859,7 +671,9 @@ Please provide details on pricing and timeline.`;
                                     <CardContent className="p-3 flex justify-between items-center">
                                         <div>
                                             <p className="font-bold text-sm">{child.deceasedName}</p>
-                                            <p className="text-[10px] text-muted-foreground">{child.dateOfBirth} - {child.dateOfDeath}</p>
+                                            <p className="text-[10px] text-muted-foreground">
+                                                {child.dateOfBirth} - {child.dateOfDeath} | {child.graveyardName}
+                                            </p>
                                         </div>
                                         <ArrowUp className="h-4 w-4 text-primary rotate-180" />
                                     </CardContent>
@@ -867,8 +681,8 @@ Please provide details on pricing and timeline.`;
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center p-4 text-xs text-muted-foreground italic">
-                            {language === 'en' ? 'No children records found in database.' : 'ڈیٹا بیس میں کوئی اولاد کا ریکارڈ نہیں ملا۔'}
+                        <div className="text-center p-4 text-xs text-muted-foreground italic border border-dashed rounded-lg w-full">
+                            {language === 'en' ? 'No descendants found in database.' : 'ڈیٹا بیس میں کوئی اولاد کا ریکارڈ نہیں ملا۔'}
                         </div>
                     )}
                 </div>
@@ -891,33 +705,24 @@ Please provide details on pricing and timeline.`;
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                     {language === 'en' 
-                        ? 'At Stylish Marble Art, we understand that visiting a graveyard can be difficult for those living abroad. While our digital memorial listing is a free gift to the community, our dedicated teams in Karachi provide professional maintenance services to ensure your loved one\'s final resting place remains beautiful and dignified. Request a custom quote today for ongoing care.' 
-                        : 'سٹائلش ماربل آرٹ میں، ہم سمجھتے ہیں کہ بیرون ملک مقیم افراد کے لیے قبرستان جانا مشکل ہو سکتا ہے۔ اگرچہ ہماری ڈیجیٹل میموریل لسٹنگ کمیونٹی کے لیے ایک مفت تحفہ ہے، ہماری کراچی میں وقف ٹیمیں پیشہ ورانہ دیکھ بھال کی خدمات فراہم کرتی ہیں تاکہ یہ یقینی بنایا جا سکے کہ آپ کے پیارے کی آخری آرام گاہ خوبصورت اور باوقار رہے۔ جاری دیکھ بھال کے لیے آج ہی کسٹم کوٹیشن کی درخواست کریں۔'}
+                        ? 'At Stylish Marble Art, we understand that visiting a graveyard can be difficult for those living abroad. While our digital memorial listing is a free gift to the community, our dedicated teams in Karachi provide professional maintenance services to ensure your loved one\'s final resting place remains beautiful and dignified.' 
+                        : 'سٹائلش ماربل آرٹ میں، ہم سمجھتے ہیں کہ بیرون ملک مقیم افراد کے لیے قبرستان جانا مشکل ہو سکتا ہے۔ اگرچہ ہماری ڈیجیٹل میموریل لسٹنگ کمیونٹی کے لیے ایک مفت تحفہ ہے، ہماری کراچی میں وقف ٹیمیں پیشہ ورانہ دیکھ بھال کی خدمات فراہم کرتی ہیں تاکہ یہ یقینی بنایا جا سکے کہ آپ کے پیارے کی آخری آرام گاہ خوبصورت اور باوقار رہے۔'}
                 </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {careServices.map((s) => {
-                    const Icon = s.icon;
-                    return (
-                        <Card key={s.id} className="border-none shadow-lg hover:shadow-xl transition-shadow text-center group">
-                            <CardHeader className="pt-8">
-                                <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/5 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                    <Icon className="h-8 w-8" />
-                                </div>
-                                <CardTitle className="text-xl">{s.name[language]}</CardTitle>
-                            </CardHeader>
-                            <CardContent className="pb-8">
-                                <p className="text-sm text-muted-foreground mb-6">
-                                    {s.description[language]}
-                                </p>
-                                <Button variant="link" className="font-bold text-primary" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
-                                    {language === 'en' ? 'Get a Price Quote' : 'قیمت معلوم کریں'}
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    );
-                })}
+                {careServices.map((s) => (
+                    <Card key={s.id} className="border-none shadow-lg hover:shadow-xl transition-shadow text-center group">
+                        <CardHeader className="pt-8">
+                            <CardTitle className="text-xl">{s.name[language]}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="pb-8">
+                            <Button variant="link" className="font-bold text-primary" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
+                                {language === 'en' ? 'Get a Price Quote' : 'قیمت معلوم کریں'}
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
             </div>
         </div>
       </section>
