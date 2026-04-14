@@ -6,9 +6,9 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle } from 'lucide-react';
+import { Mail, MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -20,17 +20,21 @@ export default function ServicesPageClient() {
   return (
     <div className="bg-background">
       <div className="container mx-auto px-4 py-16 md:py-24">
+        {/* Hero Section */}
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{pageContent.title[language]}</h1>
-          <p className="mt-4 text-xl text-muted-foreground leading-relaxed">{pageContent.description[language]}</p>
-          <div className="mt-8 flex justify-center gap-4">
-             <Button asChild variant="outline" size="sm" className="rounded-full">
-                <Link href="/faq" className="flex items-center gap-2">
-                    <HelpCircle className="h-4 w-4" />
-                    {language === 'en' ? 'View FAQ' : 'سوالات دیکھیں'}
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-primary">
+            {pageContent.title[language]}
+          </h1>
+          <p className="mt-6 text-xl text-muted-foreground leading-relaxed">
+            {pageContent.description[language]}
+          </p>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+             <Button asChild variant="default" size="lg" className="rounded-full px-8 shadow-lg">
+                <Link href="/contact">
+                    {language === 'en' ? 'Get a Free Quote' : 'مفت کوٹیشن حاصل کریں'}
                 </Link>
              </Button>
-             <Button asChild variant="outline" size="sm" className="rounded-full">
+             <Button asChild variant="outline" size="lg" className="rounded-full px-8">
                 <Link href="/gallery" className="flex items-center gap-2">
                     {language === 'en' ? 'Browse Gallery' : 'گیلری دیکھیں'}
                     <ArrowRight className="h-4 w-4" />
@@ -38,72 +42,176 @@ export default function ServicesPageClient() {
              </Button>
           </div>
         </div>
-        <div className="mt-16 mx-auto max-w-5xl space-y-24">
+
+        {/* Why Choose Us / Trust Badges */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
+                <div className="bg-primary/10 p-3 rounded-full mb-4">
+                    <ShieldCheck className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg">{language === 'en' ? 'Certified Quality' : 'تصدیق شدہ معیار'}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Premium A-Grade Ziarat White and Black Granite.' : 'پریمیم اے گریڈ زیارت وائٹ اور بلیک گرینائٹ۔'}</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
+                <div className="bg-primary/10 p-3 rounded-full mb-4">
+                    <Clock className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg">{language === 'en' ? '50+ Years Legacy' : '۵۰ سال سے زیادہ کی میراث'}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Trusted by families across Karachi for generations.' : 'نسلوں سے کراچی کے خاندانوں کا قابل اعتماد نام۔'}</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
+                <div className="bg-primary/10 p-3 rounded-full mb-4">
+                    <CheckCircle2 className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg">{language === 'en' ? 'Precision Carving' : 'درست تراش'}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{language === 'en' ? 'Modern laser and traditional hand-carved engraving.' : 'جدید لیزر اور روایتی ہاتھ سے تیار کردہ کندہ کاری۔'}</p>
+            </div>
+        </div>
+
+        {/* Detailed Services */}
+        <div className="mt-24 mx-auto max-w-5xl space-y-32">
           {pageContent.serviceList.map((service, index) => (
             <section key={index} className="scroll-mt-24" id={service.name.en.toLowerCase().replace(/\s+/g, '-')}>
-              <div className="text-center md:text-left">
-                <h2 className="text-3xl font-bold">{service.name[language]}</h2>
-                <div className="mt-6 text-lg text-muted-foreground space-y-4">
-                  <p className="leading-relaxed">{service.description[language]}</p>
-                  <p className="leading-relaxed">
-                    {language === 'en' 
-                      ? `Our team at Stylish Marble Art specializes in delivering professional craftsmanship across Karachi. Whether it is a Ziarat White memorial or a durable Black Granite kitchen installation, we ensure that every piece is carved with precision and care. We handle all logistics including stone sourcing, custom dimensions, and final polishing to ensure a mirror finish.` 
-                      : `سٹائلش ماربل آرٹ کی ہماری ٹیم کراچی بھر میں پیشہ ورانہ کاریگری فراہم کرنے میں مہارت رکھتی ہے۔ چاہے وہ زیارت وائٹ کی یادگار ہو یا پائیدار بلیک گرینائٹ کچن کی تنصیب، ہم اس بات کو یقینی بناتے ہیں کہ ہر ٹکڑے کو درستگی اور احتیاط کے ساتھ تراشا جائے۔ ہم پتھر کے حصول، کسٹم پیمائش اور حتمی پالش سمیت تمام امور کو سنبھالتے ہیں۔`}
-                  </p>
-                </div>
-              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                  <div className="lg:col-span-7">
+                    <div className="inline-block bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
+                        {language === 'en' ? 'Our Expertise' : 'ہماری مہارت'}
+                    </div>
+                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">{service.name[language]}</h2>
+                    <div className="text-lg text-muted-foreground space-y-6">
+                        <p className="leading-relaxed">
+                            {service.description[language]}
+                        </p>
+                        <ul className="space-y-3">
+                            {(language === 'en' ? 
+                                [
+                                    "Premium Ziarat White & Black Granite",
+                                    "Custom Urdu/Arabic Calligraphy",
+                                    "Professional Installation across Karachi graveyards",
+                                    "Mirror-finish Edge Polishing"
+                                ] : 
+                                [
+                                    "پریمیم زیارت وائٹ اور بلیک گرینائٹ",
+                                    "کسٹم اردو اور عربی خطاطی",
+                                    "کراچی کے تمام قبرستانوں میں پیشہ ورانہ تنصیب",
+                                    "مرر فنش ایج پالشنگ"
+                                ]
+                            ).map((item, i) => (
+                                <li key={i} className="flex items-center gap-3 text-sm font-medium">
+                                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                        <Button asChild size="lg" className="shadow-md">
+                            <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                                <MessageCircle className="mr-2 h-5 w-5" />
+                                {language === 'en' ? 'Request Pricing' : 'قیمت معلوم کریں'}
+                            </a>
+                        </Button>
+                        <Button asChild variant="outline" size="lg">
+                            <Link href="/faq">
+                                <HelpCircle className="mr-2 h-5 w-5" />
+                                {language === 'en' ? 'View FAQ' : 'سوالات دیکھیں'}
+                            </Link>
+                        </Button>
+                    </div>
+                  </div>
 
-              <div className="mt-12">
-                <Carousel 
-                  className="w-full max-w-4xl mx-auto"
-                  opts={{
-                    align: "start",
-                    loop: true,
-                  }}
-                >
-                  <CarouselContent className="-ml-4">
-                    {service.images.map((img, imgIndex) => (
-                      <CarouselItem key={imgIndex} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                        <div className="p-1">
-                          <Card className="overflow-hidden shadow-md">
-                            <CardContent className="relative flex aspect-video items-center justify-center p-0">
-                               <Image
-                                src={img.src}
-                                alt={`${img.alt} - Custom marble craftsmanship by Stylish Marble Art Karachi`}
-                                data-ai-hint={img.hint}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              />
-                            </CardContent>
-                          </Card>
+                  <div className="lg:col-span-5 relative">
+                    <Carousel 
+                        className="w-full"
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }}
+                    >
+                        <CarouselContent>
+                            {service.images.map((img, imgIndex) => (
+                            <CarouselItem key={imgIndex}>
+                                <div className="p-1">
+                                    <Card className="overflow-hidden shadow-xl border-none">
+                                        <CardContent className="relative flex aspect-[4/5] items-center justify-center p-0">
+                                            <Image
+                                                src={img.src}
+                                                alt={`${img.alt} - Premium work in Karachi by Stylish Marble Art`}
+                                                data-ai-hint={img.hint}
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 100vw, 40vw"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                            <div className="absolute bottom-4 left-4 right-4">
+                                                <p className="text-white text-xs font-bold uppercase tracking-wider opacity-80">{img.alt}</p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <div className="absolute -bottom-10 right-0 flex gap-2">
+                            <CarouselPrevious className="static translate-y-0" />
+                            <CarouselNext className="static translate-y-0" />
                         </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="hidden sm:flex" />
-                  <CarouselNext className="hidden sm:flex" />
-                </Carousel>
+                    </Carousel>
+                  </div>
               </div>
 
-              <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                    <a href={`tel:${phone}`}>
-                        <Phone className="mr-2 h-5 w-5" />
-                        {language === 'en' ? 'Call for Quote' : 'کال کریں'}
-                    </a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto bg-green-500 text-white hover:bg-green-600 hover:text-white border-green-500">
-                    <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
-                        <MessageCircle className="mr-2 h-5 w-5" />
-                        {language === 'en' ? 'WhatsApp' : 'واٹس ایپ'}
-                    </a>
-                </Button>
-              </div>
-
-              {index < pageContent.serviceList.length - 1 && <Separator className="mt-24 opacity-50" />}
+              {index < pageContent.serviceList.length - 1 && <Separator className="mt-32 opacity-50" />}
             </section>
           ))}
+        </div>
+
+        {/* Our Process Section */}
+        <section className="mt-40 py-20 bg-secondary/20 rounded-[3rem] px-8 md:px-16">
+            <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.processTitle[language]}</h2>
+                <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'From initial inquiry in Malir 15 to final installation, we ensure transparency and excellence.' : 'ملیر 15 میں ابتدائی انکوائری سے لے کر فائنل انسٹالیشن تک، ہم شفافیت اور فضیلت کو یقینی بناتے ہیں۔'}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {pageContent.processSteps.map((step, i) => (
+                    <Card key={i} className="bg-background/50 border-none shadow-sm hover:shadow-md transition-shadow">
+                        <CardHeader>
+                            <CardTitle className="text-xl text-primary">{step.title[language]}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm text-muted-foreground">{step.description[language]}</p>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        </section>
+
+        {/* CTA Section */}
+        <div className="mt-32 text-center bg-primary text-primary-foreground py-16 rounded-3xl shadow-2xl overflow-hidden relative">
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+                <Image src="/SMAHeader.png" alt="Background pattern" fill className="object-cover grayscale" />
+            </div>
+            <div className="relative z-10">
+                <h2 className="text-3xl font-bold mb-6">{language === 'en' ? 'Ready to Start Your Project?' : 'کیا آپ اپنا منصوبہ شروع کرنے کے لیے تیار ہیں؟'}</h2>
+                <p className="mb-10 text-primary-foreground/80 max-w-xl mx-auto">
+                    {language === 'en' 
+                        ? 'Contact Karachi\'s most trusted stonemasons for a detailed quote on gravestones, kitchen marble, or custom engraving.' 
+                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں تفصیلی کوٹیشن کے لیے کراچی کے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں۔'}
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Button asChild size="lg" variant="secondary" className="px-10 rounded-full font-bold">
+                        <a href={`tel:${phone}`}>
+                            <Phone className="mr-2 h-5 w-5" />
+                            {language === 'en' ? 'Call +92-308-3401606' : 'کال کریں'}
+                        </a>
+                    </Button>
+                    <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 border-none text-white px-10 rounded-full font-bold">
+                        <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                            <MessageCircle className="mr-2 h-5 w-5" />
+                            {language === 'en' ? 'WhatsApp Now' : 'واٹس ایپ کریں'}
+                        </a>
+                    </Button>
+                </div>
+            </div>
         </div>
       </div>
     </div>

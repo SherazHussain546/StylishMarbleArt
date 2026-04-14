@@ -191,15 +191,34 @@ export const content = {
   servicesPage: {
     title: { en: 'Professional Marble Services in Karachi', ur: 'کراچی میں پیشہ ورانہ ماربل سروسز' },
     description: {
-      en: 'From Islamic gravestone design to modern kitchen installations, we are Karachi\'s trusted experts for custom marble and granite work.',
-      ur: 'اسلامی کتبوں کے ڈیزائن سے لے کر جدید کچن کی تنصیبات تک، ہم کسٹم ماربل اور گرینائٹ کے کام کے لیے کراچی کے قابل اعتماد ماہر ہیں۔',
+      en: 'Karachi\'s premier headstone maker and marble installation specialists. From Ziarat White Islamic gravestones to modern Black Granite kitchen countertops, we deliver precision and care across Malir 15 and all of Pakistan.',
+      ur: 'کراچی کے معروف کتبہ بنانے والے اور ماربل کی تنصیب کے ماہرین۔ زیارت وائٹ اسلامی کتبوں سے لے کر جدید بلیک گرینائٹ کچن کاؤنٹر ٹاپس تک، ہم ملیر 15 اور پورے پاکستان میں درستگی اور احتیاط کے ساتھ کام کرتے ہیں۔',
     },
+    processTitle: { en: 'Our Craftsmanship Process', ur: 'ہماری کاریگری کا عمل' },
+    processSteps: [
+      {
+        title: { en: '1. Consultation', ur: '۱. مشاورت' },
+        description: { en: 'We discuss your specific needs, whether it is a respectful memorial design or a functional kitchen layout.', ur: 'ہم آپ کی مخصوص ضروریات پر بات کرتے ہیں، چاہے وہ ایک باعزت یادگاری ڈیزائن ہو یا کچن کی ترتیب۔' }
+      },
+      {
+        title: { en: '2. Stone Selection', ur: '۲. پتھر کا انتخاب' },
+        description: { en: 'Choose from premium Ziarat White, Black Granite, or Peshawar White marble at our Karachi workshop.', ur: 'ہماری کراچی ورکشاپ میں پریمیم زیارت وائٹ، بلیک گرینائٹ، یا پشاور وائٹ ماربل میں سے انتخاب کریں۔' }
+      },
+      {
+        title: { en: '3. Precision Carving', ur: '۳. درست تراش' },
+        description: { en: 'Our artisans use state-of-the-art engraving tools for intricate calligraphy and mirror-finish polishing.', ur: 'ہمارے کاریگر پیچیدہ خطاطی اور مرر فنش پالش کے لیے جدید ترین کندہ کاری کے آلات استعمال کرتے ہیں۔' }
+      },
+      {
+        title: { en: '4. Professional Installation', ur: '۴. پیشہ ورانہ تنصیب' },
+        description: { en: 'Safe transport and expert installation in all Karachi cemeteries or residential projects.', ur: 'کراچی کے تمام قبرستانوں یا رہائشی منصوبوں میں محفوظ ترسیل اور ماہرانہ تنصیب۔' }
+      }
+    ],
     serviceList: [
        {
-        name: { en: 'Gravestones & Memorials (کتبے)', ur: 'قبر کے کتبے اور یادگاریں' },
+        name: { en: 'Islamic Gravestones & Memorials', ur: 'اسلامی کتبے اور یادگاریں' },
         description: {
-          en: 'Our Karachi workshop specializes in crafting high-quality gravestones and memorials. With over 50 years of experience, we understand the importance of creating a lasting tribute. We use premium Ziarat White marble and durable Black Granite to ensure your loved one\'s memorial stands the test of time. Our services include custom design, Urdu and Arabic calligraphy engraving, and professional installation in all Karachi cemeteries. Whether you need a simple headstone or a complete grave structure, we provide compassionate service and expert craftsmanship.',
-          ur: 'ہماری کراچی ورکشاپ اعلیٰ معیار کے کتبے اور یادگاریں بنانے میں مہارت رکھتی ہے۔ 50 سال سے زیادہ کے تجربے کے ساتھ، ہم ایک دیرپا خراج عقیدت پیدا کرنے کی اہمیت کو سمجھتے ہیں۔ ہم پریمیم زیارت وائٹ ماربل اور پائیدار بلیک گرینائٹ کا استعمال کرتے ہیں تاکہ یہ یقینی بنایا جا سکے کہ آپ کے پیارے کی یادگار وقت کی کسوٹی پر کھڑی اترے۔ ہماری خدمات میں کسٹم ڈیزائن، اردو اور عربی خطاطی کی کندہ کاری، اور کراچی کے تمام قبرستانوں میں پیشہ ورانہ تنصیب شامل ہے۔ چاہے آپ کو ایک سادہ کتبے کی ضرورت ہو یا مکمل قبر کی تعمیر کی، ہم ہمدردانہ خدمت اور ماہرانہ دستکاری فراہم کرتے ہیں۔',
+          en: 'As Karachi\'s trusted headstone maker for over 50 years, we specialize in creating dignified Islamic memorials. Using premium Ziarat White marble and durable Black Granite, we ensure a lasting tribute for your loved ones. Our services include high-detail Urdu/Arabic calligraphy engraving, portrait carving, and complete grave preparation in all major Karachi cemeteries including Wadi-e-Hussain and local graveyards. We prioritize compassion and quality in every stone we carve.',
+          ur: '50 سال سے زیادہ عرصے سے کراچی کے قابل اعتماد کتبہ بنانے والے کے طور پر، ہم باوقار اسلامی یادگاریں بنانے میں مہارت رکھتے ہیں۔ پریمیم زیارت وائٹ ماربل اور پائیدار بلیک گرینائٹ کا استعمال کرتے ہوئے، ہم آپ کے پیاروں کے لیے ایک دیرپا خراج عقیدت کو یقینی بناتے ہیں۔ ہماری خدمات میں اعلیٰ تفصیل والی اردو/عربی خطاطی کی کندہ کاری، پورٹریٹ تراشنا، اور وادی حسین اور مقامی قبرستانوں سمیت کراچی کے تمام بڑے قبرستانوں میں قبر کی مکمل تیاری شامل ہے۔ ہم ہر اس پتھر میں ہمدردی اور معیار کو ترجیح دیتے ہیں جسے ہم تراشتے ہیں۔',
         },
         images: [
           { src: '/Gallery/Grave/8.png', alt: 'White Ziarat marble gravestone with Urdu engraving in Karachi', hint: 'gravestone' },
@@ -208,15 +227,27 @@ export const content = {
         ],
       },
       {
-        name: { en: 'Kitchen & Home Installation', ur: 'کچن اور ہوم انسٹالیشن' },
+        name: { en: 'Kitchen & Home Marble Installation', ur: 'کچن اور ہوم ماربل کی تنصیب' },
         description: {
-          en: 'Transform your home with our premium marble installation services. We specialize in high-end kitchen countertops, elegant marble flooring, and custom wall cladding. Our team sources the best marble from across Pakistan, including Peshawar White and artificial options, to provide a clean and modern look. We provide end-to-end services from measurement and stone selection to expert cutting and polishing. Enhance the value and beauty of your property in Karachi with durable, heat-resistant granite and marble surfaces that last for generations.',
-          ur: 'ہماری پریمیم ماربل انسٹالیشن سروسز کے ساتھ اپنے گھر کو تبدیل کریں۔ ہم ہائی اینڈ کچن کاؤنٹر ٹاپس، خوبصورت ماربل فلورنگ، اور کسٹم وال کلیڈنگ میں مہارت رکھتے ہیں۔ ہماری ٹیم پورے پاکستان سے بہترین ماربل حاصل کرتی ہے، بشمول پشاور وائٹ اور مصنوعی آپشنز، ایک صاف ستھری اور جدید شکل فراہم کرنے کے لیے۔ ہم پیمائش اور پتھر کے انتخاب سے لے کر ماہرانہ کٹنگ اور پالش تک مکمل خدمات فراہم کرتے ہیں۔ کراچی میں اپنی پراپرٹی کی قدر اور خوبصورتی میں اضافہ کریں پائیدار، حرارت سے بچنے والے گرینائٹ اور ماربل کی سطحوں کے ساتھ جو نسلوں تک چلتی ہیں۔',
+          en: 'Enhance your home with Karachi\'s best kitchen marble installation services. We offer a wide range of premium stones, from cost-effective Peshawar White and Artificial White to luxury imported granite. Our team in Malir 15 provides expert measurement, precision cutting, and professional edge-polishing to ensure a seamless mirror finish. Whether you are renovating your kitchen countertops, installing bathroom vanities, or upgrading your living room flooring, we provide the best marble rates and craftsmanship in Pakistan.',
+          ur: 'کراچی کی بہترین کچن ماربل انسٹالیشن سروسز کے ساتھ اپنے گھر کو بہتر بنائیں۔ ہم سستے پشاور وائٹ اور مصنوعی سفید سے لے کر پرتعیش درآمد شدہ گرینائٹ تک پریمیم پتھروں کی ایک وسیع رینج پیش کرتے ہیں۔ ملیر 15 میں ہماری ٹیم ماہرانہ پیمائش، درست کٹنگ، اور پیشہ ورانہ ایج پالشنگ فراہم کرتی ہے تاکہ بغیر کسی جوڑ کے مرر فنش کو یقینی بنایا جا سکے۔ چاہے آپ اپنے کچن کے کاؤنٹر ٹاپس کی تزئین و آرائش کر رہے ہوں، باتھ روم کی وینٹیز لگا رہے ہوں، یا اپنے کمرے کے فرش کو اپ گریڈ کر رہے ہوں، ہم پاکستان میں بہترین ماربل ریٹ اور کاریگری فراہم کرتے ہیں۔',
         },
         images: [
           { src: '/Gallery/HomeDecor/1.png', alt: 'Modern marble kitchen countertop installation Karachi home', hint: 'kitchen countertop' },
           { src: '/Gallery/HomeDecor/2.png', alt: 'Premium marble flooring for high-end Karachi residential project', hint: 'marble floor' },
           { src: '/Gallery/HomeDecor/3.png', alt: 'Custom engraved wall cladding for government building project Pakistan', hint: 'wall cladding' },
+        ],
+      },
+      {
+        name: { en: 'Custom Stone Engraving & Signage', ur: 'کسٹم اسٹون کندہ کاری اور سائن بورڈز' },
+        description: {
+          en: 'Stylish Marble Art provides specialized stone engraving for commercial and government projects across Karachi. From large-scale plaques for public buildings to intricate residential nameplates, our state-of-the-art machinery handles all types of natural and artificial stone. We offer traditional hand-carved calligraphy as well as precision digital engraving. Our work can be seen in numerous institutional landmarks and private estates across Sindh, showcasing our commitment to detail and durability.',
+          ur: 'سٹائلش ماربل آرٹ کراچی بھر میں تجارتی اور سرکاری منصوبوں کے لیے خصوصی پتھر کی کندہ کاری فراہم کرتا ہے۔ عوامی عمارتوں کے لیے بڑے پیمانے پر تختیوں سے لے کر پیچیدہ رہائشی نام کی تختیوں تک، ہماری جدید ترین مشینری تمام اقسام کے قدرتی اور مصنوعی پتھروں کو سنبھالتی ہے۔ ہم روایتی ہاتھ سے تراشی گئی خطاطی کے ساتھ ساتھ درست ڈیجیٹل کندہ کاری بھی پیش کرتے ہیں۔ ہمارا کام سندھ بھر کے متعدد ادارہ جاتی نشانات اور نجی جائیدادوں میں دیکھا جا سکتا ہے، جو تفصیل اور پائیداری کے لیے ہماری وابستگی کو ظاہر کرتا ہے۔',
+        },
+        images: [
+          { src: '/Gallery/HomeDecor/3.png', alt: 'Government building marble plaque engraving Karachi', hint: 'stone engraving' },
+          { src: '/Gallery/Headstone/3.png', alt: 'Detailed stone calligraphy for residential entrance Karachi', hint: 'calligraphy' },
+          { src: '/Gallery/HomeDecor/4.png', alt: 'Custom marble signage and institutional plaques Pakistan', hint: 'signage' },
         ],
       },
     ],
