@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { content } from '@/lib/content';
 import MarbleDetailClient from './marble-detail-client';

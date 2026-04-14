@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';

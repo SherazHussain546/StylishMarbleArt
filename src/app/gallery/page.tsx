@@ -1,16 +1,24 @@
+'use client';
 
-import type { Metadata } from 'next';
-import GalleryPageClient from './gallery-page-client';
+import { useLanguage } from '@/contexts/language-context';
+import { content } from '@/lib/content';
+import { GalleryComponent } from '@/components/gallery-component';
 
-// SEO Metadata
-export const metadata: Metadata = {
-    title: 'Marble Work Gallery - Gravestones, Kitchens, & More | Stylish Marble Art',
-    description: 'View our gallery of projects, including custom gravestones, headstones, kitchen countertops, and marble flooring. See the quality of our marble craftsmanship in Karachi, Pakistan.',
-    keywords: ['marble work gallery', 'gravestone pictures', 'kitchen marble photos', 'marble engraving examples', 'headstone designs Pakistan', 'سنگ مرمر کے کام کی گیلری', 'قبر کے پتھر کی تصاویر'],
-};
+export default function GalleryPageClient() {
+  const { language } = useLanguage();
+  const pageContent = content.galleryPage;
 
-
-// Page Component
-export default function GalleryPage() {
-  return <GalleryPageClient />;
+  return (
+    <>
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <header className="mx-auto max-w-4xl text-center mb-16">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{pageContent.title[language]}</h1>
+          <p className="mt-4 text-xl text-muted-foreground">{pageContent.description[language]}</p>
+        </header>
+        <div>
+          <GalleryComponent />
+        </div>
+      </div>
+    </>
+  );
 }
