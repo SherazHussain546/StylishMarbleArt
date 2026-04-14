@@ -232,10 +232,11 @@ export default function LocatorPageClient() {
   };
 
   const handleShare = async (m: any) => {
+    if (!m) return;
     const shareUrl = `${window.location.origin}/locator?search=${encodeURIComponent(m.deceasedName)}`;
     const shareText = language === 'en' 
-        ? `View the record for ${m.deceasedName} at Stylish Marble Art.` 
-        : `${m.deceasedName} کا ریکارڈ سٹائلش ماربل آرٹ پر دیکھیں۔`;
+        ? `Explore the family lineage of ${m.deceasedName} at Stylish Marble Art's Memorial Registry.` 
+        : `${m.deceasedName} کا خاندانی شجرہ سٹائلش ماربل آرٹ کی میموریل رجسٹری پر دیکھیں۔`;
 
     if (navigator.share) {
         try {
@@ -246,13 +247,13 @@ export default function LocatorPageClient() {
             });
             return;
         } catch (err) {
-            // Ignored
+            // Ignored or user cancelled
         }
     }
 
     try {
         await navigator.clipboard.writeText(shareUrl);
-        toast({ title: 'Link Copied', description: 'Record link copied to clipboard.' });
+        toast({ title: 'Link Copied', description: 'Family tree link copied to clipboard.' });
     } catch (clipboardErr) {
         toast({ variant: 'destructive', title: 'Share Failed', description: 'Could not copy link to clipboard.' });
     }
@@ -719,10 +720,15 @@ Please provide details on pricing and timeline.`;
       <Dialog open={!!viewingFamily} onOpenChange={() => setViewingFamily(null)}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-                <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
-                    <GitGraph className="h-6 w-6 text-primary" />
-                    {language === 'en' ? 'Family Connections' : 'خاندانی تعلقات'}
-                </DialogTitle>
+                <div className="flex items-center justify-between gap-4">
+                    <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
+                        <GitGraph className="h-6 w-6 text-primary" />
+                        {language === 'en' ? 'Family Connections' : 'خاندانی تعلقات'}
+                    </DialogTitle>
+                    <Button variant="ghost" size="icon" onClick={() => handleShare(viewingFamily)} title={language === 'en' ? 'Share Tree' : 'شجرہ شیئر کریں'}>
+                        <Share2 className="h-5 w-5 text-primary" />
+                    </Button>
+                </div>
                 <DialogDescription>
                     {language === 'en' 
                         ? `Trace the history of ${viewingFamily?.deceasedName}. You can add any missing relatives below.` 
@@ -832,9 +838,13 @@ Please provide details on pricing and timeline.`;
                 </div>
             </div>
 
-            <DialogFooter>
+            <DialogFooter className="flex flex-col sm:flex-row gap-2">
+                <Button variant="outline" className="flex-1 gap-2" onClick={() => handleShare(viewingFamily)}>
+                    <Share2 className="h-4 w-4" />
+                    {language === 'en' ? 'Share Tree' : 'شجرہ شیئر کریں'}
+                </Button>
                 <DialogClose asChild>
-                    <Button variant="secondary" className="w-full">{language === 'en' ? 'Close Registry' : 'بند کریں'}</Button>
+                    <Button variant="secondary" className="flex-1">{language === 'en' ? 'Close Registry' : 'بند کریں'}</Button>
                 </DialogClose>
             </DialogFooter>
         </DialogContent>
