@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -19,6 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import { cn } from '@/lib/utils';
 import QRCode from 'qrcode';
 
 const honorifics = [

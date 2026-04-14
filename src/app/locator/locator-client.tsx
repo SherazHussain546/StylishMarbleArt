@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -661,21 +660,21 @@ Please provide details on pricing and timeline.`;
                             )}
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-muted">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</p>
-                                    <p className="text-sm font-semibold flex items-center gap-1.5">
+                                    <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</div>
+                                    <div className="text-sm font-semibold flex items-center gap-1.5">
                                         <Calendar className="h-3 w-3 text-primary" />
                                         {m.dateOfBirth || 'N/A'}
-                                    </p>
+                                    </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{m.isAlive ? 'Status' : 'Died'}</p>
-                                    <p className="text-sm font-semibold flex items-center gap-1.5">
+                                    <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{m.isAlive ? 'Status' : 'Died'}</div>
+                                    <div className="text-sm font-semibold flex items-center gap-1.5">
                                         {m.isAlive ? (
                                             <Badge variant="outline" className="text-[10px] h-5 bg-green-50 border-green-200 text-green-700">Healthy</Badge>
                                         ) : (
                                             <><Heart className="h-3 w-3 text-red-500" /> {m.dateOfDeath || 'N/A'}</>
                                         )}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
