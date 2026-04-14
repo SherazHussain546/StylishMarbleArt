@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -13,8 +14,8 @@ import { collection, query, orderBy } from 'firebase/firestore';
 type Category = 'Graves' | 'Headstones' | 'Government Works' | 'Home Decors' | 'Christian Memorials' | 'Hindu Memorials';
 
 const categories: {id: Category, name: {[key in 'en' | 'ur']: string}}[] = [
-    { id: 'Graves', name: { en: 'Graves', ur: 'قبریں' } },
-    { id: 'Headstones', name: { en: 'Headstones', ur: 'قبر کے کتبے' } },
+    { id: 'Graves', name: { en: 'Graves (قبریں)', ur: 'قبریں' } },
+    { id: 'Headstones', name: { en: 'Headstones (کتبے)', ur: 'قبر کے کتبے' } },
     { id: 'Home Decors', name: { en: 'Home Decors', ur: 'گھریلو سجاوٹ' } },
     { id: 'Government Works', name: { en: 'Government', ur: 'سرکاری کام' } },
     { id: 'Christian Memorials', name: { en: 'Christian', ur: 'عیسائی یادگاریں' } },
@@ -59,6 +60,22 @@ export function GalleryComponent() {
   
   const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
 
+  // Structured Data for SEO
+  const gallerySchema = useMemo(() => {
+    if (!filteredImages.length) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "image": filteredImages.map((img: any) => ({
+        "@type": "ImageObject",
+        "url": img.url,
+        "name": img.alt,
+        "caption": img.alt,
+        "description": `${img.alt} - Custom work by Stylish Marble Art Karachi`
+      }))
+    };
+  }, [filteredImages]);
+
   if (loading) {
     return (
       <div className="flex h-64 flex-col items-center justify-center text-muted-foreground bg-secondary/20 rounded-xl">
@@ -70,7 +87,13 @@ export function GalleryComponent() {
 
   return (
     <>
-      <div className="mb-12 flex flex-wrap justify-center gap-2">
+      {gallerySchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(gallerySchema) }}
+        />
+      )}
+      <nav className="mb-12 flex flex-wrap justify-center gap-2">
          <Button
             variant={activeFilter === 'All' ? 'default' : 'outline'}
             onClick={() => setActiveFilter('All')}
@@ -88,35 +111,38 @@ export function GalleryComponent() {
             {cat.name[language]}
         </Button>
         ))}
-      </div>
+      </nav>
 
       {filteredImages.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredImages.map((image, index) => (
-            <div
+            <figure
               key={image.id}
-              className="group relative h-80 cursor-pointer overflow-hidden rounded-xl shadow-lg border-2 border-transparent hover:border-primary transition-all duration-300"
+              className="group relative flex flex-col cursor-pointer overflow-hidden rounded-xl bg-card shadow-lg border-2 border-transparent hover:border-primary transition-all duration-300"
               onClick={() => setSelectedImageIndex(index)}
             >
-              <Image
-                src={image.url}
-                alt={image.alt}
-                fill
-                unoptimized={image.url.startsWith('data:')}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              <div className="absolute top-4 left-4 select-none drop-shadow-lg">
-                <WatermarkLogo />
+              <div className="relative h-72 w-full overflow-hidden">
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  fill
+                  unoptimized={image.url.startsWith('data:')}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute top-4 left-4 select-none drop-shadow-lg z-10">
+                    <WatermarkLogo />
+                </div>
               </div>
-
-              <div className="absolute bottom-4 left-4 right-4 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <p className="text-xs font-bold uppercase tracking-widest bg-primary/80 inline-block px-2 py-0.5 rounded mb-1">{image.category}</p>
-                  <p className="font-medium text-sm line-clamp-2">{image.alt}</p>
-              </div>
-            </div>
+              <figcaption className="p-4 bg-background">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1 block">
+                    {image.category}
+                  </span>
+                  <p className="font-medium text-sm line-clamp-2 text-foreground">
+                    {image.alt}
+                  </p>
+              </figcaption>
+            </figure>
           ))}
         </div>
       ) : (
@@ -127,8 +153,8 @@ export function GalleryComponent() {
           </h3>
           <p className="mt-2 max-w-sm">
             {language === 'en' 
-              ? 'Our craftsmen are currently working on new projects. Check back soon for updates!' 
-              : 'ہمارے کاریگر اس وقت نئے منصوبوں پر کام کر رہے ہیں۔ اپ ڈیٹس کے لیے جلد ہی دوبارہ چیک کریں!'}
+              ? 'Our craftsmen are currently working on new projects in Malir 15. Check back soon for updates!' 
+              : 'ہمارے کاریگر اس وقت ملیر 15 میں نئے منصوبوں پر کام کر رہے ہیں۔ اپ ڈیٹس کے لیے جلد ہی دوبارہ چیک کریں!'}
           </p>
         </div>
       )}

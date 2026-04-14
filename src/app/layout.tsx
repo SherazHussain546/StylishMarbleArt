@@ -17,16 +17,15 @@ export const metadata: Metadata = {
     template: '%s | Stylish Marble Art',
   },
   description:
-    'Karachi-based experts in premium gravestones, memorials, & custom marble work for kitchens & homes. We specialize in all types of marble and granite engraving, including Ziarat White & Black Granite. Contact us for a quote in Pakistan.',
+    'Karachi-based headstone makers and marble specialists. Premium gravestones, memorials, and custom kitchen countertops in Pakistan. Expert Ziarat White and Black Granite engraving.',
   keywords: [
-    'Stylish Marble Art', 'gravestones Karachi', 'marble engraving Pakistan', 'memorial services', 'custom headstones',
-    'kitchen marble', 'home marble installation', 'artificial marble', 'granite countertops', 'tombstone design',
-    'grave making services', 'Ziarat White Marble', 'Black Granite', 'Rosso Verona Marble', 'marble repair', 'marble polishing', 'marble shop Karachi',
+    'Stylish Marble Art', 'gravestones Karachi', 'headstone maker Karachi', 'marble gravestone Pakistan', 'marble engraving Pakistan', 'memorial services Karachi', 'custom headstones Pakistan',
+    'kitchen marble Karachi', 'Peshawar White marble Pakistan', 'Ziarat White marble Pakistan', 'marble kitchen countertop Karachi', 'granite countertops Karachi', 'Islamic headstone design',
     'قبر کے کتبے کراچی', 'سنگ مرمر کی کندہ کاری', 'یادگار خدمات', 'باورچی خانے کا ماربل', 'ماربل ڈیزائن'
   ],
    openGraph: {
-    title: 'Stylish Marble Art - Premium Marble Services in Karachi, Pakistan',
-    description: 'Specialists in beautiful gravestones, memorials, and custom marble for kitchens and homes.',
+    title: 'Stylish Marble Art - Premium Marble & Gravestones in Karachi, Pakistan',
+    description: 'Specialists in high-quality Islamic gravestones, memorials, and custom marble for kitchens and homes.',
     url: siteUrl,
     siteName: 'Stylish Marble Art',
     images: [
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
         url: '/SMAHeader.png',
         width: 1200,
         height: 630,
-        alt: 'A beautiful memorial by Stylish Marble Art in Karachi',
+        alt: 'Premium Marble Work by Stylish Marble Art in Karachi',
       },
     ],
     locale: 'en_US',
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Stylish Marble Art - Premium Marble Services in Karachi',
-    description: 'From elegant gravestones to custom kitchen countertops, we are Karachi\'s trusted marble experts.',
+    description: 'Trusted headstone makers and marble specialists in Malir 15, Karachi.',
     images: ['/SMAHeader.png'],
   },
   alternates: {
@@ -56,9 +55,53 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Stylish Marble Art",
+    "image": `${siteUrl}/SMAHeader.png`,
+    "description": "Premium marble gravestone makers and stone specialists in Karachi. Expert Islamic memorials, kitchen countertops, and custom engraving.",
+    "@id": siteUrl,
+    "url": siteUrl,
+    "telephone": "+92-308-3401606",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Malir 15, At Main National Highway Near Bank Al-Habib Ltd",
+      "addressLocality": "Karachi",
+      "addressRegion": "Sindh",
+      "postalCode": "75080",
+      "addressCountry": "PK"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 24.8778,
+      "longitude": 67.1952
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
+    "sameAs": [
+      "https://facebook.com/stylishmarbleart"
+    ]
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

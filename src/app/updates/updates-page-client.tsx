@@ -15,12 +15,12 @@ export default function UpdatesPageClient() {
   return (
     <div className="bg-secondary py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-4xl text-center">
+        <header className="mx-auto max-w-4xl text-center mb-16">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{pageContent.title[language]}</h1>
           <p className="mt-4 text-xl text-muted-foreground">{pageContent.description[language]}</p>
-        </div>
+        </header>
 
-        <div className="mt-16">
+        <section className="mt-16">
            <h2 className="text-3xl font-bold tracking-tight text-center mb-12">{pageContent.feedTitle[language]}</h2>
           <Carousel
             className="w-full max-w-5xl mx-auto"
@@ -34,11 +34,11 @@ export default function UpdatesPageClient() {
                 <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-2/3">
                   <div className="p-1 h-full">
                     {item.type === 'custom' ? (
-                      <Card className="h-full overflow-hidden shadow-lg flex flex-col">
-                        <div className="relative h-64 w-full">
+                      <Card className="h-full overflow-hidden shadow-lg flex flex-col hover:shadow-xl transition-shadow border-t-4 border-primary">
+                        <div className="relative h-72 w-full">
                           <Image
                             src={item.image}
-                            alt={item.alt[language]}
+                            alt={`${item.alt[language]} - Stylish Marble Art Karachi News`}
                             data-ai-hint={item.hint}
                             fill
                             className="object-cover"
@@ -46,11 +46,11 @@ export default function UpdatesPageClient() {
                           />
                         </div>
                         <CardHeader>
-                          <CardTitle>{item.title[language]}</CardTitle>
-                          <CardDescription>{item.date[language]}</CardDescription>
+                          <CardTitle className="text-2xl">{item.title[language]}</CardTitle>
+                          <CardDescription className="font-semibold text-primary">{item.date[language]}</CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-muted-foreground">{item.content[language]}</p>
+                          <p className="text-muted-foreground leading-relaxed">{item.content[language]}</p>
                         </CardContent>
                       </Card>
                     ) : (
@@ -88,10 +88,22 @@ export default function UpdatesPageClient() {
            <p className="text-center text-sm text-muted-foreground mt-8 sm:hidden">
               {language === 'en' ? 'Swipe to see more posts' : 'مزید پوسٹس دیکھنے کے لیے سوائپ کریں'}
             </p>
-        </div>
+        </section>
+        
+        <aside className="mt-24 max-w-3xl mx-auto p-8 bg-background rounded-2xl shadow-inner border">
+            <h3 className="text-2xl font-bold mb-4">{language === 'en' ? 'Expert Marble Advice' : 'ماربل پر ماہرانہ مشورہ'}</h3>
+            <p className="text-muted-foreground mb-6">
+                {language === 'en' 
+                    ? 'Visit our workshop in Malir 15, Karachi for a free consultation on Islamic headstone designs and the best marble types for the Pakistani climate.' 
+                    : 'اسلامی کتبوں کے ڈیزائن اور پاکستانی آب و ہوا کے لیے ماربل کی بہترین اقسام پر مفت مشورے کے لیے ہماری ملیر 15، کراچی کی ورکشاپ تشریف لائیں۔'}
+            </p>
+            <div className="flex gap-4">
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">#ZiaratWhite</span>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">#KarachiMarble</span>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">#HeadstonesPakistan</span>
+            </div>
+        </aside>
       </div>
     </div>
   );
 }
-
-    
