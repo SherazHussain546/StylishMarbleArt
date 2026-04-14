@@ -82,6 +82,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  serverExternalPackages: ['node-fetch'],
   experimental: {
     allowedDevOrigins: [
       '6000-firebase-studio-1754855134570.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev',

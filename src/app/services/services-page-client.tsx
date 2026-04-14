@@ -9,7 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane } from 'lucide-react';
+import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -38,6 +38,12 @@ export default function ServicesPageClient() {
                 <Link href="/gallery" className="flex items-center gap-2">
                     {language === 'en' ? 'Browse Gallery' : 'گیلری دیکھیں'}
                     <ArrowRight className="h-4 w-4" />
+                </Link>
+             </Button>
+             <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-primary text-primary hover:bg-primary hover:text-white">
+                <Link href="/locator" className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    {language === 'en' ? 'Memorial Locator' : 'یادگار تلاش کنندہ'}
                 </Link>
              </Button>
           </div>
@@ -99,7 +105,7 @@ export default function ServicesPageClient() {
                                 ] : 
                                 [
                                     "پریمیم زیارت وائٹ اور بلیک گرینائٹ",
-                                    "عالمی کلائنٹس کے لیے کسٹم اردو اور عربی خطاطی",
+                                    "عالمی کلائنٹس کے لیے کیسم اردو اور عربی خطاطی",
                                     "بین الاقوامی شپنگ اور محفوظ پیکیجنگ",
                                     "مرر فنش ایج پالشنگ"
                                 ]

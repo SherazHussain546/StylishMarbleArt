@@ -1,8 +1,10 @@
+
 export const content = {
   nav: {
     home: { en: 'Home', ur: 'گھر' },
     services: { en: 'Services', ur: 'خدمات' },
     gallery: { en: 'Gallery', ur: 'گیلری' },
+    locator: { en: 'Memorial Locator', ur: 'یادگار تلاش کنندہ' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     updates: { en: 'Articles & Updates', ur: 'مضامین اور اپ ڈیٹس' },
@@ -337,6 +339,17 @@ export const content = {
         answer: { en: 'Our 50-year legacy in Karachi, focus on compassionate service, and the use of cutting-edge engraving technology for unmatched detail, serving clients across the global Muslim Ummah.', ur: 'کراچی میں ہماری 50 سالہ میراث، ہمدردانہ خدمت پر توجہ، اور بے مثال تفصیل کے لیے جدید ترین کندہ کاری کی ٹیکنالوجی کا استعمال، جو عالمی مسلم امت کے صارفین کی خدمت کر رہی ہے۔' },
       }
     ]
+  },
+  locatorPage: {
+    title: { en: 'Digital Memorial Locator', ur: 'ڈیجیٹل یادگار تلاش کنندہ' },
+    description: {
+      en: 'Find the precise location of a loved one\'s grave and access essential care services from anywhere in the world.',
+      ur: 'کسی عزیز کی قبر کا صحیح مقام تلاش کریں اور دنیا میں کہیں سے بھی ضروری دیکھ بھال کی خدمات تک رسائی حاصل کریں۔',
+    },
+    searchPlaceholder: { en: 'Search by name...', ur: 'نام سے تلاش کریں...' },
+    addMemorial: { en: 'Add a Memorial', ur: 'ایک یادگار شامل کریں' },
+    servicesTitle: { en: 'Available Services', ur: 'دستیاب خدمات' },
+    requestService: { en: 'Request This Service', ur: 'اس سروس کی درخواست کریں' },
   },
   galleryPage: {
     title: { en: 'Marble Work Gallery - Global Islamic Craftsmanship', ur: 'ماربل ورک گیلری - عالمی اسلامی دستکاری' },

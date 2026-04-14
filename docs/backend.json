@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "PageContent": {
@@ -206,6 +207,24 @@
         "submissionDate",
         "isRead"
       ]
+    },
+    "Memorial": {
+      "title": "Memorial",
+      "type": "object",
+      "description": "Represents a grave location and information about the deceased.",
+      "properties": {
+        "id": { "type": "string" },
+        "deceasedName": { "type": "string" },
+        "parentName": { "type": "string" },
+        "dateOfBirth": { "type": "string" },
+        "dateOfDeath": { "type": "string" },
+        "islamicDate": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["deceasedName", "latitude", "longitude"]
     }
   },
   "auth": {
@@ -223,7 +242,7 @@
           "schema": {
             "$ref": "#/backend/entities/PageContent"
           },
-          "description": "Stores static and dynamic content for website pages. Publicly readable, admin write-access. Documents include standard content fields and a 'lastUpdated' timestamp.",
+          "description": "Stores static and dynamic content for website pages.",
           "params": [
             {
               "name": "pageContentId",
@@ -239,7 +258,7 @@
           "schema": {
             "$ref": "#/backend/entities/Service"
           },
-          "description": "Stores details for memorial services offered. Publicly readable, admin write-access. Includes bilingual descriptions and display order.",
+          "description": "Stores details for memorial services offered.",
           "params": [
             {
               "name": "serviceId",
@@ -255,7 +274,7 @@
           "schema": {
             "$ref": "#/backend/entities/GalleryImage"
           },
-          "description": "Stores metadata for gallery images, including URLs, bilingual alt text, and captions. Publicly readable, admin write-access.",
+          "description": "Stores metadata for gallery images.",
           "params": [
             {
               "name": "galleryImageId",
@@ -271,11 +290,27 @@
           "schema": {
             "$ref": "#/backend/entities/ContactMessage"
           },
-          "description": "Stores messages submitted via the contact form. Publicly writable (create), but only readable and updatable by administrators. Includes a 'isRead' status.",
+          "description": "Stores messages submitted via the contact form.",
           "params": [
             {
               "name": "messageId",
               "description": "Unique identifier for a submitted contact message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/memorials/{memorialId}",
+        "definition": {
+          "entityName": "Memorial",
+          "schema": {
+            "$ref": "#/backend/entities/Memorial"
+          },
+          "description": "Stores grave location and deceased person details.",
+          "params": [
+            {
+              "name": "memorialId",
+              "description": "Unique ID for the memorial document."
             }
           ]
         }
@@ -287,16 +322,16 @@
           "schema": {
             "$ref": "#/backend/entities/user"
           },
-          "description": "A collection where the existence of a document signifies that the user (identified by userId) has administrative privileges. Used for Authorization Independence and DBAC.",
+          "description": "Identifies administrative users.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique ID of the user who is an administrator."
+              "description": "The unique ID of the user."
             }
           ]
         }
       }
     ],
-    "reasoning": "The recommended Firestore structure is designed to be secure, scalable, and easily debuggable by strictly adhering to the core design principles. The primary strategy employed is **Structural Segregation** combined with **Authorization Independence via Denormalization** for roles. Each top-level collection groups documents with a homogeneous security posture, simplifying security rules significantly.\n\n1.  **Public Read, Admin Write Collections (`/page_content`, `/services`, `/gallery_images`):**\n    *   **Authorization Independence:** These collections do not rely on hierarchical authorization. All documents within them are publicly readable, which means `get()` calls in security rules are entirely avoided for read operations. Write operations for these collections will be restricted to users who are identified as administrators.\n    *   **QAPs (Rules are not Filters):** Since all documents in these collections are intended for public display, a simple `allow read: if true;` rule can be applied. This inherently satisfies the QAP requirement as all documents are accessible to the public for listing and reading, without needing to filter on data content for access control.\n\n2.  **Contact Messages Collection (`/contact_messages`):**\n    *   **Authorization Independence:** This collection allows anonymous or authenticated users to create documents (submit messages). Read and update access (e.g., marking `isRead`) is restricted to administrators. Like the public collections, no `get()` calls are needed for authorization. A user's ability to create a message is independent of any other document, and an admin's ability to read/update messages is solely based on their admin role.\n    *   **QAPs (Rules are not Filters):** For message creation, `allow create: if true;` (or similar for auth.uid presence if required) directly satisfies QAP. For read/update by admins, a rule like `allow read, update: if exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));` means that admins can list and read all contact messages, fulfilling the QAP without filtering data for access.\n\n3.  **Admin Roles Collection (`/roles_admin`):**\n    *   **Authorization Independence/DBAC:** A dedicated collection `/roles_admin/{userId}` is used to store administrator roles. The mere existence of a document at `/roles_admin/$(request.auth.uid)` grants administrative privileges. This design completely avoids custom claims and `get()` calls to other user-specific data, making rules extremely robust and easy to debug. Authorization logic simply checks for document existence.\n\nBy ensuring that authorization logic for any document depends only on `request.auth.uid` (for roles) or is universally `true` (for public data), we achieve strong Authorization Independence. Structural segregation ensures each collection has a clear and consistent security profile, making security rules simple to write, understand, and verify. Denormalization of the admin role status (effectively, the role *is* the document existence) ensures that rules are not complex or reliant on `get()` operations, thereby supporting atomic operations and debuggability."
+    "reasoning": "Standard Firestore structure for Stylish Marble Art with new Memorial Locator support."
   }
 }
