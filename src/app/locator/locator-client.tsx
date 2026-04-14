@@ -224,7 +224,7 @@ export default function LocatorPageClient() {
                             </div>
                             {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
                                 <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
-                                <Image src={newMemorial.imageUrl} alt="Preview" fill className="object-cover" />
+                                <img src={newMemorial.imageUrl} alt="Preview" className="h-full w-full object-cover" />
                                 </div>
                             )}
                             <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
@@ -307,12 +307,10 @@ export default function LocatorPageClient() {
                     <CardContent className="p-4">
                       <div className="flex gap-4">
                         <div className="relative h-20 w-20 flex-shrink-0 rounded-lg overflow-hidden border bg-muted">
-                          <Image 
+                          <img 
                             src={m.imageUrl || 'https://picsum.photos/seed/memorial/200/200'} 
                             alt={m.deceasedName} 
-                            fill 
-                            className="object-cover" 
-                            unoptimized={m.imageUrl?.startsWith('data:')}
+                            className="h-full w-full object-cover" 
                           />
                         </div>
                         <div className="flex-grow">

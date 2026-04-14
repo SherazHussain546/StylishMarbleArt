@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -6,14 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, Heart } from 'lucide-react';
+import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, Heart, MessageCircle } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import Image from 'next/image';
 
 export default function AdminMemorialLeadsPage() {
   const db = useFirestore();
@@ -63,12 +61,10 @@ export default function AdminMemorialLeadsPage() {
             <Card key={m.id} className="overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-4">
                 <div className="md:col-span-1 relative h-48 md:h-full bg-muted">
-                  <Image 
+                  <img 
                     src={m.imageUrl || 'https://picsum.photos/seed/placeholder/400/400'} 
                     alt={m.deceasedName} 
-                    fill 
-                    className="object-cover"
-                    unoptimized={m.imageUrl?.startsWith('data:')}
+                    className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="md:col-span-3 p-6">
