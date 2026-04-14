@@ -22,6 +22,7 @@ export function Footer() {
     { href: '/', label: content.nav.home[language] },
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
+    { href: '/locator', label: content.nav.locator[language] },
     { href: '/about', label: content.nav.about[language] },
     { href: '/faq', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },
