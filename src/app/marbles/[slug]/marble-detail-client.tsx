@@ -1,4 +1,3 @@
-
 'use client';
 
 import { notFound } from 'next/navigation';
@@ -54,6 +53,7 @@ export default function MarbleDetailClient() {
   
   const phone = "+92 308 3401606";
   const whatsappNumber = phone.replace(/\D/g, '');
+  const googleMapsDirectionsUrl = "https://www.google.com/maps/dir/?api=1&destination=V5HR%2B38%20Ghazi%20Dawood%20Brohi%20Goth%2C%20Karachi%2C%20Pakistan";
 
   return (
     <div className="bg-background min-h-screen">
@@ -187,7 +187,7 @@ export default function MarbleDetailClient() {
                     <p className="text-muted-foreground leading-relaxed">
                         {language === 'en' 
                             ? 'Ready to transform your space — or create a lasting memorial — with Rosso Verona Marble? Contact Stylish Marble Art in Karachi today. We offer free consultations, competitive pricing, and professional installation across all of Pakistan.' 
-                            : 'کیا آپ روسو ویرونا ماربل کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابقتی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔'}
+                            : 'کیا آپ روسو ویرونا ماربل کے ساتھ اپنی جگہ کو تبدیل کرنے — یا ایک دیرپا یادگار بنانے — کے لیے تیار ہیں؟ آج ہی کراچی میں سٹائلش ماربل آرٹ سے رابطہ کریں۔ ہم پورے پاکستان میں مفت مشاورت، مسابتقی قیمتیں اور پیشہ ورانہ تنصیب پیش کرتے ہیں۔'}
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
@@ -211,7 +211,14 @@ export default function MarbleDetailClient() {
                     </div>
                     <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-primary" />
-                        <span>Location: Malir 15, National Highway, Near Bank Al-Habib, Karachi</span>
+                        <a 
+                          href={googleMapsDirectionsUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="hover:text-primary transition-colors underline-offset-4 hover:underline"
+                        >
+                          Location: Malir 15, National Highway, Near Bank Al-Habib, Karachi
+                        </a>
                     </div>
                   </div>
               </div>
