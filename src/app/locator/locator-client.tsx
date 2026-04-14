@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -11,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, GitGraph, ArrowDown, ArrowUp, Users, Info, PlusCircle } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -238,7 +237,8 @@ export default function LocatorPageClient() {
             });
             return;
         } catch (err) {
-            if ((err as Error).name === 'AbortError') return;
+            // Permission denied usually means blocked by policy or user interaction requirements
+            // Fallback to clipboard
         }
     }
 
@@ -386,7 +386,7 @@ Please provide details on pricing and timeline.`;
                                     </div>
                                     
                                     <div className="space-y-2">
-                                        <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم की تصویر (اختیاری)'}</Label>
+                                        <Label>{language === 'en' ? 'Deceased Photo (Optional)' : 'مرحوم کی تصویر (اختیاری)'}</Label>
                                         <Tabs defaultValue="upload" className="w-full">
                                             <TabsList className="grid w-full grid-cols-2">
                                             <TabsTrigger value="upload">
