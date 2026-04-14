@@ -25,6 +25,7 @@ export default function LocatorPageClient() {
   const pageContent = content.locatorPage;
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [newMemorial, setNewMemorial] = useState({
@@ -46,6 +47,15 @@ export default function LocatorPageClient() {
   }, [db]);
 
   const { data: memorials, isLoading } = useCollection<any>(memorialsRef);
+
+  const suggestions = useMemo(() => {
+    if (!memorials || searchQuery.length < 1) return [];
+    const uniqueNames = Array.from(new Set(memorials.map((m: any) => m.deceasedName))) as string[];
+    return uniqueNames.filter((name: string) => 
+      name.toLowerCase().includes(searchQuery.toLowerCase()) && 
+      name.toLowerCase() !== searchQuery.toLowerCase()
+    ).slice(0, 5);
+  }, [memorials, searchQuery]);
 
   const filteredMemorials = useMemo(() => {
     if (!memorials) return [];
@@ -150,8 +160,31 @@ export default function LocatorPageClient() {
               placeholder={pageContent.searchPlaceholder[language]} 
               className="pl-10 h-12 bg-background border-primary/20"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
             />
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="absolute z-50 w-full mt-1 bg-background border rounded-md shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                {suggestions.map((name) => (
+                  <button
+                    key={name}
+                    type="button"
+                    className="w-full text-left px-4 py-2 hover:bg-muted text-sm transition-colors border-b last:border-0 flex items-center gap-2"
+                    onClick={() => {
+                      setSearchQuery(name);
+                      setShowSuggestions(false);
+                    }}
+                  >
+                    <Search className="h-3 w-3 opacity-50" />
+                    {name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <Dialog>
             <DialogTrigger asChild>
