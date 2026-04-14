@@ -9,7 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin } from 'lucide-react';
+import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin, Heart } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -34,19 +34,41 @@ export default function ServicesPageClient() {
                     {language === 'en' ? 'Get a Global Quote' : 'عالمی کوٹیشن حاصل کریں'}
                 </Link>
              </Button>
+             <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-primary text-primary hover:bg-primary hover:text-white">
+                <Link href="/locator" className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    {language === 'en' ? 'Find Loved Ones Grave' : 'یادگار تلاش کنندہ'}
+                </Link>
+             </Button>
              <Button asChild variant="outline" size="lg" className="rounded-full px-8">
                 <Link href="/gallery" className="flex items-center gap-2">
                     {language === 'en' ? 'Browse Gallery' : 'گیلری دیکھیں'}
                     <ArrowRight className="h-4 w-4" />
                 </Link>
              </Button>
-             <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-primary text-primary hover:bg-primary hover:text-white">
-                <Link href="/locator" className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4" />
-                    {language === 'en' ? 'Memorial Locator' : 'یادگار تلاش کنندہ'}
-                </Link>
-             </Button>
           </div>
+        </div>
+
+        {/* Highlight Section: Free Locator */}
+        <div className="mt-20 bg-primary/5 rounded-[2rem] p-8 md:p-12 border border-primary/10 flex flex-col md:flex-row items-center gap-8 shadow-inner">
+            <div className="bg-primary text-white p-6 rounded-2xl shadow-xl">
+                <MapPin className="h-12 w-12" />
+            </div>
+            <div className="flex-grow text-center md:text-left">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                    {language === 'en' ? 'Digital Memorial Locator - Free for All' : 'ڈیجیٹل یادگار تلاش کنندہ - سب کے لیے مفت'}
+                </h2>
+                <p className="text-muted-foreground text-lg mb-6">
+                    {language === 'en' 
+                        ? 'Pin your loved one\'s grave location on our interactive map at no cost. Help your family find and visit their resting places easily, forever.' 
+                        : 'اپنے پیارے کی قبر کا مقام ہمارے انٹرایکٹو نقشے پر بغیر کسی قیمت کے پن کریں۔ اپنے خاندان کو ہمیشہ کے لیے ان کی آرام گاہوں کو آسانی سے تلاش کرنے اور وہاں جانے میں مدد کریں۔'}
+                </p>
+                <Button asChild size="lg" className="rounded-full px-10">
+                    <Link href="/locator">
+                        {language === 'en' ? 'Start Pinning Now' : 'ابھی پن کرنا شروع کریں'}
+                    </Link>
+                </Button>
+            </div>
         </div>
 
         {/* Why Choose Us / Trust Badges */}
@@ -99,15 +121,17 @@ export default function ServicesPageClient() {
                             {(language === 'en' ? 
                                 [
                                     "Premium Ziarat White & Black Granite",
+                                    "Professional Grave Cleaning & Maintenance",
+                                    "Scheduled Watering & Plant Care Services",
                                     "Custom Urdu/Arabic Calligraphy for Global Clients",
-                                    "International Shipping & Secure Packaging",
-                                    "Mirror-finish Edge Polishing"
+                                    "International Shipping & Secure Packaging"
                                 ] : 
                                 [
                                     "پریمیم زیارت وائٹ اور بلیک گرینائٹ",
-                                    "عالمی کلائنٹس کے لیے کیسم اردو اور عربی خطاطی",
-                                    "بین الاقوامی شپنگ اور محفوظ پیکیجنگ",
-                                    "مرر فنش ایج پالشنگ"
+                                    "قبر کی پیشہ ورانہ صفائی اور دیکھ بھال",
+                                    "طے شدہ پانی دینے اور پودوں کی دیکھ بھال کی خدمات",
+                                    "عالمی کلائنٹس کے لیے کسٹم اردو اور عربی خطاطی",
+                                    "بین الاقوامی شپنگ اور محفوظ پیکیجنگ"
                                 ]
                             ).map((item, i) => (
                                 <li key={i} className="flex items-center gap-3 text-sm font-medium">
@@ -146,7 +170,7 @@ export default function ServicesPageClient() {
                             <CarouselItem key={imgIndex}>
                                 <div className="p-1">
                                     <Card className="overflow-hidden shadow-xl border-none">
-                                        <CardContent className="relative flex aspect-[4/5] items-center justify-center p-0">
+                                        <CardContent className="relative flex aspect-square items-center justify-center p-0">
                                             <Image
                                                 src={img.src}
                                                 alt={`${img.alt} - Premium work by Stylish Marble Art`}

@@ -229,6 +229,18 @@ export const content = {
         ],
       },
       {
+        name: { en: 'Digital Memorial Locator & Grave Care', ur: 'ڈیجیٹل یادگار تلاش کنندہ اور قبر کی دیکھ بھال' },
+        description: {
+          en: 'Keep your loved one\'s memory alive and easy to find with our Digital Memorial Locator. Pin a grave location for free on our interactive Karachi cemetery map. We also provide professional grave care services including regular cleaning, scheduled watering, and planting of flowers or trees. Our mission is to help families, especially those living abroad, ensure their ancestors\' memorials remain dignified and well-maintained throughout the year.',
+          ur: 'ہمارے ڈیجیٹل یادگار تلاش کنندہ کے ساتھ اپنے پیارے کی یاد کو زندہ رکھیں اور تلاش کرنا آسان بنائیں۔ ہمارے انٹرایکٹو کراچی قبرستان کے نقشے پر قبر کا مقام مفت میں پن کریں۔ ہم قبر کی دیکھ بھال کی پیشہ ورانہ خدمات بھی فراہم کرتے ہیں جس میں باقاعدہ صفائی، طے شدہ پانی دینا، اور پھول یا درخت لگانا شامل ہے۔ ہمارا مقصد خاندانوں کی مدد کرنا ہے، خاص طور پر بیرون ملک مقیم افراد کی، تاکہ وہ اس بات کو یقینی بنا سکیں کہ ان کے اسلاف کی یادگاریں سارا سال باوقار اور اچھی طرح برقرار رہیں۔',
+        },
+        images: [
+          { src: 'https://picsum.photos/seed/grave-care/800/800', alt: 'Professional grave cleaning and watering service in Karachi', hint: 'grave maintenance' },
+          { src: 'https://picsum.photos/seed/locator-map/800/800', alt: 'Interactive Karachi graveyard map for memorial locations', hint: 'digital map' },
+          { src: 'https://picsum.photos/seed/grave-plants/800/800', alt: 'Beautifully maintained grave with fresh plants and flowers', hint: 'grave planting' },
+        ],
+      },
+      {
         name: { en: 'Kitchen & Home Marble Installation', ur: 'کچن اور ہوم ماربل کی تنصیب' },
         description: {
           en: 'Enhance your home with Karachi\'s best kitchen marble installation services. We offer a wide range of premium stones, from cost-effective Peshawar White and Artificial White to luxury imported granite. Our team in Malir 15 provides expert measurement, precision cutting, and professional edge-polishing to ensure a seamless mirror finish. Whether you are renovating your kitchen countertops, installing bathroom vanities, or upgrading your living room flooring, we provide the best marble rates and craftsmanship in Pakistan.',
@@ -256,8 +268,20 @@ export const content = {
   },
   faqPage: {
     title: { en: 'Frequently Asked Questions', ur: 'اکثر پوچھے گئے سوالات' },
-    description: { en: 'Common questions about marble types, gravestones, and pricing in Karachi.', ur: 'کراچی میں ماربل کی اقسام، کتبوں اور قیمتوں کے بارے میں عام سوالات۔' },
+    description: { en: 'Common questions about marble types, gravestones, and our Digital Memorial Locator service.', ur: 'کراچی میں ماربل کی اقسام، کتبوں اور ہمارے ڈیجیٹل یادگار تلاش کنندہ کے بارے میں عام سوالات۔' },
     faqs: [
+      {
+        question: { en: 'Is there a fee to pin a grave location on the locator map?', ur: 'کیا تلاش کنندہ کے نقشے پر قبر کا مقام پن کرنے کی کوئی فیس ہے؟' },
+        answer: { en: 'No, pinning a grave location on our Digital Memorial Locator is a free service provided by Stylish Marble Art to help families and the community stay connected.', ur: 'نہیں، ہمارے ڈیجیٹل یادگار تلاش کنندہ پر قبر کا مقام پن کرنا ایک مفت سروس ہے جو سٹائلش ماربل آرٹ کے ذریعے خاندانوں اور کمیونٹی کو آپس میں جڑے رہنے میں مدد کے لیے فراہم کی گئی ہے۔' },
+      },
+      {
+        question: { en: 'What grave care and maintenance services do you provide?', ur: 'آپ قبر کی دیکھ بھال اور دیکھ بھال کی کون سی خدمات فراہم کرتے ہیں؟' },
+        answer: { en: 'We provide professional maintenance including regular grave cleaning (removing dust and debris), scheduled watering, and planting of fresh flowers or greenery to keep the memorial looking dignified.', ur: 'ہم پیشہ ورانہ دیکھ بھال فراہم کرتے ہیں جس میں باقاعدہ قبر کی صفائی (دھول اور ملبہ ہٹانا)، طے شدہ پانی دینا، اور یادگار کو باوقار رکھنے کے لیے تازہ پھول یا سبزہ لگانا شامل ہے۔' },
+      },
+      {
+        question: { en: 'How do I search for a loved one\'s grave on your site?', ur: 'میں آپ کی سائٹ پر کسی عزیز کی قبر کیسے تلاش کروں؟' },
+        answer: { en: 'Navigate to the "Find Your Loved Ones Grave" page and use the search bar. You can search by the person\'s name or by the graveyard name to find specific markers and GPS locations.', ur: ' "اپنے پیاروں کی قبر تلاش کریں" پیج پر جائیں اور سرچ بار استعمال کریں۔ آپ کسی شخص کے نام یا قبرستان کے نام سے مخصوص نشانات اور جی پی ایس مقامات تلاش کر سکتے ہیں۔' },
+      },
       {
         question: { en: 'Where is Stylish Marble Art located?', ur: 'سٹائلش ماربل آرٹ کہاں واقع ہے؟' },
         answer: { en: 'We are located at Malir 15, on the Main National Highway near Bank Al-Habib Ltd, Karachi, Pakistan.', ur: 'ہم ملیر 15، مین نیشنل ہائی وے، بینک الحبیب لمیٹڈ کے قریب، کراچی، پاکستان میں واقع ہیں۔' },
