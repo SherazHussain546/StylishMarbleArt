@@ -28,7 +28,6 @@ export function GalleryComponent() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState<Category | 'All'>('All');
 
-  // Real-time synchronization with Firestore
   const galleryQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
@@ -60,7 +59,6 @@ export function GalleryComponent() {
   
   const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
 
-  // Structured Data for SEO
   const gallerySchema = useMemo(() => {
     if (!filteredImages.length) return null;
     return {
@@ -71,7 +69,7 @@ export function GalleryComponent() {
         "url": img.url,
         "name": img.alt,
         "caption": img.alt,
-        "description": `${img.alt} - Custom work by Stylish Marble Art Karachi`
+        "description": `${img.alt} - Custom marble craftsmanship by Stylish Marble Art in Karachi, Pakistan`
       }))
     };
   }, [filteredImages]);

@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     template: '%s | Stylish Marble Art',
   },
   description:
-    'Karachi-based headstone makers and marble specialists. Premium gravestones, memorials, and custom kitchen countertops in Pakistan. Expert Ziarat White and Black Granite engraving.',
+    'Karachi-based headstone makers and marble specialists. Premium gravestones, memorials, and custom kitchen countertops in Pakistan. Expert Ziarat White and Black Granite engraving in Malir 15.',
   keywords: [
     'Stylish Marble Art', 'gravestones Karachi', 'headstone maker Karachi', 'marble gravestone Pakistan', 'marble engraving Pakistan', 'memorial services Karachi', 'custom headstones Pakistan',
     'kitchen marble Karachi', 'Peshawar White marble Pakistan', 'Ziarat White marble Pakistan', 'marble kitchen countertop Karachi', 'granite countertops Karachi', 'Islamic headstone design',
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   ],
    openGraph: {
     title: 'Stylish Marble Art - Premium Marble & Gravestones in Karachi, Pakistan',
-    description: 'Specialists in high-quality Islamic gravestones, memorials, and custom marble for kitchens and homes.',
+    description: 'Specialists in high-quality Islamic gravestones, memorials, and custom marble for kitchens and homes in Malir 15, Karachi.',
     url: siteUrl,
     siteName: 'Stylish Marble Art',
     images: [
@@ -64,6 +65,7 @@ export default function RootLayout({
     "@id": siteUrl,
     "url": siteUrl,
     "telephone": "+92-308-3401606",
+    "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Malir 15, At Main National Highway Near Bank Al-Habib Ltd",
@@ -91,7 +93,8 @@ export default function RootLayout({
       "closes": "21:00"
     },
     "sameAs": [
-      "https://facebook.com/stylishmarbleart"
+      "https://facebook.com/stylishmarbleart",
+      "https://www.google.com/maps?cid=YOUR_CID_HERE"
     ]
   };
 
@@ -126,39 +129,6 @@ export default function RootLayout({
             src="https://www.facebook.com/tr?id=839876528851938&ev=PageView&noscript=1"
           />
         </noscript>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-N9G7PZJS');
-            `,
-          }}
-        />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9X1XV3Q3HJ"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-9X1XV3Q3HJ');
-            `,
-          }}
-        />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21SD8BH3Z"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-K21SD8BH3Z');
-            `,
-          }}
-        />
       </head>
       <body className="font-body antialiased">
         <FirebaseClientProvider>

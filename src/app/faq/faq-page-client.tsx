@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -12,7 +13,7 @@ export default function FAQPageClient() {
   const { language } = useLanguage();
   const pageContent = content.faqPage;
 
-  // FAQ Schema Markup
+  // FAQ Schema Markup for Rich Results
   const faqSchema = useMemo(() => {
     return {
       "@context": "https://schema.org",
@@ -59,6 +60,9 @@ export default function FAQPageClient() {
             <h2 className="text-2xl font-bold mb-4">
                 {language === 'en' ? 'Still have questions?' : 'کیا آپ کے مزید سوالات ہیں؟'}
             </h2>
+            <p className="mb-8 text-muted-foreground">
+                {language === 'en' ? 'Chat with us directly in Karachi for personalized advice.' : 'ذاتی مشورے کے لیے براہ راست ہم سے کراچی میں رابطہ کریں۔'}
+            </p>
             <Button asChild size="lg" className="bg-green-600 hover:bg-green-700">
                 <Link href="/contact" className="flex items-center gap-2">
                     <MessageCircle className="h-5 w-5" />
