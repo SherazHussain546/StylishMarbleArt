@@ -19,7 +19,7 @@ export default {
       fontFamily: {
         body: ['Arial', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         headline: ['ui-sans-serif', 'system-ui', 'sans-serif'],
-        script: ['"Brush Script MT"', 'cursive'],
+        script: ['"Brush Script MT"', '"Script MT"', 'cursive'],
         code: ['monospace'],
       },
       colors: {
