@@ -306,7 +306,7 @@ export const content = {
       },
       {
         question: { en: 'Can I choose the specific type of stone for my kitchen counter?', ur: 'کیا میں اپنے کچن کاؤنٹر کے لیے مخصوص پتھر کا انتخاب کر سکتا ہوں؟' },
-        answer: { en: 'Yes, we offer a vast selection of natural stones like Granite and Ziarat White, as well as modern artificial marble to match your specific style.', ur: 'جی ہاں، ہم گرینائٹ اور زیارت وائٹ جیسے قدرتی پتھروں کے ساتھ ساتھ جدید مصنوعی ماربل کا ایک وسیع انتخاب پیش کرتے ہیں۔' },
+        answer: { en: 'Yes, we offer a vast selection of natural stones like Granite and Ziarat White, as well as modern artificial marble to match your specific style.', ur: 'جی ہاں، ہم گرینائٹ اور زیارت وائٹ جیسے قدرتی پتھروں کے ساتھ ساتھ جدید مصنوعی ماربل کا ایک ویب انتخاب پیش کرتے ہیں۔' },
       },
       {
         question: { en: 'Is artificial marble more durable than natural stone?', ur: 'کیا مصنوعی ماربل قدرتی پتھر سے زیادہ پائیدار ہے؟' },
@@ -348,28 +348,40 @@ export const content = {
   aboutPage: {
     title: { en: 'About Stylish Marble Art', ur: 'سٹائلش ماربل آرٹ کے بارے میں' },
     subtitle: {
-      en: 'Legacy Stonemasons & Headstone Makers in Karachi',
-      ur: 'کراچی میں قدیم سنگ تراش اور کتبہ بنانے والے',
+      en: 'Legacy Stonemasons & Headstone Makers in Karachi Since 1970',
+      ur: '1970 سے کراچی میں قدیم سنگ تراش اور کتبہ بنانے والے',
     },
-    ourStoryTitle: { en: '50 Years of Excellence', ur: '50 سالہ فضیلت' },
+    ourStoryTitle: { en: 'Our 50-Year Legacy in Karachi', ur: 'کراچی میں ہماری 50 سالہ میراث' },
     ourStoryText: {
-      en: 'Stylish Marble Art was founded in Karachi to provide families with beautiful, enduring marble work. From Malir 15, we have become one of Pakistan\'s most trusted names for gravestones and memorial artistry, passing down traditional stone carving skills through generations.',
-      ur: 'سٹائلش ماربل آرٹ کی بنیاد کراچی میں رکھی گئی تاکہ خاندانوں کو خوبصورت اور پائیدار ماربل کا کام فراہم کیا جا سکے۔ ملیر 15 سے، ہم کتبوں اور یادگاروں کے فن کے لیے پاکستان کے سب سے قابل اعتماد ناموں میں سے ایک بن گئے ہیں، جو سنگ تراشی کی روایتی مہارتوں کو نسلوں سے منتقل کر رہے ہیں۔',
+      en: 'Stylish Marble Art is a family-owned legacy business that has stood the test of time on the Main National Highway in Karachi. For over 50 years, our workshop in Malir 15 has been the heart of premium stonemasonry in Pakistan. We specialize in high-quality Islamic gravestones, intricate memorials, and luxury kitchen marble installations. Our mission is to combine traditional hand-carving techniques with modern laser engraving technology to deliver stones that are not only beautiful but carry profound meaning for the families we serve.',
+      ur: 'سٹائلش ماربل آرٹ ایک خاندانی میراثی کاروبار ہے جو کراچی کے مین نیشنل ہائی وے پر وقت کی کسوٹی پر کھڑا اترا ہے۔ 50 سال سے زیادہ عرصے سے، ملیر 15 میں ہماری ورکشاپ پاکستان میں پریمیم سنگ تراشی کا مرکز رہی ہے۔ ہم اعلیٰ معیار کے اسلامی کتبوں، پیچیدہ یادگاروں، اور پرتعیش کچن ماربل کی تنصیبات میں مہارت رکھتے ہیں۔ ہمارا مقصد روایتی ہاتھ سے تراشنے کی تکنیک کو جدید لیزر کندہ کاری کی ٹیکنالوجی کے ساتھ جوڑنا ہے تاکہ ایسے پتھر فراہم کیے جا سکیں جو نہ صرف خوبصورت ہوں بلکہ ان خاندانوں کے لیے گہرے معنی رکھتے ہوں جن کی ہم خدمت کرتے ہیں۔',
     },
-    ourValuesTitle: { en: 'Our Values', ur: 'ہماری اقدار' },
+    ourMissionTitle: { en: 'Our Mission & Commitment', ur: 'ہمارا مشن اور عزم' },
+    ourMissionText: {
+      en: 'We believe that every piece of marble tells a story. Whether it is a kitchen countertop that brings a family together or a gravestone that honors a loved one\'s memory, we treat every project with the utmost respect and precision. We are committed to sourcing only the finest A-grade Ziarat White, Black Granite, and imported stones to ensure that our craftsmanship endures for generations in the Pakistani climate.',
+      ur: 'ہمارا ماننا ہے کہ ماربل کا ہر ٹکڑا ایک کہانی سناتا ہے۔ چاہے وہ کچن کا کاؤنٹر ٹاپ ہو جو خاندان کو اکٹھا کرتا ہے یا قبر کا پتھر جو کسی عزیز کی یاد کا احترام کرتا ہے، ہم ہر پروجیکٹ کے ساتھ انتہائی احترام اور درستگی کے ساتھ پیش آتے ہیں۔ ہم صرف بہترین اے گریڈ زیارت وائٹ، بلیک گرینائٹ، اور درآمد شدہ پتھر حاصل کرنے کے لیے پرعزم ہیں تاکہ یہ یقینی بنایا جا سکے کہ ہماری کاریگری پاکستانی آب و ہوا میں نسلوں تک برقرار رہے۔',
+    },
+    ourValuesTitle: { en: 'Our Core Values', ur: 'ہمارے بنیادی اقدار' },
     values: [
       {
-        name: { en: 'Integrity', ur: 'دیانت داری' },
+        name: { en: 'Unmatched Integrity', ur: 'بے مثال دیانت داری' },
         description: {
-          en: 'Honest pricing and high-quality stone for every family.',
-          ur: 'ہر خاندان کے لیے ایماندارانہ قیمتیں اور اعلیٰ معیار کا پتھر۔',
+          en: 'We provide honest pricing and genuine material verification for every customer, ensuring complete transparency in Malir 15.',
+          ur: 'ہم ہر صارف کے لیے ایماندارانہ قیمتیں اور حقیقی میٹریل کی تصدیق فراہم کرتے ہیں، ملیر 15 میں مکمل شفافیت کو یقینی بناتے ہیں۔',
         },
       },
       {
-        name: { en: 'Expertise', ur: 'مہارت' },
+        name: { en: 'Generational Expertise', ur: 'نسلی مہارت' },
         description: {
-          en: 'Specialized engraving and carving skills honed over decades.',
-          ur: 'دہائیوں کے دوران تیار کردہ کندہ کاری اور تراشنے کی خصوصی مہارتیں۔',
+          en: 'Our master stonemasons possess skills passed down through decades, specializing in complex Arabic and Urdu calligraphy.',
+          ur: 'ہمارے ماسٹر سنگ تراشوں کے پاس دہائیوں سے چلی آنے والی مہارتیں ہیں، جو پیچیدہ عربی اور اردو خطاطی میں مہارت رکھتے ہیں۔',
+        },
+      },
+      {
+        name: { en: 'Compassionate Service', ur: 'ہمدردانہ خدمت' },
+        description: {
+          en: 'We handle memorial services with deep empathy, supporting grieving families through the process of creating a lasting tribute.',
+          ur: 'ہم یادگاری خدمات کو گہری ہمدردی کے ساتھ سنبھالتے ہیں، سوگوار خاندانوں کو ایک دیرپا خراج عقیدت پیدا کرنے کے عمل میں مدد فراہم کرتے ہیں۔',
         },
       },
     ],
