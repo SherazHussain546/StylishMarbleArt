@@ -348,6 +348,7 @@ export const content = {
     },
     searchPlaceholder: { en: 'Search by name...', ur: 'نام سے تلاش کریں...' },
     addMemorial: { en: 'Add a Memorial', ur: 'ایک یادگار شامل کریں' },
+    graveyardLabel: { en: 'Graveyard Name', ur: 'قبرستان کا نام' },
     servicesTitle: { en: 'Available Services', ur: 'دستیاب خدمات' },
     requestService: { en: 'Request This Service', ur: 'اس سروس کی درخواست کریں' },
   },

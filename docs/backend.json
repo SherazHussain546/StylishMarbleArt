@@ -219,6 +219,7 @@
         "dateOfBirth": { "type": "string" },
         "dateOfDeath": { "type": "string" },
         "islamicDate": { "type": "string" },
+        "graveyardName": { "type": "string" },
         "imageUrl": { "type": "string" },
         "latitude": { "type": "number" },
         "longitude": { "type": "number" },
@@ -335,6 +336,6 @@
         }
       }
     ],
-    "reasoning": "Updated Memorial entity to include publisher details for business lead generation."
+    "reasoning": "Updated Memorial entity to include graveyardName for better categorization."
   }
 }

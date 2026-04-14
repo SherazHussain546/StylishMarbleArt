@@ -1,11 +1,13 @@
+
 'use client';
 
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, Heart, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Trash2, MapPin, User, Mail, Phone, MessageCircle, Search } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -16,6 +18,7 @@ import { FirestorePermissionError } from '@/firebase/errors';
 export default function AdminMemorialLeadsPage() {
   const db = useFirestore();
   const { toast } = useToast();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const memorialsQuery = useMemoFirebase(() => {
     if (!db) return null;
@@ -23,6 +26,18 @@ export default function AdminMemorialLeadsPage() {
   }, [db]);
 
   const { data: memorials, isLoading: loading } = useCollection<any>(memorialsQuery);
+
+  const filteredMemorials = useMemo(() => {
+    if (!memorials) return [];
+    if (!searchTerm) return memorials;
+    
+    const term = searchTerm.toLowerCase();
+    return memorials.filter((m: any) => 
+      m.deceasedName.toLowerCase().includes(term) ||
+      (m.graveyardName && m.graveyardName.toLowerCase().includes(term)) ||
+      m.publisherName.toLowerCase().includes(term)
+    );
+  }, [memorials, searchTerm]);
 
   const handleDelete = (id: string) => {
     if (!window.confirm('Delete this memorial entry? This cannot be undone.')) return;
@@ -42,13 +57,24 @@ export default function AdminMemorialLeadsPage() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/admin/dashboard">
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <h1 className="text-3xl font-bold tracking-tight">Memorial Locator Leads</h1>
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" asChild>
+            <Link href="/admin/dashboard">
+                <ArrowLeft className="h-4 w-4" />
+            </Link>
+            </Button>
+            <h1 className="text-3xl font-bold tracking-tight">Memorial Locator Leads</h1>
+        </div>
+        <div className="relative w-full md:w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input 
+                placeholder="Search leads..." 
+                className="pl-9"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
       </div>
 
       <div className="grid gap-8">
@@ -56,9 +82,9 @@ export default function AdminMemorialLeadsPage() {
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-32 w-full" />)}
           </div>
-        ) : memorials && memorials.length > 0 ? (
-          memorials.map((m: any) => (
-            <Card key={m.id} className="overflow-hidden">
+        ) : filteredMemorials && filteredMemorials.length > 0 ? (
+          filteredMemorials.map((m: any) => (
+            <Card key={m.id} className="overflow-hidden border-l-4 border-green-500">
               <div className="grid grid-cols-1 md:grid-cols-4">
                 <div className="md:col-span-1 relative h-48 md:h-full bg-muted">
                   <img 
@@ -72,6 +98,12 @@ export default function AdminMemorialLeadsPage() {
                     <div>
                       <h2 className="text-2xl font-bold text-primary">{m.deceasedName}</h2>
                       <p className="text-sm text-muted-foreground italic">{m.parentName}</p>
+                      {m.graveyardName && (
+                        <div className="flex items-center gap-1 text-sm font-semibold text-primary mt-1">
+                            <MapPin className="h-3 w-3" />
+                            {m.graveyardName}
+                        </div>
+                      )}
                     </div>
                     <Button variant="destructive" size="icon" onClick={() => handleDelete(m.id)}>
                       <Trash2 className="h-4 w-4" />
@@ -79,7 +111,6 @@ export default function AdminMemorialLeadsPage() {
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Left: Deceased Stats */}
                     <div className="space-y-2">
                       <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Memorial Info</p>
                       <div className="grid grid-cols-2 gap-2 text-sm">
@@ -90,7 +121,6 @@ export default function AdminMemorialLeadsPage() {
                       </div>
                     </div>
 
-                    {/* Right: Publisher Lead Info */}
                     <div className="space-y-2 bg-primary/5 p-4 rounded-lg border border-primary/10">
                       <p className="text-xs font-bold uppercase tracking-wider text-primary">Publisher (Potential Client)</p>
                       <div className="space-y-2 text-sm">
@@ -123,9 +153,9 @@ export default function AdminMemorialLeadsPage() {
           ))
         ) : (
           <div className="text-center py-24 border-2 border-dashed rounded-xl">
-            <MapPin className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-20" />
-            <h3 className="text-lg font-medium">No Memorial Leads Yet</h3>
-            <p className="text-sm text-muted-foreground">New submissions from the Grave Locator will appear here.</p>
+            <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-20" />
+            <h3 className="text-lg font-medium">No Matching Memorial Leads</h3>
+            <p className="text-sm text-muted-foreground">Try adjusting your search term or wait for new submissions.</p>
           </div>
         )}
       </div>

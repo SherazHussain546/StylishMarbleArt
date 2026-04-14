@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -9,9 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription as CardDescUI
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, Phone, MessageCircle, Upload, User, Mail } from 'lucide-react';
-import Image from 'next/image';
+import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, User, Mail, Upload } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -34,6 +33,7 @@ export default function LocatorPageClient() {
     dateOfBirth: '',
     dateOfDeath: '',
     islamicDate: '',
+    graveyardName: '',
     imageUrl: '',
     publisherName: '',
     publisherEmail: '',
@@ -60,7 +60,8 @@ export default function LocatorPageClient() {
   const filteredMemorials = useMemo(() => {
     if (!memorials) return [];
     return memorials.filter((m: any) => 
-      m.deceasedName.toLowerCase().includes(searchQuery.toLowerCase())
+      m.deceasedName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (m.graveyardName && m.graveyardName.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }, [memorials, searchQuery]);
 
@@ -129,6 +130,7 @@ export default function LocatorPageClient() {
         dateOfBirth: '', 
         dateOfDeath: '', 
         islamicDate: '', 
+        graveyardName: '',
         imageUrl: '',
         publisherName: '',
         publisherEmail: '',
@@ -228,6 +230,10 @@ export default function LocatorPageClient() {
                         <div className="space-y-2">
                             <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
                             <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>{pageContent.graveyardLabel[language]}</Label>
+                            <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
                         </div>
                     </div>
                     
@@ -351,7 +357,13 @@ export default function LocatorPageClient() {
                           <p className="text-xs text-muted-foreground mb-1">
                             {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
                           </p>
-                          <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-wider text-primary">
+                          {m.graveyardName && (
+                            <p className="text-xs font-semibold text-primary/80 flex items-center gap-1">
+                                <MapPin className="h-3 w-3" />
+                                {m.graveyardName}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-wider text-primary mt-1">
                              <span>{m.dateOfBirth} - {m.dateOfDeath}</span>
                           </div>
                           {m.islamicDate && (
