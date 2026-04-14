@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -155,6 +154,7 @@ export default function LocatorPageClient() {
         ? `View the memorial for ${m.deceasedName} at Stylish Marble Art.` 
         : `${m.deceasedName} کی یادگار سٹائلش ماربل آرٹ پر دیکھیں۔`;
 
+    let shared = false;
     if (navigator.share) {
         try {
             await navigator.share({
@@ -162,12 +162,24 @@ export default function LocatorPageClient() {
                 text: shareText,
                 url: shareUrl,
             });
+            shared = true;
         } catch (err) {
-            console.error('Error sharing:', err);
+            // Check if user cancelled or if it failed due to permission/context
+            if ((err as Error).name !== 'AbortError') {
+                console.warn('Native share failed, falling back to clipboard copy:', err);
+            } else {
+                return; // User cancelled share menu, don't perform fallback
+            }
         }
-    } else {
-        await navigator.clipboard.writeText(shareUrl);
-        toast({ title: 'Link Copied', description: 'Memorial link copied to clipboard.' });
+    }
+
+    if (!shared) {
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            toast({ title: 'Link Copied', description: 'Memorial link copied to clipboard.' });
+        } catch (clipboardErr) {
+            toast({ variant: 'destructive', title: 'Share Failed', description: 'Could not copy link to clipboard.' });
+        }
     }
   };
 
