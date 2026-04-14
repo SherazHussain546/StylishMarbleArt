@@ -460,6 +460,9 @@ Please provide details on pricing and timeline.`;
                                                 <div className="space-y-2 md:col-span-2">
                                                     <Label>{pageContent.graveyardLabel[language]}</Label>
                                                     <Input placeholder="e.g. Wadi-e-Hussain" value={newMemorial.graveyardName} onChange={(e) => setNewMemorial({...newMemorial, graveyardName: e.target.value})} />
+                                                    <p className="text-[10px] text-muted-foreground italic mt-1">
+                                                        {language === 'en' ? 'Each family member can have their own location.' : 'خاندان کے ہر فرد کا اپنا مقام ہو سکتا ہے۔'}
+                                                    </p>
                                                 </div>
                                             </>
                                         )}
@@ -813,7 +816,11 @@ Please provide details on pricing and timeline.`;
                                 <CardContent className="p-3 flex justify-between items-center h-12">
                                     <div className="flex flex-col">
                                         <p className="font-bold text-sm truncate max-w-[120px]">{child.deceasedName}</p>
-                                        {child.isAlive && <span className="text-[8px] text-green-600 font-bold uppercase">Alive</span>}
+                                        {child.isAlive ? (
+                                            <span className="text-[8px] text-green-600 font-bold uppercase">Alive</span>
+                                        ) : (
+                                            <span className="text-[8px] opacity-60 truncate max-w-[120px]">{child.graveyardName}</span>
+                                        )}
                                     </div>
                                     <ArrowUp className="h-4 w-4 text-primary rotate-180" />
                                 </CardContent>
