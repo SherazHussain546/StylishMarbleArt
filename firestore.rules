@@ -2,30 +2,98 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    /**
+     * DATABASE ACCESS CONTROL & SECURITY PHILOSOPHY
+     * 
+     * Core Philosophy:
+     * This ruleset implements a Database Access Control (DBAC) model where administrative privileges 
+     * are determined by the presence of a user's UID in a top-level `/admins` collection. 
+     * This allows for high-performance, server-side role verification without custom claims.
+     * 
+     * Data Structure:
+     * - Public Content: Page content and gallery items are top-level collections accessible to everyone for reading.
+     * - User Submissions: Contact form entries are stored in a dedicated top-level collection.
+     * - Roles: Admin UIDs are stored in the `/admins` collection.
+     * 
+     * Key Security Decisions:
+     * 1. Public Reading: Site content (Pages/Gallery) is readable by unauthenticated users to support SEO and public access.
+     * 2. Anonymous Submissions: Any user can create a contact submission, facilitating easy communication.
+     * 3. Admin-Only Management: Only verified admins can modify site content or view/manage user contact submissions.
+     * 4. Structural Segregation: Administrative data is isolated from public data to prevent accidental exposure.
+     * 
+     * Denormalization for Authorization:
+     * This implementation relies on the `/admins/{uid}` lookup. To ensure high performance, 
+     * administrative checks use the `exists()` function, which is optimized for Firestore Security Rules.
+     */
+
+    // --- Helper Functions ---
+
+    /** Checks if the request is from an authenticated user. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    // GALLERY: Simple, open rules for development speed
-    match /gallery/{imageId} {
-      allow read, list, create, delete, update: if true;
+    /** Checks if the authenticated user's UID exists in the admin collection. */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
-    // CONTACT MESSAGES: Open creation, restricted reading
-    match /contact-messages/{messageId} {
+    /** Combines admin check with document existence for destructive/modifying operations. */
+    function isExistingAdmin() {
+      return isAdmin() && resource != null;
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Publicly readable content for static site pages. Admin-only writes.
+     * @path /pageContents/{pageContentSlug}
+     * @allow Public users (get, list), Admins (create, update, delete).
+     * @deny Non-admins attempting to edit content.
+     * @principle Public read with role-based write access via DBAC.
+     */
+    match /pageContents/{pageContentSlug} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Interactive gallery items showcasing work. Publicly readable, admin-managed.
+     * @path /galleryItems/{galleryItemId}
+     * @allow Public users (get, list), Admins (create, update, delete).
+     * @deny Unauthorized users trying to modify gallery projects.
+     * @principle Public read with role-based write access via DBAC.
+     */
+    match /galleryItems/{galleryItemId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description User-submitted contact forms. Public creation, admin-only processing.
+     * @path /contactSubmissions/{submissionId}
+     * @allow Unauthenticated users (create), Admins (get, list, update, delete).
+     * @deny Public users attempting to read or list other people's submissions.
+     * @principle Open creation for lead generation with restricted read/manage access.
+     */
+    match /contactSubmissions/{submissionId} {
       allow create: if true;
-      allow read, list, delete, update: if isSignedIn();
-    }
-    
-    // ADMINS: Basic read check
-    match /admins/{uid} {
-      allow read: if isSignedIn();
-      allow write: if false;
+      allow get, list: if isAdmin();
+      allow update, delete: if isExistingAdmin();
     }
 
-    // Default deny for all other collections
-    match /{document=**} {
-      allow read, write: if false;
+    /**
+     * @description Collection for Database Access Control (DBAC). Stores administrator UIDs.
+     * @path /admins/{adminId}
+     * @allow Admins (get, list).
+     * @deny All writes and public reads.
+     * @principle Protects the list of administrative users from public exposure or unauthorized modification.
+     */
+    match /admins/{adminId} {
+      allow get, list: if isAdmin();
+      allow create, update, delete: if false; // Managed via Firebase Console or Admin SDK for safety
     }
   }
 }
