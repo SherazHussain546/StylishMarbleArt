@@ -16,6 +16,7 @@ import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
 import { useSearchParams } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function LocatorPageClient() {
   const { language } = useLanguage();
@@ -440,17 +441,28 @@ Please provide details on pricing and timeline.`;
                       <div className="mt-auto space-y-3">
                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
                         <div className="grid grid-cols-2 gap-2">
-                            {services.map((s) => (
-                                <Button 
-                                    key={s.id} 
-                                    variant="outline" 
-                                    size="sm" 
-                                    className="text-[10px] h-auto py-3 px-2 hover:bg-primary hover:text-white transition-all border-primary/10 whitespace-normal leading-tight text-center"
-                                    onClick={() => handleGetQuote(m, s.id)}
-                                >
-                                    {s.name[language]}
-                                </Button>
-                            ))}
+                            {services.map((s) => {
+                                const styles = {
+                                    cleaning: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100",
+                                    watering: "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100",
+                                    planting: "bg-green-50 text-green-900 border-green-200 hover:bg-green-100",
+                                    custom: "border-primary/10 hover:bg-primary hover:text-white",
+                                };
+                                return (
+                                    <Button 
+                                        key={s.id} 
+                                        variant="outline" 
+                                        size="sm" 
+                                        className={cn(
+                                            "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold",
+                                            styles[s.id as keyof typeof styles]
+                                        )}
+                                        onClick={() => handleGetQuote(m, s.id)}
+                                    >
+                                        {s.name[language]}
+                                    </Button>
+                                )
+                            })}
                         </div>
                       </div>
                     </CardContent>
