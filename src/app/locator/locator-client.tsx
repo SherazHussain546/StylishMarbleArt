@@ -108,32 +108,25 @@ export default function LocatorPageClient() {
     );
   }, [memorials, searchQuery]);
 
-  // Enhanced Family Lineage Logic
+  // Enhanced Family Lineage Logic for 1-click building
   const familyConnections = useMemo(() => {
-    if (!viewingFamily || !memorials) return { ancestors: [], children: [], spouse: null };
+    if (!viewingFamily || !memorials) return { father: null, mother: null, stepFather: null, stepMother: null, spouse: null, children: [] };
 
-    // Find direct ancestors based on specific fields
-    const ancestors = memorials.filter((m: any) => 
-        (viewingFamily.fatherName && m.deceasedName.toLowerCase() === viewingFamily.fatherName.toLowerCase()) ||
-        (viewingFamily.motherName && m.deceasedName.toLowerCase() === viewingFamily.motherName.toLowerCase()) ||
-        (viewingFamily.stepFatherName && m.deceasedName.toLowerCase() === viewingFamily.stepFatherName.toLowerCase()) ||
-        (viewingFamily.stepMotherName && m.deceasedName.toLowerCase() === viewingFamily.stepMotherName.toLowerCase())
-    );
+    const findMatch = (name: string) => name ? memorials.find((m: any) => m.deceasedName.toLowerCase() === name.toLowerCase()) : null;
 
-    // Find spouse (Husband)
-    const spouse = memorials.find((m: any) => 
-        viewingFamily.husbandName && m.deceasedName.toLowerCase() === viewingFamily.husbandName.toLowerCase()
-    );
-
-    // Find children who list this person as any of their parent types
-    const children = memorials.filter((m: any) => 
-        (m.fatherName && m.fatherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()) ||
-        (m.motherName && m.motherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()) ||
-        (m.stepFatherName && m.stepFatherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()) ||
-        (m.stepMotherName && m.stepMotherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase())
-    );
-
-    return { ancestors, children, spouse };
+    return {
+        father: findMatch(viewingFamily.fatherName),
+        mother: findMatch(viewingFamily.motherName),
+        stepFather: findMatch(viewingFamily.stepFatherName),
+        stepMother: findMatch(viewingFamily.stepMotherName),
+        spouse: findMatch(viewingFamily.husbandName),
+        children: memorials.filter((m: any) => 
+            (m.fatherName && m.fatherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()) ||
+            (m.motherName && m.motherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()) ||
+            (m.stepFatherName && m.stepFatherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()) ||
+            (m.stepMotherName && m.stepMotherName.toLowerCase() === viewingFamily.deceasedName.toLowerCase())
+        )
+    };
   }, [viewingFamily, memorials]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,7 +231,6 @@ export default function LocatorPageClient() {
             return;
         } catch (err) {
             // Permission denied usually means blocked by policy or user interaction requirements
-            // Fallback to clipboard
         }
     }
 
@@ -274,10 +266,49 @@ Please provide details on pricing and timeline.`;
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  const handleAddMissingRelative = (name: string, role: string) => {
-    setNewMemorial(prev => ({ ...prev, deceasedName: name }));
+  const handleAddMissingRelative = (name: string, role: 'father' | 'mother' | 'husband' | 'stepFather' | 'stepMother') => {
+    const updatedNewMemorial = { 
+        ...newMemorial,
+        deceasedName: name,
+    };
+    
+    // Logic to potentially link back to current person if they are being added as a child
+    if (viewingFamily) {
+        if (role === 'father') updatedNewMemorial.deceasedName = viewingFamily.fatherName;
+        if (role === 'mother') updatedNewMemorial.deceasedName = viewingFamily.motherName;
+        if (role === 'stepFather') updatedNewMemorial.deceasedName = viewingFamily.stepFatherName;
+        if (role === 'stepMother') updatedNewMemorial.deceasedName = viewingFamily.stepMotherName;
+        if (role === 'husband') updatedNewMemorial.deceasedName = viewingFamily.husbandName;
+    }
+
+    setNewMemorial(updatedNewMemorial);
     setViewingFamily(null);
     setIsPinDialogOpen(true);
+  };
+
+  const RelativeSlot = ({ title, name, match, role }: { title: string, name: string | undefined, match: any, role: any }) => {
+    if (!name) return null;
+    return (
+        <div className="space-y-2">
+            <Label className="text-[9px] uppercase opacity-60 px-2">{title}</Label>
+            {match ? (
+                <Card className="bg-primary/5 border-primary/20 cursor-pointer hover:bg-primary/10 transition-colors shadow-sm" onClick={() => setViewingFamily(match)}>
+                    <CardContent className="p-3 text-sm font-bold text-primary flex justify-between items-center">
+                        {name}
+                        <ArrowUp className="h-3 w-3 opacity-40" />
+                    </CardContent>
+                </Card>
+            ) : (
+                <Button variant="outline" className="w-full text-xs border-dashed flex items-center justify-between" onClick={() => handleAddMissingRelative(name, role)}>
+                    <span>{name}</span>
+                    <div className="flex items-center gap-1 opacity-60">
+                        <Plus className="h-3 w-3" />
+                        <span className="text-[8px] font-bold uppercase">{language === 'en' ? 'Pin Grave' : 'پن کریں'}</span>
+                    </div>
+                </Button>
+            )}
+        </div>
+    );
   };
 
   return (
@@ -631,7 +662,7 @@ Please provide details on pricing and timeline.`;
         </div>
       </section>
 
-      {/* Advanced Family Tree Modal */}
+      {/* Advanced Family Tree Building Modal */}
       <Dialog open={!!viewingFamily} onOpenChange={() => setViewingFamily(null)}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
@@ -641,48 +672,22 @@ Please provide details on pricing and timeline.`;
                 </DialogTitle>
                 <DialogDescription>
                     {language === 'en' 
-                        ? `Trace the history for ${viewingFamily?.deceasedName} based on family connections.` 
-                        : `${viewingFamily?.deceasedName} کی خاندانی تاریخ دیکھیں۔`}
+                        ? `Navigate through the history of ${viewingFamily?.deceasedName}. If a relative's grave is not pinned, you can add it now.` 
+                        : `${viewingFamily?.deceasedName} کی خاندانی تاریخ دیکھیں۔ اگر کسی رشتہ دار کی قبر پن نہیں ہے تو آپ اسے ابھی شامل کر سکتے ہیں۔`}
                 </DialogDescription>
             </DialogHeader>
             
             <div className="py-8 space-y-10 flex flex-col items-center">
-                {/* Ancestors Section */}
+                {/* Ancestors Grid */}
                 <div className="w-full">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground text-center mb-4">
-                        {language === 'en' ? 'Ancestors (Parents & Step-Parents)' : 'والدین اور بزرگ'}
+                        {language === 'en' ? 'Ancestors' : 'آباؤ اجداد'}
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {/* Father */}
-                        {viewingFamily?.fatherName && (
-                            <div className="space-y-2">
-                                <Label className="text-[9px] uppercase opacity-60 px-2">{language === 'en' ? 'Father' : 'والد'}</Label>
-                                {familyConnections.ancestors.find(a => a.deceasedName.toLowerCase() === viewingFamily.fatherName.toLowerCase()) ? (
-                                    <Card className="bg-primary/5 border-primary/20 cursor-pointer" onClick={() => setViewingFamily(familyConnections.ancestors.find(a => a.deceasedName.toLowerCase() === viewingFamily.fatherName.toLowerCase()))}>
-                                        <CardContent className="p-3 text-sm font-bold text-primary">{viewingFamily.fatherName}</CardContent>
-                                    </Card>
-                                ) : (
-                                    <Button variant="outline" className="w-full text-xs border-dashed" onClick={() => handleAddMissingRelative(viewingFamily.fatherName, 'father')}>
-                                        <Plus className="h-3 w-3 mr-1" /> {viewingFamily.fatherName}
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                        {/* Mother */}
-                        {viewingFamily?.motherName && (
-                            <div className="space-y-2">
-                                <Label className="text-[9px] uppercase opacity-60 px-2">{language === 'en' ? 'Mother' : 'والدہ'}</Label>
-                                {familyConnections.ancestors.find(a => a.deceasedName.toLowerCase() === viewingFamily.motherName.toLowerCase()) ? (
-                                    <Card className="bg-primary/5 border-primary/20 cursor-pointer" onClick={() => setViewingFamily(familyConnections.ancestors.find(a => a.deceasedName.toLowerCase() === viewingFamily.motherName.toLowerCase()))}>
-                                        <CardContent className="p-3 text-sm font-bold text-primary">{viewingFamily.motherName}</CardContent>
-                                    </Card>
-                                ) : (
-                                    <Button variant="outline" className="w-full text-xs border-dashed" onClick={() => handleAddMissingRelative(viewingFamily.motherName, 'mother')}>
-                                        <Plus className="h-3 w-3 mr-1" /> {viewingFamily.motherName}
-                                    </Button>
-                                )}
-                            </div>
-                        )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <RelativeSlot title={language === 'en' ? 'Father' : 'والد'} name={viewingFamily?.fatherName} match={familyConnections.father} role="father" />
+                        <RelativeSlot title={language === 'en' ? 'Mother' : 'والدہ'} name={viewingFamily?.motherName} match={familyConnections.mother} role="mother" />
+                        <RelativeSlot title={language === 'en' ? 'Step-Father' : 'سوتیلے والد'} name={viewingFamily?.stepFatherName} match={familyConnections.stepFather} role="stepFather" />
+                        <RelativeSlot title={language === 'en' ? 'Step-Mother' : 'سوتیلی والدہ'} name={viewingFamily?.stepMotherName} match={familyConnections.stepMother} role="stepMother" />
                     </div>
                 </div>
 
@@ -698,31 +703,20 @@ Please provide details on pricing and timeline.`;
                         </CardContent>
                     </Card>
 
-                    {viewingFamily?.husbandName && (
-                        <div className="w-full max-w-sm">
-                            <Label className="text-[9px] uppercase opacity-60 block text-center mb-1">{language === 'en' ? 'Husband' : 'شوہر'}</Label>
-                            {familyConnections.spouse ? (
-                                <Card className="bg-pink-50/50 border-pink-200 cursor-pointer" onClick={() => setViewingFamily(familyConnections.spouse)}>
-                                    <CardContent className="p-3 text-center text-sm font-bold text-pink-900">{viewingFamily.husbandName}</CardContent>
-                                </Card>
-                            ) : (
-                                <Button variant="outline" className="w-full text-xs border-dashed" onClick={() => handleAddMissingRelative(viewingFamily.husbandName, 'husband')}>
-                                    <Plus className="h-3 w-3 mr-1" /> {viewingFamily.husbandName}
-                                </Button>
-                            )}
-                        </div>
-                    )}
+                    <div className="w-full max-w-sm">
+                        <RelativeSlot title={language === 'en' ? 'Husband' : 'شوہر'} name={viewingFamily?.husbandName} match={familyConnections.spouse} role="husband" />
+                    </div>
                 </div>
 
                 <ArrowDown className="h-6 w-6 text-primary opacity-30" />
 
-                {/* Descendants Section */}
+                {/* Descendants (Children) */}
                 <div className="w-full">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground text-center mb-4">{language === 'en' ? 'Descendants' : 'اولاد / نسل'}</p>
                     {familyConnections.children.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {familyConnections.children.map((child: any) => (
-                                <Card key={child.id} className="bg-secondary/20 hover:bg-primary/5 transition-colors cursor-pointer" onClick={() => setViewingFamily(child)}>
+                                <Card key={child.id} className="bg-secondary/20 hover:bg-primary/5 transition-colors cursor-pointer border-dashed" onClick={() => setViewingFamily(child)}>
                                     <CardContent className="p-3 flex justify-between items-center">
                                         <p className="font-bold text-sm">{child.deceasedName}</p>
                                         <ArrowUp className="h-4 w-4 text-primary rotate-180" />
@@ -731,8 +725,18 @@ Please provide details on pricing and timeline.`;
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center p-4 text-xs text-muted-foreground italic border border-dashed rounded-lg">
-                            {language === 'en' ? 'No descendants found.' : 'کوئی اولاد کا ریکارڈ نہیں ملا۔'}
+                        <div className="text-center p-8 bg-muted/20 rounded-xl border border-dashed border-primary/20">
+                            <p className="text-xs text-muted-foreground italic mb-4">
+                                {language === 'en' ? 'No descendants currently pinned in our database.' : 'ڈیٹا بیس میں فی الحال کوئی اولاد پن نہیں ہے۔'}
+                            </p>
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => {
+                                setNewMemorial({ ...newMemorial, fatherName: viewingFamily?.deceasedName || '' });
+                                setViewingFamily(null);
+                                setIsPinDialogOpen(true);
+                            }}>
+                                <Plus className="h-3 w-3 mr-2" />
+                                {language === 'en' ? 'Pin a Child\'s Grave' : 'اولاد کی قبر پن کریں'}
+                            </Button>
                         </div>
                     )}
                 </div>
