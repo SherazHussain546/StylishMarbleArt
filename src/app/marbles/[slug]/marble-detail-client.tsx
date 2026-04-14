@@ -21,14 +21,11 @@ export default function MarbleDetailClient() {
   }
 
   const productSchema = useMemo(() => {
-    // If specific rich schema details exist (like for Rosso Verona), use them
-    const desc = marble.meta_description?.en || marble.page_description.en;
-    
     return {
       "@context": "https://schema.org",
       "@type": "Product",
       "name": marble.name.en,
-      "description": desc,
+      "description": marble.meta_description?.en || marble.page_description.en,
       "image": marble.image.startsWith('http') ? marble.image : `https://www.stylishmarbleart.com${marble.image}`,
       "brand": {
         "@type": "Brand",
@@ -45,8 +42,8 @@ export default function MarbleDetailClient() {
             "telephone": "+923083401606"
         }
       },
-      "material": `Natural ${marble.name.en}`,
-      ...(marble.appearance && { "color": marble.appearance.en })
+      "material": marble.slug === 'rosso-verona-marble' ? "Natural Rosso Verona Marble" : `Natural ${marble.name.en}`,
+      "color": marble.appearance?.en || ""
     };
   }, [marble]);
   
@@ -80,7 +77,7 @@ export default function MarbleDetailClient() {
               <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-[2rem] shadow-2xl border-8 border-white">
                 <Image
                   src={marble.image}
-                  alt={`${marble.name['en']} - ${marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
+                  alt={marble.slug === 'rosso-verona-marble' ? `Premium Rosso Verona Marble slab — Rosso Verona Marble by Stylish Marble Art, Karachi` : `${marble.name['en']} - ${marble.slug.replace(/-/g, ' ')} by Stylish Marble Art, Karachi`}
                   data-ai-hint={marble.hint}
                   fill
                   className="object-cover"
@@ -110,7 +107,7 @@ export default function MarbleDetailClient() {
                                     <div className="h-5 w-5 rounded-sm bg-primary/20 border border-primary/30"></div>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{language === 'en' ? 'Color / Appearance' : 'رنگ اور ظاہری شکل'}</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{language === 'en' ? 'Colour / Appearance' : 'رنگ اور ظاہری شکل'}</p>
                                     <p className="font-medium">{marble.appearance[language]}</p>
                                 </div>
                             </div>
@@ -147,9 +144,9 @@ export default function MarbleDetailClient() {
                     <h2 className="text-2xl font-bold flex items-center gap-2">
                         {language === 'en' ? `About ${marble.name.en}` : `${marble.name.ur} کے بارے میں`}
                     </h2>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <div className="text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">
                         {marble.about[language]}
-                    </p>
+                    </div>
                 </div>
               )}
 
@@ -171,7 +168,7 @@ export default function MarbleDetailClient() {
               {/* Why Choose SMA */}
               {marble.why_choose && (
                 <div className="space-y-4 p-8 bg-primary text-primary-foreground rounded-[2rem] shadow-xl">
-                    <h2 className="text-2xl font-bold">{language === 'en' ? `Why Choose Stylish Marble Art?` : `سٹائلش ماربل آرٹ کیوں منتخب کریں؟`}</h2>
+                    <h2 className="text-2xl font-bold">{language === 'en' ? `Why Choose Stylish Marble Art for ${marble.name.en}?` : `سٹائلش ماربل آرٹ کیوں منتخب کریں؟`}</h2>
                     <p className="leading-relaxed opacity-90">
                         {marble.why_choose[language]}
                     </p>
@@ -184,19 +181,25 @@ export default function MarbleDetailClient() {
                     <Button asChild size="lg" className="rounded-full px-10 h-14 text-lg shadow-lg">
                         <Link href="/contact" className="flex items-center gap-2">
                             <Phone className="h-5 w-5" />
-                            {language === 'en' ? 'Get a Free Quote' : 'مفت کوٹیشن حاصل کریں'}
+                            {language === 'en' ? 'Get a Free Quote Today' : 'مفت کوٹیشن حاصل کریں'}
                         </Link>
                     </Button>
                     <Button asChild size="lg" variant="outline" className="rounded-full px-10 h-14 text-lg bg-green-500 text-white border-green-500 hover:bg-green-600 hover:text-white">
                         <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                             <MessageCircle className="h-5 w-5" />
-                            {language === 'en' ? 'WhatsApp for Price' : 'واٹس ایپ پر قیمت معلوم کریں'}
+                            {language === 'en' ? 'Call / WhatsApp: +92 308 3401606' : 'واٹس ایپ پر قیمت معلوم کریں'}
                         </a>
                     </Button>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground justify-center sm:justify-start">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <span>Malir 15, National Highway, Karachi</span>
+                  <div className="flex flex-col gap-2 text-sm text-muted-foreground items-start">
+                    <div className="flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-primary" />
+                        <span>🌐 Website: www.stylishmarbleart.com</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        <span>📍 Location: Malir 15, National Highway, Near Bank Al-Habib, Karachi</span>
+                    </div>
                   </div>
               </div>
             </div>
