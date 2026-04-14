@@ -5,7 +5,7 @@ import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LogOut, ImageIcon, MessageSquare, LayoutDashboard, Settings } from 'lucide-react';
+import { LogOut, ImageIcon, MessageSquare, LayoutDashboard, Settings, MapPin } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { useAuth } from '@/firebase';
@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
       <main className="container py-8 md:py-12 space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Manage your website content and inquiries.</p>
+          <p className="text-muted-foreground mt-1">Manage your website content and business leads.</p>
         </div>
         
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -80,6 +80,19 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
 
+          <Card className="hover:shadow-md transition-shadow border-primary/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-lg font-bold">Memorial Leads</CardTitle>
+              <MapPin className="h-5 w-5 text-green-600" />
+            </CardHeader>
+            <CardContent>
+               <CardDescription className="mb-4">View grave locator submissions and publisher contact details for sales.</CardDescription>
+               <Button asChild className="w-full" variant="outline">
+                  <Link href="/admin/dashboard/memorials">Manage Leads</Link>
+               </Button>
+            </CardContent>
+          </Card>
+
           <Card className="opacity-60 grayscale hover:grayscale-0 transition-all">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-lg font-bold">Settings</CardTitle>
@@ -87,7 +100,7 @@ export default function AdminDashboardPage() {
             </CardHeader>
             <CardContent>
                <CardDescription className="mb-4">Configure website metadata, phone numbers, and address.</CardDescription>
-               <Button disabled className="w-full" variant="outline">
+               <Button disabled className="w-full" variant="ghost">
                   Coming Soon
                </Button>
             </CardContent>

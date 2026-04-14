@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -9,7 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, Phone, MessageCircle, Upload } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, Phone, MessageCircle, Upload, User, Mail } from 'lucide-react';
 import Image from 'next/image';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
@@ -33,6 +35,9 @@ export default function LocatorPageClient() {
     dateOfDeath: '',
     islamicDate: '',
     imageUrl: '',
+    publisherName: '',
+    publisherEmail: '',
+    publisherPhone: '',
   });
 
   // Firestore Sync
@@ -81,6 +86,12 @@ export default function LocatorPageClient() {
 
   const handleAddMemorial = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!newMemorial.publisherName || !newMemorial.publisherEmail || !newMemorial.publisherPhone) {
+        toast({ variant: 'destructive', title: 'Missing Info', description: 'Please provide your details as the publisher.' });
+        return;
+    }
+
     setIsAdding(true);
 
     const data = {
@@ -101,9 +112,19 @@ export default function LocatorPageClient() {
         errorEmitter.emit('permission-error', permissionError);
       });
 
-    toast({ title: 'Success', description: 'Memorial location pinned successfully.' });
+    toast({ title: 'Success', description: 'Memorial location pinned successfully. Our team will review the details.' });
     setIsAdding(false);
-    setNewMemorial({ deceasedName: '', parentName: '', dateOfBirth: '', dateOfDeath: '', islamicDate: '', imageUrl: '' });
+    setNewMemorial({ 
+        deceasedName: '', 
+        parentName: '', 
+        dateOfBirth: '', 
+        dateOfDeath: '', 
+        islamicDate: '', 
+        imageUrl: '',
+        publisherName: '',
+        publisherEmail: '',
+        publisherPhone: '',
+    });
   };
 
   const services = [
@@ -143,78 +164,117 @@ export default function LocatorPageClient() {
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{pageContent.addMemorial[language]}</DialogTitle>
+                <DialogDescription>
+                    {language === 'en' ? 'Fill in the details below to pin a loved one\'s grave location.' : 'اپنے پیارے کی قبر کا مقام پن کرنے کے لیے نیچے دی گئی تفصیلات بھریں۔'}
+                </DialogDescription>
               </DialogHeader>
-              <form onSubmit={handleAddMemorial} className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-                <div className="space-y-2">
-                  <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
-                  <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
-                  <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
-                  <Input type="date" value={newMemorial.dateOfBirth} onChange={(e) => setNewMemorial({...newMemorial, dateOfBirth: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                  <Label>{language === 'en' ? 'Date of Death' : 'تاریخ وفات'}</Label>
-                  <Input type="date" required value={newMemorial.dateOfDeath} onChange={(e) => setNewMemorial({...newMemorial, dateOfDeath: e.target.value})} />
-                </div>
-                <div className="space-y-2">
-                   <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
-                   <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
-                </div>
+              <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
                 
-                <div className="md:col-span-2 space-y-2">
-                  <Label>{language === 'en' ? 'Deceased Photo' : 'مرحوم کی تصویر'}</Label>
-                  <Tabs defaultValue="upload" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="upload">
-                        <Upload className="mr-2 h-4 w-4" />
-                        {language === 'en' ? 'Upload' : 'اپ لوڈ'}
-                      </TabsTrigger>
-                      <TabsTrigger value="url">
-                        <MessageCircle className="mr-2 h-4 w-4" />
-                        {language === 'en' ? 'Link' : 'لنک'}
-                      </TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="upload" className="space-y-4 pt-4 border rounded-md p-4 bg-muted/20">
-                      <div className="flex items-center gap-4">
-                        <Input 
-                          type="file" 
-                          accept="image/*" 
-                          onChange={handleFileChange} 
-                          disabled={uploading}
-                          className="bg-background"
-                        />
-                        {uploading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
-                      </div>
-                      {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
-                        <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
-                          <Image src={newMemorial.imageUrl} alt="Preview" fill className="object-cover" />
+                {/* Deceased Section */}
+                <div className="space-y-4">
+                    <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
+                        <Heart className="h-5 w-5 text-primary" />
+                        {language === 'en' ? 'Deceased Information' : 'مرحوم کی معلومات'}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Deceased Name' : 'مرحوم کا نام'}</Label>
+                            <Input required value={newMemorial.deceasedName} onChange={(e) => setNewMemorial({...newMemorial, deceasedName: e.target.value})} />
                         </div>
-                      )}
-                      <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
-                    </TabsContent>
-                    <TabsContent value="url" className="pt-4">
-                      <Input 
-                        placeholder="https://..." 
-                        value={newMemorial.imageUrl.startsWith('data:') ? '' : newMemorial.imageUrl} 
-                        onChange={(e) => setNewMemorial({...newMemorial, imageUrl: e.target.value})} 
-                      />
-                    </TabsContent>
-                  </Tabs>
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Father/Mother Name' : 'والد/والدہ کا نام'}</Label>
+                            <Input value={newMemorial.parentName} onChange={(e) => setNewMemorial({...newMemorial, parentName: e.target.value})} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Date of Birth' : 'تاریخ پیدائش'}</Label>
+                            <Input type="date" value={newMemorial.dateOfBirth} onChange={(e) => setNewMemorial({...newMemorial, dateOfBirth: e.target.value})} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Date of Death' : 'تاریخ وفات'}</Label>
+                            <Input type="date" required value={newMemorial.dateOfDeath} onChange={(e) => setNewMemorial({...newMemorial, dateOfDeath: e.target.value})} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Islamic Date (Optional)' : 'اسلامی تاریخ (اختیاری)'}</Label>
+                            <Input placeholder="e.g. 15 Ramadan" value={newMemorial.islamicDate} onChange={(e) => setNewMemorial({...newMemorial, islamicDate: e.target.value})} />
+                        </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                        <Label>{language === 'en' ? 'Deceased Photo' : 'مرحوم کی تصویر'}</Label>
+                        <Tabs defaultValue="upload" className="w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="upload">
+                                <Upload className="mr-2 h-4 w-4" />
+                                {language === 'en' ? 'Upload' : 'اپ لوڈ'}
+                            </TabsTrigger>
+                            <TabsTrigger value="url">
+                                <Camera className="mr-2 h-4 w-4" />
+                                {language === 'en' ? 'Link' : 'لنک'}
+                            </TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="upload" className="space-y-4 pt-4 border rounded-md p-4 bg-muted/20">
+                            <div className="flex items-center gap-4">
+                                <Input 
+                                type="file" 
+                                accept="image/*" 
+                                onChange={handleFileChange} 
+                                disabled={uploading}
+                                className="bg-background"
+                                />
+                                {uploading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+                            </div>
+                            {newMemorial.imageUrl && newMemorial.imageUrl.startsWith('data:') && (
+                                <div className="relative h-32 w-32 rounded-lg overflow-hidden border-2 border-primary/20 shadow-sm mx-auto">
+                                <Image src={newMemorial.imageUrl} alt="Preview" fill className="object-cover" />
+                                </div>
+                            )}
+                            <p className="text-[10px] text-muted-foreground uppercase font-bold text-center">Max Size: 800KB</p>
+                            </TabsContent>
+                            <TabsContent value="url" className="pt-4">
+                            <Input 
+                                placeholder="https://..." 
+                                value={newMemorial.imageUrl.startsWith('data:') ? '' : newMemorial.imageUrl} 
+                                onChange={(e) => setNewMemorial({...newMemorial, imageUrl: e.target.value})} 
+                            />
+                            </TabsContent>
+                        </Tabs>
+                    </div>
                 </div>
 
-                <div className="md:col-span-2 bg-muted p-4 rounded-md text-center">
+                {/* Publisher Section */}
+                <div className="space-y-4 pt-4 border-t">
+                    <h3 className="font-bold text-lg flex items-center gap-2">
+                        <User className="h-5 w-5 text-primary" />
+                        {language === 'en' ? 'Your Contact Details (Confidential)' : 'آپ کے رابطے کی تفصیلات'}
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                        {language === 'en' ? 'This information is only visible to the workshop admin for service inquiries.' : 'یہ معلومات صرف سروس انکوائری کے لیے ورکشاپ ایڈمن کو نظر آئے گی۔'}
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Your Name' : 'آپ کا نام'}</Label>
+                            <Input required value={newMemorial.publisherName} onChange={(e) => setNewMemorial({...newMemorial, publisherName: e.target.value})} placeholder="e.g. Zahid Khan" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>{language === 'en' ? 'Your Email' : 'آپ کا ای میل'}</Label>
+                            <Input required type="email" value={newMemorial.publisherEmail} onChange={(e) => setNewMemorial({...newMemorial, publisherEmail: e.target.value})} placeholder="e.g. zahid@example.com" />
+                        </div>
+                        <div className="md:col-span-2 space-y-2">
+                            <Label>{language === 'en' ? 'Phone Number (with Country Code)' : 'فون نمبر (کنٹری کوڈ کے ساتھ)'}</Label>
+                            <Input required value={newMemorial.publisherPhone} onChange={(e) => setNewMemorial({...newMemorial, publisherPhone: e.target.value})} placeholder="e.g. +92 300 1234567" />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-muted p-4 rounded-md text-center">
                   <p className="text-xs text-muted-foreground uppercase font-bold mb-2">Pin Location</p>
                   <p className="text-sm">Click on the map at the workshop to set exact GPS.</p>
-                  <div className="h-32 bg-secondary/50 rounded flex items-center justify-center border-2 border-dashed border-primary/20 mt-2">
+                  <div className="h-24 bg-secondary/50 rounded flex items-center justify-center border-2 border-dashed border-primary/20 mt-2">
                     <MapPin className="h-8 w-8 text-primary opacity-50" />
                   </div>
                 </div>
-                <DialogFooter className="md:col-span-2 pt-4">
+
+                <DialogFooter className="pt-4">
                   <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
                     {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : pageContent.addMemorial[language]}
                   </Button>
@@ -224,7 +284,7 @@ export default function LocatorPageClient() {
           </Dialog>
         </div>
 
-        {/* Map View Toggle or Placeholder */}
+        {/* Map View Placeholder */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
            <div className="lg:col-span-2 bg-background rounded-3xl shadow-xl overflow-hidden h-[600px] relative border-4 border-white">
               <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">

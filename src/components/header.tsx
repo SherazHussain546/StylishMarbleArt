@@ -1,7 +1,8 @@
+
 'use client';
 
 import Link from 'next/link';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -27,6 +28,7 @@ export function Header() {
     { href: '/', label: content.nav.home[language] },
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
+    { href: '/locator', label: content.nav.locator[language] },
     { href: '/about', label: content.nav.about[language] },
     { href: '/faq', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },

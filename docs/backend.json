@@ -211,7 +211,7 @@
     "Memorial": {
       "title": "Memorial",
       "type": "object",
-      "description": "Represents a grave location and information about the deceased.",
+      "description": "Represents a grave location and information about the deceased, plus publisher lead info.",
       "properties": {
         "id": { "type": "string" },
         "deceasedName": { "type": "string" },
@@ -222,9 +222,12 @@
         "imageUrl": { "type": "string" },
         "latitude": { "type": "number" },
         "longitude": { "type": "number" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "publisherName": { "type": "string" },
+        "publisherEmail": { "type": "string" },
+        "publisherPhone": { "type": "string" },
+        "createdAt": { "type": "string", format: "date-time" }
       },
-      "required": ["deceasedName", "latitude", "longitude"]
+      "required": ["deceasedName", "latitude", "longitude", "publisherName", "publisherEmail", "publisherPhone"]
     }
   },
   "auth": {
@@ -306,7 +309,7 @@
           "schema": {
             "$ref": "#/backend/entities/Memorial"
           },
-          "description": "Stores grave location and deceased person details.",
+          "description": "Stores grave location and deceased person details, plus business lead contact info.",
           "params": [
             {
               "name": "memorialId",
@@ -332,6 +335,6 @@
         }
       }
     ],
-    "reasoning": "Standard Firestore structure for Stylish Marble Art with new Memorial Locator support."
+    "reasoning": "Updated Memorial entity to include publisher details for business lead generation."
   }
 }
