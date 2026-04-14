@@ -204,7 +204,6 @@ export default function LocatorPageClient() {
               </DialogHeader>
               <form onSubmit={handleAddMemorial} className="space-y-6 py-4">
                 
-                {/* Deceased Section */}
                 <div className="space-y-4">
                     <h3 className="font-bold text-lg border-b pb-2 flex items-center gap-2">
                         <Heart className="h-5 w-5 text-primary" />
@@ -279,7 +278,6 @@ export default function LocatorPageClient() {
                     </div>
                 </div>
 
-                {/* Publisher Section */}
                 <div className="space-y-4 pt-4 border-t">
                     <h3 className="font-bold text-lg flex items-center gap-2">
                         <User className="h-5 w-5 text-primary" />
@@ -322,89 +320,95 @@ export default function LocatorPageClient() {
           </Dialog>
         </div>
 
-        {/* Map View Placeholder */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-           <div className="lg:col-span-2 bg-background rounded-3xl shadow-xl overflow-hidden h-[600px] relative border-4 border-white">
-              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                 <div className="text-center p-8">
-                    <MapPin className="h-16 w-16 mx-auto mb-4 text-primary opacity-20" />
-                    <p className="font-bold text-xl uppercase tracking-widest opacity-20">Karachi Cemetery Map View</p>
-                    <p className="text-sm mt-2">Markers will appear here for searched graves.</p>
-                 </div>
-              </div>
-              <div className="absolute top-4 left-4 bg-primary text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg">
-                 {filteredMemorials.length} Memorials Found
-              </div>
-           </div>
-
-           <div className="space-y-6 overflow-y-auto max-h-[600px] pr-2">
+        <div className="space-y-12">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {isLoading ? (
-                <div className="flex justify-center p-12"><Loader2 className="animate-spin h-8 w-8 text-primary" /></div>
+                <div className="col-span-full flex justify-center p-12"><Loader2 className="animate-spin h-8 w-8 text-primary" /></div>
               ) : filteredMemorials.length > 0 ? (
                 filteredMemorials.map((m: any) => (
-                  <Card key={m.id} className="hover:shadow-lg transition-all border-l-4 border-primary group">
-                    <CardContent className="p-4">
-                      <div className="flex gap-4">
-                        <div className="relative h-20 w-20 flex-shrink-0 rounded-lg overflow-hidden border bg-muted">
+                  <Card key={m.id} className="hover:shadow-lg transition-all border-l-4 border-primary group overflow-hidden">
+                    <CardContent className="p-0">
+                      <div className="flex flex-col">
+                        <div className="relative h-48 w-full bg-muted">
                           <img 
-                            src={m.imageUrl || 'https://picsum.photos/seed/memorial/200/200'} 
+                            src={m.imageUrl || 'https://picsum.photos/seed/memorial/400/300'} 
                             alt={m.deceasedName} 
                             className="h-full w-full object-cover" 
                           />
+                          <div className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-[10px] font-bold uppercase text-primary">
+                             {m.graveyardName || 'Karachi Graveyard'}
+                          </div>
                         </div>
-                        <div className="flex-grow">
-                          <h3 className="font-bold text-lg group-hover:text-primary transition-colors">{m.deceasedName}</h3>
-                          <p className="text-xs text-muted-foreground mb-1">
+                        <div className="p-4">
+                          <h3 className="font-bold text-xl group-hover:text-primary transition-colors">{m.deceasedName}</h3>
+                          <p className="text-sm text-muted-foreground mb-2">
                             {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
                           </p>
-                          {m.graveyardName && (
-                            <p className="text-xs font-semibold text-primary/80 flex items-center gap-1">
+                          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-primary mt-1 border-b pb-3 mb-3">
+                             <div className="flex items-center gap-1">
                                 <MapPin className="h-3 w-3" />
-                                {m.graveyardName}
-                            </p>
-                          )}
-                          <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-wider text-primary mt-1">
+                                <span>{m.graveyardName || 'Karachi'}</span>
+                             </div>
                              <span>{m.dateOfBirth} - {m.dateOfDeath}</span>
                           </div>
-                          {m.islamicDate && (
-                            <p className="text-[9px] text-muted-foreground mt-1 italic">{m.islamicDate}</p>
-                          )}
+                          
+                          <div className="space-y-3">
+                             <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+                                {pageContent.servicesTitle[language]}
+                             </p>
+                             <div className="grid grid-cols-2 gap-2">
+                                {services.map((s, idx) => {
+                                  const Svg = s.icon;
+                                  return (
+                                    <Button 
+                                      key={idx} 
+                                      variant="outline" 
+                                      size="sm" 
+                                      className="text-[10px] h-auto py-2 justify-start font-medium hover:bg-primary hover:text-white transition-colors"
+                                      asChild
+                                    >
+                                      <a href={`https://wa.me/${whatsappNumber}?text=Inquiry%20about%20${s.name.en}%20for%20${m.deceasedName}`} target="_blank">
+                                        <Svg className="mr-2 h-3 w-3" />
+                                        {s.name[language]}
+                                      </a>
+                                    </Button>
+                                  )
+                                })}
+                             </div>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="mt-6 pt-4 border-t space-y-3">
-                         <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
-                            {pageContent.servicesTitle[language]}
-                         </p>
-                         <div className="grid grid-cols-2 gap-2">
-                            {services.map((s, idx) => {
-                              const Svg = s.icon;
-                              return (
-                                <Button 
-                                  key={idx} 
-                                  variant="outline" 
-                                  size="sm" 
-                                  className="text-[10px] h-auto py-2 justify-start font-medium hover:bg-primary hover:text-white transition-colors"
-                                  asChild
-                                >
-                                  <a href={`https://wa.me/${whatsappNumber}?text=Inquiry%20about%20${s.name.en}%20for%20${m.deceasedName}`} target="_blank">
-                                    <Svg className="mr-2 h-3 w-3" />
-                                    {s.name[language]}
-                                  </a>
-                                </Button>
-                              )
-                            })}
-                         </div>
                       </div>
                     </CardContent>
                   </Card>
                 ))
               ) : (
-                <div className="text-center py-12 bg-muted/20 rounded-xl border-2 border-dashed">
-                  <Search className="h-10 w-10 mx-auto mb-2 opacity-10" />
-                  <p className="text-sm text-muted-foreground">No matches found.</p>
+                <div className="col-span-full text-center py-24 bg-muted/20 rounded-xl border-2 border-dashed">
+                  <Search className="h-12 w-12 mx-auto mb-4 opacity-10" />
+                  <p className="text-lg font-medium text-muted-foreground">No matching graves found.</p>
+                  <p className="text-sm text-muted-foreground">Try searching for a different name or browse the list.</p>
                 </div>
               )}
+           </div>
+
+           {/* Map View at Bottom */}
+           <div className="mt-16">
+              <div className="text-center mb-8">
+                 <h2 className="text-2xl font-bold text-primary">{language === 'en' ? 'Karachi Cemetery Interactive Map' : 'کراچی قبرستان کا انٹرایکٹو نقشہ'}</h2>
+                 <p className="text-muted-foreground">{language === 'en' ? 'Visualize grave locations across the city.' : 'شہر بھر میں قبروں کے مقامات دیکھیں۔'}</p>
+              </div>
+              <div className="bg-background rounded-3xl shadow-2xl overflow-hidden h-[500px] relative border-4 border-white">
+                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-secondary/5">
+                   <div className="text-center p-8">
+                      <MapPin className="h-16 w-16 mx-auto mb-4 text-primary opacity-20" />
+                      <p className="font-bold text-xl uppercase tracking-widest opacity-20">Karachi Cemetery Map View</p>
+                      <p className="text-sm mt-2">Markers appear here for searched graves in Karachi.</p>
+                   </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-primary text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-2">
+                   <MapPin className="h-3 w-3" />
+                   {filteredMemorials.length} Graves Located
+                </div>
+              </div>
            </div>
         </div>
       </div>

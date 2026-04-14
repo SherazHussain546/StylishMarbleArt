@@ -4,7 +4,7 @@ export const content = {
     home: { en: 'Home', ur: 'گھر' },
     services: { en: 'Services', ur: 'خدمات' },
     gallery: { en: 'Gallery', ur: 'گیلری' },
-    locator: { en: 'Memorial Locator', ur: 'یادگار تلاش کنندہ' },
+    locator: { en: 'Find Loved Ones Grave', ur: 'اپنے پیاروں کی قبر تلاش کریں' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     updates: { en: 'Articles & Updates', ur: 'مضامین اور اپ ڈیٹس' },
@@ -341,15 +341,15 @@ export const content = {
     ]
   },
   locatorPage: {
-    title: { en: 'Digital Memorial Locator', ur: 'ڈیجیٹل یادگار تلاش کنندہ' },
+    title: { en: 'Find Your Loved Ones Grave', ur: 'اپنے پیاروں کی قبر تلاش کریں' },
     description: {
-      en: 'Find the precise location of a loved one\'s grave and access essential care services from anywhere in the world.',
-      ur: 'کسی عزیز کی قبر کا صحیح مقام تلاش کریں اور دنیا میں کہیں سے بھی ضروری دیکھ بھال کی خدمات تک رسائی حاصل کریں۔',
+      en: 'Search our database to find the precise location of a loved one\'s grave in Karachi and access essential care services from anywhere in the world.',
+      ur: 'کراچی میں کسی عزیز کی قبر کا صحیح مقام تلاش کرنے کے لیے ہمارا ڈیٹا بیس تلاش کریں اور دنیا میں کہیں سے بھی ضروری دیکھ بھال کی خدمات تک رسائی حاصل کریں۔',
     },
     searchPlaceholder: { en: 'Search by name...', ur: 'نام سے تلاش کریں...' },
-    addMemorial: { en: 'Add a Memorial', ur: 'ایک یادگار شامل کریں' },
+    addMemorial: { en: 'Pin a Grave Location', ur: 'قبر کا مقام پن کریں' },
     graveyardLabel: { en: 'Graveyard Name', ur: 'قبرستان کا نام' },
-    servicesTitle: { en: 'Available Services', ur: 'دستیاب خدمات' },
+    servicesTitle: { en: 'Grave Care Services', ur: 'قبر کی دیکھ بھال کی خدمات' },
     requestService: { en: 'Request This Service', ur: 'اس سروس کی درخواست کریں' },
   },
   galleryPage: {
