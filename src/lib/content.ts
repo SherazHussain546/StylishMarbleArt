@@ -1,4 +1,3 @@
-
 export const content = {
   nav: {
     home: { en: 'Home', ur: 'گھر' },
@@ -95,9 +94,32 @@ export const content = {
         image: "/Gallery/tom/verona.png",
         hint: "Rosso Verona",
         page_description: {
-          en: "Rosso Verona is a premium imported marble known for its rich, reddish tones. Ideal for high-end flooring and wall cladding in Karachi homes.",
-          ur: "روسو ویرونا ایک پریمیم درآمد شدہ ماربل ہے جو اپنے گہرے سرخ رنگوں کے لیے جانا جاتا ہے۔ کراچی کے گھروں میں فرش اور دیواروں کی چادر کے لیے مثالی ہے۔"
-        }
+          en: "Rosso Verona is a premium natural stone known for its rich, reddish tones. Stylish Marble Art provides custom cutting and engraving for floors, countertops, and memorials in Karachi.",
+          ur: "روسو ویرونا ایک پریمیم قدرتی پتھر ہے جو اپنے گہرے سرخ رنگوں کے لیے جانا جاتا ہے۔ سٹائلش ماربل آرٹ کراچی میں فرش، کاؤنٹر ٹاپس اور یادگاروں کے لیے کسٹم کٹنگ اور کندہ کاری فراہم کرتا ہے۔"
+        },
+        meta_title: { en: "Rosso Verona Marble in Karachi | Custom Marble Work | Stylish Marble Art", ur: "کراچی میں روسو ویرونا ماربل | کسٹم ماربل ورک | سٹائلش ماربل آرٹ" },
+        meta_description: { en: "Buy premium Rosso Verona marble in Karachi, Pakistan. Stylish Marble Art cutting, engraving Rosso Verona for floors, countertops, and memorials. Call +923083401606", ur: "کراچی، پاکستان میں پریمیم روسو ویرونا ماربل خریدیں۔ سٹائلش ماربل آرٹ فرش، کاؤنٹر ٹاپس اور یادگاروں کے لیے روسو ویرونا کی کٹنگ اور کندہ کاری کرتا ہے۔" },
+        keywords: ["Rosso Verona marble Pakistan", "red marble flooring Pakistan", "decorative marble Karachi", "Verona marble price Pakistan", "warm kitchen countertop Karachi", "Stylish"],
+        h1: { en: "Rosso Verona Marble in Karachi - Warm, Rich & Timelessly Elegant", ur: "کراچی میں روسو ویرونا ماربل - گرم، بھرپور اور لازوال خوبصورت" },
+        intro: { 
+          en: "Rosso Verona Marble is one of the most visually striking natural stones available in Pakistan - and at Stylish Marble Art, we work with it every day. Its deep, warm red base with natural fossil impressions and creamy white veining creates an effect that no manufactured material can replicate. Whether you are designing a grand entrance foyer, a statement kitchen, or a lasting memorial, Rosso Verona brings a depth and warmth that makes every project unforgettable.",
+          ur: "روسو ویرونا ماربل پاکستان میں دستیاب سب سے زیادہ بصری طور پر متاثر کن قدرتی پتھروں میں سے ایک ہے - اور سٹائلش ماربل آرٹ میں، ہم ہر روز اس کے ساتھ کام کرتے ہیں۔ اس کا گہرا، گرم سرخ بیس قدرتی فوسل تاثرات اور کریمی وائٹ رگوں کے ساتھ ایک ایسا اثر پیدا کرتا ہے جسے کوئی بھی تیار کردہ مواد نقل نہیں کر سکتا۔"
+        },
+        about: {
+          en: "Quarried from the mineral-rich regions of Balochistan and refined through artisan hands at our Karachi workshop, Rosso Verona marble is prized for its natural calcium fossil deposits that create unique surface patterns on every single slab. No two pieces are ever identical - which is precisely what makes it special. At Stylish Marble Art, we source only grade-A Rosso Verona, inspect each slab personally, and cut, finish, and install every piece with the craftsmanship your project deserves.",
+          ur: "بلوچستان کے معدنیات سے مالا مال علاقوں سے نکالا گیا اور ہماری کراچی ورکشاپ میں کاریگروں کے ہاتھوں سے تیار کیا گیا، روسو ویرونا ماربل اپنے قدرتی کیلشیم فوسل کے ذخائر کی وجہ سے قیمتی ہے جو ہر سلیب پر منفرد سطح کے پیٹرن بناتے ہیں۔"
+        },
+        uses: {
+          en: ["Luxury flooring", "Feature walls and wall cladding", "Kitchen countertops and islands", "Bathroom vanity tops", "Decorative facades and columns", "Custom memorial pieces"],
+          ur: ["لگژری فرش", "فیچر دیواریں اور دیواروں کی چادر", "کچن کاؤنٹر ٹاپس اور آئی لینڈز", "باتھ روم کی وینٹی ٹاپس", "آرائشی محاذ اور ستون", "کسٹم یادگاری ٹکڑے"]
+        },
+        why_choose: {
+          en: "When you choose Stylish Marble Art for your Rosso Verona marble project, you are choosing a family-owned workshop with decades of stone-cutting expertise, premium grade materials, and a genuine passion for the art of marble. We handle everything - from helping you select the perfect slab to precision cutting, custom engraving, delivery, and professional installation in Karachi and beyond.",
+          ur: "جب آپ اپنے روسو ویرونا ماربل پروجیکٹ کے لیے سٹائلش ماربل آرٹ کا انتخاب کرتے ہیں، تو آپ کئی دہائیوں کی مہارت اور پریمیم مواد کے ساتھ خاندانی ملکیت والی ورکشاپ کا انتخاب کر رہے ہوتے ہیں۔"
+        },
+        origin: { en: "Sourced from premium quarries in Balochistan, Pakistan, and select Italian origins", ur: "بلوچستان، پاکستان کی پریمیم کانوں اور منتخب اطالوی ذرائع سے حاصل کیا گیا" },
+        appearance: { en: "Deep warm red to burgundy base with white, cream, and fossil-pattern veining", ur: "سفید، کریم اور فوسل پیٹرن والی رگوں کے ساتھ گہرا گرم سرخ سے برگنڈی بیس" },
+        finishes: { en: "Polished, honed, or brushed", ur: "پالش، ہونڈ، یا برش" }
       },
       {
         slug: "artificial-white",
