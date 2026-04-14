@@ -6,11 +6,11 @@ import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, Droplets, Leaf, Brush } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, ShieldCheck, Globe, Droplets, Leaf, Brush, GitGraph, ArrowDown, ArrowUp, Users } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -46,6 +46,7 @@ export default function LocatorPageClient() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [viewingFamily, setViewingFamily] = useState<any | null>(null);
   
   // Handle URL search param for direct sharing
   useEffect(() => {
@@ -101,6 +102,23 @@ export default function LocatorPageClient() {
       (m.graveyardName && m.graveyardName.toLowerCase().includes(q))
     );
   }, [memorials, searchQuery]);
+
+  // Family Lineage Logic
+  const familyConnections = useMemo(() => {
+    if (!viewingFamily || !memorials) return { parent: null, children: [] };
+
+    // Parent search (Deceased Name matches viewingFamily.parentName)
+    const parent = memorials.find((m: any) => 
+        m.deceasedName.toLowerCase() === viewingFamily.parentName.toLowerCase()
+    );
+
+    // Children search (parentName matches viewingFamily.deceasedName)
+    const children = memorials.filter((m: any) => 
+        m.parentName.toLowerCase() === viewingFamily.deceasedName.toLowerCase()
+    );
+
+    return { parent, children };
+  }, [viewingFamily, memorials]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -191,6 +209,7 @@ export default function LocatorPageClient() {
             });
             return;
         } catch (err) {
+            // Permission denied or aborted errors are common in some browsers
             if ((err as Error).name === 'AbortError') return;
         }
     }
@@ -670,9 +689,12 @@ Please provide details on pricing and timeline.`;
                                 )}
                                 <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
                             </div>
-                            <p className="text-sm text-muted-foreground italic">
+                            <button 
+                                onClick={() => setSearchQuery(m.parentName)}
+                                className="text-sm text-muted-foreground italic hover:text-primary hover:underline text-left transition-colors"
+                            >
                                 {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
-                            </p>
+                            </button>
                             </div>
                             {!m.imageUrl && (
                             <Button 
@@ -716,23 +738,32 @@ Please provide details on pricing and timeline.`;
                             )}
                         </div>
 
-                        <div className="mt-auto space-y-3">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
-                            <div className="grid grid-cols-2 gap-2">
-                                {careServices.map((s) => (
-                                    <Button 
-                                        key={s.id} 
-                                        variant="outline" 
-                                        size="sm" 
-                                        className={cn(
-                                            "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold",
-                                            s.color
-                                        )}
-                                        onClick={() => handleGetQuote(m, s.id)}
-                                    >
-                                        {s.name[language]}
-                                    </Button>
-                                ))}
+                        <div className="mt-auto space-y-4">
+                            <Button 
+                                variant="outline" 
+                                className="w-full text-xs font-bold gap-2 border-primary/20 text-primary hover:bg-primary/5"
+                                onClick={() => setViewingFamily(m)}
+                            >
+                                <Users className="h-4 w-4" />
+                                {language === 'en' ? 'View Family Connections' : 'خاندانی روابط دیکھیں'}
+                            </Button>
+
+                            <div className="space-y-2">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {careServices.map((s) => (
+                                        <button 
+                                            key={s.id} 
+                                            className={cn(
+                                                "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold border rounded-md",
+                                                s.color
+                                            )}
+                                            onClick={() => handleGetQuote(m, s.id)}
+                                        >
+                                            {s.name[language]}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                         </CardContent>
@@ -748,6 +779,108 @@ Please provide details on pricing and timeline.`;
             </div>
         </div>
       </section>
+
+      {/* Family Tree Modal */}
+      <Dialog open={!!viewingFamily} onOpenChange={() => setViewingFamily(null)}>
+        <DialogContent className="max-w-xl">
+            <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
+                    <GitGraph className="h-6 w-6 text-primary" />
+                    {language === 'en' ? 'Family Connections' : 'خاندانی شجرہ'}
+                </DialogTitle>
+                <DialogDescription>
+                    {language === 'en' 
+                        ? `Trace the lineage for ${viewingFamily?.deceasedName} based on graveyard records.` 
+                        : `${viewingFamily?.deceasedName} کے ریکارڈ کی بنیاد پر خاندانی شجرہ دیکھیں۔`}
+                </DialogDescription>
+            </DialogHeader>
+            
+            <div className="py-8 space-y-8 flex flex-col items-center">
+                {/* Ancestor (Parent) */}
+                <div className="w-full flex flex-col items-center">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">{language === 'en' ? 'Ancestor (Parent)' : 'والد / بزرگ'}</p>
+                    {familyConnections.parent ? (
+                        <Card className="w-64 bg-primary/5 border-primary/20 shadow-sm">
+                            <CardContent className="p-4 text-center">
+                                <p className="font-bold text-primary">{familyConnections.parent.deceasedName}</p>
+                                <Button 
+                                    variant="link" 
+                                    size="sm" 
+                                    className="h-auto p-0 text-xs"
+                                    onClick={() => {
+                                        setViewingFamily(familyConnections.parent);
+                                    }}
+                                >
+                                    {language === 'en' ? 'View Record' : 'ریکارڈ دیکھیں'}
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    ) : (
+                        <div className="w-64 p-4 border border-dashed rounded-lg text-center text-xs text-muted-foreground bg-muted/20">
+                            {language === 'en' ? `No record found for ${viewingFamily?.parentName}` : `${viewingFamily?.parentName} کا کوئی ریکارڈ نہیں ملا`}
+                            <br />
+                            <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="mt-2 text-[10px]"
+                                onClick={() => {
+                                    setSearchQuery(viewingFamily.parentName);
+                                    setViewingFamily(null);
+                                }}
+                            >
+                                {language === 'en' ? 'Search Database' : 'ڈیٹا بیس تلاش کریں'}
+                            </Button>
+                        </div>
+                    )}
+                </div>
+
+                <ArrowDown className="h-8 w-8 text-primary animate-bounce opacity-50" />
+
+                {/* Current Person */}
+                <div className="w-full flex flex-col items-center">
+                    <Card className="w-72 border-2 border-primary shadow-xl scale-110">
+                        <CardContent className="p-6 text-center">
+                            <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{language === 'en' ? 'Current Selection' : 'منتخب شخص'}</p>
+                            <h3 className="text-xl font-bold">{viewingFamily?.deceasedName}</h3>
+                            <p className="text-xs text-muted-foreground">{viewingFamily?.graveyardName}</p>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <ArrowDown className="h-8 w-8 text-primary opacity-50" />
+
+                {/* Descendants (Children) */}
+                <div className="w-full flex flex-col items-center">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">{language === 'en' ? 'Known Descendants' : 'اولاد / نسل'}</p>
+                    {familyConnections.children.length > 0 ? (
+                        <div className="grid grid-cols-1 gap-3 w-full">
+                            {familyConnections.children.map((child: any) => (
+                                <Card key={child.id} className="bg-secondary/20 hover:bg-primary/5 transition-colors cursor-pointer" onClick={() => setViewingFamily(child)}>
+                                    <CardContent className="p-3 flex justify-between items-center">
+                                        <div>
+                                            <p className="font-bold text-sm">{child.deceasedName}</p>
+                                            <p className="text-[10px] text-muted-foreground">{child.dateOfBirth} - {child.dateOfDeath}</p>
+                                        </div>
+                                        <ArrowUp className="h-4 w-4 text-primary rotate-180" />
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center p-4 text-xs text-muted-foreground italic">
+                            {language === 'en' ? 'No children records found in database.' : 'ڈیٹا بیس میں کوئی اولاد کا ریکارڈ نہیں ملا۔'}
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <DialogFooter>
+                <DialogClose asChild>
+                    <Button variant="secondary" className="w-full">{language === 'en' ? 'Close Lineage' : 'بند کریں'}</Button>
+                </DialogClose>
+            </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Professional Care Services Marketing Section */}
       <section className="bg-white py-24 border-y">
