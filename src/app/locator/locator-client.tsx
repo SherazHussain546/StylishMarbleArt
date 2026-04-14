@@ -9,8 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, MessageCircle, Calendar, Share2 } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, MessageCircle, Calendar, Share2, Droplets, Shovel, Sparkles, Settings2 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -29,7 +28,6 @@ export default function LocatorPageClient() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [selectedServices, setSelectedServices] = useState<Record<string, string>>({});
   
   // Handle URL search param for direct sharing
   useEffect(() => {
@@ -164,11 +162,10 @@ export default function LocatorPageClient() {
             });
             shared = true;
         } catch (err) {
-            // Check if user cancelled or if it failed due to permission/context
             if ((err as Error).name !== 'AbortError') {
                 console.warn('Native share failed, falling back to clipboard copy:', err);
             } else {
-                return; // User cancelled share menu, don't perform fallback
+                return;
             }
         }
     }
@@ -184,19 +181,13 @@ export default function LocatorPageClient() {
   };
 
   const services = [
-    { id: 'cleaning', name: { en: 'Maintaining Grave Cleanliness', ur: 'قبر کی صفائی' } },
-    { id: 'watering', name: { en: 'Watering the Grave', ur: 'قبر کو پانی دینا' } },
-    { id: 'planting', name: { en: 'Planting & Maintenance', ur: 'پودے لگانا اور دیکھ بھال' } },
-    { id: 'custom', name: { en: 'Custom Service', ur: 'کسٹم سروس' } },
+    { id: 'cleaning', icon: Sparkles, name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' } },
+    { id: 'watering', icon: Droplets, name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' } },
+    { id: 'planting', icon: Shovel, name: { en: 'Planting & Care', ur: 'پودے لگانا' } },
+    { id: 'custom', icon: Settings2, name: { en: 'Custom Service', ur: 'کسٹم سروس' } },
   ];
 
-  const handleGetQuote = (m: any) => {
-    const serviceId = selectedServices[m.id];
-    if (!serviceId) {
-        toast({ title: 'Select Service', description: 'Please select a service from the dropdown first.' });
-        return;
-    }
-
+  const handleGetQuote = (m: any, serviceId: string) => {
     const service = services.find(s => s.id === serviceId);
     const serviceName = service?.name.en || 'General Service';
     const whatsappNumber = "+923083401606".replace(/\D/g, '');
@@ -446,32 +437,25 @@ Please provide details on pricing and timeline.`;
                         )}
                       </div>
 
-                      <div className="mt-auto space-y-4">
-                        <div className="space-y-2">
-                            <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Select Care Service</Label>
-                            <Select 
-                                value={selectedServices[m.id]} 
-                                onValueChange={(val) => setSelectedServices({...selectedServices, [m.id]: val})}
-                            >
-                                <SelectTrigger className="w-full bg-secondary/30">
-                                    <SelectValue placeholder="Select a service..." />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {services.map(s => (
-                                        <SelectItem key={s.id} value={s.id}>{s.name[language]}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                      <div className="mt-auto space-y-3">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
+                        <div className="grid grid-cols-2 gap-2">
+                            {services.map((s) => {
+                                const Icon = s.icon;
+                                return (
+                                    <Button 
+                                        key={s.id} 
+                                        variant="outline" 
+                                        size="sm" 
+                                        className="text-[10px] h-auto py-2.5 px-1 flex flex-col items-center gap-1.5 hover:bg-primary hover:text-white transition-all border-primary/10"
+                                        onClick={() => handleGetQuote(m, s.id)}
+                                    >
+                                        <Icon className="h-3.5 w-3.5" />
+                                        <span className="leading-tight text-center whitespace-normal">{s.name[language]}</span>
+                                    </Button>
+                                );
+                            })}
                         </div>
-                        
-                        <Button 
-                            className="w-full h-11 font-bold group" 
-                            variant={selectedServices[m.id] ? "default" : "outline"}
-                            onClick={() => handleGetQuote(m)}
-                        >
-                            <MessageCircle className="mr-2 h-4 w-4" />
-                            {language === 'en' ? 'Get Quote on WhatsApp' : 'واٹس ایپ پر کوٹیشن حاصل کریں'}
-                        </Button>
                       </div>
                     </CardContent>
                   </Card>
