@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -10,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription as CardDescUI
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, User, Mail, Upload } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search, MapPin, Plus, Heart, Droplets, Leaf, Trash2, Camera, Loader2, User, Mail, Upload, MessageCircle, Calendar } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -27,6 +27,8 @@ export default function LocatorPageClient() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<Record<string, string>>({});
+  
   const [newMemorial, setNewMemorial] = useState({
     deceasedName: '',
     parentName: '',
@@ -139,13 +141,35 @@ export default function LocatorPageClient() {
   };
 
   const services = [
-    { icon: Trash2, name: { en: 'Grave Cleaning', ur: 'قبر کی صفائی' }, price: '1500 PKR' },
-    { icon: Droplets, name: { en: 'Watering Service', ur: 'پانی دینا' }, price: '500 PKR' },
-    { icon: Leaf, name: { en: 'Planting & Maintenance', ur: 'پودے لگانا' }, price: '3000 PKR' },
-    { icon: Camera, name: { en: 'Photo/Video Update', ur: 'تصویر/ویڈیو اپ ڈیٹ' }, price: 'Free' },
+    { id: 'cleaning', name: { en: 'Maintaining Grave Cleanliness', ur: 'قبر کی صفائی' } },
+    { id: 'watering', name: { en: 'Watering the Grave', ur: 'قبر کو پانی دینا' } },
+    { id: 'planting', name: { en: 'Planting & Maintenance', ur: 'پودے لگانا اور دیکھ بھال' } },
+    { id: 'custom', name: { en: 'Custom Service', ur: 'کسٹم سروس' } },
   ];
 
-  const whatsappNumber = "+923083401606".replace(/\D/g, '');
+  const handleGetQuote = (m: any) => {
+    const serviceId = selectedServices[m.id];
+    if (!serviceId) {
+        toast({ title: 'Select Service', description: 'Please select a service from the dropdown first.' });
+        return;
+    }
+
+    const service = services.find(s => s.id === serviceId);
+    const serviceName = service?.name.en || 'General Service';
+    const whatsappNumber = "+923083401606".replace(/\D/g, '');
+    
+    const message = `Hello Stylish Marble Art, I would like a quote for:
+*Service:* ${serviceName}
+*Deceased:* ${m.deceasedName}
+*Parentage:* ${m.parentName}
+*Graveyard:* ${m.graveyardName || 'Not Specified'}
+*Dates:* ${m.dateOfBirth} to ${m.dateOfDeath}
+${m.islamicDate ? `*Islamic Date:* ${m.islamicDate}` : ''}
+
+Please provide details on pricing and timeline.`;
+
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
+  };
 
   return (
     <div className="bg-secondary/10 min-h-screen">
@@ -155,12 +179,12 @@ export default function LocatorPageClient() {
           <p className="text-lg text-muted-foreground">{pageContent.description[language]}</p>
         </header>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-4 mb-16 max-w-4xl mx-auto">
           <div className="relative flex-grow">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input 
               placeholder={pageContent.searchPlaceholder[language]} 
-              className="pl-10 h-12 bg-background border-primary/20"
+              className="pl-10 h-12 bg-background border-primary/20 shadow-sm"
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
@@ -190,7 +214,7 @@ export default function LocatorPageClient() {
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button size="lg" className="h-12 shadow-lg">
+              <Button size="lg" className="h-12 shadow-lg px-8">
                 <Plus className="mr-2 h-5 w-5" />
                 {pageContent.addMemorial[language]}
               </Button>
@@ -321,62 +345,80 @@ export default function LocatorPageClient() {
         </div>
 
         <div className="space-y-12">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {isLoading ? (
                 <div className="col-span-full flex justify-center p-12"><Loader2 className="animate-spin h-8 w-8 text-primary" /></div>
               ) : filteredMemorials.length > 0 ? (
                 filteredMemorials.map((m: any) => (
-                  <Card key={m.id} className="hover:shadow-lg transition-all border-l-4 border-primary group overflow-hidden">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col">
-                        <div className="relative h-48 w-full bg-muted">
-                          <img 
-                            src={m.imageUrl || 'https://picsum.photos/seed/memorial/400/300'} 
-                            alt={m.deceasedName} 
-                            className="h-full w-full object-cover" 
-                          />
-                          <div className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-[10px] font-bold uppercase text-primary">
-                             {m.graveyardName || 'Karachi Graveyard'}
-                          </div>
+                  <Card key={m.id} className="flex flex-col h-full shadow-md hover:shadow-xl transition-all border-t-4 border-primary group overflow-hidden bg-background">
+                    <div className="relative h-56 w-full bg-muted overflow-hidden">
+                      <img 
+                        src={m.imageUrl || 'https://picsum.photos/seed/memorial/400/300'} 
+                        alt={m.deceasedName} 
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                      />
+                      <div className="absolute top-3 right-3 bg-primary/90 backdrop-blur text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                         {m.graveyardName || 'Karachi Graveyard'}
+                      </div>
+                    </div>
+                    
+                    <CardContent className="p-6 flex flex-col flex-grow">
+                      <div className="space-y-1 mb-4">
+                        <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
+                        <p className="text-sm text-muted-foreground italic">
+                          {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-muted">
+                        <div className="space-y-1">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Born</p>
+                            <p className="text-sm font-semibold flex items-center gap-1.5">
+                                <Calendar className="h-3 w-3 text-primary" />
+                                {m.dateOfBirth || 'N/A'}
+                            </p>
                         </div>
-                        <div className="p-4">
-                          <h3 className="font-bold text-xl group-hover:text-primary transition-colors">{m.deceasedName}</h3>
-                          <p className="text-sm text-muted-foreground mb-2">
-                            {language === 'en' ? 's/o d/o ' : 'ولد/بنت '} {m.parentName}
-                          </p>
-                          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-primary mt-1 border-b pb-3 mb-3">
-                             <div className="flex items-center gap-1">
-                                <MapPin className="h-3 w-3" />
-                                <span>{m.graveyardName || 'Karachi'}</span>
-                             </div>
-                             <span>{m.dateOfBirth} - {m.dateOfDeath}</span>
-                          </div>
-                          
-                          <div className="space-y-3">
-                             <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
-                                {pageContent.servicesTitle[language]}
-                             </p>
-                             <div className="grid grid-cols-2 gap-2">
-                                {services.map((s, idx) => {
-                                  const Svg = s.icon;
-                                  return (
-                                    <Button 
-                                      key={idx} 
-                                      variant="outline" 
-                                      size="sm" 
-                                      className="text-[10px] h-auto py-2 justify-start font-medium hover:bg-primary hover:text-white transition-colors"
-                                      asChild
-                                    >
-                                      <a href={`https://wa.me/${whatsappNumber}?text=Inquiry%20about%20${s.name.en}%20for%20${m.deceasedName}`} target="_blank">
-                                        <Svg className="mr-2 h-3 w-3" />
-                                        {s.name[language]}
-                                      </a>
-                                    </Button>
-                                  )
-                                })}
-                             </div>
-                          </div>
+                        <div className="space-y-1">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Died</p>
+                            <p className="text-sm font-semibold flex items-center gap-1.5">
+                                <Heart className="h-3 w-3 text-red-500" />
+                                {m.dateOfDeath || 'N/A'}
+                            </p>
                         </div>
+                        {m.islamicDate && (
+                            <div className="col-span-2 space-y-1">
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Islamic Date</p>
+                                <p className="text-sm font-semibold italic text-primary">{m.islamicDate}</p>
+                            </div>
+                        )}
+                      </div>
+
+                      <div className="mt-auto space-y-4">
+                        <div className="space-y-2">
+                            <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Select Care Service</Label>
+                            <Select 
+                                value={selectedServices[m.id]} 
+                                onValueChange={(val) => setSelectedServices({...selectedServices, [m.id]: val})}
+                            >
+                                <SelectTrigger className="w-full bg-secondary/30">
+                                    <SelectValue placeholder="Select a service..." />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {services.map(s => (
+                                        <SelectItem key={s.id} value={s.id}>{s.name[language]}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        
+                        <Button 
+                            className="w-full h-11 font-bold group" 
+                            variant={selectedServices[m.id] ? "default" : "outline"}
+                            onClick={() => handleGetQuote(m)}
+                        >
+                            <MessageCircle className="mr-2 h-4 w-4" />
+                            {language === 'en' ? 'Get Quote on WhatsApp' : 'واٹس ایپ پر کوٹیشن حاصل کریں'}
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -391,21 +433,21 @@ export default function LocatorPageClient() {
            </div>
 
            {/* Map View at Bottom */}
-           <div className="mt-16">
-              <div className="text-center mb-8">
-                 <h2 className="text-2xl font-bold text-primary">{language === 'en' ? 'Karachi Cemetery Interactive Map' : 'کراچی قبرستان کا انٹرایکٹو نقشہ'}</h2>
-                 <p className="text-muted-foreground">{language === 'en' ? 'Visualize grave locations across the city.' : 'شہر بھر میں قبروں کے مقامات دیکھیں۔'}</p>
+           <div className="mt-24">
+              <div className="text-center mb-12">
+                 <h2 className="text-3xl font-bold text-primary mb-2">{language === 'en' ? 'Karachi Cemetery Interactive Map' : 'کراچی قبرستان کا انٹرایکٹو نقشہ'}</h2>
+                 <p className="text-muted-foreground">{language === 'en' ? 'Visualize exact grave locations across the city cemeteries.' : 'شہر بھر کے قبرستانوں میں قبروں کے صحیح مقامات دیکھیں۔'}</p>
               </div>
-              <div className="bg-background rounded-3xl shadow-2xl overflow-hidden h-[500px] relative border-4 border-white">
+              <div className="bg-background rounded-[2.5rem] shadow-2xl overflow-hidden h-[600px] relative border-8 border-white">
                 <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-secondary/5">
                    <div className="text-center p-8">
-                      <MapPin className="h-16 w-16 mx-auto mb-4 text-primary opacity-20" />
-                      <p className="font-bold text-xl uppercase tracking-widest opacity-20">Karachi Cemetery Map View</p>
-                      <p className="text-sm mt-2">Markers appear here for searched graves in Karachi.</p>
+                      <MapPin className="h-20 w-20 mx-auto mb-6 text-primary opacity-20" />
+                      <p className="font-bold text-2xl uppercase tracking-widest opacity-20">Karachi Cemetery Map View</p>
+                      <p className="text-sm mt-2 max-w-xs mx-auto">Markers will appear here for searched graves in Karachi's major graveyards.</p>
                    </div>
                 </div>
-                <div className="absolute top-4 left-4 bg-primary text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-2">
-                   <MapPin className="h-3 w-3" />
+                <div className="absolute top-6 left-6 bg-primary text-white px-6 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
+                   <MapPin className="h-4 w-4" />
                    {filteredMemorials.length} Graves Located
                 </div>
               </div>
