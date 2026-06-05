@@ -270,29 +270,6 @@ I have new information regarding their funeral / resting place to add to the fam
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  const careServices = [
-    { id: 'cleaning', name: { en: 'Grave Cleanliness', ur: 'قبر کی صفائی' }, color: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100" },
-    { id: 'watering', name: { en: 'Watering Service', ur: 'قبر کو پانی دینا' }, color: "bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100" },
-    { id: 'planting', name: { en: 'Planting & Care', ur: 'پودے لگانا' }, color: "bg-green-50 text-green-900 border-green-200 hover:bg-green-100" },
-    { id: 'custom', name: { en: 'Custom Service', ur: 'کسٹم سروس' }, color: "border-primary/10 hover:bg-primary hover:text-white" },
-  ];
-
-  const handleGetQuote = (m: any, serviceId: string) => {
-    const service = careServices.find(s => s.id === serviceId);
-    const serviceName = service?.name.en || 'General Service';
-    const whatsappNumber = "+923083401606".replace(/\D/g, '');
-    const title = m.honorific && m.honorific !== 'none' ? honorifics.find(h => h.id === m.honorific)?.en + ' ' : '';
-    
-    const message = `Hello Stylish Marble Art, I would like a quote for:
-*Service:* ${serviceName}
-*Name:* ${title}${m.deceasedName}
-*Graveyard:* ${m.graveyardName || 'Not Specified'}
-
-Please provide details on pricing and timeline.`;
-
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-  };
-
   const handleAddMissingRelative = (name: string, role: string) => {
     let updatedNewMemorial = { 
         ...newMemorial,
@@ -701,34 +678,15 @@ Please provide details on pricing and timeline.`;
                             </div>
                         </div>
 
-                        <div className="mt-auto space-y-4">
+                        <div className="mt-auto pt-4 border-t">
                             <Button 
                                 variant="outline" 
                                 className="w-full text-xs font-bold gap-2 border-primary/20 text-primary hover:bg-primary/5"
                                 onClick={() => setViewingFamily(m)}
                             >
                                 <Users className="h-4 w-4" />
-                                {language === 'en' ? 'Family Connections' : 'خاندانی تعلقات'}
+                                {language === 'en' ? 'View Family Connections' : 'خاندانی تعلقات دیکھیں'}
                             </Button>
-
-                            <div className="space-y-2">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-muted-foreground mb-1">Inquire About Care Service</p>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {careServices.map((s) => (
-                                        <button 
-                                            key={s.id} 
-                                            type="button"
-                                            className={cn(
-                                                "text-[10px] h-auto py-3 px-2 transition-all whitespace-normal leading-tight text-center font-bold border rounded-md",
-                                                s.color
-                                            )}
-                                            onClick={() => handleGetQuote(m, s.id)}
-                                        >
-                                            {s.name[language]}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
                         </div>
                         </CardContent>
                     </Card>
@@ -877,37 +835,6 @@ Please provide details on pricing and timeline.`;
             </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {/* Professional Care Services Marketing Section */}
-      <section className="bg-white py-24 border-y">
-        <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center mb-16">
-                <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">
-                    {language === 'en' ? 'Honoring Legacies with Professional Care' : 'پیشہ ورانہ دیکھ بھال کے ساتھ میراث کا احترام'}
-                </h2>
-                <div className="text-lg text-muted-foreground leading-relaxed">
-                    {language === 'en' 
-                        ? 'At Stylish Marble Art, we understand that visiting a graveyard can be difficult for those living abroad. While our digital family registry is a free gift to the community, our dedicated teams in Karachi provide professional maintenance services to ensure your loved one\'s final resting place remains beautiful and dignified.' 
-                        : 'سٹائلش ماربل آرٹ میں، ہم سمجھتے ہیں کہ بیرون ملک مقیم افراد کے لیے قبرستان جانا مشکل ہو سکتا ہے۔ اگرچہ ہماری ڈیجیٹل خاندانی رجسٹری کمیونٹی کے لیے ایک مفت تحفہ ہے، ہماری کراچی میں وقف ٹیمیں پیشہ ورانہ دیکھ بھال کی خدمات فراہم کرتی ہیں تاکہ یہ یقینی بنایا جا سکے کہ آپ کے پیارے کی آخری آرام گاہ خوبصورت اور باوقار رہے۔'}
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {careServices.map((s) => (
-                    <Card key={s.id} className="border-none shadow-lg hover:shadow-xl transition-shadow text-center group">
-                        <CardHeader>
-                            <CardTitle className="text-xl">{s.name[language]}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="pb-8">
-                            <Button variant="link" className="font-bold text-primary" onClick={() => document.getElementById('search-tool')?.scrollIntoView({ behavior: 'smooth' })}>
-                                {language === 'en' ? 'Get a Price Quote' : 'قیمت معلوم کریں'}
-                            </Button>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
-        </div>
-      </section>
 
       {/* Map View Section */}
       <section className="container mx-auto px-4 pt-24">

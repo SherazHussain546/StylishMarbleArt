@@ -236,7 +236,7 @@ export const content = {
     feedItems: [
       {
         image: "/Gallery/Grave/8.png",
-        title: { en: "White Marble Gravestone", ur: "سفید ماربل का کتبہ" },
+        title: { en: "White Marble Gravestone", ur: "سفید ماربل کا کتبہ" },
         alt: { en: "Custom Ziarat White marble gravestone with Urdu engraving, Karachi Pakistan", ur: "کراچی پاکستان میں اردو کندہ کاری کے ساتھ کسٹم زیارت وائٹ ماربل کا کتبہ" },
         hint: "marble gravestone",
       },
@@ -311,15 +311,14 @@ export const content = {
         ],
       },
       {
-        name: { en: 'Digital Memorial Locator & Grave Care', ur: 'ڈیجیٹل یادگار تلاش کنندہ اور قبر کی دیکھ بھال' },
+        name: { en: 'Digital Memorial Registry & Locator', ur: 'ڈیجیٹل یادگار رجسٹری اور تلاش کنندہ' },
         description: {
-          en: 'A free community service based in Karachi. Pin grave locations on our map and request professional care (cleaning, watering) from anywhere in the world.',
-          ur: 'کراچی میں مقیم ایک مفت کمیونٹی سروس۔ ہمارے نقشے پر قبر کے مقامات پن کریں اور دنیا میں کہیں سے بھی پیشہ ورانہ دیکھ بھال (صفائی، پانی دینا) کی درخواست کریں۔',
+          en: 'A free community service based in Karachi. Preserve your family history by pinning and searching ancestral resting places across major Karachi cemeteries from anywhere in the world.',
+          ur: 'کراچی میں مقیم ایک مفت کمیونٹی سروس۔ کراچی کے بڑے قبرستانوں میں آباؤ اجداد کی آخری آرام گاہوں کو پن اور تلاش کرکے اپنے خاندان کی تاریخ کو دنیا کے کسی بھی کونے سے محفوظ بنائیں۔',
         },
         images: [
-          { src: 'https://picsum.photos/seed/grave-care/800/800', alt: 'Professional grave cleaning and watering service in Karachi graveyards', hint: 'grave maintenance' },
           { src: 'https://picsum.photos/seed/locator-map/800/800', alt: 'Interactive Karachi graveyard map for memorial locations Pakistan', hint: 'digital map' },
-          { src: 'https://picsum.photos/seed/grave-plants/800/800', alt: 'Maintained grave with fresh plants, service provided by Stylish Marble Art', hint: 'grave planting' },
+          { src: 'https://picsum.photos/seed/family-tree/800/800', alt: 'Digital family tree visualization tool provided by Stylish Marble Art', hint: 'family tree' },
         ],
       },
       {
@@ -342,7 +341,7 @@ export const content = {
     faqs: [
       {
         question: { en: 'Do you provide international shipping?', ur: 'کیا آپ بین الاقوامی شپنگ فراہم کرتے ہیں؟' },
-        answer: { en: 'Yes, while we are based in Karachi, Pakistan, we provide expert international shipping and secure packaging for our custom gravestones and marble work to the Middle East, Africa, and beyond.', ur: 'جی ہاں، اگرچہ ہم کراچی، پاکستان میں مقیم ہیں، ہم مشرق وسطیٰ، افریقہ اور اس سے باہر اپنے کسٹم کتبوں اور ماربل کے کام کے لیے ماہرانہ بین الاقوامی شپنگ اور محفوظ پیکیجنگ فراہم کرتے ہیں۔' },
+        answer: { en: 'Yes, while we are based in Karachi, Pakistan, we provide expert international shipping and secure packaging for our custom gravestones and marble work to the Middle East, Africa, and beyond.', ur: 'جی ہاں، اگرچہ ہم کراچی, پاکستان میں مقیم ہیں، ہم مشرق وسطیٰ، افریقہ اور اس سے باہر اپنے کسٹم کتبوں اور ماربل کے کام کے لیے ماہرانہ بین الاقوامی شپنگ اور محفوظ پیکیجنگ فراہم کرتے ہیں۔' },
       },
       {
         question: { en: 'Where is your workshop located?', ur: 'آپ کی ورکشاپ کہاں واقع ہے؟' },
@@ -375,7 +374,7 @@ export const content = {
     ourMissionTitle: { en: 'Our Mission & Global Commitment', ur: 'ہمارا مشن اور عالمی عزم' },
     ourMissionText: {
       en: 'We are committed to sourcing the finest A-grade Pakistani stones to ensure that our craftsmanship endures for generations. We proudly serve all of Pakistan and export dignified memorials to the Middle East, Africa, and Asia.',
-      ur: 'ہم بہترین اے گریڈ پاکستانی پتھر حاصل کرنے کے لیے پرعزم ہیں تاکہ یہ یقینی بنایا جا سکے کہ ہماری کاریگری نسلوں تک برقرار رہے۔ ہم فخر کے ساتھ پورے پاکستان کی خدمت کرتے ہیں اور مشرق وسطیٰ، افریقہ اور ایشیا کو باوقار یادگاریں برآمد کرتے ہیں۔',
+      ur: 'ہم بہترین اے گریڈ پاکستانی پتھر حاصل کرنے کے لیے پرعزم ہیں تاکہ یہ یقینی بنایا جا سکے کہ ہماری کاریگری نسلوں تک برقرار رہے۔ ہم فخر کے ساتھ پورے پاکستان کی خدمت کرتے ہیں اور مشرق وسطیٰ, افریقہ اور ایشیا کو باوقار یادگاریں برآمد کرتے ہیں۔',
     },
     values: [
       {
