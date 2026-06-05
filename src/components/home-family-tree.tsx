@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -6,7 +5,8 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { GitGraph, Users, Share2, MapPin, Search, Heart, Sparkles } from 'lucide-react';
+import { GitGraph, Users, Share2, MapPin, Search, Heart, Sparkles, Activity } from 'lucide-react';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export function HomeFamilyTree() {
   const { language } = useLanguage();
@@ -65,36 +65,94 @@ export function HomeFamilyTree() {
 
           <div className="relative">
             <div className="absolute inset-0 bg-primary/10 rounded-[3rem] -rotate-3 scale-105"></div>
-            <Card className="relative z-10 rounded-[3rem] border-none shadow-2xl overflow-hidden bg-background p-8 md:p-12">
-                <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="bg-primary/5 p-6 rounded-full">
-                        <Users className="h-16 w-16 text-primary opacity-20" />
+            <Card className="relative z-10 rounded-[3rem] border-none shadow-2xl overflow-hidden bg-background p-0">
+                <div className="bg-primary p-8 text-primary-foreground relative overflow-hidden">
+                    <div className="absolute top-0 right-0 opacity-10 -mr-8 -mt-8">
+                        <GitGraph className="h-40 w-40" />
                     </div>
-                    <div className="space-y-2">
-                        <div className="h-2 w-32 bg-primary/10 rounded-full mx-auto"></div>
-                        <div className="h-2 w-24 bg-primary/5 rounded-full mx-auto"></div>
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Activity className="h-3 w-3 text-green-400 animate-pulse" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">
+                                {language === 'en' ? 'Community Live Registry' : 'کمیونٹی لائیو رجسٹری'}
+                            </span>
+                        </div>
+                        <h3 className="text-2xl font-bold leading-tight">
+                            {language === 'en' ? 'Digital Legacy Portal' : 'ڈیجیٹل لیگیسی پورٹل'}
+                        </h3>
+                        <p className="text-sm opacity-80 mt-2">
+                            {language === 'en' ? 'Connecting families across borders.' : 'سرحدوں کے پار خاندانوں کو جوڑ رہا ہے۔'}
+                        </p>
                     </div>
-                    <div className="grid grid-cols-3 gap-4 w-full pt-8">
-                        {[...Array(3)].map((_, i) => (
-                            <div key={i} className="space-y-3 flex flex-col items-center">
-                                <div className="h-12 w-12 rounded-xl bg-secondary animate-pulse"></div>
-                                <div className="h-1.5 w-12 bg-muted rounded-full"></div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="pt-8 w-full border-t border-dashed">
-                        <p className="text-xs font-bold uppercase tracking-widest text-primary/40 mb-4">Community Registry</p>
-                        <div className="bg-primary/5 rounded-2xl p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
-                                    <Heart className="h-4 w-4 text-primary opacity-40" />
+                </div>
+                <div className="p-8 space-y-8">
+                    <div className="flex items-center justify-between">
+                        <div className="flex -space-x-3">
+                            {placeholderImages.avatars.map((avatar) => (
+                                <div key={avatar.id} className="h-10 w-10 rounded-full border-2 border-background bg-secondary overflow-hidden shadow-sm">
+                                    <img 
+                                        src={avatar.url} 
+                                        alt="User avatar" 
+                                        data-ai-hint={avatar.keywords}
+                                        className="h-full w-full object-cover" 
+                                    />
                                 </div>
-                                <div className="text-left">
-                                    <div className="h-2 w-20 bg-primary/20 rounded-full mb-1.5"></div>
-                                    <div className="h-1.5 w-12 bg-primary/10 rounded-full"></div>
-                                </div>
+                            ))}
+                            <div className="h-10 w-10 rounded-full border-2 border-background bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shadow-lg">
+                                +1.2k
                             </div>
-                            <Share2 className="h-4 w-4 text-primary opacity-40" />
+                        </div>
+                        <div className="text-right">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                                {language === 'en' ? 'Memorials Added' : 'شامل یادگاریں'}
+                            </p>
+                            <p className="text-xl font-bold text-primary tracking-tighter">1,540+</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="bg-secondary/10 hover:bg-secondary/20 transition-all rounded-2xl p-4 flex items-center gap-4 border border-primary/5 group/card cursor-default">
+                            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover/card:scale-110 transition-transform">
+                                <MapPin className="h-6 w-6 text-primary" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
+                                    {language === 'en' ? 'Recent Pin' : 'حالیہ پن'}
+                                </p>
+                                <p className="font-bold text-foreground">Wadi-e-Hussain, Karachi</p>
+                            </div>
+                            <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
+                        </div>
+
+                        <div className="bg-secondary/10 hover:bg-secondary/20 transition-all rounded-2xl p-4 flex items-center gap-4 border border-primary/5 group/card cursor-default">
+                            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover/card:scale-110 transition-transform">
+                                <GitGraph className="h-6 w-6 text-primary" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
+                                    {language === 'en' ? 'Lineage Connection' : 'نسلی تعلق'}
+                                </p>
+                                <p className="font-bold text-foreground">
+                                    {language === 'en' ? '3rd Gen Record Linked' : 'تیسری نسل کا ریکارڈ منسلک'}
+                                </p>
+                            </div>
+                            <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
+                        </div>
+                    </div>
+                    
+                    <div className="pt-6 border-t border-dashed">
+                        <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
+                            <span>{language === 'en' ? 'Global Search Nodes' : 'عالمی تلاش'}</span>
+                            <div className="flex gap-1">
+                                <span className="h-1 w-1 bg-primary rounded-full animate-bounce"></span>
+                                <span className="h-1 w-1 bg-primary rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                                <span className="h-1 w-1 bg-primary rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                            </div>
+                        </div>
+                        <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+                            <div className="h-full bg-primary w-2/3 rounded-full relative">
+                                <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
