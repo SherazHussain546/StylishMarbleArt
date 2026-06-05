@@ -111,7 +111,7 @@ export const content = {
         },
         origin: { en: "Sourced from Mansehra (KPK), Balochistan, and imported premium grades", ur: "مانسہرہ (KPK)، بلوچستان اور درآمد شدہ پریمیم گریڈز سے حاصل کیا گیا" },
         appearance: { en: "Deep jet black, polished to a mirror finish", ur: "گہرا جیٹ بلیک، آئینہ کی طرح پالش" },
-        finishes: { en: "High polish, flamed, or sandblasted", ur: "ہائی پالش، فلیمد، یا سینڈ بلاسٹڈ" }
+        finishes: { en: "High polish, flamed, or sandblasted", ur: "ہائی پالش, فلیمد، یا سینڈ بلاسٹڈ" }
       },
       {
         slug: "rosso-verona-marble",
@@ -319,8 +319,8 @@ export const content = {
           ur: 'کراچی میں مقیم ایک مفت کمیونٹی سروس۔ کراچی کے بڑے قبرستانوں میں آباؤ اجداد کی آخری آرام گاہوں کو پن اور تلاش کرکے اپنے خاندان کی تاریخ کو دنیا کے کسی بھی کونے سے محفوظ بنائیں۔',
         },
         images: [
-          { src: 'https://picsum.photos/seed/locator-map/800/800', alt: 'Interactive Karachi graveyard map for memorial locations Pakistan', hint: 'digital map' },
-          { src: 'https://picsum.photos/seed/family-tree/800/800', alt: 'Digital family tree visualization tool provided by Stylish Marble Art', hint: 'family tree' },
+          { src: '/Gallery/Grave/8.png', alt: 'Interactive Karachi graveyard map for memorial locations Pakistan', hint: 'digital map' },
+          { src: '/Gallery/Headstone/4.png', alt: 'Digital family tree visualization tool provided by Stylish Marble Art', hint: 'family tree' },
         ],
       },
       {
