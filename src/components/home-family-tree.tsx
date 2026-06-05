@@ -5,26 +5,41 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { GitGraph, MapPin, Search, Heart, Sparkles, Activity, Loader2, Share2 } from 'lucide-react';
-import placeholderImages from '@/app/lib/placeholder-images.json';
+import { GitGraph, MapPin, Search, Heart, Sparkles, Activity, Loader2, Share2, Users } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { collection, query, orderBy, where, limit } from 'firebase/firestore';
 
 export function HomeFamilyTree() {
   const { language } = useLanguage();
   const sectionContent = content.homeFamilyTree;
   const db = useFirestore();
 
-  // Real-time stats and recent activity fetch
+  // Fetch total count for stats
   const memorialsQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'memorials'), orderBy('createdAt', 'desc'));
+    return query(collection(db, 'memorials'));
   }, [db]);
+  const { data: allMemorials } = useCollection<any>(memorialsQuery);
+  const totalCount = allMemorials?.length || 0;
 
-  const { data: memorials, isLoading } = useCollection<any>(memorialsQuery);
+  // Fetch most recent for the activity feed
+  const recentMemorialsQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'memorials'), orderBy('createdAt', 'desc'), limit(1));
+  }, [db]);
+  const { data: recentMemorials, isLoading: recentLoading } = useCollection<any>(recentMemorialsQuery);
+  const latestMemorial = recentMemorials?.[0];
 
-  const totalCount = memorials?.length || 0;
-  const latestMemorial = memorials?.[0];
+  // REAL DATA: Fetch memorials with actual images to show in the row
+  const memorialsWithImagesQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(
+        collection(db, 'memorials'), 
+        where('imageUrl', '!=', ''), 
+        limit(4)
+    );
+  }, [db]);
+  const { data: featuredMemorials } = useCollection<any>(memorialsWithImagesQuery);
 
   return (
     <section className="py-16 md:py-32 bg-primary/5">
@@ -101,19 +116,28 @@ export function HomeFamilyTree() {
                 </div>
                 <div className="p-8 space-y-8">
                     <div className="flex items-center justify-between">
-                        <div className="flex -space-x-3">
-                            {placeholderImages.avatars.map((avatar) => (
-                                <div key={avatar.id} className="h-10 w-10 rounded-full border-2 border-background bg-secondary overflow-hidden shadow-sm">
-                                    <img 
-                                        src={avatar.url} 
-                                        alt="User avatar" 
-                                        data-ai-hint={avatar.keywords}
-                                        className="h-full w-full object-cover" 
-                                    />
+                        <div className="flex -space-x-3 items-center">
+                            {/* Showing Real Data: Featured memorials with photos */}
+                            {featuredMemorials && featuredMemorials.length > 0 ? (
+                                featuredMemorials.map((m: any) => (
+                                    <div key={m.id} className="h-12 w-12 rounded-full border-2 border-background bg-secondary overflow-hidden shadow-md">
+                                        <img 
+                                            src={m.imageUrl} 
+                                            alt={m.deceasedName} 
+                                            className="h-full w-full object-cover" 
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="h-12 w-12 rounded-full border-2 border-background bg-secondary flex items-center justify-center shadow-md">
+                                    <Users className="h-5 w-5 text-muted-foreground opacity-20" />
                                 </div>
-                            ))}
-                            <div className="h-10 w-10 rounded-full border-2 border-background bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shadow-lg">
-                                {isLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : `+${totalCount > 4 ? totalCount - 4 : 0}`}
+                            )}
+                            <div className="h-12 w-12 rounded-full border-2 border-background bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shadow-lg z-10">
+                                {recentLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : `+${totalCount > 4 ? totalCount - 4 : 0}`}
+                            </div>
+                            <div className="ml-6 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                                {language === 'en' ? 'Families Joined' : 'خاندان شامل ہوئے'}
                             </div>
                         </div>
                         <div className="text-right">
@@ -121,7 +145,7 @@ export function HomeFamilyTree() {
                                 {language === 'en' ? 'Memorials Linked' : 'شامل یادگاریں'}
                             </p>
                             <p className="text-2xl font-bold text-primary tracking-tighter">
-                                {isLoading ? '---' : totalCount.toLocaleString()}
+                                {recentLoading ? '---' : totalCount.toLocaleString()}
                             </p>
                         </div>
                     </div>
@@ -136,7 +160,7 @@ export function HomeFamilyTree() {
                                     {language === 'en' ? 'Recent Registry' : 'حالیہ اندراج'}
                                 </p>
                                 <p className="font-bold text-foreground truncate">
-                                    {isLoading ? '...' : (latestMemorial?.graveyardName || latestMemorial?.deceasedName || 'Karachi, Pakistan')}
+                                    {recentLoading ? '...' : (latestMemorial?.graveyardName || latestMemorial?.deceasedName || 'Karachi, Pakistan')}
                                 </p>
                             </div>
                             <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
