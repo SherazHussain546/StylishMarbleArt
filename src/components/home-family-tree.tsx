@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { GitGraph, MapPin, Search, Heart, Sparkles, Activity, Loader2, Share2, Users, ShieldCheck, Globe } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, where, limit } from 'firebase/firestore';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
 
 export function HomeFamilyTree() {
   const { language } = useLanguage();
@@ -29,17 +29,6 @@ export function HomeFamilyTree() {
   }, [db]);
   const { data: recentMemorials, isLoading: recentLoading } = useCollection<any>(recentMemorialsQuery);
   const latestMemorial = recentMemorials?.[0];
-
-  // REAL DATA: Fetch memorials with actual images to show in the row
-  const memorialsWithImagesQuery = useMemoFirebase(() => {
-    if (!db) return null;
-    return query(
-        collection(db, 'memorials'), 
-        where('imageUrl', '!=', ''), 
-        limit(4)
-    );
-  }, [db]);
-  const { data: featuredMemorials } = useCollection<any>(memorialsWithImagesQuery);
 
   return (
     <section className="py-16 md:py-32 bg-primary/5">
@@ -103,7 +92,7 @@ export function HomeFamilyTree() {
                         <div className="flex items-center gap-2 mb-4">
                             <Activity className="h-3 w-3 text-green-400 animate-pulse" />
                             <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">
-                                {language === 'en' ? 'Community Live Registry' : 'کمیونٹی لائیو رجسٹری'}
+                                {language === 'en' ? 'Community Live Registry' : 'کمیٹی لائیو رجسٹری'}
                             </span>
                         </div>
                         <h3 className="text-2xl font-bold leading-tight">
@@ -115,38 +104,17 @@ export function HomeFamilyTree() {
                     </div>
                 </div>
                 <div className="p-8 space-y-8">
-                    <div className="flex items-center justify-between">
-                        <div className="flex -space-x-3 items-center">
-                            {/* Showing Real Data: Featured memorials with photos */}
-                            {featuredMemorials && featuredMemorials.length > 0 ? (
-                                featuredMemorials.map((m: any) => (
-                                    <div key={m.id} className="h-12 w-12 rounded-full border-2 border-background bg-secondary overflow-hidden shadow-md">
-                                        <img 
-                                            src={m.imageUrl} 
-                                            alt={m.deceasedName} 
-                                            className="h-full w-full object-cover" 
-                                        />
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="h-12 w-12 rounded-full border-2 border-background bg-secondary flex items-center justify-center shadow-md">
-                                    <Users className="h-5 w-5 text-muted-foreground opacity-20" />
-                                </div>
-                            )}
-                            <div className="h-12 w-12 rounded-full border-2 border-background bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shadow-lg z-10">
-                                {recentLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : `+${totalCount > 4 ? totalCount - 4 : 0}`}
-                            </div>
-                            <div className="ml-6 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                                {language === 'en' ? 'Families Joined' : 'خاندان شامل ہوئے'}
-                            </div>
-                        </div>
-                        <div className="text-right">
+                    <div className="flex items-center justify-between bg-primary/5 p-6 rounded-2xl border border-primary/10 shadow-sm">
+                        <div>
                             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                                 {language === 'en' ? 'Memorials Linked' : 'شامل یادگاریں'}
                             </p>
-                            <p className="text-2xl font-bold text-primary tracking-tighter">
+                            <p className="text-3xl font-bold text-primary tracking-tighter">
                                 {recentLoading ? '---' : totalCount.toLocaleString()}
                             </p>
+                        </div>
+                        <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-lg">
+                            <Users className="h-6 w-6" />
                         </div>
                     </div>
 
