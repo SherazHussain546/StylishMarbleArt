@@ -6,19 +6,33 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'
 import { getRemoteConfig } from 'firebase/remote-config';
 
-// IMPORTANT: DO NOT MODIFY THIS FUNCTION UNLESS NECESSARY FOR BUILD RESILIENCE
+// Safe initialization for both local, App Hosting, and CI environments like Netlify
 export function initializeFirebase() {
   if (getApps().length) {
     return getSdks(getApp());
   }
 
-  let firebaseApp;
+  let firebaseApp: FirebaseApp;
+  
+  // Basic check for config validity
+  const hasConfig = firebaseConfig && firebaseConfig.apiKey;
+
   try {
-    // Attempt automatic initialization first (Firebase App Hosting)
-    firebaseApp = initializeApp();
+    // Only attempt automatic init if we're likely in a Google environment
+    if (!hasConfig || process.env.FIREBASE_CONFIG || process.env.K_SERVICE) {
+      firebaseApp = initializeApp();
+    } else {
+      firebaseApp = initializeApp(firebaseConfig);
+    }
   } catch (e) {
-    // Silently fall back to provided config for non-App Hosting environments (like local or Netlify builds)
-    firebaseApp = initializeApp(firebaseConfig);
+    // Final fallback to provided config
+    if (hasConfig) {
+      firebaseApp = initializeApp(firebaseConfig);
+    } else {
+      // If no config and auto-init fails, we still return SDKs but they might fail at runtime
+      // This allows the build to proceed if Firebase isn't strictly needed for static generation
+      firebaseApp = initializeApp({ apiKey: "placeholder-for-build" });
+    }
   }
 
   return getSdks(firebaseApp);

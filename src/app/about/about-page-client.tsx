@@ -11,17 +11,18 @@ import { useMemo } from 'react';
 
 export default function AboutPageClient() {
   const { language } = useLanguage();
-  const pageContent = content.aboutPage;
+  const pageContent = content?.aboutPage;
 
-  // AboutPage Schema Markup
+  // Defensive Schema Markup
   const aboutSchema = useMemo(() => {
+    if (!pageContent) return null;
     return {
       "@context": "https://schema.org",
       "@type": "AboutPage",
       "mainEntity": {
         "@type": "LocalBusiness",
         "name": "Stylish Marble Art",
-        "description": pageContent?.ourStoryText?.en || "Legacy stonemasons in Karachi.",
+        "description": pageContent.ourStoryText?.en || "Legacy stonemasons in Karachi.",
         "image": "https://www.stylishmarbleart.com/SMA.png",
         "address": {
           "@type": "PostalAddress",
@@ -44,19 +45,21 @@ export default function AboutPageClient() {
 
   return (
     <div className="bg-secondary/20">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
-      />
+      {aboutSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+        />
+      )}
       
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-primary">
-            {pageContent.title[language]}
+            {pageContent.title?.[language] || 'About Us'}
           </h1>
           <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {pageContent.subtitle[language]}
+            {pageContent.subtitle?.[language] || ''}
           </p>
         </div>
 
@@ -83,10 +86,10 @@ export default function AboutPageClient() {
             <div className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">
                 {language === 'en' ? 'Our Legacy' : 'ہماری میراث'}
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{pageContent.ourStoryTitle[language]}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{pageContent.ourStoryTitle?.[language]}</h2>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                <p>{pageContent.ourStoryText[language]}</p>
-                <p>{pageContent.ourMissionText[language]}</p>
+                <p>{pageContent.ourStoryText?.[language]}</p>
+                <p>{pageContent.ourMissionText?.[language]}</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button asChild size="lg" className="rounded-full px-8 shadow-lg">
@@ -116,31 +119,33 @@ export default function AboutPageClient() {
         </div>
 
         {/* Values Section */}
-        <div className="mt-32">
-          <div className="mx-auto max-w-4xl text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.ourValuesTitle[language]}</h2>
-            <p className="mt-4 text-muted-foreground text-lg">
-                {language === 'en' 
-                    ? 'Our foundation is built on three pillars that define our service in the Karachi marble industry and the global market.' 
-                    : 'ہماری بنیاد تین ستونوں پر ہے جو کراچی کی ماربل انڈسٹری اور عالمی مارکیٹ میں ہماری خدمت کی تعریف کرتے ہیں۔'}
-            </p>
+        {pageContent.values && (
+          <div className="mt-32">
+            <div className="mx-auto max-w-4xl text-center mb-16">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.ourValuesTitle?.[language] || 'Our Values'}</h2>
+              <p className="mt-4 text-muted-foreground text-lg">
+                  {language === 'en' 
+                      ? 'Our foundation is built on three pillars that define our service in the Karachi marble industry and the global market.' 
+                      : 'ہماری بنیاد تین ستونوں پر ہے جو کراچی کی ماربل انڈسٹری اور عالمی مارکیٹ میں ہماری خدمت کی تعریف کرتے ہیں۔'}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {pageContent.values.map((value: any, index: number) => (
+                <Card key={index} className="border-none shadow-xl bg-background/50 backdrop-blur hover:shadow-2xl transition-shadow group">
+                  <CardHeader className="text-center">
+                    <div className="mx-auto mb-4 bg-primary/5 p-4 rounded-2xl group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      {index === 0 ? <ShieldCheck className="h-8 w-8" /> : index === 1 ? <Award className="h-8 w-8" /> : <Target className="h-8 w-8" />}
+                    </div>
+                    <CardTitle className="text-2xl font-bold">{value.name?.[language]}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <p className="text-muted-foreground leading-relaxed">{value.description?.[language]}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {pageContent.values.map((value, index) => (
-              <Card key={index} className="border-none shadow-xl bg-background/50 backdrop-blur hover:shadow-2xl transition-shadow group">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 bg-primary/5 p-4 rounded-2xl group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    {index === 0 ? <ShieldCheck className="h-8 w-8" /> : index === 1 ? <Award className="h-8 w-8" /> : <Target className="h-8 w-8" />}
-                  </div>
-                  <CardTitle className="text-2xl font-bold">{value.name[language]}</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-muted-foreground leading-relaxed">{value.description[language]}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+        )}
         
         {/* CTA Banner */}
         <div className="mt-32 rounded-[3rem] bg-primary py-16 px-8 text-center text-primary-foreground shadow-2xl relative overflow-hidden">
