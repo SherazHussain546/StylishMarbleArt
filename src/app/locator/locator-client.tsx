@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users, UserPlus, Info, MessageCircle, Landmark, Sparkles } from 'lucide-react';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users, UserPlus, Info, MessageCircle, Landmark, Sparkles, BookOpen } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -605,7 +605,11 @@ I have new information regarding their funeral / resting place to add to the fam
                     </div>
                 ) : filteredMemorials.length > 0 ? (
                     filteredMemorials.map((m: any) => (
-                    <Card key={m.id} className="flex flex-col h-full shadow-md hover:shadow-2xl transition-all border-t-4 border-primary group overflow-hidden bg-background">
+                    <Card 
+                        key={m.id} 
+                        className="flex flex-col h-full shadow-md hover:shadow-2xl transition-all border-t-4 border-primary group overflow-hidden bg-background cursor-pointer"
+                        onClick={() => setViewingFamily(m)}
+                    >
                         {m.imageUrl ? (
                         <div className="relative aspect-square w-full bg-muted overflow-hidden border-b">
                             <img 
@@ -618,7 +622,10 @@ I have new information regarding their funeral / resting place to add to the fam
                                     variant="secondary" 
                                     size="icon" 
                                     className="rounded-full h-8 w-8 shadow-lg"
-                                    onClick={() => handleShare(m)}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleShare(m);
+                                    }}
                                 >
                                     <Share2 className="h-4 w-4" />
                                 </Button>
@@ -627,7 +634,10 @@ I have new information regarding their funeral / resting place to add to the fam
                         ) : (
                             <div className="p-4 bg-muted/20 flex justify-between items-center border-b">
                                 <Badge variant="outline">MEMORIAL</Badge>
-                                <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" onClick={() => handleShare(m)}>
+                                <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleShare(m);
+                                }}>
                                     <Share2 className="h-4 w-4 text-primary" />
                                 </Button>
                             </div>
@@ -642,7 +652,7 @@ I have new information regarding their funeral / resting place to add to the fam
                                         {honorifics.find(h => h.id === m.honorific)?.[language] || m.honorific}
                                     </span>
                                 )}
-                                <h3 className="font-bold text-2xl text-foreground leading-tight">{m.deceasedName}</h3>
+                                <h3 className="font-bold text-2xl text-foreground leading-tight group-hover:text-primary transition-colors">{m.deceasedName}</h3>
                             </div>
                             {(m.fatherName || m.husbandName) && (
                                 <p className="text-sm text-muted-foreground italic">
@@ -682,10 +692,9 @@ I have new information regarding their funeral / resting place to add to the fam
                             <Button 
                                 variant="outline" 
                                 className="w-full text-xs font-bold gap-2 border-primary/20 text-primary hover:bg-primary/5"
-                                onClick={() => setViewingFamily(m)}
                             >
-                                <Users className="h-4 w-4" />
-                                {language === 'en' ? 'View Family Connections' : 'خاندانی تعلقات دیکھیں'}
+                                <BookOpen className="h-4 w-4" />
+                                {language === 'en' ? 'View Profile & Tree' : 'پروفائل اور شجرہ دیکھیں'}
                             </Button>
                         </div>
                         </CardContent>
@@ -743,26 +752,68 @@ I have new information regarding their funeral / resting place to add to the fam
 
                 {/* Current Person & Spouse */}
                 <div className="w-full flex flex-col items-center gap-4">
-                    <Card className="w-full max-w-sm border-2 border-primary shadow-xl scale-105 bg-background relative z-10">
-                        <CardContent className="p-6 text-center">
-                            <div className="flex justify-center mb-2">
-                                {viewingFamily?.isAlive && <Badge className="bg-green-500 text-[8px]">ALIVE</Badge>}
-                            </div>
-                            <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{language === 'en' ? 'Focus Person' : 'منتخب فرد'}</div>
-                            <h3 className="text-xl font-bold">{viewingFamily?.deceasedName}</h3>
-                            <div className="text-xs text-muted-foreground">{viewingFamily?.isAlive ? (language === 'en' ? 'Active in Tree' : 'شجرہ میں فعال') : viewingFamily?.graveyardName}</div>
-                            
-                            {/* Action for living person in tree */}
-                            {viewingFamily?.isAlive && (
-                                <Button 
-                                    size="sm" 
-                                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold gap-2 h-8"
-                                    onClick={() => handleRequestUpdate(viewingFamily)}
-                                >
-                                    <MessageCircle className="h-3 w-3" />
-                                    {language === 'en' ? 'Notify Death / Update' : 'وفات کی اطلاع'}
-                                </Button>
+                    <Card className="w-full max-w-sm border-2 border-primary shadow-xl scale-105 bg-background relative z-10 overflow-hidden">
+                        <CardContent className="p-0">
+                            {/* Rich Detail View within Tree */}
+                            {viewingFamily?.imageUrl && (
+                                <div className="relative h-48 w-full border-b">
+                                    <img src={viewingFamily.imageUrl} alt={viewingFamily.deceasedName} className="w-full h-full object-cover" />
+                                </div>
                             )}
+                            <div className="p-6 text-center">
+                                <div className="flex justify-center mb-2">
+                                    {viewingFamily?.isAlive && <Badge className="bg-green-500 text-[8px]">ALIVE</Badge>}
+                                </div>
+                                <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{language === 'en' ? 'Memorial Record' : 'میموریل ریکارڈ'}</div>
+                                <h3 className="text-2xl font-bold">{viewingFamily?.deceasedName}</h3>
+                                {(viewingFamily?.fatherName || viewingFamily?.husbandName) && (
+                                    <p className="text-xs text-muted-foreground italic mb-3">
+                                        {viewingFamily?.fatherName && `${language === 'en' ? 's/o ' : 'ولد '} ${viewingFamily.fatherName}`}
+                                        {viewingFamily?.fatherName && viewingFamily?.husbandName && ' | '}
+                                        {viewingFamily?.husbandName && `${language === 'en' ? 'w/o ' : 'زوجہ '} ${viewingFamily.husbandName}`}
+                                    </p>
+                                )}
+                                
+                                {!viewingFamily?.isAlive ? (
+                                    <div className="space-y-4">
+                                        <div className="bg-primary/5 p-3 rounded-lg border border-primary/10">
+                                            <div className="flex items-center justify-center gap-2 text-primary font-bold mb-1">
+                                                <MapPin className="h-4 w-4" />
+                                                <span className="text-sm">{viewingFamily?.graveyardName}</span>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-tighter">
+                                                <div className="flex flex-col">
+                                                    <span>Born</span>
+                                                    <span className="text-foreground text-xs">{viewingFamily?.dateOfBirth || 'N/A'}</span>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span>Died</span>
+                                                    <span className="text-foreground text-xs">{viewingFamily?.dateOfDeath || 'N/A'}</span>
+                                                </div>
+                                            </div>
+                                            {viewingFamily?.islamicDate && (
+                                                <div className="mt-2 pt-2 border-t border-primary/10 text-[10px] italic">
+                                                    Islamic Date: {viewingFamily.islamicDate}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="text-xs text-muted-foreground py-2">{language === 'en' ? 'Active member of the digital lineage.' : 'ڈیجیٹل شجرہ کا فعال رکن۔'}</div>
+                                )}
+                                
+                                {/* Action for living person in tree */}
+                                {viewingFamily?.isAlive && (
+                                    <Button 
+                                        size="sm" 
+                                        className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold gap-2 h-8"
+                                        onClick={() => handleRequestUpdate(viewingFamily)}
+                                    >
+                                        <MessageCircle className="h-3 w-3" />
+                                        {language === 'en' ? 'Notify Death / Update' : 'وفات کی اطلاع'}
+                                    </Button>
+                                )}
+                            </div>
                         </CardContent>
                     </Card>
 
