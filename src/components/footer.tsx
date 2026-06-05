@@ -103,7 +103,7 @@ export function Footer() {
         </div>
         <div className="mt-12 border-t pt-8 text-center flex justify-center items-center">
           <p className="text-sm text-muted-foreground">
-            {content.footer.legal[language]} | Developed by <a href="https://www.synctech.ie" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">SYNC TECH</a>
+            {content.footer.legal[language]} | Developed by <a href="https://www.synctech.ie" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">SYNC TECH Solutions</a>
           </p>
         </div>
       </div>
