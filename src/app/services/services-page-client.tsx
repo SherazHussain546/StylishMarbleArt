@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -149,10 +148,10 @@ export default function ServicesPageClient() {
                             </a>
                         </Button>
                         <Button asChild variant="outline" size="lg" className="rounded-full px-8">
-                            <Link href="/faq">
+                            <a href="https://faq.stylishmarbleart.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                                 <HelpCircle className="mr-2 h-5 w-5" />
                                 {language === 'en' ? 'View Service FAQ' : 'سوالات دیکھیں'}
-                            </Link>
+                            </a>
                         </Button>
                     </div>
                   </div>

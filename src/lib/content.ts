@@ -4,12 +4,12 @@ export const content = {
     services: { en: 'Services', ur: 'خدمات' },
     gallery: { en: 'Gallery', ur: 'گیلری' },
     locator: { en: 'Find Graves', ur: 'قبریں تلاش کریں' },
-    about: { en: 'About Us', ur: 'ہمارے بارے میں' },
-    contact: { en: 'Contact', ur: 'رابطہ' },
-    updates: { en: 'Articles & Updates', ur: 'مضامین اور اپ ڈیٹس' },
-    faq: { en: 'FAQ', ur: 'سوالات' },
-    review: { en: 'Review', ur: 'رائے' },
     feed: { en: 'Feed', ur: 'فیڈ' },
+    review: { en: 'Review', ur: 'رائے' },
+    about: { en: 'About Us', ur: 'ہمارے بارے میں' },
+    faq: { en: 'FAQ', ur: 'سوالات' },
+    contact: { en: 'Contact', ur: 'رابطہ' },
+    updates: { en: 'Updates', ur: 'اپ ڈیٹس' },
   },
   hero: {
     title: {
