@@ -28,27 +28,47 @@ export function Header() {
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/locator', label: content.nav.locator[language] },
+    { href: 'https://feed.stylishmarbleart.com', label: content.nav.feed[language] },
+    { href: 'https://review.stylishmarbleart.com', label: content.nav.review[language] },
     { href: '/about', label: content.nav.about[language] },
-    { href: '/faq', label: content.nav.faq[language] },
+    { href: 'https://faq.stylishmarbleart.com', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },
   ];
 
   const phone = content.contactPage.contactInfo.phone.en;
 
   const NavItems = () =>
-    navLinks.map(link => (
-      <Link
-        key={link.href}
-        href={link.href}
-        onClick={() => setIsMenuOpen(false)}
-        className={cn(
-          'text-sm font-medium transition-colors hover:text-primary',
-          pathname === link.href ? 'text-primary' : 'text-muted-foreground'
-        )}
-      >
-        {link.label}
-      </Link>
-    ));
+    navLinks.map(link => {
+      const isExternal = link.href.startsWith('http');
+      
+      if (isExternal) {
+        return (
+          <a
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+          >
+            {link.label}
+          </a>
+        );
+      }
+
+      return (
+        <Link
+          key={link.href}
+          href={link.href}
+          onClick={() => setIsMenuOpen(false)}
+          className={cn(
+            'text-sm font-medium transition-colors hover:text-primary',
+            pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+          )}
+        >
+          {link.label}
+        </Link>
+      );
+    });
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

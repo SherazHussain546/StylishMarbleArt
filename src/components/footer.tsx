@@ -23,8 +23,10 @@ export function Footer() {
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/locator', label: content.nav.locator[language] },
+    { href: 'https://feed.stylishmarbleart.com', label: content.nav.feed[language] },
+    { href: 'https://review.stylishmarbleart.com', label: content.nav.review[language] },
     { href: '/about', label: content.nav.about[language] },
-    { href: '/faq', label: content.nav.faq[language] },
+    { href: 'https://faq.stylishmarbleart.com', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },
   ];
 
@@ -61,13 +63,25 @@ export function Footer() {
           <div className="md:justify-self-center">
             <h3 className="font-headline text-lg font-semibold">{content.footer.quickLinks[language]}</h3>
             <ul className="mt-4 space-y-2">
-              {navLinks.map(link => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              {navLinks.map(link => {
+                const isExternal = link.href.startsWith('http');
+                if (isExternal) {
+                  return (
+                    <li key={link.href}>
+                      <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary">
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary">
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div className="md:justify-self-end">

@@ -8,6 +8,8 @@ export const content = {
     contact: { en: 'Contact', ur: 'رابطہ' },
     updates: { en: 'Articles & Updates', ur: 'مضامین اور اپ ڈیٹس' },
     faq: { en: 'FAQ', ur: 'سوالات' },
+    review: { en: 'Review', ur: 'رائے' },
+    feed: { en: 'Feed', ur: 'فیڈ' },
   },
   hero: {
     title: {
@@ -126,7 +128,7 @@ export const content = {
         h1: { en: "Rosso Verona Marble in Karachi — Warm, Rich & Timelessly Elegant — Pakistan's Favourite Decorative Stone", ur: "کراچی میں روسو ویرونا ماربل — گرم، بھرپور اور لازوال خوبصورت" },
         intro: { 
           en: "Rosso Verona Marble is one of the most visually striking natural stones available in Pakistan — and at Stylish Marble Art, we work with it every day. Its deep, warm red base with natural fossil impressions and creamy white veining creates an effect that no manufactured material can replicate. Whether you are designing a grand entrance foyer, a statement kitchen, or a lasting memorial, Rosso Verona brings a depth and warmth that makes every project unforgettable.",
-          ur: "روسو ویرونا ماربل پاکستان میں دستیاب سب سے زیادہ بصری طور پر متاثر کن قدرتی پتھروں میں سے ایک ہے — اور سٹائلش ماربل آرٹ میں، ہم ہر روز اس کے ساتھ کام کرتے ہیں۔ اس کا گہرا، گرم سرخ بیس قدرتی فوسل تاثرات اور کریمی وائٹ رگوں کے ساتھ ایک ایسا اثر پیدا کرتا ہے جسے کوئی بھی تیار کردہ مواد نقل نہیں کر سکتا۔"
+          ur: "روسو ویرونا ماربل پاکستان میں دستیاب سب سے زیادہ بصری طور پر متاثر کن قدرتی پتھروں میں سے ایک ہے — اور سٹائلش ماربل آرٹ میں، ہم ہر روز اس کے ساتھ کام کرتے ہیں۔ اس کا گہرا، گرم سرخ بیس قدرتی فوسل تاثرات اور کریمی وائٹ رگوں کے ساتھ ایک ایسا اثر پیدا پیدا کرتا ہے جسے کوئی بھی تیار کردہ مواد نقل نہیں کر سکتا۔"
         },
         about: {
           en: "Quarried from the mineral-rich regions of Balochistan and refined through artisan hands at our Karachi workshop, Rosso Verona marble is prized for its natural calcium fossil deposits that create unique surface patterns on every single slab. No two pieces are ever identical — which is precisely what makes it special.\n\nAt Stylish Marble Art, we source only grade-A Rosso Verona, inspect each slab personally, and cut, finish, and install every piece with the craftsmanship your project deserves. Our team serves clients across Karachi, Lahore, Islamabad, and all of Pakistan, offering free consultations and competitive pricing on all quantities.",
