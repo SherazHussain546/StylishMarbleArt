@@ -1,24 +1,44 @@
-'use client';
-
-import { useLanguage } from '@/contexts/language-context';
+import type { Metadata } from 'next';
+import GalleryPageClient from './gallery-page-client';
 import { content } from '@/lib/content';
-import { GalleryComponent } from '@/components/gallery-component';
 
-export default function GalleryPageClient() {
-  const { language } = useLanguage();
-  const pageContent = content.galleryPage;
+// SEO Metadata for the Gallery page
+export async function generateMetadata(): Promise<Metadata> {
+  const englishTitle = 'Marble Work Portfolio | Custom Headstones & Kitchens | Karachi';
+  const urduTitle = 'ماربل ورک پورٹ فولیو | کسٹم کتبے اور کچن | کراچی';
+  const englishDescription = 'Browse our gallery of premium Ziarat White gravestones, Black Granite headstones, and custom marble kitchen countertops crafted in Karachi, Pakistan.';
+  const urduDescription = 'کراچی، پاکستان میں تیار کردہ پریمیم زیارت وائٹ کتبوں، بلیک گرینائٹ یادگاروں اور کسٹم ماربل کچن کاؤنٹر ٹاپس کی ہماری گیلری دیکھیں۔';
 
-  return (
-    <>
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <header className="mx-auto max-w-4xl text-center mb-16">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{pageContent.title[language]}</h1>
-          <p className="mt-4 text-xl text-muted-foreground">{pageContent.description[language]}</p>
-        </header>
-        <div>
-          <GalleryComponent />
-        </div>
-      </div>
-    </>
-  );
+  return {
+    title: `${englishTitle} | ${urduTitle}`,
+    description: `${englishDescription} | ${urduDescription}`,
+    keywords: [
+      'marble gallery Karachi',
+      'headstone portfolio Pakistan',
+      'custom marble designs Karachi',
+      'gravestone photos Pakistan',
+      'kitchen marble Karachi images',
+      'Islamic stonemasonry Karachi',
+      'ماربل گیلری کراچی',
+      'کتبوں کے ڈیزائن',
+    ],
+    openGraph: {
+      title: englishTitle,
+      description: englishDescription,
+      url: 'https://www.stylishmarbleart.com/gallery',
+      siteName: 'Stylish Marble Art',
+      images: [
+        {
+          url: '/Gallery/Grave/8.png',
+          width: 800,
+          height: 800,
+          alt: 'Premium Marble Gravestone by Stylish Marble Art',
+        },
+      ],
+    },
+  };
+}
+
+export default function GalleryPage() {
+  return <GalleryPageClient />;
 }

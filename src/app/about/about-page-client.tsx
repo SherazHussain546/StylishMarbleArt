@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -22,7 +21,7 @@ export default function AboutPageClient() {
       "mainEntity": {
         "@type": "LocalBusiness",
         "name": "Stylish Marble Art",
-        "description": pageContent.ourStoryText.en,
+        "description": pageContent?.ourStoryText?.en || "Legacy stonemasons in Karachi.",
         "image": "https://www.stylishmarbleart.com/SMA.png",
         "address": {
           "@type": "PostalAddress",
@@ -40,6 +39,8 @@ export default function AboutPageClient() {
       }
     };
   }, [pageContent]);
+
+  if (!pageContent) return null;
 
   return (
     <div className="bg-secondary/20">
