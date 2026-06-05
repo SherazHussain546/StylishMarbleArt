@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { GitGraph, MapPin, Search, Heart, Sparkles, Activity, Loader2, Share2, Users } from 'lucide-react';
+import { GitGraph, MapPin, Search, Heart, Sparkles, Activity, Loader2, Share2, Users, ShieldCheck, Globe } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, where, limit } from 'firebase/firestore';
 
@@ -157,7 +157,7 @@ export function HomeFamilyTree() {
                             </div>
                             <div className="overflow-hidden">
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
-                                    {language === 'en' ? 'Recent Registry' : 'حالیہ اندراج'}
+                                    {language === 'en' ? 'Latest Memorial Pin' : 'حالیہ یادگاری پن'}
                                 </p>
                                 <p className="font-bold text-foreground truncate">
                                     {recentLoading ? '...' : (latestMemorial?.graveyardName || latestMemorial?.deceasedName || 'Karachi, Pakistan')}
@@ -168,14 +168,29 @@ export function HomeFamilyTree() {
 
                         <div className="bg-secondary/10 hover:bg-secondary/20 transition-all rounded-2xl p-4 flex items-center gap-4 border border-primary/5 group/card cursor-default">
                             <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover/card:scale-110 transition-transform">
-                                <GitGraph className="h-6 w-6 text-primary" />
+                                <ShieldCheck className="h-6 w-6 text-primary" />
                             </div>
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
-                                    {language === 'en' ? 'Live Sync Status' : 'لائیو ہم آہنگی'}
+                                    {language === 'en' ? 'Heritage Preservation' : 'ورثے کا تحفظ'}
                                 </p>
                                 <p className="font-bold text-foreground">
-                                    {language === 'en' ? 'Database Connected' : 'ڈیٹا بیس منسلک ہے'}
+                                    {language === 'en' ? 'Secure Digital Archiving' : 'محفوظ ڈیجیٹل آرکائیونگ'}
+                                </p>
+                            </div>
+                            <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
+                        </div>
+
+                        <div className="bg-secondary/10 hover:bg-secondary/20 transition-all rounded-2xl p-4 flex items-center gap-4 border border-primary/5 group/card cursor-default">
+                            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover/card:scale-110 transition-transform">
+                                <Globe className="h-6 w-6 text-primary" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
+                                    {language === 'en' ? 'Global Access' : 'عالمی رسائی'}
+                                </p>
+                                <p className="font-bold text-foreground">
+                                    {language === 'en' ? 'Searchable from Anywhere' : 'دنیا بھر سے قابلِ تلاش'}
                                 </p>
                             </div>
                             <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
@@ -184,7 +199,7 @@ export function HomeFamilyTree() {
                     
                     <div className="pt-6 border-t border-dashed">
                         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
-                            <span>{language === 'en' ? 'Global Lineage Network' : 'عالمی خاندانی نیٹ ورک'}</span>
+                            <span>{language === 'en' ? 'Digital Lineage Progress' : 'ڈیجیٹل شجرہ کی ترقی'}</span>
                             <div className="flex gap-1">
                                 <span className="h-1 w-1 bg-primary rounded-full animate-bounce"></span>
                                 <span className="h-1 w-1 bg-primary rounded-full animate-bounce [animation-delay:0.2s]"></span>
@@ -192,7 +207,7 @@ export function HomeFamilyTree() {
                             </div>
                         </div>
                         <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
-                            <div className="h-full bg-primary w-2/3 rounded-full relative">
+                            <div className="h-full bg-primary w-3/4 rounded-full relative">
                                 <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
                             </div>
                         </div>
