@@ -22,6 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const honorifics = [
     { id: 'none', en: 'None', ur: 'کوئی نہیں' },
@@ -178,7 +179,7 @@ export default function LocatorPageClient() {
     e.preventDefault();
     
     if (!agreedToTerms) {
-        toast({ variant: 'destructive', title: 'Action Required', description: 'Please agree to the privacy terms and data consent.' });
+        toast({ variant: 'destructive', title: 'Action Required', description: 'Please agree to the data consent terms.' });
         return;
     }
 
@@ -557,28 +558,27 @@ I have new information regarding their funeral / resting place to add to the fam
         </div>
       </section>
 
-      {/* Encouragement Banner */}
+      {/* Transparency Banner */}
       <section className="container mx-auto px-4 -mt-12 mb-12 relative z-20">
         <Card className="bg-background shadow-2xl border-none overflow-hidden rounded-[2.5rem]">
             <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
                 <div className="md:col-span-4 bg-primary p-10 flex flex-col justify-center text-primary-foreground relative">
-                    <Sparkles className="h-12 w-12 mb-6 opacity-50" />
+                    <ShieldCheck className="h-12 w-12 mb-6 opacity-50" />
                     <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
-                        {pageContent.encouragement.title[language]}
+                        {language === 'en' ? 'Safe & Transparent' : 'محفوظ اور شفاف'}
                     </h2>
                     <div className="h-1 w-12 bg-white/30 rounded-full"></div>
                 </div>
                 <div className="md:col-span-8 p-10 flex flex-col justify-center bg-white/50 backdrop-blur-sm">
                     <p className="text-lg md:text-xl text-muted-foreground leading-relaxed italic">
-                        "{pageContent.encouragement.description[language]}"
+                        "{language === 'en' 
+                            ? 'Your data is secured and will only be used to build a comprehensive cemetery map of Karachi and as a business lead to offer our professional stone craftsmanship services. We never share your private contact information with third parties.' 
+                            : 'آپ کا ڈیٹا محفوظ ہے اور اسے صرف کراچی کا ایک جامع قبرستان کا نقشہ بنانے اور ہماری پیشہ ورانہ اسٹون کرافٹ مین شپ خدمات پیش کرنے کے لیے ایک کاروباری لیڈ کے طور پر استعمال کیا جائے گا۔ ہم آپ کی نجی رابطے کی معلومات کبھی بھی تیسرے فریق کے ساتھ شیئر نہیں کرتے۔'}"
                     </p>
                     <div className="mt-8 flex items-center gap-4">
-                        <div className="bg-primary/10 p-3 rounded-full">
-                            <Landmark className="h-6 w-6 text-primary" />
-                        </div>
-                        <p className="text-sm font-bold text-primary uppercase tracking-widest">
-                            {language === 'en' ? 'A Gift to Future Generations' : 'آنے والی نسلوں کے لیے ایک تحفہ'}
-                        </p>
+                        <Button asChild variant="link" className="p-0 h-auto text-primary font-bold uppercase tracking-widest text-xs">
+                            <Link href="/privacy">{language === 'en' ? 'View Full Privacy Policy' : 'رازداری کی مکمل پالیسی دیکھیں'}</Link>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -742,203 +742,6 @@ I have new information regarding their funeral / resting place to add to the fam
         </div>
       </section>
 
-      {/* Advanced Family Tree Building Modal */}
-      <Dialog open={!!viewingFamily} onOpenChange={() => setViewingFamily(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-                <div className="flex items-center justify-between gap-4">
-                    <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
-                        <GitGraph className="h-6 w-6 text-primary" />
-                        {language === 'en' ? 'Family Connections' : 'خاندانی تعلقات'}
-                    </DialogTitle>
-                    <Button variant="ghost" size="icon" onClick={() => handleShare(viewingFamily)} title={language === 'en' ? 'Share Tree' : 'شجرہ شیئر کریں'}>
-                        <Share2 className="h-5 w-5 text-primary" />
-                    </Button>
-                </div>
-                <DialogDescription>
-                    {language === 'en' 
-                        ? `Trace the history of ${viewingFamily?.deceasedName}. You can add any missing relatives below.` 
-                        : `${viewingFamily?.deceasedName} کی خاندانی تاریخ دیکھیں۔ آپ نیچے کسی بھی لاپتہ رشتہ دار کو شامل کر سکتے ہیں۔`}
-                </DialogDescription>
-            </DialogHeader>
-            
-            <div className="py-8 space-y-10 flex flex-col items-center">
-                {/* Linked Relatives Grid */}
-                <div className="w-full">
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground text-center mb-4">
-                        {language === 'en' ? 'Parents & Connections' : 'والدین اور تعلقات'}
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {familyConnections.ancestors.map((anc, idx) => (
-                            <RelativeSlot key={idx} title={anc.label} name={anc.name} match={anc.match} role={anc.role} />
-                        ))}
-                        <Button variant="outline" className="sm:col-span-2 border-dashed border-primary/30 h-12 gap-2" onClick={() => handleAddMissingRelative('', 'custom')}>
-                            <UserPlus className="h-4 w-4" />
-                            {language === 'en' ? 'Add Another Relative' : 'دیگر رشتہ دار شامل کریں'}
-                        </Button>
-                    </div>
-                </div>
-
-                <ArrowDown className="h-6 w-6 text-primary opacity-30" />
-
-                {/* Current Person & Spouse */}
-                <div className="w-full flex flex-col items-center gap-4">
-                    <Card className="w-full max-w-sm border-2 border-primary shadow-xl scale-105 bg-background relative z-10 overflow-hidden">
-                        <CardContent className="p-0">
-                            {/* Rich Detail View within Tree */}
-                            {viewingFamily?.imageUrl && (
-                                <div className="relative h-48 w-full border-b">
-                                    <img src={viewingFamily.imageUrl} alt={viewingFamily.deceasedName} className="w-full h-full object-cover" />
-                                </div>
-                            )}
-                            <div className="p-6 text-center">
-                                <div className="flex justify-center mb-2">
-                                    {viewingFamily?.isAlive && <Badge className="bg-green-500 text-[8px]">ALIVE</Badge>}
-                                </div>
-                                <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{language === 'en' ? 'Memorial Record' : 'میموریل ریکارڈ'}</div>
-                                <h3 className="text-2xl font-bold">{viewingFamily?.deceasedName}</h3>
-                                {(viewingFamily?.fatherName || viewingFamily?.husbandName) && (
-                                    <p className="text-xs text-muted-foreground italic mb-3">
-                                        {viewingFamily?.fatherName && `${language === 'en' ? 's/o ' : 'ولد '} ${viewingFamily.fatherName}`}
-                                        {viewingFamily?.fatherName && viewingFamily?.husbandName && ' | '}
-                                        {viewingFamily?.husbandName && `${language === 'en' ? 'w/o ' : 'زوجہ '} ${viewingFamily.husbandName}`}
-                                    </p>
-                                )}
-                                
-                                {!viewingFamily?.isAlive ? (
-                                    <div className="space-y-4">
-                                        <div className="bg-primary/5 p-3 rounded-lg border border-primary/10">
-                                            <div className="flex items-center justify-center gap-2 text-primary font-bold mb-1">
-                                                <MapPin className="h-4 w-4" />
-                                                <span className="text-sm">{viewingFamily?.graveyardName}</span>
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-tighter">
-                                                <div className="flex flex-col">
-                                                    <span>Born</span>
-                                                    <span className="text-foreground text-xs">{viewingFamily?.dateOfBirth || 'N/A'}</span>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <span>Died</span>
-                                                    <span className="text-foreground text-xs">{viewingFamily?.dateOfDeath || 'N/A'}</span>
-                                                </div>
-                                            </div>
-                                            {viewingFamily?.islamicDate && (
-                                                <div className="mt-2 pt-2 border-t border-primary/10 text-[10px] italic">
-                                                    Islamic Date: {viewingFamily.islamicDate}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="text-xs text-muted-foreground py-2">{language === 'en' ? 'Active member of the digital lineage.' : 'ڈیجیٹل شجرہ کا فعال رکن۔'}</div>
-                                )}
-                                
-                                {/* Action for living person in tree */}
-                                {viewingFamily?.isAlive && (
-                                    <Button 
-                                        size="sm" 
-                                        className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold gap-2 h-8"
-                                        onClick={() => handleRequestUpdate(viewingFamily)}
-                                    >
-                                        <MessageCircle className="h-3 w-3" />
-                                        {language === 'en' ? 'Notify Death / Update' : 'وفات کی اطلاع'}
-                                    </Button>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <div className="w-full max-w-sm space-y-4">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground text-center">
-                            {language === 'en' ? 'Spouses' : 'شریک حیات'}
-                        </div>
-                        
-                        {viewingFamily?.husbandName ? (
-                            <RelativeSlot title={language === 'en' ? 'Husband' : 'شوہر'} name={viewingFamily?.husbandName} match={familyConnections.spouse} role="husband" />
-                        ) : (
-                            <div className="grid grid-cols-1 gap-2">
-                                {familyConnections.wives.map((wife: any, idx: number) => (
-                                    <RelativeSlot key={wife.id} title={language === 'en' ? `Wife ${idx + 1}` : `اہلیہ ${idx + 1}`} name={wife.deceasedName} match={wife} role="wife" />
-                                ))}
-                                {familyConnections.wives.length < 4 && (
-                                    <Button variant="outline" className="w-full text-xs border-dashed flex items-center justify-between h-12" onClick={() => handleAddMissingRelative('', 'husband')}>
-                                        <div className="flex flex-col items-start">
-                                            <span className="opacity-40 text-[8px] font-bold uppercase">{language === 'en' ? 'New Link' : 'نیا ریکارڈ'}</span>
-                                            <span>{language === 'en' ? 'Add Spouse' : 'شریک حیات شامل کریں'}</span>
-                                        </div>
-                                        <Plus className="h-3 w-3 opacity-60" />
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <ArrowDown className="h-6 w-6 text-primary opacity-30" />
-
-                {/* Descendants (Children) */}
-                <div className="w-full">
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground text-center mb-4">{language === 'en' ? 'Descendants' : 'اولاد / نسل'}</div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {familyConnections.children.map((child: any) => (
-                            <Card key={child.id} className="bg-secondary/20 hover:bg-primary/5 transition-colors cursor-pointer border-dashed" onClick={() => setViewingFamily(child)}>
-                                <CardContent className="p-3 flex justify-between items-center h-12">
-                                    <div className="flex flex-col">
-                                        <p className="font-bold text-sm truncate max-w-[120px]">{child.deceasedName}</p>
-                                        {child.isAlive ? (
-                                            <span className="text-[8px] text-green-600 font-bold uppercase">Alive</span>
-                                        ) : (
-                                            <span className="text-[8px] opacity-60 truncate max-w-[120px]">{child.graveyardName}</span>
-                                        )}
-                                    </div>
-                                    <ArrowUp className="h-4 w-4 text-primary rotate-180" />
-                                </CardContent>
-                            </Card>
-                        ))}
-                        <Button variant="outline" size="sm" className="rounded-xl border-dashed h-12 flex items-center justify-between" onClick={() => handleAddMissingRelative('', 'child')}>
-                            <div className="flex flex-col items-start">
-                                <span className="opacity-40 text-[8px] font-bold uppercase">{language === 'en' ? 'Add Relation' : 'نیا ریکارڈ'}</span>
-                                <span>{language === 'en' ? 'Add a Child' : 'اولاد شامل کریں'}</span>
-                            </div>
-                            <Plus className="h-3 w-3" />
-                        </Button>
-                    </div>
-                </div>
-            </div>
-
-            <DialogFooter className="flex flex-col sm:flex-row gap-2">
-                <Button variant="outline" className="flex-1 gap-2" onClick={() => handleShare(viewingFamily)}>
-                    <Share2 className="h-4 w-4" />
-                    {language === 'en' ? 'Share Tree' : 'شجرہ شیئر کریں'}
-                </Button>
-                <DialogClose asChild>
-                    <Button variant="secondary" className="flex-1">{language === 'en' ? 'Close Registry' : 'بند کریں'}</Button>
-                </DialogClose>
-            </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Map View Section */}
-      <section className="container mx-auto px-4 pt-24">
-        <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">{language === 'en' ? 'Karachi Cemetery Interactive Map' : 'کراچی قبرستان کا انٹرایکٹو نقشہ'}</h2>
-            <div className="text-muted-foreground max-w-2xl mx-auto">{language === 'en' ? 'Visualize exact grave locations across Wadi-e-Hussain, Mewa Shah, and major city cemeteries to plan your next visit.' : 'اپنی اگلی زیارت کی منصوبہ بندی کرنے کے لیے وادی حسین، میوہ شاہ، اور شہر کے بڑے قبرستانوں میں قبروں کے صحیح مقامات دیکھیں۔'}</div>
-        </div>
-        <div className="bg-background rounded-[3rem] shadow-2xl overflow-hidden h-[600px] relative border-8 border-white group">
-            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-secondary/10">
-                <div className="text-center p-8">
-                    <MapPin className="h-24 w-24 mx-auto mb-6 text-primary opacity-20 transition-transform group-hover:scale-110 duration-500" />
-                    <div className="font-bold text-3xl uppercase tracking-widest opacity-20">Cemetery Map View</div>
-                    <div className="text-sm mt-4 max-w-xs mx-auto opacity-40">Markers will appear here for searched graves in Karachi's major graveyards.</div>
-                </div>
-            </div>
-            <div className="absolute top-8 left-8 bg-primary/90 backdrop-blur-md text-white px-8 py-3 rounded-full text-sm font-bold shadow-2xl flex items-center gap-3">
-                <MapPin className="h-5 w-5" />
-                {filteredMemorials.filter(m => !m.isAlive).length} {language === 'en' ? 'Graves Located' : 'قبریں مل گئیں'}
-            </div>
-        </div>
-      </section>
-
       {/* Privacy & Security Statement Section */}
       <section className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-4xl mx-auto">
@@ -969,6 +772,11 @@ I have new information regarding their funeral / resting place to add to the fam
                             <ShieldCheck className="h-4 w-4" />
                             {language === 'en' ? 'Zero 3rd Party' : 'تیسرے فریق سے پاک'}
                         </div>
+                    </div>
+                    <div className="mt-8">
+                        <Button asChild variant="link" className="text-primary font-bold">
+                            <Link href="/privacy">{language === 'en' ? 'Read our full Privacy Policy' : 'ہماری مکمل رازداری کی پالیسی پڑھیں'}</Link>
+                        </Button>
                     </div>
                 </CardContent>
             </Card>

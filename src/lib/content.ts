@@ -10,6 +10,7 @@ export const content = {
     faq: { en: 'FAQ', ur: 'سوالات' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     updates: { en: 'Updates', ur: 'اپ ڈیٹس' },
+    privacy: { en: 'Privacy', ur: 'رازداری' },
   },
   hero: {
     title: {
@@ -175,7 +176,7 @@ export const content = {
           en: "Stylish Marble Art has worked with Sunny Grey marble on dozens of residential and commercial projects across Karachi. Our experienced cutters and installers ensure precise fitting, perfect finishing, and zero waste — delivering projects on time and on budget across Pakistan.",
           ur: "سٹائلش ماربل آرٹ نے کراچی بھر میں درجنوں رہائشی اور تجارتی منصوبوں پر سنی گرے ماربل کے ساتھ کام کیا ہے۔ ہمارے تجربہ کار کاریگر درست فٹنگ اور بہترین فنشنگ کو یقینی بناتے ہیں۔"
         },
-        origin: { en: "Quarried from Swat, Khyber Pakhtunkhwa, Pakistan", ur: "سوات، خیبر پختونخوا، پاکستان سے نکالا گیا" },
+        origin: { en: "Quarried from Swat, Khyber Pakhtunkhwa, Pakistan", ur: "سوات، خیبر پختونخوا, پاکستان سے نکالا گیا" },
         appearance: { en: "Soft light grey base with white and pale grey veining", ur: "سفید اور ہلکی گرے رگوں کے ساتھ نرم ہلکا گرے بیس" },
         finishes: { en: "Polished or honed", ur: "پالش یا ہونڈ" }
       },
@@ -472,16 +473,50 @@ export const content = {
     privacyStatement: {
         title: { en: 'Secure, Private & Dignified', ur: 'محفوظ، نجی اور باوقار' },
         description: { 
-            en: 'We use the data you provide to enhance our search algorithms and build a more comprehensive cemetery map of Karachi. Your contact details are stored in an encrypted database and are never shared with third parties. We only contact you to ensure your family record is accurate and to offer our professional craftsmanship where needed.',
-            ur: 'ہم آپ کے فراہم کردہ ڈیٹا کو اپنے سرچ الگورتھم کو بہتر بنانے اور کراچی کا ایک زیادہ جامع قبرستان کا نقشہ بنانے کے لیے استعمال کرتے ہیں۔ آپ کے رابطے کی تفصیلات ایک انکرپٹڈ ڈیٹا بیس میں محفوظ کی جاتی ہیں اور کبھی تیسرے فریق کے ساتھ شیئر نہیں کی جاتیں۔ ہم آپ سے صرف اس بات کو یقینی بنانے کے لیے رابطہ کرتے ہیں کہ آپ کا خاندانی ریکارڈ درست ہے اور جہاں ضرورت ہو اپنی پیشہ ورانہ دستکاری کی پیشکش کریں۔'
+            en: 'We use the data you provide to enhance our search algorithms and build a more comprehensive cemetery map of Karachi. Your contact details are stored in an encrypted database and are never shared with third parties. We only contact you to ensure your family record is accurate and to offer our professional craftsmanship where needed. This data also allows us to provide specialized services such as memorial restoration and custom engraving.',
+            ur: 'ہم آپ کے فراہم کردہ ڈیٹا کو اپنے سرچ الگورتھم کو بہتر بنانے اور کراچی کا ایک زیادہ جامع قبرستان کا نقشہ بنانے کے لیے استعمال کرتے ہیں۔ آپ کے رابطے کی تفصیلات ایک انکرپٹڈ ڈیٹا بیس میں محفوظ کی جاتی ہیں اور کبھی تیسرے فریق کے ساتھ شیئر نہیں کی جاتیں۔ ہم آپ سے صرف اس بات کو یقینی بنانے کے لیے رابطہ کرتے ہیں کہ آپ کا خاندانی ریکارڈ درست ہے اور جہاں ضرورت ہو اپنی پیشہ ورانہ دستکاری کی پیشکش کریں۔ یہ ڈیٹا ہمیں میموریل کی بحالی اور کسٹم کندہ کاری جیسی خصوصی خدمات فراہم کرنے کی بھی اجازت دیتا ہے۔'
         }
     },
     termsNotice: {
-        title: { en: 'Data Consent & Privacy Agreement', ur: 'ڈیٹا کی رضامندی اور رازداری کا معاہدہ' },
+        title: { en: 'Data Consent & Lead Acknowledgment', ur: 'ڈیٹا کی رضامندی اور لیڈ کا اعتراف' },
         text: {
             en: 'By adding to this tree, you acknowledge that your contact details will be used as a business lead and Stylish Marble Art may contact you via WhatsApp or Phone regarding memorial services. Your information is secured and will only be used to improve this community registry.',
             ur: 'اس شجرے میں شامل ہو کر، آپ تسلیم کرتے ہیں کہ آپ کے رابطے کی تفصیلات کو کاروباری لیڈ کے طور پر استعمال کیا جائے گا اور سٹائلش ماربل آرٹ آپ سے یادگاری خدمات کے بارے میں واٹس ایپ یا فون کے ذریعے رابطہ کر سکتا ہے۔ آپ کی معلومات محفوظ ہیں اور اسے صرف اس کمیونٹی رجسٹری کو بہتر بنانے کے لیے استعمال کیا جائے گا۔'
         }
     }
-  }
+  },
+  privacyPage: {
+    title: { en: 'Privacy Policy & Data Transparency', ur: 'رازداری کی پالیسی اور ڈیٹا کی شفافیت' },
+    lastUpdated: { en: 'Last Updated: May 2024', ur: 'آخری بار اپ ڈیٹ کیا گیا: مئی ۲۰۲۴' },
+    sections: [
+      {
+        title: { en: '1. Data Collection', ur: '۱. ڈیٹا کا مجموعہ' },
+        content: { 
+          en: 'We collect information you provide through our Memorial Locator and contact forms. This includes names, email addresses, phone numbers, and family history details.',
+          ur: 'ہم وہ معلومات جمع کرتے ہیں جو آپ ہمارے میموریل لوکیٹر اور رابطہ فارموں کے ذریعے فراہم کرتے ہیں۔ اس میں نام، ای میل پتے، فون نمبر، اور خاندانی تاریخ کی تفصیلات شامل ہیں۔'
+        }
+      },
+      {
+        title: { en: '2. Lead Usage & Business Contact', ur: '۲. لیڈ کا استعمال اور کاروباری رابطہ' },
+        content: { 
+          en: 'By providing your details, you acknowledge that this information serves as a business lead. Stylish Marble Art may contact you via WhatsApp, Phone, or Email to discuss memorial services, gravestone projects, or to verify registry information.',
+          ur: 'اپنی تفصیلات فراہم کر کے، آپ تسلیم کرتے ہیں کہ یہ معلومات کاروباری لیڈ کے طور پر کام کرتی ہیں۔ سٹائلش ماربل آرٹ آپ سے واٹس ایپ، فون، یا ای میل کے ذریعے یادگاری خدمات، کتبے کے منصوبوں، یا رجسٹری کی معلومات کی تصدیق کے لیے رابطہ کر سکتا ہے۔'
+        }
+      },
+      {
+        title: { en: '3. Data Security', ur: '۳. ڈیٹا کی حفاظت' },
+        content: { 
+          en: 'We are committed to ensuring that your data is secure. We use industry-standard encryption and security measures to prevent unauthorized access. Your private contact details are never shared with third parties.',
+          ur: 'ہم اس بات کو یقینی بنانے کے لیے پرعزم ہیں کہ آپ کا ڈیٹا محفوظ ہے۔ ہم غیر مجاز رسائی کو روکنے کے لیے انڈسٹری کے معیاری انکرپشن اور حفاظتی اقدامات کا استعمال کرتے ہیں۔ آپ کے نجی رابطے کی تفصیلات کبھی بھی تیسرے فریق کے ساتھ شیئر نہیں کی جاتی ہیں۔'
+        }
+      },
+      {
+        title: { en: '4. Improving Our Services', ur: '۴. ہماری خدمات کو بہتر بنانا' },
+        content: { 
+          en: 'The family and location data you provide is used to build a comprehensive cemetery map of Karachi and to improve our search algorithms, helping the community find their ancestral roots more easily.',
+          ur: 'آپ کا فراہم کردہ خاندان اور مقام کا ڈیٹا کراچی کا ایک جامع قبرستان کا نقشہ بنانے اور ہمارے سرچ الگورتھم کو بہتر بنانے کے لیے استعمال کیا جاتا ہے، جس سے کمیونٹی کو اپنے آباؤ اجداد کی جڑوں کو زیادہ آسانی سے تلاش کرنے میں مدد ملتی ہے۔'
+        }
+      }
+    ]
+  },
 };
