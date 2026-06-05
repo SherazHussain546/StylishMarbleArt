@@ -340,19 +340,31 @@ export const content = {
   },
   faqPage: {
     title: { en: 'Frequently Asked Questions', ur: 'اکثر پوچھے گئے سوالات' },
-    description: { en: 'Common questions about marble in Karachi, our local services, and international shipping.', ur: 'کراچی میں ماربل، ہماری مقامی خدمات، اور بین الاقوامی شپنگ کے بارے میں عام سوالات۔' },
+    description: { en: 'Find answers to common questions about marble prices in Karachi, our local services, and international shipping.', ur: 'کراچی میں ماربل کی قیمتوں، ہماری مقامی خدمات، اور بین الاقوامی شپنگ کے بارے میں اکثر پوچھے گئے سوالات کے جوابات تلاش کریں۔' },
     faqs: [
       {
+        question: { en: 'What are the most durable stones for the Karachi climate?', ur: 'کراچی کی آب و ہوا کے لیے کون سے پتھر سب سے زیادہ پائیدار ہیں؟' },
+        answer: { en: 'For gravestones in Karachi, we highly recommend Black Granite or Ziarat White marble. These stones are naturally resistant to the harsh sunlight and coastal humidity of Karachi, ensuring that engravings remain clear for generations.', ur: 'کراچی میں کتبوں کے لیے، ہم بلیک گرینائٹ یا زیارت وائٹ ماربل کی سختی سے سفارش کرتے ہیں۔ یہ پتھر قدرتی طور پر کراچی کی تیز دھوپ اور ساحلی نمی کے خلاف مزاحم ہیں، اس بات کو یقینی بناتے ہیں کہ کندہ کاری نسلوں تک واضح رہے۔' },
+      },
+      {
+        question: { en: 'How long does it take to craft a custom headstone?', ur: 'ایک کسٹم کتبہ تیار کرنے میں کتنا وقت لگتا ہے؟' },
+        answer: { en: 'Typically, a standard custom headstone takes 7 to 10 working days from design approval to completion. For complex laser-engraved designs or large family memorials, it may take 15 to 20 days. We also offer expedited services for urgent requirements.', ur: 'عام طور پر، ایک معیاری کسٹم کتبہ ڈیزائن کی منظوری سے لے کر تکمیل تک 7 سے 10 کام کے دن لیتا ہے۔ پیچیدہ لیزر کندہ ڈیزائن یا بڑے خاندانی یادگاروں کے لیے 15 سے 20 دن لگ سکتے ہیں۔ ہم فوری ضروریات کے لیے تیز رفتار خدمات بھی پیش کرتے ہیں۔' },
+      },
+      {
+        question: { en: 'Can I customize the calligraphy and design?', ur: 'کیا میں خطاطی اور ڈیزائن کو اپنی مرضی کے مطابق بنا سکتا ہوں؟' },
+        answer: { en: 'Yes, absolutely. We specialize in custom Urdu, Arabic, and English calligraphy. You can choose specific Quranic verses, poetry, or unique geometric patterns. We provide a digital preview of the design for your approval before we start carving the stone.', ur: 'جی ہاں، بالکل۔ ہم کسٹم اردو، عربی اور انگریزی خطاطی میں مہارت رکھتے ہیں۔ آپ مخصوص قرآنی آیات، شاعری، یا منفرد جیومیٹرک پیٹرن منتخب کر سکتے ہیں۔ ہم پتھر پر تراشنے سے پہلے آپ کی منظوری کے لیے ڈیزائن کا ڈیجیٹل پری ویو فراہم کرتے ہیں۔' },
+      },
+      {
         question: { en: 'Do you provide international shipping?', ur: 'کیا آپ بین الاقوامی شپنگ فراہم کرتے ہیں؟' },
-        answer: { en: 'Yes, while we are based in Karachi, Pakistan, we provide expert international shipping and secure packaging for our custom gravestones and marble work to the Middle East, Africa, and beyond.', ur: 'جی ہاں، اگرچہ ہم کراچی, پاکستان میں مقیم ہیں، ہم مشرق وسطیٰ، افریقہ اور اس سے باہر اپنے کسٹم کتبوں اور ماربل کے کام کے لیے ماہرانہ بین الاقوامی شپنگ اور محفوظ پیکیجنگ فراہم کرتے ہیں۔' },
+        answer: { en: 'Yes, we provide expert international shipping with secure wooden crate packaging. We have successfully exported our marble work to clients in the UK, USA, UAE, Saudi Arabia, and Africa. We handle all documentation for a smooth delivery to your doorstep.', ur: 'جی ہاں، ہم محفوظ لکڑی کے کریٹ پیکیجنگ کے ساتھ ماہرانہ بین الاقوامی شپنگ فراہم کرتے ہیں۔ ہم نے برطانیہ، امریکہ، متحدہ عرب امارات، سعودی عرب اور افریقہ میں کلائنٹس کو کامیابی کے ساتھ اپنا ماربل ورک برآمد کیا ہے۔ ہم آپ کی دہلیز تک ہموار ترسیل کے لیے تمام دستاویزات کو سنبھالتے ہیں۔' },
       },
       {
-        question: { en: 'Where is your workshop located?', ur: 'آپ کی ورکشاپ کہاں واقع ہے؟' },
-        answer: { en: 'Our main workshop is located at Malir 15, on the Main National Highway, Karachi, Pakistan. We have been serving the local community here since 1970.', ur: 'ہماری مرکزی ورکشاپ ملیر 15، مین نیشنل ہائی وے، کراچی، پاکستان میں واقع ہے۔ ہم 1970 سے یہاں مقامی کمیونٹی کی خدمت کر رہے ہیں۔' },
+        question: { en: 'How can I pay if I am living outside Pakistan?', ur: 'اگر میں پاکستان سے باہر رہ رہا ہوں تو میں ادائیگی کیسے کر سکتا ہوں؟' },
+        answer: { en: 'For our international clients, we accept payments via direct Bank Transfer, Western Union, and secure online payment links. We usually require a 50% deposit to start the work, with the remaining balance due upon completion before shipping.', ur: 'ہمارے بین الاقوامی کلائنٹس کے لیے، ہم براہ راست بینک ٹرانسفر، ویسٹرن یونین، اور محفوظ آن لائن پیمنٹ لنکس کے ذریعے ادائیگیاں قبول کرتے ہیں۔ ہمیں عام طور پر کام شروع کرنے کے لیے 50% ڈپازٹ کی ضرورت ہوتی ہے، باقی رقم شپنگ سے پہلے تکمیل پر واجب الادا ہوتی ہے۔' },
       },
       {
-        question: { en: 'Can I get a quote if I live outside Pakistan?', ur: 'اگر میں پاکستان سے باہر رہتا ہوں تو کیا میں کوٹیشن حاصل کر سکتا ہوں؟' },
-        answer: { en: 'Absolutely. Many of our clients are part of the global Pakistani diaspora. You can contact us via WhatsApp (+92 308 3401606) for a custom quote including international shipping.', ur: 'بالکل۔ ہمارے بہت سے کلائنٹس عالمی پاکستانی ڈائسپورا کا حصہ ہیں۔ آپ بین الاقوامی شپنگ سمیت کسٹم کوٹیشن کے لیے واٹس ایپ (+92 308 3401606) کے ذریعے ہم سے رابطہ کر سکتے ہیں۔' },
+        question: { en: 'Do you offer installation services in Karachi?', ur: 'کیا آپ کراچی میں تنصیب کی خدمات پیش کرتے ہیں؟' },
+        answer: { en: 'Yes, we have a professional team for on-site installation at any graveyard or residential property across Karachi. For projects outside Karachi but within Pakistan, we can arrange delivery and provide guidance for local installation.', ur: 'جی ہاں، ہمارے پاس کراچی بھر میں کسی بھی قبرستان یا رہائشی پراپرٹی پر آن سائٹ تنصیب کے لیے ایک پیشہ ور ٹیم ہے۔ کراچی سے باہر لیکن پاکستان کے اندر موجود منصوبوں کے لیے، ہم ڈیلیوری کا بندوبست کر سکتے ہیں اور مقامی تنصیب کے لیے رہنمائی فراہم کر سکتے ہیں۔' },
       }
     ]
   },

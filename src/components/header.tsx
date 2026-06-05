@@ -28,10 +28,8 @@ export function Header() {
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/locator', label: content.nav.locator[language] },
-    { href: 'https://feed.stylishmarbleart.com', label: content.nav.feed[language] },
-    { href: 'https://review.stylishmarbleart.com', label: content.nav.review[language] },
     { href: '/about', label: content.nav.about[language] },
-    { href: 'https://faq.stylishmarbleart.com', label: content.nav.faq[language] },
+    { href: '/faq', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },
   ];
 
