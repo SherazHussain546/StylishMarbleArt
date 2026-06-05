@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -37,7 +36,7 @@ export default function ServicesPageClient() {
              <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-primary text-primary hover:bg-primary hover:text-white">
                 <Link href="/locator" className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
-                    {language === 'en' ? 'Find Loved Ones Grave' : 'یادگار تلاش کنندہ'}
+                    {language === 'en' ? 'Find Graves' : 'یادگار تلاش کنندہ'}
                 </Link>
              </Button>
              <Button asChild variant="outline" size="lg" className="rounded-full px-8">
