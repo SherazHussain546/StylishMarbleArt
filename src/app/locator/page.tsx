@@ -1,6 +1,7 @@
 
 import type { Metadata } from 'next';
 import LocatorPageClient from './locator-client';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Find Your Loved Ones Grave | Karachi Graveyard Map | Stylish Marble Art',
@@ -25,5 +26,16 @@ export const metadata: Metadata = {
 };
 
 export default function LocatorPage() {
-  return <LocatorPageClient />;
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-secondary/10">
+        <div className="text-center">
+          <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="font-medium text-muted-foreground">Loading Digital Memorial Locator...</p>
+        </div>
+      </div>
+    }>
+      <LocatorPageClient />
+    </Suspense>
+  );
 }

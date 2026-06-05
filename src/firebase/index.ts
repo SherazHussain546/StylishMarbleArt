@@ -1,3 +1,4 @@
+
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
@@ -15,23 +16,27 @@ export function initializeFirebase() {
   let firebaseApp: FirebaseApp;
   
   // Basic check for config validity
-  const hasConfig = firebaseConfig && firebaseConfig.apiKey;
+  const hasConfig = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "placeholder-for-build";
 
   try {
-    // Only attempt automatic init if we're likely in a Google environment
-    if (!hasConfig || process.env.FIREBASE_CONFIG || process.env.K_SERVICE) {
-      firebaseApp = initializeApp();
-    } else {
-      firebaseApp = initializeApp(firebaseConfig);
-    }
-  } catch (e) {
-    // Final fallback to provided config
+    // Priority 1: Use provided config if it looks valid
     if (hasConfig) {
       firebaseApp = initializeApp(firebaseConfig);
-    } else {
-      // If no config and auto-init fails, we still return SDKs but they might fail at runtime
-      // This allows the build to proceed if Firebase isn't strictly needed for static generation
+    } 
+    // Priority 2: Try automatic init if in Google environment (App Hosting)
+    else if (process.env.FIREBASE_CONFIG || process.env.K_SERVICE) {
+      firebaseApp = initializeApp();
+    } 
+    // Fallback for build time environments where config might be injected later
+    else {
+      firebaseApp = initializeApp(firebaseConfig || { apiKey: "placeholder-for-build" });
+    }
+  } catch (e) {
+    // Final fallback to ensure the build worker doesn't crash
+    if (!getApps().length) {
       firebaseApp = initializeApp({ apiKey: "placeholder-for-build" });
+    } else {
+      firebaseApp = getApp();
     }
   }
 

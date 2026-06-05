@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -41,7 +42,13 @@ export default function AboutPageClient() {
     };
   }, [pageContent]);
 
-  if (!pageContent) return null;
+  if (!pageContent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading content...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-secondary/20">
