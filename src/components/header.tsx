@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -20,7 +19,7 @@ export function Header() {
   const pathname = usePathname();
   
   // Hide header on admin routes
-  if (pathname.startsWith('/admin')) {
+  if (pathname && pathname.startsWith('/admin')) {
     return null;
   }
 

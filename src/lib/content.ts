@@ -3,7 +3,7 @@ export const content = {
     home: { en: 'Home', ur: 'گھر' },
     services: { en: 'Services', ur: 'خدمات' },
     gallery: { en: 'Gallery', ur: 'گیلری' },
-    locator: { en: 'Find Graves', ur: 'اپنے پیاروں کی قبر تلاش کریں' },
+    locator: { en: 'Find Graves', ur: 'قبریں تلاش کریں' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     contact: { en: 'Contact', ur: 'رابطہ' },
     updates: { en: 'Articles & Updates', ur: 'مضامین اور اپ ڈیٹس' },
@@ -236,7 +236,7 @@ export const content = {
     feedItems: [
       {
         image: "/Gallery/Grave/8.png",
-        title: { en: "White Marble Gravestone", ur: "سفید ماربل کا کتبہ" },
+        title: { en: "White Marble Gravestone", ur: "سفید ماربل का کتبہ" },
         alt: { en: "Custom Ziarat White marble gravestone with Urdu engraving, Karachi Pakistan", ur: "کراچی پاکستان میں اردو کندہ کاری کے ساتھ کسٹم زیارت وائٹ ماربل کا کتبہ" },
         hint: "marble gravestone",
       },
