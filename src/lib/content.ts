@@ -468,6 +468,20 @@ export const content = {
             en: 'Every family has a story. By documenting your loved ones today, you are giving a priceless gift to the next generation—the ability to find their roots and visit their ancestral resting places. Help us keep memories alive by keeping their lasting place remembered forever.',
             ur: 'ہر خاندان کی ایک کہانی ہوتی ہے۔ آج اپنے پیاروں کو دستاویزی شکل دے کر، آپ اگلی نسل کو ایک انمول تحفہ دے رہے ہیں—ان کی جڑیں تلاش کرنے اور ان کے آباؤ اجداد کی آرام گاہوں پر جانے کی صلاحیت۔ ان کی مستقل جگہ کو ہمیشہ کے لیے یاد رکھ کر یادوں کو زندہ رکھنے میں ہماری مدد کریں۔'
         }
+    },
+    privacyStatement: {
+        title: { en: 'Secure, Private & Dignified', ur: 'محفوظ، نجی اور باوقار' },
+        description: { 
+            en: 'We use the data you provide to enhance our search algorithms and build a more comprehensive cemetery map of Karachi. Your contact details are stored in an encrypted database and are never shared with third parties. We only contact you to ensure your family record is accurate and to offer our professional craftsmanship where needed.',
+            ur: 'ہم آپ کے فراہم کردہ ڈیٹا کو اپنے سرچ الگورتھم کو بہتر بنانے اور کراچی کا ایک زیادہ جامع قبرستان کا نقشہ بنانے کے لیے استعمال کرتے ہیں۔ آپ کے رابطے کی تفصیلات ایک انکرپٹڈ ڈیٹا بیس میں محفوظ کی جاتی ہیں اور کبھی تیسرے فریق کے ساتھ شیئر نہیں کی جاتیں۔ ہم آپ سے صرف اس بات کو یقینی بنانے کے لیے رابطہ کرتے ہیں کہ آپ کا خاندانی ریکارڈ درست ہے اور جہاں ضرورت ہو اپنی پیشہ ورانہ دستکاری کی پیشکش کریں۔'
+        }
+    },
+    termsNotice: {
+        title: { en: 'Data Consent & Privacy Agreement', ur: 'ڈیٹا کی رضامندی اور رازداری کا معاہدہ' },
+        text: {
+            en: 'By adding to this tree, you acknowledge that your contact details will be used as a business lead and Stylish Marble Art may contact you via WhatsApp or Phone regarding memorial services. Your information is secured and will only be used to improve this community registry.',
+            ur: 'اس شجرے میں شامل ہو کر، آپ تسلیم کرتے ہیں کہ آپ کے رابطے کی تفصیلات کو کاروباری لیڈ کے طور پر استعمال کیا جائے گا اور سٹائلش ماربل آرٹ آپ سے یادگاری خدمات کے بارے میں واٹس ایپ یا فون کے ذریعے رابطہ کر سکتا ہے۔ آپ کی معلومات محفوظ ہیں اور اسے صرف اس کمیونٹی رجسٹری کو بہتر بنانے کے لیے استعمال کیا جائے گا۔'
+        }
     }
   }
 };

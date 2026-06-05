@@ -12,7 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users, UserPlus, Info, MessageCircle, Landmark, Sparkles, BookOpen } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Search, MapPin, Plus, Heart, Camera, Loader2, User, Upload, Calendar, Share2, GitGraph, ArrowDown, ArrowUp, Users, UserPlus, Info, MessageCircle, Landmark, Sparkles, BookOpen, ShieldCheck, Lock } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -50,6 +51,7 @@ export default function LocatorPageClient() {
   const [uploading, setUploading] = useState(false);
   const [viewingFamily, setViewingFamily] = useState<any | null>(null);
   const [isPinDialogOpen, setIsPinDialogOpen] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   
   // Handle URL search param for direct sharing
   useEffect(() => {
@@ -175,6 +177,11 @@ export default function LocatorPageClient() {
   const handleAddMemorial = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!agreedToTerms) {
+        toast({ variant: 'destructive', title: 'Action Required', description: 'Please agree to the privacy terms and data consent.' });
+        return;
+    }
+
     if (!newMemorial.publisherName || !newMemorial.publisherEmail || !newMemorial.publisherPhone) {
         toast({ variant: 'destructive', title: 'Missing Info', description: 'Please provide your details as the publisher.' });
         return;
@@ -200,6 +207,7 @@ export default function LocatorPageClient() {
         });
         setIsAdding(false);
         setIsPinDialogOpen(false);
+        setAgreedToTerms(false);
         setNewMemorial({ 
             isAlive: false,
             honorific: 'none',
@@ -513,8 +521,31 @@ I have new information regarding their funeral / resting place to add to the fam
                                     </div>
                                 </div>
 
+                                {/* Terms & Privacy Section */}
+                                <div className="bg-primary/5 p-4 rounded-xl border border-dashed border-primary/20 space-y-3">
+                                    <div className="flex items-start gap-3">
+                                        <Checkbox 
+                                            id="terms" 
+                                            checked={agreedToTerms} 
+                                            onCheckedChange={(val) => setAgreedToTerms(val as boolean)}
+                                            className="mt-1"
+                                        />
+                                        <div className="grid gap-1.5 leading-none">
+                                            <label
+                                                htmlFor="terms"
+                                                className="text-sm font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                            >
+                                                {pageContent.termsNotice.title[language]}
+                                            </label>
+                                            <p className="text-xs text-muted-foreground leading-relaxed">
+                                                {pageContent.termsNotice.text[language]}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <DialogFooter className="pt-4">
-                                <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading}>
+                                <Button type="submit" className="w-full h-12 text-lg" disabled={isAdding || uploading || !agreedToTerms}>
                                     {isAdding ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : language === 'en' ? 'Add to Tree' : 'شجرہ میں شامل کریں'}
                                 </Button>
                                 </DialogFooter>
@@ -905,6 +936,42 @@ I have new information regarding their funeral / resting place to add to the fam
                 <MapPin className="h-5 w-5" />
                 {filteredMemorials.filter(m => !m.isAlive).length} {language === 'en' ? 'Graves Located' : 'قبریں مل گئیں'}
             </div>
+        </div>
+      </section>
+
+      {/* Privacy & Security Statement Section */}
+      <section className="container mx-auto px-4 pt-24 pb-12">
+        <div className="max-w-4xl mx-auto">
+            <Card className="bg-primary/5 border-primary/10 overflow-hidden rounded-[2.5rem]">
+                <CardHeader className="text-center pt-10">
+                    <div className="mx-auto bg-primary text-white h-12 w-12 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                        <Lock className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold">{pageContent.privacyStatement.title[language]}</CardTitle>
+                    <CardDescription className="text-base text-primary/80 font-medium">
+                        {language === 'en' ? 'Your trust is our legacy.' : 'آپ کا بھروسہ ہماری میراث ہے۔'}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="px-8 pb-10 text-center">
+                    <p className="text-muted-foreground leading-relaxed text-lg italic">
+                        "{pageContent.privacyStatement.description[language]}"
+                    </p>
+                    <div className="mt-8 flex justify-center gap-6">
+                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                            <ShieldCheck className="h-4 w-4" />
+                            {language === 'en' ? 'Data Encryption' : 'ڈیٹا انکرپشن'}
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                            <ShieldCheck className="h-4 w-4" />
+                            {language === 'en' ? 'Lead Privacy' : 'ڈیٹا کی رازداری'}
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                            <ShieldCheck className="h-4 w-4" />
+                            {language === 'en' ? 'Zero 3rd Party' : 'تیسرے فریق سے پاک'}
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
       </section>
     </div>
