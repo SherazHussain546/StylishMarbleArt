@@ -198,7 +198,7 @@ export default function AdminMemorialLeadsPage() {
                       <div className="space-y-0.5 text-xs text-muted-foreground italic">
                         {m.fatherName && <p>Father: {m.fatherName}</p>}
                         {m.motherName && <p>Mother: {m.motherName}</p>}
-                        {m.husbandName && <p>Husband: {m.husbandName}</p>}
+                        {m.husbandName && <p>Spouse: {m.husbandName}</p>}
                       </div>
                       {!m.isAlive && m.graveyardName && (
                         <div className="flex items-center gap-1 text-sm font-semibold text-primary mt-2">
@@ -343,7 +343,7 @@ export default function AdminMemorialLeadsPage() {
                     )}
                     
                     <div className="space-y-2 md:col-span-2">
-                        <Label>Husband's Name</Label>
+                        <Label>Spouse's Name</Label>
                         <Input value={editingMemorial.husbandName || ''} onChange={(e) => setEditingMemorial({...editingMemorial, husbandName: e.target.value})} />
                     </div>
 

@@ -420,7 +420,7 @@ I have new information regarding their funeral / resting place to add to the fam
                                         )}
                                         
                                         <div className="space-y-2 md:col-span-2">
-                                            <Label>{language === 'en' ? 'Husband\'s Name (If Married Female)' : 'شوہر کا نام'}</Label>
+                                            <Label>{language === 'en' ? "Spouse's Name" : 'شریک حیات کا نام'}</Label>
                                             <Input value={newMemorial.husbandName} onChange={(e) => setNewMemorial({...newMemorial, husbandName: e.target.value})} />
                                         </div>
 
