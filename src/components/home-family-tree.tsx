@@ -5,12 +5,26 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { GitGraph, Users, Share2, MapPin, Search, Heart, Sparkles, Activity } from 'lucide-react';
+import { GitGraph, MapPin, Search, Heart, Sparkles, Activity, Loader2, Share2 } from 'lucide-react';
 import placeholderImages from '@/app/lib/placeholder-images.json';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy } from 'firebase/firestore';
 
 export function HomeFamilyTree() {
   const { language } = useLanguage();
   const sectionContent = content.homeFamilyTree;
+  const db = useFirestore();
+
+  // Real-time stats and recent activity fetch
+  const memorialsQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'memorials'), orderBy('createdAt', 'desc'));
+  }, [db]);
+
+  const { data: memorials, isLoading } = useCollection<any>(memorialsQuery);
+
+  const totalCount = memorials?.length || 0;
+  const latestMemorial = memorials?.[0];
 
   return (
     <section className="py-16 md:py-32 bg-primary/5">
@@ -48,13 +62,13 @@ export function HomeFamilyTree() {
                 ))}
             </div>
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                <Button asChild size="lg" className="rounded-full px-10 shadow-xl group">
+                <Button asChild size="lg" className="rounded-full px-10 shadow-xl group text-lg h-14">
                     <Link href="/locator">
-                        <Search className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                        <Search className="mr-2 h-6 w-6 group-hover:scale-110 transition-transform" />
                         {sectionContent.cta[language]}
                     </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="rounded-full px-10 border-primary text-primary hover:bg-primary hover:text-white">
+                <Button asChild size="lg" variant="outline" className="rounded-full px-10 border-primary text-primary hover:bg-primary hover:text-white h-14">
                     <Link href="/locator">
                         <Heart className="mr-2 h-5 w-5" />
                         {language === 'en' ? 'Pin a Relative' : 'رشتہ دار کو پن کریں'}
@@ -99,14 +113,16 @@ export function HomeFamilyTree() {
                                 </div>
                             ))}
                             <div className="h-10 w-10 rounded-full border-2 border-background bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shadow-lg">
-                                +1.2k
+                                {isLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : `+${totalCount > 4 ? totalCount - 4 : 0}`}
                             </div>
                         </div>
                         <div className="text-right">
                             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                                {language === 'en' ? 'Memorials Added' : 'شامل یادگاریں'}
+                                {language === 'en' ? 'Memorials Linked' : 'شامل یادگاریں'}
                             </p>
-                            <p className="text-xl font-bold text-primary tracking-tighter">1,540+</p>
+                            <p className="text-2xl font-bold text-primary tracking-tighter">
+                                {isLoading ? '---' : totalCount.toLocaleString()}
+                            </p>
                         </div>
                     </div>
 
@@ -115,11 +131,13 @@ export function HomeFamilyTree() {
                             <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover/card:scale-110 transition-transform">
                                 <MapPin className="h-6 w-6 text-primary" />
                             </div>
-                            <div>
+                            <div className="overflow-hidden">
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
-                                    {language === 'en' ? 'Recent Pin' : 'حالیہ پن'}
+                                    {language === 'en' ? 'Recent Registry' : 'حالیہ اندراج'}
                                 </p>
-                                <p className="font-bold text-foreground">Wadi-e-Hussain, Karachi</p>
+                                <p className="font-bold text-foreground truncate">
+                                    {isLoading ? '...' : (latestMemorial?.graveyardName || latestMemorial?.deceasedName || 'Karachi, Pakistan')}
+                                </p>
                             </div>
                             <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
                         </div>
@@ -130,10 +148,10 @@ export function HomeFamilyTree() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60">
-                                    {language === 'en' ? 'Lineage Connection' : 'نسلی تعلق'}
+                                    {language === 'en' ? 'Live Sync Status' : 'لائیو ہم آہنگی'}
                                 </p>
                                 <p className="font-bold text-foreground">
-                                    {language === 'en' ? '3rd Gen Record Linked' : 'تیسری نسل کا ریکارڈ منسلک'}
+                                    {language === 'en' ? 'Database Connected' : 'ڈیٹا بیس منسلک ہے'}
                                 </p>
                             </div>
                             <Activity className="h-4 w-4 ml-auto text-primary opacity-20 group-hover/card:opacity-100 transition-opacity" />
@@ -142,7 +160,7 @@ export function HomeFamilyTree() {
                     
                     <div className="pt-6 border-t border-dashed">
                         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
-                            <span>{language === 'en' ? 'Global Search Nodes' : 'عالمی تلاش'}</span>
+                            <span>{language === 'en' ? 'Global Lineage Network' : 'عالمی خاندانی نیٹ ورک'}</span>
                             <div className="flex gap-1">
                                 <span className="h-1 w-1 bg-primary rounded-full animate-bounce"></span>
                                 <span className="h-1 w-1 bg-primary rounded-full animate-bounce [animation-delay:0.2s]"></span>
