@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
-import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin, Sparkles } from 'lucide-react';
+import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -148,7 +148,7 @@ export default function ServicesPageClient() {
                                 {language === 'en' ? 'Request Price Quote' : 'قیمت معلوم کریں'}
                             </a>
                         </Button>
-                        <Button asChild variant="outline" size="lg" className="rounded-full px-8" onClick={() => window.open('https://faq.stylishmarbleart.com', '_blank')}>
+                        <Button variant="outline" size="lg" className="rounded-full px-8" onClick={() => window.open('https://faq.stylishmarbleart.com', '_blank')}>
                             <HelpCircle className="mr-2 h-5 w-5" />
                             {language === 'en' ? 'View Service FAQ' : 'سوالات دیکھیں'}
                         </Button>
