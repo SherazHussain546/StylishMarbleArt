@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -6,9 +7,9 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin, Heart } from 'lucide-react';
+import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -36,7 +37,7 @@ export default function ServicesPageClient() {
              <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-primary text-primary hover:bg-primary hover:text-white">
                 <Link href="/locator" className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
-                    {language === 'en' ? 'Find Graves' : 'یادگار تلاش کنندہ'}
+                    {language === 'en' ? 'Find Graves' : 'قبریں تلاش کریں'}
                 </Link>
              </Button>
              <Button asChild variant="outline" size="lg" className="rounded-full px-8">
@@ -70,7 +71,7 @@ export default function ServicesPageClient() {
             </div>
         </div>
 
-        {/* Why Choose Us / Trust Badges */}
+        {/* Trust Badges */}
         <div className="mt-24 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex flex-col items-center text-center p-6 bg-secondary/30 rounded-2xl">
                 <div className="bg-primary/10 p-3 rounded-full mb-4">
@@ -102,12 +103,12 @@ export default function ServicesPageClient() {
             </div>
         </div>
 
-        {/* Detailed Services */}
+        {/* Detailed Services with Reduced Image Sizes */}
         <div className="mt-24 mx-auto max-w-5xl space-y-32">
           {pageContent.serviceList.map((service, index) => (
             <section key={index} className="scroll-mt-24" id={service.name.en.toLowerCase().replace(/\s+/g, '-')}>
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                  <div className="lg:col-span-7">
+                  <div className="lg:col-span-8">
                     <div className="inline-block bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
                         {language === 'en' ? 'Our Expertise' : 'ہماری مہارت'}
                     </div>
@@ -120,17 +121,17 @@ export default function ServicesPageClient() {
                             {(language === 'en' ? 
                                 [
                                     "Premium Ziarat White & Black Granite from Pakistan",
-                                    "Professional Grave Cleaning & Maintenance in Karachi",
-                                    "Scheduled Watering & Plant Care for Local Memorials",
                                     "Custom Urdu/Arabic Calligraphy for Global Clients",
-                                    "International Shipping & Secure Export Packaging"
+                                    "Secure International Export Packaging",
+                                    "Doorstep Delivery Across All of Pakistan",
+                                    "Expert On-Site Installation in Karachi"
                                 ] : 
                                 [
                                     "پاکستان سے پریمیم زیارت وائٹ اور بلیک گرینائٹ",
-                                    "کراچی کے قبرستانوں میں پیشہ ورانہ صفائی اور دیکھ بھال",
-                                    "مقامی یادگاروں کے لیے طے شدہ پانی اور پودوں کی دیکھ بھال",
                                     "عالمی کلائنٹس کے لیے کسٹم اردو اور عربی خطاطی",
-                                    "بین الاقوامی شپنگ اور محفوظ ایکسپورٹ پیکیجنگ"
+                                    "محفوظ بین الاقوامی ایکسپورٹ پیکیجنگ",
+                                    "پورے پاکستان میں دہلیز تک ترسیل",
+                                    "کراچی میں ماہرانہ آن سائٹ تنصیب"
                                 ]
                             ).map((item, i) => (
                                 <li key={i} className="flex items-center gap-3 text-sm font-medium">
@@ -156,7 +157,7 @@ export default function ServicesPageClient() {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-5 relative">
+                  <div className="lg:col-span-4 relative">
                     <Carousel 
                         className="w-full"
                         opts={{
@@ -168,7 +169,7 @@ export default function ServicesPageClient() {
                             {service.images.map((img, imgIndex) => (
                             <CarouselItem key={imgIndex}>
                                 <div className="p-1">
-                                    <Card className="overflow-hidden shadow-xl border-none">
+                                    <Card className="overflow-hidden shadow-lg border-none rounded-2xl">
                                         <CardContent className="relative flex aspect-square items-center justify-center p-0">
                                             <Image
                                                 src={img.src}
@@ -176,12 +177,9 @@ export default function ServicesPageClient() {
                                                 data-ai-hint={img.hint}
                                                 fill
                                                 className="object-cover"
-                                                sizes="(max-width: 768px) 100vw, 40vw"
+                                                sizes="(max-width: 768px) 100vw, 30vw"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                                            <div className="absolute bottom-4 left-4 right-4">
-                                                <p className="text-white text-xs font-bold uppercase tracking-wider opacity-80">{img.alt}</p>
-                                            </div>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                                         </CardContent>
                                     </Card>
                                 </div>
@@ -189,8 +187,8 @@ export default function ServicesPageClient() {
                             ))}
                         </CarouselContent>
                         <div className="absolute -bottom-10 right-0 flex gap-2">
-                            <CarouselPrevious className="static translate-y-0" />
-                            <CarouselNext className="static translate-y-0" />
+                            <CarouselPrevious className="static translate-y-0 h-8 w-8" />
+                            <CarouselNext className="static translate-y-0 h-8 w-8" />
                         </div>
                     </Carousel>
                   </div>
@@ -201,7 +199,7 @@ export default function ServicesPageClient() {
           ))}
         </div>
 
-        {/* Our Process Section */}
+        {/* Process Section */}
         <section className="mt-40 py-20 bg-secondary/20 rounded-[3rem] px-8 md:px-16">
             <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{pageContent.processTitle[language]}</h2>
@@ -210,12 +208,10 @@ export default function ServicesPageClient() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {pageContent.processSteps.map((step, i) => (
                     <Card key={i} className="bg-background/50 border-none shadow-sm hover:shadow-md transition-shadow">
-                        <CardHeader>
-                            <CardTitle className="text-xl text-primary">{step.title[language]}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
+                        <div className="p-6">
+                            <h3 className="text-xl font-bold text-primary mb-2">{step.title[language]}</h3>
                             <p className="text-sm text-muted-foreground">{step.description[language]}</p>
-                        </CardContent>
+                        </div>
                     </Card>
                 ))}
             </div>
@@ -224,14 +220,14 @@ export default function ServicesPageClient() {
         {/* CTA Section */}
         <div className="mt-32 text-center bg-primary text-primary-foreground py-16 rounded-3xl shadow-2xl overflow-hidden relative">
             <div className="absolute inset-0 opacity-10 pointer-events-none">
-                <Image src="/SMAHeader.png" alt="Marble texture pattern background" fill className="object-cover grayscale" />
+                <Image src="/SMAHeader.png" alt="Marble texture pattern" fill className="object-cover grayscale" />
             </div>
             <div className="relative z-10">
                 <h2 className="text-3xl font-bold mb-6">{language === 'en' ? 'Ready to Start Your Global Project?' : 'کیا آپ اپنا عالمی منصوبہ شروع کرنے کے لیے تیار ہیں؟'}</h2>
                 <p className="mb-10 text-primary-foreground/80 max-w-xl mx-auto">
                     {language === 'en' 
-                        ? 'Contact Karachi\'s most trusted stonemasons for a quote on gravestones, kitchen marble, or custom engraving, delivered anywhere in Pakistan or the world.' 
-                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں کوٹیشن کے لیے کراچی کے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں، جو پاکستان یا دنیا میں کہیں بھی پہنچایا جاتا ہے۔'}
+                        ? 'Contact Karachi\'s most trusted stonemasons for a quote on gravestones, kitchen marble, or custom engraving.' 
+                        : 'قبر کے کتبوں، کچن ماربل، یا کسٹم کندہ کاری کے بارے میں کوٹیشن کے لیے کراچی کے سب سے قابل اعتماد سنگ تراشوں سے رابطہ کریں۔'}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button asChild size="lg" variant="secondary" className="px-10 rounded-full font-bold">
