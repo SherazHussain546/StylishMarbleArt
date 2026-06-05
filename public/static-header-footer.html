@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Marble Art - Header & Footer Template</title>
+    <style>
+        :root {
+            --primary: #4a5568;
+            --background: #f7fafc;
+            --foreground: #1a202c;
+            --muted: #718096;
+            --white: #ffffff;
+            --accent: #00d95f; /* WhatsApp Green */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background);
+            color: var(--foreground);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary);
+        }
+
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #e2e8f0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .logo-box {
+            background-color: var(--foreground);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-family: "Brush Script MT", cursive;
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            margin-left: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--white);
+            border-top: 1px solid #e2e8f0;
+            padding: 60px 0 30px 0;
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--foreground);
+        }
+
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .address {
+            font-style: normal;
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #edf2f7;
+            padding-top: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-btn:hover {
+            background-color: #f7fafc;
+        }
+
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .header { height: auto; padding: 15px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-box">Stylish</div>
+                <span class="logo-text">Marble Art</span>
+            </div>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/services" class="nav-link">Services</a>
+                <a href="/gallery" class="nav-link">Gallery</a>
+                <a href="/locator" class="nav-link">Find Graves</a>
+                <a href="https://feed.stylishmarbleart.com" target="_blank" class="nav-link">Feed</a>
+                <a href="https://review.stylishmarbleart.com" target="_blank" class="nav-link">Review</a>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="https://faq.stylishmarbleart.com" target="_blank" class="nav-link">FAQ</a>
+                <a href="/contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div style="padding: 100px 20px; text-align: center; background: #fff;">
+        <h1>Your Content Goes Here</h1>
+        <p>This is a placeholder for your main page content.</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <div class="logo-box" style="font-size: 1.4rem;">Stylish</div>
+                        <span class="logo-text" style="font-size: 1rem;">Marble Art</span>
+                    </div>
+                    <p class="footer-tagline">Karachi's Premium Marble & Headstone Maker - Based in Pakistan, Serving the World</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com/stylishmarbleart" target="_blank" class="social-btn">FB</a>
+                        <a href="https://wa.me/923083401606" target="_blank" class="social-btn">WA</a>
+                    </div>
+                </div>
+
+                <div class="footer-col" style="text-align: center;">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/gallery">Gallery</a></li>
+                        <li><a href="/locator">Find Graves</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" style="text-align: right;">
+                    <h3>Contact Us</h3>
+                    <div class="address">
+                        Malir 15, At Main National Highway<br>
+                        Near Bank Al-Habib Ltd<br>
+                        Karachi, Pakistan<br><br>
+                        Phone: +92 308 3401606<br>
+                        Email: stylishmarbleart2020@gmail.com
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Stylish Marble Art Karachi. All Rights Reserved. | Developed by SYNC TECH</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
