@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -7,8 +6,8 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin, Sparkles } from 'lucide-react';
 
 export default function ServicesPageClient() {
   const { language } = useLanguage();
@@ -102,12 +101,12 @@ export default function ServicesPageClient() {
             </div>
         </div>
 
-        {/* Detailed Services with Reduced Image Sizes (Static) */}
-        <div className="mt-24 mx-auto max-w-5xl space-y-32">
+        {/* Detailed Services - Text Focused Layout */}
+        <div className="mt-24 mx-auto max-w-4xl space-y-24">
           {pageContent.serviceList.map((service, index) => (
             <section key={index} className="scroll-mt-24" id={service.name.en.toLowerCase().replace(/\s+/g, '-')}>
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                  <div className="lg:col-span-8">
+              <div className="flex flex-col items-start">
+                  <div className="w-full">
                     <div className="inline-block bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
                         {language === 'en' ? 'Our Expertise' : 'ہماری مہارت'}
                     </div>
@@ -116,25 +115,27 @@ export default function ServicesPageClient() {
                         <p className="leading-relaxed">
                             {service.description[language]}
                         </p>
-                        <ul className="space-y-3">
+                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                             {(language === 'en' ? 
                                 [
                                     "Premium Ziarat White & Black Granite from Pakistan",
                                     "Custom Urdu/Arabic Calligraphy for Global Clients",
                                     "Secure International Export Packaging",
                                     "Doorstep Delivery Across All of Pakistan",
-                                    "Expert On-Site Installation in Karachi"
+                                    "Expert On-Site Installation in Karachi",
+                                    "Precision Laser and Hand Carving"
                                 ] : 
                                 [
                                     "پاکستان سے پریمیم زیارت وائٹ اور بلیک گرینائٹ",
                                     "عالمی کلائنٹس کے لیے کسٹم اردو اور عربی خطاطی",
                                     "محفوظ بین الاقوامی ایکسپورٹ پیکیجنگ",
                                     "پورے پاکستان میں دہلیز تک ترسیل",
-                                    "کراچی میں ماہرانہ آن سائٹ تنصیب"
+                                    "کراچی میں ماہرانہ آن سائٹ تنصیب",
+                                    "درست لیزر اور ہاتھ سے تراشنا"
                                 ]
                             ).map((item, i) => (
                                 <li key={i} className="flex items-center gap-3 text-sm font-medium">
-                                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                                    <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                                     {item}
                                 </li>
                             ))}
@@ -147,37 +148,15 @@ export default function ServicesPageClient() {
                                 {language === 'en' ? 'Request Price Quote' : 'قیمت معلوم کریں'}
                             </a>
                         </Button>
-                        <Button asChild variant="outline" size="lg" className="rounded-full px-8">
-                            <a href="https://faq.stylishmarbleart.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                                <HelpCircle className="mr-2 h-5 w-5" />
-                                {language === 'en' ? 'View Service FAQ' : 'سوالات دیکھیں'}
-                            </a>
+                        <Button asChild variant="outline" size="lg" className="rounded-full px-8" onClick={() => window.open('https://faq.stylishmarbleart.com', '_blank')}>
+                            <HelpCircle className="mr-2 h-5 w-5" />
+                            {language === 'en' ? 'View Service FAQ' : 'سوالات دیکھیں'}
                         </Button>
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-4">
-                    <div className="grid grid-cols-1 gap-4">
-                        {service.images.slice(0, 1).map((img, imgIndex) => (
-                        <Card key={imgIndex} className="overflow-hidden shadow-lg border-none rounded-2xl">
-                            <CardContent className="relative flex aspect-square items-center justify-center p-0">
-                                <Image
-                                    src={img.src}
-                                    alt={`${img.alt} - Premium marble work crafted in Karachi Pakistan`}
-                                    data-ai-hint={img.hint}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 30vw"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                            </CardContent>
-                        </Card>
-                        ))}
                     </div>
                   </div>
               </div>
 
-              {index < pageContent.serviceList.length - 1 && <Separator className="mt-32 opacity-50" />}
+              {index < pageContent.serviceList.length - 1 && <Separator className="mt-24 opacity-50" />}
             </section>
           ))}
         </div>
