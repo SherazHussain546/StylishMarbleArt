@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { MessageCircle, Phone, ArrowRight, HelpCircle, CheckCircle2, ShieldCheck, Clock, Plane, MapPin } from 'lucide-react';
 
 export default function ServicesPageClient() {
@@ -102,7 +102,7 @@ export default function ServicesPageClient() {
             </div>
         </div>
 
-        {/* Detailed Services with Reduced Image Sizes */}
+        {/* Detailed Services with Reduced Image Sizes (Static) */}
         <div className="mt-24 mx-auto max-w-5xl space-y-32">
           {pageContent.serviceList.map((service, index) => (
             <section key={index} className="scroll-mt-24" id={service.name.en.toLowerCase().replace(/\s+/g, '-')}>
@@ -156,40 +156,24 @@ export default function ServicesPageClient() {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-4 relative">
-                    <Carousel 
-                        className="w-full"
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }}
-                    >
-                        <CarouselContent>
-                            {service.images.map((img, imgIndex) => (
-                            <CarouselItem key={imgIndex}>
-                                <div className="p-1">
-                                    <Card className="overflow-hidden shadow-lg border-none rounded-2xl">
-                                        <CardContent className="relative flex aspect-square items-center justify-center p-0">
-                                            <Image
-                                                src={img.src}
-                                                alt={`${img.alt} - Premium marble work crafted in Karachi Pakistan`}
-                                                data-ai-hint={img.hint}
-                                                fill
-                                                className="object-cover"
-                                                sizes="(max-width: 768px) 100vw, 30vw"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <div className="absolute -bottom-10 right-0 flex gap-2">
-                            <CarouselPrevious className="static translate-y-0 h-8 w-8" />
-                            <CarouselNext className="static translate-y-0 h-8 w-8" />
-                        </div>
-                    </Carousel>
+                  <div className="lg:col-span-4">
+                    <div className="grid grid-cols-1 gap-4">
+                        {service.images.slice(0, 1).map((img, imgIndex) => (
+                        <Card key={imgIndex} className="overflow-hidden shadow-lg border-none rounded-2xl">
+                            <CardContent className="relative flex aspect-square items-center justify-center p-0">
+                                <Image
+                                    src={img.src}
+                                    alt={`${img.alt} - Premium marble work crafted in Karachi Pakistan`}
+                                    data-ai-hint={img.hint}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 30vw"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                            </CardContent>
+                        </Card>
+                        ))}
+                    </div>
                   </div>
               </div>
 
