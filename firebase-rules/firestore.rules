@@ -26,6 +26,12 @@ service cloud.firestore {
       allow read, delete: if isSignedIn();
       allow create: if isValidContactMessage(request.resource.data);
     }
+
+    // MEMORIALS: Public can search and add, only admins can delete/update
+    match /memorials/{memorialId} {
+      allow read, create;
+      allow update, delete: if isSignedIn();
+    }
     
     // Default deny all other collections
     match /{document=**} {

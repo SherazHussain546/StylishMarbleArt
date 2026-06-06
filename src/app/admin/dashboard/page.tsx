@@ -4,13 +4,13 @@ import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LogOut, ImageIcon, MessageSquare, Settings, MapPin, Loader2 } from 'lucide-react';
+import { LogOut, ImageIcon, MessageSquare, Settings, MapPin, Loader2, CheckCircle2 } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { useAuth } from '@/firebase';
 
 export default function AdminDashboardPage() {
-  const { user, loading } = useUser();
+  const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const router = useRouter();
 
@@ -19,7 +19,7 @@ export default function AdminDashboardPage() {
     router.push('/admin');
   };
 
-  if (loading) {
+  if (isUserLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-secondary">
         <div className="text-center">
@@ -40,7 +40,10 @@ export default function AdminDashboardPage() {
         <div className="container flex h-16 items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-             <span className="text-sm text-muted-foreground hidden md:inline">{user.email}</span>
+             <div className="hidden md:flex items-center gap-2 bg-green-500/10 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+                <CheckCircle2 className="h-3 w-3" />
+                Verified Admin: {user.email}
+             </div>
              <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
@@ -53,7 +56,7 @@ export default function AdminDashboardPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-            <p className="text-muted-foreground mt-1">Manage your website content and business leads.</p>
+            <p className="text-muted-foreground mt-1">Manage your website content and business leads with full administrative access.</p>
           </div>
         </div>
         
