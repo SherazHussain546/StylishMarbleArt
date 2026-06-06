@@ -1,19 +1,29 @@
-
 'use client';
 
-import { useUser } from '@/firebase';
+import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LogOut, ImageIcon, MessageSquare, LayoutDashboard, Settings, MapPin } from 'lucide-react';
+import { LogOut, ImageIcon, MessageSquare, Settings, MapPin, AlertCircle, ShieldAlert, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { useAuth } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function AdminDashboardPage() {
   const { user, loading } = useUser();
+  const db = useFirestore();
   const auth = useAuth();
   const router = useRouter();
+
+  // Verify database admin status
+  const adminDocRef = useMemoFirebase(() => {
+    if (!db || !user) return null;
+    return doc(db, 'roles_admin', user.uid);
+  }, [db, user]);
+
+  const { data: adminDoc, isLoading: adminLoading } = useDoc(adminDocRef);
 
   const handleLogout = async () => {
     await auth.signOut();
@@ -23,7 +33,10 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-secondary">
-        <p className="animate-pulse font-medium">Loading Dashboard...</p>
+        <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+            <p className="font-medium">Verifying Session...</p>
+        </div>
       </div>
     );
   }
@@ -31,6 +44,8 @@ export default function AdminDashboardPage() {
   if (!user) {
     return null; 
   }
+
+  const isDatabaseAdmin = !!adminDoc;
 
   return (
     <div className="min-h-screen bg-secondary/30">
@@ -48,10 +63,39 @@ export default function AdminDashboardPage() {
       </header>
       
       <main className="container py-8 md:py-12 space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Manage your website content and business leads.</p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+            <p className="text-muted-foreground mt-1">Manage your website content and business leads.</p>
+          </div>
+          
+          {!adminLoading && !isDatabaseAdmin && (
+             <div className="flex items-center gap-2 bg-amber-50 text-amber-800 px-4 py-2 rounded-lg border border-amber-200 text-sm font-medium">
+                <ShieldAlert className="h-4 w-4" />
+                Database Write Access: Denied
+             </div>
+          )}
         </div>
+
+        {!adminLoading && !isDatabaseAdmin && (
+          <Alert variant="destructive" className="bg-destructive/5 border-destructive/20 text-destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Missing Administrative Permissions</AlertTitle>
+            <AlertDescription className="space-y-2">
+              <p>Your authentication is valid, but your account is not registered in the <strong>roles_admin</strong> database collection. You can view data, but you will not be able to delete or update records.</p>
+              <div className="bg-destructive/10 p-4 rounded-lg mt-4 space-y-3">
+                <p className="text-sm font-bold">To fix this, follow these steps:</p>
+                <ol className="text-xs list-decimal pl-4 space-y-1">
+                    <li>Go to your Firebase Console.</li>
+                    <li>Open <strong>Firestore Database</strong>.</li>
+                    <li>Create a collection named <code>roles_admin</code> if it doesn't exist.</li>
+                    <li>Add a new document with this ID: <code className="bg-background px-1 rounded font-bold">{user.uid}</code></li>
+                    <li>You don't need any fields in the document; the ID is what counts.</li>
+                </ol>
+              </div>
+            </AlertDescription>
+          </Alert>
+        )}
         
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Card className="hover:shadow-md transition-shadow">
