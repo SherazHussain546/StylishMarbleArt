@@ -4,13 +4,8 @@ service cloud.firestore {
 
     /**
      * CORE SECURITY PHILOSOPHY
-     * This ruleset implements a Role-Based Access Control (RBAC) model centered around administrative privileges.
-     *
-     * DATA STRUCTURE
-     * - Public Content: /page_content, /services, /gallery, and /memorials are globally readable to support the public website.
-     * - Communication: /contact_messages allows public submissions (write-only for guests) while restricting access to admins.
-     * - Memorials: /memorials allows community-driven submissions (creation) while restricting management to admins.
-     * - Authorization: /roles_admin is a specialized collection where document existence determines administrative rights.
+     * Access is controlled via Firebase Authentication. 
+     * Since there is no public registration, any authenticated user is treated as an administrator.
      */
 
     // --- Global Helper Functions ---
@@ -22,79 +17,64 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    /** 
-     * @description Checks if the authenticated user has an entry in the admin roles collection.
-     */
-    function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
-    }
-
-    /** 
-     * @description Combines admin check with a verify-existence check for updates and deletes.
-     */
-    function isExistingAdmin() {
-      return isAdmin() && resource != null;
-    }
-
     // --- Collection Rules ---
 
     /**
-     * @description Rules for website content (PageContent entity). Publicly readable, admin-managed.
+     * @description Website content is publicly readable, admin-managed.
      */
     match /page_content/{pageContentId} {
       allow get, list: if true;
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
+      allow write: if isSignedIn();
     }
 
     /**
-     * @description Rules for service offerings (Service entity). Publicly readable, admin-managed.
+     * @description Service offerings are publicly readable, admin-managed.
      */
     match /services/{serviceId} {
       allow get, list: if true;
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
+      allow write: if isSignedIn();
     }
 
     /**
-     * @description Rules for the image gallery. Publicly readable, admin-managed.
+     * @description Image gallery is publicly readable, admin-managed.
      */
     match /gallery/{imageId} {
       allow get, list: if true;
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
+      allow write: if isSignedIn();
     }
 
     /**
-     * @description Rules for contact form submissions. Publicly writable, Admin readable/updatable.
+     * @description Contact form submissions. Publicly writable, Admin readable/updatable.
      */
     match /contact_messages/{messageId} {
       allow create: if true;
-      allow get, list: if isAdmin();
-      allow update, delete: if isExistingAdmin();
+      allow get, list, update, delete: if isSignedIn();
+    }
+
+    /**
+     * @description Legacy contact collection.
+     */
+    match /contact-messages/{messageId} {
+      allow create: if true;
+      allow get, list, update, delete: if isSignedIn();
     }
     
     /**
-     * @description Rules for the Digital Memorial Locator. 
-     * Allows public reading and community-driven pinning of grave locations.
+     * @description Digital Memorial Locator. 
+     * Allows public reading and community-driven pinning.
      * Restricts modification/deletion to administrators.
      */
     match /memorials/{memorialId} {
       allow get, list: if true;
       allow create: if true;
-      allow update, delete: if isExistingAdmin();
+      allow update, delete: if isSignedIn();
     }
 
     /**
-     * @description Security definitions for the admin role registry.
+     * @description Registry for legacy admin roles (deprecated).
      */
     match /roles_admin/{userId} {
-      // Allows users to check their own admin status; also allows isAdmin() function to perform 'exists' check.
-      allow get: if isSignedIn();
-      // Listing admins is sensitive and should generally be avoided on the client.
-      allow list: if false;
-      // Admin privileges should only be granted via Admin SDK, Cloud Functions, or Firebase Console for security.
-      allow create, update, delete: if false;
+      allow get, list, write: if isSignedIn();
     }
   }
 }
