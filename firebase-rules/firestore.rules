@@ -20,6 +20,11 @@ service cloud.firestore {
       allow read, delete, update: if isSignedIn();
     }
 
+    match /contact_messages/{messageId} {
+      allow create: if true;
+      allow read, delete, update: if isSignedIn();
+    }
+
     // MEMORIALS: Public can search and add, only admins can delete/update
     match /memorials/{memorialId} {
       allow read, create: if true;

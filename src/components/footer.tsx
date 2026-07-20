@@ -24,8 +24,8 @@ export function Footer() {
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/locator', label: content.nav.locator[language] },
     { href: '/about', label: content.nav.about[language] },
-    { href: 'https://reviews.stylishmarbleart.com', label: content.nav.review[language] },
-    { href: 'https://faq.stylishmarbleart.com', label: content.nav.faq[language] },
+    { href: '/reviews', label: content.nav.review[language] },
+    { href: '/faq', label: content.nav.faq[language] },
     { href: '/contact', label: content.nav.contact[language] },
     { href: '/privacy', label: content.nav.privacy[language] },
   ];
