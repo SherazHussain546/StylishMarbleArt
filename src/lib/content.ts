@@ -5,7 +5,7 @@ export const content = {
     gallery: { en: 'Gallery', ur: 'گیلری' },
     locator: { en: 'Find Graves', ur: 'قبریں تلاش کریں' },
     feed: { en: 'Feed', ur: 'فیڈ' },
-    review: { en: 'Review', ur: 'رائے' },
+    review: { en: 'Reviews', ur: 'رائے' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
     faq: { en: 'FAQ', ur: 'سوالات' },
     contact: { en: 'Contact', ur: 'رابطہ' },
@@ -154,7 +154,7 @@ export const content = {
         hint: "grey marble",
         page_description: {
           en: "Premium Sunny Grey marble supply and installation in Karachi. Ideal for flooring, countertops, and wall cladding. Stylish Marble Art serves all of Pakistan. Get your free quote now.",
-          ur: "پریمیم سنی گرے ماربل کی فراہمی اور تنصیب۔ فرش، کاؤنٹر ٹاپس اور دیواروں کے لیے بہترین۔"
+          ur: "پریمیم سنی گرے ماربل کی فراہمی اور تنصیب۔ فرش، کاؤر ٹاپس اور دیواروں کے لیے بہترین۔"
         },
         meta_title: { en: "Sunny Grey Marble in Karachi | Flooring & Countertops | Stylish Marble Art", ur: "کراچی میں سنی گرے ماربل | فلورنگ اور کاؤنٹر ٹاپس | سٹائلش ماربل آرٹ" },
         meta_description: { en: "Premium Sunny Grey marble supply and installation in Karachi. Ideal for flooring, countertops, and wall cladding. Stylish Marble Art serves all of Pakistan. Get your free quote now.", ur: "کراچی میں پریمیم سنی گرے ماربل کی فراہمی اور تنصیب۔ فرش، کاؤنٹر ٹاپس اور دیواروں کی چادر کے لیے بہترین۔ سٹائلش ماربل آرٹ پورے پاکستان میں خدمات انجام دیتا ہے۔" },

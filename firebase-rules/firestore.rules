@@ -8,34 +8,27 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Validation for Contact Messages
-    function isValidContactMessage(data) {
-      return data.name is string && data.name.size() >= 2
-          && data.email is string && data.email.matches('^.+@.+\\..+$')
-          && data.message is string && data.message.size() >= 10;
-    }
-
     // GALLERY: Public can read, only signed-in admins can write/delete
     match /gallery/{imageId} {
-      allow read;
+      allow read: if true;
       allow write, delete: if isSignedIn();
     }
     
-    // CONTACT MESSAGES: Anyone can create if valid, admins can read/delete
+    // CONTACT MESSAGES: Anyone can create, admins can read/delete
     match /contact-messages/{messageId} {
-      allow read, delete: if isSignedIn();
-      allow create: if isValidContactMessage(request.resource.data);
+      allow create: if true;
+      allow read, delete, update: if isSignedIn();
     }
 
     // MEMORIALS: Public can search and add, only admins can delete/update
     match /memorials/{memorialId} {
-      allow read, create;
+      allow read, create: if true;
       allow update, delete: if isSignedIn();
     }
     
-    // Default deny all other collections
+    // Default allow for admins on all other paths
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if isSignedIn();
     }
   }
 }
