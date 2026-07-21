@@ -92,6 +92,10 @@ const nextConfig: NextConfig = {
         source: '/reviews',
         destination: '/reviews.html',
       },
+      {
+        source: '/quran',
+        destination: '/quran.html',
+      },
     ];
   },
   serverExternalPackages: ['node-fetch']

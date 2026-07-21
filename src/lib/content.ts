@@ -4,6 +4,7 @@ export const content = {
     services: { en: 'Services', ur: 'خدمات' },
     gallery: { en: 'Gallery', ur: 'گیلری' },
     locator: { en: 'Find Graves', ur: 'قبریں تلاش کریں' },
+    quran: { en: 'Quran', ur: 'قرآن' },
     feed: { en: 'Feed', ur: 'فیڈ' },
     review: { en: 'Reviews', ur: 'رائے' },
     about: { en: 'About Us', ur: 'ہمارے بارے میں' },
@@ -395,7 +396,7 @@ export const content = {
       {
         name: { en: 'Karachi Heritage', ur: 'کراچی کی میراث' },
         description: {
-          en: 'Deeply rooted in the Karachi stone industry since 1970, providing authentic Pakistani Ziarat White marble.',
+          en: 'Deeply rooted in the Karachi stone industry since 1970, providing authentic پاکستانی Ziarat White marble.',
           ur: '1970 سے کراچی کی پتھر کی صنعت میں گہری جڑیں، مستند پاکستانی زیارت وائٹ ماربل فراہم کرنا۔',
         },
       },

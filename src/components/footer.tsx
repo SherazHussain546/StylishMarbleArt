@@ -23,6 +23,7 @@ export function Footer() {
     { href: '/services', label: content.nav.services[language] },
     { href: '/gallery', label: content.nav.gallery[language] },
     { href: '/locator', label: content.nav.locator[language] },
+    { href: '/quran', label: content.nav.quran[language] },
     { href: '/about', label: content.nav.about[language] },
     { href: '/reviews', label: content.nav.review[language] },
     { href: '/faq', label: content.nav.faq[language] },

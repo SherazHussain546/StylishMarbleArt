@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recite Holy Quran | Sadaqah Jariya & Memorial Prayers | Stylish Marble Art</title>
+    <meta name="description" content="Recite the Holy Quran online. A dedicated portal for the Global Muslim Ummah to pray for their loved ones, give Sadaqah Jariya, and find spiritual peace. Provided by Stylish Marble Art Karachi.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#111111',
+                            gold: '#b8975a',
+                            goldLt: '#d4b07a',
+                            cream: '#f5f0e8',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        arabic: ['Amiri', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(184, 151, 90, 0.2);
+        }
+        .surah-card:hover {
+            border-color: #b8975a;
+            transform: translateY(-2px);
+        }
+        .arabic-text { direction: rtl; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #b8975a; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-brand-dark text-white font-sans selection:bg-brand-gold selection:text-brand-dark">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <div class="bg-white text-brand-dark px-3 py-1 rounded font-bold italic text-2xl font-display">Stylish</div>
+                <span class="font-bold tracking-widest text-lg uppercase hidden sm:inline">Marble Art</span>
+            </a>
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-wide uppercase">
+                <a href="/" class="hover:text-brand-gold transition-colors">Home</a>
+                <a href="/services" class="hover:text-brand-gold transition-colors">Services</a>
+                <a href="/gallery" class="hover:text-brand-gold transition-colors">Gallery</a>
+                <a href="/locator" class="hover:text-brand-gold transition-colors">Find Graves</a>
+                <a href="/quran" class="text-brand-gold">Quran</a>
+                <a href="/reviews" class="hover:text-brand-gold transition-colors">Reviews</a>
+                <a href="/contact" class="hover:text-brand-gold transition-colors">Contact</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/923083401606" target="_blank" class="bg-brand-gold text-brand-dark px-6 py-2 rounded-full font-bold text-sm hover:bg-brand-goldLt transition-all">WhatsApp</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative py-24 px-6 overflow-hidden border-b border-brand-gold/30">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_#b8975a_0%,_transparent_70%)]"></div>
+        <div class="container mx-auto text-center relative z-10">
+            <div class="inline-block px-4 py-1 rounded-full border border-brand-gold/40 bg-brand-gold/10 text-brand-goldLt text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
+                Spiritual Legacy & Sadaqah Jariya
+            </div>
+            <h1 class="text-5xl md:text-7xl font-display font-bold mb-6 italic">Recite the <span class="text-brand-gold">Holy Quran</span></h1>
+            <p class="text-gray-400 max-w-3xl mx-auto text-lg leading-relaxed mb-12">
+                Preserve the memory of your loved ones through the eternal words of Allah. Recite, pray, and gift the blessings (Isaale-Sawaab) to the departed souls and the global Ummah.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#surah-grid" class="bg-brand-gold text-brand-dark px-10 py-4 font-bold rounded-sm hover:bg-brand-goldLt transition-all">Browse Surahs</a>
+                <a href="/donate" class="border border-white/20 px-10 py-4 font-bold rounded-sm hover:bg-white hover:text-brand-dark transition-all">Share Sadaqah</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-20">
+        
+        <!-- Search & Info -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-16">
+            <div>
+                <h2 class="text-3xl font-display font-bold mb-2">114 Surahs of Mercy</h2>
+                <p class="text-gray-500 italic">"The best among you is the one who learns the Quran and teaches it."</p>
+            </div>
+            <div class="relative w-full md:w-96">
+                <input type="text" id="surahSearch" placeholder="Search Surah (e.g. Yaseen, Mulk)..." class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 focus:outline-none focus:border-brand-gold transition-all">
+            </div>
+        </div>
+
+        <!-- Surah Grid Container -->
+        <div id="surah-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[500px]">
+            <!-- Surahs will be injected here by JS -->
+            <div class="col-span-full flex justify-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-brand-gold"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Spiritual CTA -->
+    <section class="bg-white/5 border-y border-white/5 py-24">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <h2 class="text-4xl font-display font-bold leading-tight">Gift a Lasting <br><em class="text-brand-gold">Spiritual Legacy</em></h2>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        Establishing a memorial for a loved one is a profound act of love. At <span class="text-white font-bold">Stylish Marble Art</span>, we specialize in Ziarat White and Black Granite headstones featuring perfectly engraved Quranic verses.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="p-6 glass-card rounded-2xl">
+                            <div class="text-brand-gold text-2xl mb-2">🤲</div>
+                            <h3 class="font-bold mb-1">Isaale-Sawaab</h3>
+                            <p class="text-xs text-gray-500">Recite and pray for the departed.</p>
+                        </div>
+                        <div class="p-6 glass-card rounded-2xl">
+                            <div class="text-brand-gold text-2xl mb-2">💎</div>
+                            <h3 class="font-bold mb-1">Eternal Stone</h3>
+                            <p class="text-xs text-gray-500">Durable Ziarat White memorials.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=2070&auto=format&fit=crop" alt="Quran Reflection" class="object-cover w-full h-full opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
+                    <div class="absolute bottom-10 left-10 right-10 text-center">
+                        <a href="/contact" class="inline-block bg-brand-gold text-brand-dark px-8 py-3 font-bold rounded-full hover:scale-105 transition-transform">Consult Artisan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark border-t border-white/10 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+                <div class="space-y-4">
+                    <a href="/" class="flex justify-center md:justify-start items-center gap-2">
+                        <div class="bg-white text-brand-dark px-3 py-1 rounded font-bold italic text-2xl font-display">Stylish</div>
+                        <span class="font-bold tracking-widest text-lg uppercase text-white">Marble Art</span>
+                    </a>
+                    <p class="text-gray-500 text-sm">Karachi's Legacy Stonemasons & Headstone Makers. Serving the Global Ummah Since 1970.</p>
+                </div>
+                <div class="md:text-center">
+                    <h4 class="font-bold uppercase tracking-widest text-sm mb-6 text-brand-gold">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-500 text-sm font-semibold">
+                        <li><a href="/services" class="hover:text-white">Services</a></li>
+                        <li><a href="/gallery" class="hover:text-white">Gallery</a></li>
+                        <li><a href="/locator" class="hover:text-white">Find Graves</a></li>
+                        <li><a href="/quran" class="hover:text-white">Quran Recitation</a></li>
+                        <li><a href="/reviews" class="hover:text-white">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="md:text-right">
+                    <h4 class="font-bold uppercase tracking-widest text-sm mb-6 text-brand-gold">Visit Us</h4>
+                    <address class="text-gray-500 text-sm not-italic leading-loose">
+                        Malir 15, National Highway<br>
+                        Karachi, Pakistan<br>
+                        <a href="tel:+923083401606" class="text-white">+92 308 3401606</a>
+                    </address>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-white/5 text-center text-gray-600 text-xs">
+                © 2026 Stylish Marble Art Karachi. All Rights Reserved. | Dedicated to the Global Ummah.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Surah Data & Logic -->
+    <script>
+        const surahs = [
+            { id: 1, name: "Al-Fatiha", arabic: "الفاتحة", urdu: "الفاتحہ", meaning: "The Opening", type: "Meccan", link: "#" },
+            { id: 2, name: "Al-Baqarah", arabic: "البقرة", urdu: "البقرہ", meaning: "The Cow", type: "Medinan", link: "#" },
+            { id: 3, name: "Ali 'Imran", arabic: "آل عمران", urdu: "آل عمران", meaning: "Family of Imran", type: "Medinan", link: "#" },
+            { id: 18, name: "Al-Kahf", arabic: "الكهف", urdu: "الکہف", meaning: "The Cave", type: "Meccan", link: "#" },
+            { id: 36, name: "Ya-Sin", arabic: "يس", urdu: "یس", meaning: "Ya-Sin", type: "Meccan", link: "#" },
+            { id: 55, name: "Ar-Rahman", arabic: "الرحمن", urdu: "الرحمٰن", meaning: "The Beneficent", type: "Medinan", link: "#" },
+            { id: 56, name: "Al-Waqi'ah", arabic: "الواقعة", urdu: "الواقعہ", meaning: "The Inevitable", type: "Meccan", link: "#" },
+            { id: 67, name: "Al-Mulk", arabic: "الملك", urdu: "الملک", meaning: "The Sovereignty", type: "Meccan", link: "#" },
+            { id: 112, name: "Al-Ikhlas", arabic: "الإخلاص", urdu: "الاخلاص", meaning: "The Sincerity", type: "Meccan", link: "#" },
+            { id: 113, name: "Al-Falaq", arabic: "الفلق", urdu: "الفلق", meaning: "The Daybreak", type: "Meccan", link: "#" },
+            { id: 114, name: "An-Nas", arabic: "الناس", urdu: "الناس", meaning: "Mankind", type: "Meccan", link: "#" }
+            // Add more as needed or fetch from API
+        ];
+
+        // Fill remaining Surahs as placeholders for a full 114 Surah grid
+        const fullSurahs = [...surahs];
+        for(let i=1; i<=114; i++) {
+            if(!fullSurahs.find(s => s.id === i)) {
+                fullSurahs.push({
+                    id: i,
+                    name: `Surah ${i}`,
+                    arabic: `سورة ${i}`,
+                    urdu: `سورہ ${i}`,
+                    meaning: "Chapter of the Quran",
+                    type: "Meccan/Medinan",
+                    link: "#"
+                });
+            }
+        }
+        fullSurahs.sort((a,b) => a.id - b.id);
+
+        const grid = document.getElementById('surah-grid');
+        const searchInput = document.getElementById('surahSearch');
+
+        function renderSurahs(data) {
+            grid.innerHTML = data.map(s => `
+                <div class="surah-card glass-card p-6 rounded-2xl transition-all duration-300 group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="h-10 w-10 rounded-full bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-brand-gold text-xs font-bold font-mono">
+                            ${String(s.id).padStart(3, '0')}
+                        </div>
+                        <div class="text-right">
+                            <div class="font-arabic text-2xl text-brand-goldLt mb-1">${s.arabic}</div>
+                            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">${s.type}</div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold group-hover:text-brand-gold transition-colors">${s.name}</h3>
+                        <p class="text-sm text-gray-500 mb-1">${s.meaning}</p>
+                        <p class="text-xs text-brand-gold/60 font-semibold">${s.urdu}</p>
+                    </div>
+                    <a href="${s.link}" class="block w-full text-center border border-white/10 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-dark hover:border-brand-gold transition-all">
+                        Open PDF Link
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        renderSurahs(fullSurahs);
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = fullSurahs.filter(s => 
+                s.name.toLowerCase().includes(term) || 
+                s.meaning.toLowerCase().includes(term) ||
+                s.arabic.includes(term)
+            );
+            renderSurahs(filtered);
+        });
+    </script>
+</body>
+</html>
