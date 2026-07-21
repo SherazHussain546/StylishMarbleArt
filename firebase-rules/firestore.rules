@@ -1,3 +1,4 @@
+
 rules_version = '2';
 
 service cloud.firestore {
@@ -36,6 +37,6 @@ service cloud.firestore {
       allow read, write: if isSignedIn();
     }
     
-    // Force deployment sync: V5
+    // Force deployment sync: V6 (Lead Deletion Support)
   }
 }

@@ -5,12 +5,14 @@ import { content } from '@/lib/content';
 const BASE_URL = 'https://www.stylishmarbleart.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Static pages with optimized frequencies
+  // Static pages with optimized frequencies and priorities
   const staticRoutes = [
     { url: '/', priority: 1.0, changeFrequency: 'daily' },
     { url: '/services', priority: 0.9, changeFrequency: 'weekly' },
     { url: '/gallery', priority: 0.9, changeFrequency: 'daily' },
     { url: '/locator', priority: 0.8, changeFrequency: 'daily' },
+    { url: '/quran', priority: 0.9, changeFrequency: 'weekly' },
+    { url: '/reviews', priority: 0.8, changeFrequency: 'weekly' },
     { url: '/about', priority: 0.7, changeFrequency: 'monthly' },
     { url: '/faq', priority: 0.7, changeFrequency: 'monthly' },
     { url: '/contact', priority: 0.8, changeFrequency: 'monthly' },

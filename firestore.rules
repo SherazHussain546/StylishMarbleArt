@@ -1,3 +1,4 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -6,7 +7,7 @@ service cloud.firestore {
      * CORE SECURITY PHILOSOPHY
      * Access is controlled via Firebase Authentication. 
      * Registered administrators have full management access.
-     * Force Deployment Sync V5: Enabling explicit delete for authenticated admins.
+     * Force Deployment Sync V6: Reinforcing explicit delete for authenticated admins.
      */
 
     // --- Global Helper Functions ---
@@ -58,6 +59,6 @@ service cloud.firestore {
       allow read, write: if isSignedIn();
     }
     
-    // Deployment trigger comment: Re-synced permissions for administrative management. V5 (Reinforced Delete)
+    // Deployment trigger comment: Re-synced permissions for administrative management. V6 (Reinforced Delete System)
   }
 }
