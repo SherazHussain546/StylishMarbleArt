@@ -3,267 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Reviews & Testimonials | Stylish Marble Art Karachi</title>
-    <meta name="description" content="Read verified testimonials from over 500+ families across Karachi and Dubai. Discover why we are Pakistan's elite choice for Ziarat White memorials and marble work.">
-    
-    <!-- Professional Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Customer Reviews | Stylish Marble Art Karachi</title>
+    <meta name="description" content="Read verified testimonials from over 500+ families who trust Stylish Marble Art for premium Ziarat White and Black Granite headstones.">
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#1a1a1a',
-                            darker: '#111111',
-                            gold: '#b8975a',
-                            goldLt: '#d4b07a',
-                            cream: '#f5f0e8',
-                        }
-                    },
-                    fontFamily: {
-                        display: ['Playfair Display', 'serif'],
-                        body: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .font-script { font-family: 'Brush Script MT', cursive; }
-        .hero-gradient {
-            background: radial-gradient(circle at center, rgba(184, 151, 90, 0.1) 0%, transparent 70%);
+        :root {
+            --midnight: #111111;
+            --gold: #b8975a;
+            --gold-lt: #d4b07a;
+            --cream: #f5f0e8;
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; color: var(--midnight); }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .logo-box { background-color: var(--midnight); border-radius: 0.5rem; padding: 0.25rem 0.75rem; }
+        .font-script { font-family: 'Brush Script MT', cursive; font-size: 1.875rem; color: #fff; }
+        .nav-link { font-size: 0.875rem; font-weight: 500; color: #666; transition: color 0.2s; text-decoration: none; }
+        .nav-link:hover { color: var(--midnight); }
+        .review-card { transition: all 0.3s ease; border: 1px solid var(--cream); background: #fff; }
+        .review-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+        .featured-card { background: linear-gradient(135deg, var(--midnight) 0%, #2c2c2c 100%); color: #fff; border-color: rgba(184,151,90,0.3); }
     </style>
-
-    <!-- Business Schema for GEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Stylish Marble Art",
-      "image": "https://www.stylishmarbleart.com/SMA.png",
-      "@id": "https://www.stylishmarbleart.com",
-      "url": "https://www.stylishmarbleart.com",
-      "telephone": "+923083401606",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Malir 15, National Highway",
-        "addressLocality": "Karachi",
-        "addressCountry": "PK"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "537"
-      }
-    }
-    </script>
 </head>
-<body class="bg-slate-50 font-body text-brand-dark">
+<body>
 
-    <!-- Header Replication -->
+    <!-- Official Header -->
     <header class="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
-        <div class="container mx-auto flex h-16 items-center px-4 md:px-8">
-            <a href="/" class="flex items-center gap-2 text-xl font-semibold no-underline text-brand-dark">
-                <div class="rounded-lg bg-brand-dark px-3 py-1 flex items-center justify-center">
-                    <span class="font-script text-3xl text-white pt-1">Stylish</span>
+        <div class="container mx-auto flex h-16 items-center px-4">
+            <a href="/" class="flex items-center gap-2 text-xl font-semibold no-underline">
+                <div class="logo-box flex items-center justify-center">
+                    <span class="font-script">Stylish</span>
                 </div>
-                <span class="ml-1 tracking-wider">Marble Art</span>
+                <span class="ml-1 tracking-wider text-black">Marble Art</span>
             </a>
-            <nav class="hidden md:flex flex-1 justify-center space-x-6 text-sm font-medium">
-                <a href="/" class="hover:text-brand-gold transition-colors">Home</a>
-                <a href="/services" class="hover:text-brand-gold transition-colors">Services</a>
-                <a href="/gallery" class="hover:text-brand-gold transition-colors">Gallery</a>
-                <a href="/locator" class="hover:text-brand-gold transition-colors">Find Graves</a>
-                <a href="/reviews" class="text-brand-gold font-bold">Reviews</a>
-                <a href="/about" class="hover:text-brand-gold transition-colors">About Us</a>
-                <a href="/faq" class="hover:text-brand-gold transition-colors">FAQ</a>
-                <a href="/contact" class="hover:text-brand-gold transition-colors">Contact</a>
+            <nav class="hidden md:flex flex-1 items-center justify-center space-x-6">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/services" class="nav-link">Services</a>
+                <a href="/gallery" class="nav-link">Gallery</a>
+                <a href="/locator" class="nav-link">Find Graves</a>
+                <a href="/quran" class="nav-link">Quran</a>
+                <a href="/reviews" class="nav-link" style="color: var(--midnight); font-weight: 700;">Reviews</a>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+                <a href="/contact" class="nav-link">Contact</a>
             </nav>
-            <div class="ml-auto">
-                <a href="https://wa.me/923083401606" class="bg-brand-dark text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-brand-gold transition-all">WHATSAPP US</a>
+            <div class="flex items-center gap-4 ml-auto">
+                <a href="https://wa.me/923083401606" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold no-underline hover:bg-green-600 transition-colors">
+                    WhatsApp
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Elite Hero Section -->
-    <section class="bg-brand-darker text-white py-24 px-4 relative overflow-hidden border-b-2 border-brand-gold hero-gradient">
+    <!-- Hero -->
+    <section class="bg-[#111] text-white py-24 px-4 relative overflow-hidden border-b-2 border-[#b8975a]">
         <div class="container mx-auto text-center relative z-10">
-            <span class="inline-block bg-brand-gold/20 text-brand-goldLt border border-brand-gold/40 text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-1 rounded-full mb-6">Verified Testimonials</span>
-            <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">Real Stories of <em class="text-brand-gold not-italic">Elite Craftsmanship</em></h1>
-            <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                Read honest feedback from over 500+ families and business developers who entrust their legacy monuments to Karachi's master stonemasons.
-            </p>
+            <span class="bg-[#b8975a]/20 text-[#d4b07a] border border-[#b8975a]/40 text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full mb-6 inline-block">Verified Testimonials</span>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 font-serif">Real Stories of <em class="text-[#b8975a] not-italic">Premium Craftsmanship</em></h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">Read honest feedback from over 500+ families across Karachi and worldwide who entrust their legacies to our workshop.</p>
         </div>
     </section>
 
-    <main class="container mx-auto px-4 -mt-12 mb-24">
-        <!-- Interactive Aggregate Summary -->
-        <section class="max-w-5xl mx-auto mb-16">
-            <div class="bg-white shadow-2xl rounded-2xl border border-brand-cream p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-                <div class="text-center md:border-r border-slate-100 pr-0 md:pr-12">
-                    <div class="text-7xl font-bold text-brand-dark leading-none mb-4 tracking-tighter font-display">4.9</div>
-                    <div class="flex justify-center gap-1 text-yellow-400 mb-4 text-xl">★★★★★</div>
-                    <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">537 Verified Reviews</div>
+    <!-- Reviews Grid -->
+    <main class="container mx-auto px-4 -mt-12 mb-24 max-w-6xl">
+        
+        <!-- Score Card -->
+        <div class="bg-white p-12 rounded-3xl shadow-2xl border border-gray-100 mb-16 flex flex-col md:flex-row items-center justify-between gap-12">
+            <div class="text-center">
+                <div class="text-7xl font-bold text-black tracking-tighter">4.9</div>
+                <div class="text-yellow-500 text-2xl my-2">★★★★★</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest text-gray-400">537 Verified Reviews</div>
+            </div>
+            <div class="flex-1 w-full space-y-4">
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-bold w-12">5 Star</span>
+                    <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-[#b8975a] w-[92%]"></div></div>
+                    <span class="text-xs font-bold w-8 text-right">92%</span>
                 </div>
-                
-                <div class="flex-grow space-y-3 w-full">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold text-slate-400 w-12">5 Star</span>
-                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
-                            <div class="h-full bg-brand-gold" style="width: 92%;"></div>
-                        </div>
-                        <span class="text-xs font-bold text-slate-400 w-8 text-right">92%</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold text-slate-400 w-12">4 Star</span>
-                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
-                            <div class="h-full bg-brand-gold/60" style="width: 6%;"></div>
-                        </div>
-                        <span class="text-xs font-bold text-slate-400 w-8 text-right">6%</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold text-slate-400 w-12">3 Star</span>
-                        <div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden">
-                            <div class="h-full bg-brand-gold/30" style="width: 2%;"></div>
-                        </div>
-                        <span class="text-xs font-bold text-slate-400 w-8 text-right">2%</span>
-                    </div>
-                </div>
-                
-                <div class="hidden lg:flex flex-col gap-4 min-w-[200px]">
-                    <div class="bg-brand-cream border border-brand-gold/20 p-4 rounded-xl flex items-center justify-between">
-                        <span class="text-[10px] font-bold uppercase text-brand-dark">Google Trust</span>
-                        <span class="text-xs text-brand-gold font-bold">100%</span>
-                    </div>
-                    <div class="bg-brand-cream border border-brand-gold/20 p-4 rounded-xl flex items-center justify-between">
-                        <span class="text-[10px] font-bold uppercase text-brand-dark">Ummah Index</span>
-                        <span class="text-xs text-green-600 font-bold">Verified</span>
-                    </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-bold w-12">4 Star</span>
+                    <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-[#b8975a] w-[6%]"></div></div>
+                    <span class="text-xs font-bold w-8 text-right">6%</span>
                 </div>
             </div>
-        </section>
-
-        <!-- Dynamic Review Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <!-- Featured Card -->
-            <article class="md:col-span-2 bg-brand-dark text-white rounded-2xl p-10 border border-brand-gold/40 flex flex-col gap-6 shadow-xl relative overflow-hidden group">
-                <div class="absolute top-0 right-0 opacity-10 p-4 font-display text-8xl select-none">“</div>
-                <div class="flex justify-between items-start z-10">
-                    <div class="flex gap-1 text-brand-gold text-lg">★★★★★</div>
-                    <span class="bg-brand-gold/20 text-brand-goldLt text-[10px] font-bold px-3 py-1 rounded-full border border-brand-gold/30 uppercase tracking-widest">Family Monument</span>
+            <div class="flex flex-col gap-4">
+                <div class="bg-[#f5f0e8] px-6 py-4 rounded-xl border border-gray-100 flex items-center justify-between min-w-[200px]">
+                    <span class="text-sm font-bold">Google Verified</span>
+                    <span class="text-xs text-green-600 font-bold">100%</span>
                 </div>
-                <h3 class="text-2xl font-display font-bold leading-tight z-10">"Exceptional quality for my father's gravestone in Karachi"</h3>
-                <p class="text-slate-300 text-lg leading-relaxed z-10">
-                    We had a gravestone made for my late father. The team at Stylish Marble Art handled everything with such care and respect. The Ziarat White marble quality was exceptional, and the Urdu calligraphy was flawlessly engraved. Highly recommended for elite work in Malir 15.
-                </p>
-                <div class="mt-auto pt-8 border-t border-white/10 flex items-center gap-4 z-10">
-                    <div class="h-12 w-12 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-bold font-display text-lg shadow-inner">AF</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <article class="md:col-span-2 featured-card p-10 rounded-2xl flex flex-col gap-6 shadow-2xl">
+                <div class="flex justify-between items-center">
+                    <span class="text-yellow-500">★★★★★</span>
+                    <span class="bg-[#b8975a]/20 text-[#d4b07a] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Family Monument</span>
+                </div>
+                <h3 class="text-2xl font-bold font-serif">"Exceptional quality for my father's gravestone"</h3>
+                <p class="text-gray-300 text-lg leading-relaxed flex-1">We had a gravestone made for my late father. The team at Stylish Marble Art handled everything with such care and respect. The Ziarat White marble quality was exceptional, and the Urdu calligraphy was flawlessly engraved.</p>
+                <div class="pt-6 border-t border-white/10 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-[#b8975a] flex items-center justify-center font-bold text-black text-xl">AF</div>
                     <div>
                         <div class="font-bold">Ahmed Farooq</div>
-                        <div class="text-xs text-slate-400">Karachi, Pakistan</div>
-                    </div>
-                    <div class="ml-auto text-green-400 font-bold text-[10px] uppercase tracking-widest flex items-center gap-2">
-                        <span>✓ Verified Client</span>
+                        <div class="text-xs text-gray-500">Karachi, Pakistan</div>
                     </div>
                 </div>
             </article>
 
-            <!-- Card 2 -->
-            <article class="bg-white rounded-2xl p-8 border border-brand-cream shadow-md hover:shadow-2xl transition-all flex flex-col gap-6">
-                <div class="flex justify-between items-start">
-                    <div class="flex gap-1 text-yellow-400">★★★★★</div>
-                    <span class="bg-slate-100 text-brand-dark text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter">Export Order</span>
+            <article class="review-card p-8 rounded-2xl flex flex-col gap-6 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <span class="text-yellow-500">★★★★★</span>
+                    <span class="bg-[#f5f0e8] text-[#b8975a] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Expat Service</span>
                 </div>
-                <h3 class="font-display font-bold text-lg">Excellent service from Dubai</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">
-                    Ordered a custom headstone from Dubai for our family plot in Karachi. The international communication was seamless and the team updated us every step of the way via WhatsApp.
-                </p>
-                <div class="mt-auto pt-6 border-t border-slate-50 flex items-center gap-4">
-                    <div class="h-10 w-10 rounded-full bg-brand-cream text-brand-dark flex items-center justify-center font-bold">FA</div>
+                <h3 class="text-xl font-bold font-serif text-black">Excellent Global Delivery</h3>
+                <p class="text-gray-600 leading-relaxed flex-1">Ordered a custom headstone from Dubai. The communication was seamless and the team updated us every step of the way. Exceeded all our expectations.</p>
+                <div class="pt-6 border-t border-gray-100 flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-[#f5f0e8] flex items-center justify-center font-bold text-black text-sm">FA</div>
                     <div>
                         <div class="font-bold text-sm">Fatima Al-Rashidi</div>
-                        <div class="text-[10px] text-slate-400 uppercase">Dubai Client</div>
+                        <div class="text-xs text-gray-500">Dubai, UAE</div>
                     </div>
                 </div>
             </article>
 
-            <!-- Card 3 -->
-            <article class="bg-white rounded-2xl p-8 border border-brand-cream shadow-md hover:shadow-2xl transition-all flex flex-col gap-6">
-                <div class="flex justify-between items-start">
-                    <div class="flex gap-1 text-yellow-400">★★★★★</div>
-                    <span class="bg-slate-100 text-brand-dark text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter">Home Decor</span>
-                </div>
-                <h3 class="font-display font-bold text-lg">Stunning kitchen marble</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">
-                    Got my kitchen countertops done in Peshawar White marble. Professional team, clean work, and the seamless edge finish is absolutely stunning. Truly transforms the home.
-                </p>
-                <div class="mt-auto pt-6 border-t border-slate-50 flex items-center gap-4">
-                    <div class="h-10 w-10 rounded-full bg-brand-cream text-brand-dark flex items-center justify-center font-bold">MB</div>
-                    <div>
-                        <div class="font-bold text-sm">Mohammad Bilal</div>
-                        <div class="text-[10px] text-slate-400 uppercase">DHA Karachi</div>
-                    </div>
-                </div>
-            </article>
+        </div>
 
-        </section>
-
-        <!-- Call to Action -->
-        <section class="mt-32 max-w-3xl mx-auto text-center space-y-8 bg-brand-cream/30 p-12 rounded-3xl border-2 border-dashed border-brand-gold/30">
-            <h2 class="text-3xl font-display font-bold">Have You Handled a Project With Us?</h2>
-            <p class="text-slate-500 text-lg">Your honest insights assist families worldwide in making confident choices for their loved ones' memorials.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-                <a href="https://wa.me/923083401606" class="bg-[#25D366] text-white font-bold h-14 px-10 flex items-center justify-center rounded-md shadow-lg hover:brightness-110 transition-all">Submit WhatsApp Review</a>
-                <a href="/contact" class="bg-brand-dark text-white font-bold h-14 px-10 flex items-center justify-center rounded-md shadow-lg hover:bg-brand-gold transition-all">Contact Workshop</a>
+        <div class="mt-24 bg-[#111] p-16 rounded-[3.5rem] border border-[#b8975a]/20 text-center text-white">
+            <h2 class="text-4xl font-bold font-serif mb-4">Have You Worked With Us?</h2>
+            <p class="text-gray-400 mb-10 max-w-xl mx-auto">Your detailed feedback helps families worldwide make confident decisions for their memorial projects.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://wa.me/923083401606" class="bg-[#b8975a] hover:bg-[#d4b07a] text-black font-bold h-14 px-10 flex items-center justify-center no-underline transition-all">
+                    Leave a WhatsApp Review
+                </a>
+                <a href="/contact" class="border border-white/20 hover:bg-white/10 font-bold h-14 px-10 flex items-center justify-center no-underline transition-all">
+                    Contact Workshop
+                </a>
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Footer Replication -->
-    <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-                <div class="space-y-6">
-                    <a href="/" class="flex items-center gap-2 text-xl font-semibold no-underline text-brand-dark">
-                        <div class="logo-box bg-brand-dark px-3 py-1 rounded-lg">
-                            <span class="font-script text-3xl text-white pt-1">Stylish</span>
+    <!-- Official Footer -->
+    <footer class="border-t bg-white">
+        <div class="container mx-auto py-12 px-4">
+            <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+                <div class="flex flex-col items-start">
+                    <a href="/" class="flex items-center gap-2 text-xl font-semibold no-underline mb-4">
+                        <div class="logo-box flex items-center justify-center">
+                            <span class="font-script">Stylish</span>
                         </div>
-                        <span class="ml-1 tracking-wider">Marble Art</span>
+                        <span class="ml-1 tracking-wider text-black">Marble Art</span>
                     </a>
-                    <p class="text-sm text-slate-500 leading-relaxed">
-                        Karachi's Premium Marble & Headstone Maker - Sourcing Ziarat White and Black Granite for the Global Muslim Ummah since 1970.
-                    </p>
+                    <p class="text-sm text-gray-500">Karachi's Premium Marble & Headstone Maker - Based in Pakistan, Serving the World</p>
                 </div>
-                <div class="md:text-center">
-                    <h4 class="font-bold mb-6">Quick Links</h4>
-                    <ul class="space-y-3 text-sm text-slate-500">
-                        <li><a href="/" class="hover:text-brand-gold transition-colors">Home</a></li>
-                        <li><a href="/services" class="hover:text-brand-gold transition-colors">Services</a></li>
-                        <li><a href="/gallery" class="hover:text-brand-gold transition-colors">Gallery</a></li>
-                        <li><a href="/about" class="hover:text-brand-gold transition-colors">About</a></li>
+                <div class="md:justify-self-center">
+                    <h3 class="font-bold text-lg mb-6">Quick Links</h3>
+                    <ul class="space-y-3 list-none p-0 text-sm">
+                        <li><a href="/" class="text-gray-500 hover:text-black no-underline">Home</a></li>
+                        <li><a href="/services" class="text-gray-500 hover:text-black no-underline">Services</a></li>
+                        <li><a href="/gallery" class="text-gray-500 hover:text-black no-underline">Gallery</a></li>
+                        <li><a href="/quran" class="text-gray-500 hover:text-black no-underline">Quran</a></li>
+                        <li><a href="/reviews" class="text-black font-bold no-underline">Reviews</a></li>
+                        <li><a href="/faq" class="text-gray-500 hover:text-black no-underline">FAQ</a></li>
                     </ul>
                 </div>
-                <div class="md:text-right">
-                    <h4 class="font-bold mb-6">Visit Our Workshop</h4>
-                    <p class="text-sm text-slate-500">
-                        Malir 15, National Highway,<br>
-                        Near Bank Al-Habib, Karachi.<br>
-                        <a href="tel:+923083401606" class="text-brand-dark font-bold">+92 308 3401606</a>
-                    </p>
+                <div class="md:justify-self-end">
+                    <h3 class="font-bold text-lg mb-6">Visit Workshop</h3>
+                    <address class="space-y-2 not-italic text-sm text-gray-500">
+                        <p>Malir 15, At Main National Highway Near Bank Al-Habib Ltd Karachi, Pakistan</p>
+                        <p><a href="tel:+923083401606" class="hover:text-black no-underline font-bold">+92 308 3401606</a></p>
+                    </address>
                 </div>
             </div>
-            <div class="border-t pt-8 text-center">
-                <p class="text-xs text-slate-400">© 2026 Stylish Marble Art Karachi. All Rights Reserved. | Optimized for the Global Ummah.</p>
+            <div class="mt-12 border-t pt-8 text-center">
+                <p class="text-xs text-gray-400">© 2026 Stylish Marble Art Karachi. All Rights Reserved.</p>
             </div>
         </div>
     </footer>

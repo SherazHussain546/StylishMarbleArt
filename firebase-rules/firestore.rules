@@ -35,5 +35,7 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if isSignedIn();
     }
+    
+    // Force deployment sync: V5
   }
 }
