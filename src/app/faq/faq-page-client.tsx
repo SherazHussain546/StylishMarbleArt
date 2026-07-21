@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { HelpCircle, MessageCircle, Clock, Truck, ShieldCheck, Gem } from 'lucide-react';
 import Link from 'next/link';
 

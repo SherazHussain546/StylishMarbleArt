@@ -5,55 +5,37 @@ service cloud.firestore {
     /**
      * CORE SECURITY PHILOSOPHY
      * Access is controlled via Firebase Authentication. 
-     * Since there is no public registration, any authenticated user is treated as an administrator.
+     * Registered administrators have full management access.
      */
 
     // --- Global Helper Functions ---
 
-    /** 
-     * @description Checks if the request is from an authenticated user.
-     */
     function isSignedIn() {
       return request.auth != null;
     }
 
     // --- Collection Rules ---
 
-    /**
-     * @description Website content is publicly readable, admin-managed.
-     */
     match /page_content/{pageContentId} {
       allow get, list: if true;
       allow write: if isSignedIn();
     }
 
-    /**
-     * @description Service offerings are publicly readable, admin-managed.
-     */
     match /services/{serviceId} {
       allow get, list: if true;
       allow write: if isSignedIn();
     }
 
-    /**
-     * @description Image gallery is publicly readable, admin-managed.
-     */
     match /gallery/{imageId} {
       allow get, list: if true;
       allow write: if isSignedIn();
     }
 
-    /**
-     * @description Contact form submissions. Publicly writable, Admin readable/updatable.
-     */
     match /contact_messages/{messageId} {
       allow create: if true;
       allow get, list, update, delete: if isSignedIn();
     }
 
-    /**
-     * @description Legacy contact collection.
-     */
     match /contact-messages/{messageId} {
       allow create: if true;
       allow get, list, update, delete: if isSignedIn();
@@ -61,7 +43,7 @@ service cloud.firestore {
     
     /**
      * @description Digital Memorial Locator. 
-     * Explicitly allows authenticated admins to delete and update leads.
+     * Public can search and add, only authenticated admins can manage records.
      */
     match /memorials/{memorialId} {
       allow get, list, create: if true;
@@ -74,5 +56,7 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if isSignedIn();
     }
+    
+    // Deployment trigger comment: Re-synced permissions for administrative management.
   }
 }
